@@ -50,8 +50,16 @@ interface SpotifyState {
   refreshNowPlaying: () => Promise<void>;
   /** Optimista: refleja el toggle en memoria de inmediato y lo persiste en SQLite. */
   togglePlaylistSelection: (playlistId: string) => Promise<void>;
-  /** Rearma `queue` según el BPM actual (no-op si no se movió lo suficiente desde el último cálculo). */
-  refreshQueueForBpm: (targetBpm: number, excludeTrackId?: string) => Promise<void>;
+  /**
+   * Rearma `queue` según el BPM actual (no-op si no se movió lo suficiente
+   * desde el último cálculo, salvo que `force` sea true — ver HomeScreen,
+   * que fuerza un recálculo apenas termina el primer `syncLibrary()` para no
+   * quedarse con una cola vacía si la sesión arrancó antes de que la
+   * biblioteca terminara de sincronizar).
+   */
+  refreshQueueForBpm: (targetBpm: number, excludeTrackId?: string, force?: boolean) => Promise<void>;
+  /** Limpia la cola/errores real armados por BPM — llamar junto a `sessionStore.stopSync()`. */
+  clearQueue: () => void;
 }
 
 export const useSpotifyStore = create<SpotifyState>((set, get) => ({
@@ -172,10 +180,10 @@ export const useSpotifyStore = create<SpotifyState>((set, get) => ({
     }
   },
 
-  refreshQueueForBpm: async (targetBpm, excludeTrackId) => {
+  refreshQueueForBpm: async (targetBpm, excludeTrackId, force = false) => {
     const { session, lastQueueBpm, queueBuilding } = get();
     if (!session || queueBuilding) return;
-    if (lastQueueBpm !== null && Math.abs(targetBpm - lastQueueBpm) < BPM_RECOMPUTE_THRESHOLD) return;
+    if (!force && lastQueueBpm !== null && Math.abs(targetBpm - lastQueueBpm) < BPM_RECOMPUTE_THRESHOLD) return;
 
     set({ queueBuilding: true, queueError: null });
     try {
@@ -195,6 +203,8 @@ export const useSpotifyStore = create<SpotifyState>((set, get) => ({
       set({ queueBuilding: false });
     }
   },
+
+  clearQueue: () => set({ queue: [], lastQueueBpm: null, lastAutoQueuedTrack: null, queueError: null }),
 }));
 
 /**
@@ -242,7 +252,13 @@ function describePlaybackError(error: unknown): string {
     return "Tu sesión de Spotify no tiene permiso para controlar el playback — cierra sesión y vuelve a entrar para actualizar los permisos.";
   }
   if (error instanceof SpotifyApiError && error.status === 403) {
-    return "Spotify rechazó el control de playback — revisa que la cuenta conectada sea Premium.";
+    // Verificado (comunidad de devs de Spotify): 403 en endpoints de /me/player
+    // casi siempre es "Insufficient client scope" (sesión anterior a que se
+    // pidieran user-modify-playback-state/user-read-playback-state — ver
+    // spotifyAuth.ts), no sólo cuenta no-Premium. Se muestran ambas causas
+    // posibles en vez de asumir una sola y mandar al usuario por el camino
+    // equivocado.
+    return `Spotify rechazó el control de reproducción (${error.message}) — puede ser que la cuenta no sea Premium, o que tu sesión sea anterior a un permiso nuevo: cierra sesión y vuelve a entrar para renovarlo.`;
   }
   return error instanceof Error ? error.message : "No se pudo mover el playback de Spotify.";
 }

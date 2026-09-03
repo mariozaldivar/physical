@@ -79,7 +79,7 @@ export function NowPlayingCard({ track, zone, isLive = false, onStartSession }: 
           {track.bpm !== undefined ? (
             <View style={[styles.bpmBadge, { borderColor: accent }]}>
               <Ionicons name="pulse" size={13} color={accent} />
-              <Text style={[styles.bpmBadgeText, { color: accent }]}>{track.bpm} BPM</Text>
+              <Text style={[styles.bpmBadgeText, { color: accent }]}>{Math.round(track.bpm)} BPM</Text>
             </View>
           ) : (
             <View style={[styles.bpmBadge, styles.bpmBadgeUnknown]}>

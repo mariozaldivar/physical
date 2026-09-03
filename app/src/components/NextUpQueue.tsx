@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { colors, fonts, radii, spacing, zoneColor } from "../theme/theme";
 import type { PulseZone, QueueTrack } from "../types/music";
@@ -6,6 +6,8 @@ import type { PulseZone, QueueTrack } from "../types/music";
 interface NextUpQueueProps {
   queue: QueueTrack[];
   zone: PulseZone;
+  /** true mientras se recalcula la cola real (sync de biblioteca o cross-referencing de BPM en curso). */
+  isUpdating?: boolean;
 }
 
 /**
@@ -13,12 +15,20 @@ interface NextUpQueueProps {
  * La cola se recorre horizontalmente en el orden real de reproducción —
  * la posición izquierda→derecha SÍ es la secuencia, por eso no lleva numeración aparte.
  */
-export function NextUpQueue({ queue, zone }: NextUpQueueProps) {
+export function NextUpQueue({ queue, zone, isUpdating = false }: NextUpQueueProps) {
   const accent = zoneColor(zone);
 
   return (
     <View style={styles.section}>
-      <Text style={styles.label}>A continuación</Text>
+      <View style={styles.labelRow}>
+        <Text style={styles.label}>A continuación</Text>
+        {isUpdating ? (
+          <View style={styles.updatingRow}>
+            <ActivityIndicator size="small" color={colors.inkFaint} />
+            <Text style={styles.updatingText}>Actualizando…</Text>
+          </View>
+        ) : null}
+      </View>
 
       {queue.length === 0 ? (
         <View style={styles.emptyRow}>
@@ -46,7 +56,7 @@ export function NextUpQueue({ queue, zone }: NextUpQueueProps) {
                 </Text>
                 <View style={styles.chipBpmRow}>
                   <View style={[styles.chipDot, { backgroundColor: accent }]} />
-                  <Text style={[styles.chipBpm, { color: accent }]}>{track.bpm} BPM</Text>
+                  <Text style={[styles.chipBpm, { color: accent }]}>{Math.round(track.bpm ?? 0)} BPM</Text>
                 </View>
                 {track.matchReason ? (
                   <Text style={styles.chipReason} numberOfLines={1}>
@@ -67,10 +77,24 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: spacing.lg,
   },
+  labelRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: spacing.sm,
+  },
   label: {
     color: colors.inkMuted,
     fontSize: 13,
-    marginBottom: spacing.sm,
+  },
+  updatingRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
+  updatingText: {
+    color: colors.inkFaint,
+    fontSize: 11,
   },
   row: {
     gap: spacing.sm,

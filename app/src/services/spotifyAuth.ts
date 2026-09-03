@@ -65,11 +65,14 @@ function requireClientId(): string {
 }
 
 /**
- * Redirect URI de la app. Regla del proyecto: siempre HTTPS, excepto
- * http://127.0.0.1 para desarrollo local (nunca localhost, nunca wildcards).
- * En web se deriva forzando el host a 127.0.0.1; en nativo requiere una URL
- * HTTPS registrada en el dashboard de Spotify (pendiente de un endpoint de
- * backend que complete el deep link de vuelta a la app — ver .env.example).
+ * Redirect URI de la app. En web, HTTPS vía loopback 127.0.0.1 (regla del
+ * proyecto: nunca localhost, nunca wildcards). En nativo, custom URL scheme
+ * fijo (`physical://spotify-auth-callback`, declarado como "scheme" en
+ * app.json): Spotify permite explícitamente este tipo de redirect para apps
+ * móviles (ver blog oficial de Spotify, feb 2025, citado en
+ * Stack_tecnico_proyecto.md §3) — no hace falta backend ni un endpoint HTTPS
+ * intermedio para completar el deep link de vuelta a la app. Debe registrarse
+ * tal cual en el dashboard de Spotify (Settings → Redirect URIs).
  */
 function getRedirectUri(): string {
   if (Platform.OS === "web") {
@@ -82,14 +85,7 @@ function getRedirectUri(): string {
     return `http://127.0.0.1${port}`;
   }
 
-  const redirectUri = process.env.EXPO_PUBLIC_SPOTIFY_REDIRECT_URI;
-  if (!redirectUri) {
-    throw new SpotifyAuthError(
-      "Falta EXPO_PUBLIC_SPOTIFY_REDIRECT_URI (debe ser HTTPS, registrado en el dashboard de Spotify). " +
-        "Ver app/.env.example.",
-    );
-  }
-  return redirectUri;
+  return AuthSession.makeRedirectUri({ scheme: "physical", path: "spotify-auth-callback" });
 }
 
 interface SpotifyProfile {

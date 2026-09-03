@@ -40,11 +40,14 @@ export function HomeScreen({ navigation }: Props) {
   const spotifyNowPlaying = useSpotifyStore((state) => state.nowPlaying);
   const spotifyQueue = useSpotifyStore((state) => state.queue);
   const queueError = useSpotifyStore((state) => state.queueError);
+  const queueBuilding = useSpotifyStore((state) => state.queueBuilding);
+  const librarySyncing = useSpotifyStore((state) => state.librarySyncing);
   const lastAutoQueuedTrack = useSpotifyStore((state) => state.lastAutoQueuedTrack);
   const loadCachedLibrary = useSpotifyStore((state) => state.loadCachedLibrary);
   const syncLibrary = useSpotifyStore((state) => state.syncLibrary);
   const refreshNowPlaying = useSpotifyStore((state) => state.refreshNowPlaying);
   const refreshQueueForBpm = useSpotifyStore((state) => state.refreshQueueForBpm);
+  const clearQueue = useSpotifyStore((state) => state.clearQueue);
 
   useEffect(() => {
     if (connection !== "connected") return;
@@ -58,8 +61,21 @@ export function HomeScreen({ navigation }: Props) {
   }, [loadCachedLibrary]);
 
   useEffect(() => {
-    if (spotifySession) syncLibrary();
-  }, [spotifySession, syncLibrary]);
+    if (!spotifySession) return;
+    syncLibrary().then(() => {
+      // Carrera posible: el usuario conecta la banda (BLE modal, unos pocos
+      // segundos) antes de que termine este primer sync de una librería
+      // grande — refreshQueueForBpm ya se habrá ejecutado una vez con la cola
+      // vacía y `lastQueueBpm` fijado, así que sin `force` no se recalcula
+      // hasta que el BPM se mueva lo suficiente por su cuenta. Se leen los
+      // valores más frescos directo del store (no del closure de este
+      // efecto) porque `syncLibrary` puede tardar más que un render.
+      const { connection: currentConnection, bpm: currentBpm } = useSessionStore.getState();
+      if (currentConnection !== "connected") return;
+      const currentNowPlayingId = useSpotifyStore.getState().nowPlaying?.track.id;
+      refreshQueueForBpm(currentBpm, currentNowPlayingId, true);
+    });
+  }, [spotifySession, syncLibrary, refreshQueueForBpm]);
 
   // Playback en vivo: solo aplica con sesión real de Spotify (no es parte del mock de BPM).
   useEffect(() => {
@@ -121,15 +137,27 @@ export function HomeScreen({ navigation }: Props) {
           </View>
 
           <Pressable
-            onPress={isSyncing ? stopSync : () => setBleModalVisible(true)}
-            style={[styles.syncButton, isSyncing && { borderColor: accent }]}
+            onPress={() => {
+              if (isSyncing) {
+                stopSync();
+                clearQueue();
+              } else {
+                setBleModalVisible(true);
+              }
+            }}
+            accessibilityRole="button"
+            accessibilityLabel={isSyncing ? "Detener sesión" : "Iniciar sesión"}
+            style={[
+              styles.syncButton,
+              isSyncing ? { borderColor: accent } : { backgroundColor: accent, borderColor: accent },
+            ]}
           >
             <Ionicons
               name={isSyncing ? "stop" : "play"}
               size={14}
-              color={isSyncing ? accent : colors.ink}
+              color={isSyncing ? accent : colors.bg}
             />
-            <Text style={[styles.syncButtonText, isSyncing && { color: accent }]}>
+            <Text style={[styles.syncButtonText, isSyncing ? { color: accent } : { color: colors.bg }]}>
               {isSyncing ? "Detener" : "Iniciar sesión"}
             </Text>
           </Pressable>
@@ -142,11 +170,13 @@ export function HomeScreen({ navigation }: Props) {
           track={nowPlayingTrack}
           zone={zone}
           isLive={Boolean(spotifySession)}
-          onStartSession={
-            !spotifySession && connection !== "connected" ? () => setBleModalVisible(true) : undefined
-          }
+          onStartSession={connection !== "connected" ? () => setBleModalVisible(true) : undefined}
         />
-        <NextUpQueue queue={spotifySession ? spotifyQueue : simulatedQueue} zone={zone} />
+        <NextUpQueue
+          queue={spotifySession ? spotifyQueue : simulatedQueue}
+          zone={zone}
+          isUpdating={Boolean(spotifySession) && (queueBuilding || (connection === "connected" && librarySyncing))}
+        />
         {spotifySession && lastAutoQueuedTrack ? (
           <View style={styles.autoQueuedRow}>
             <Ionicons name="checkmark-circle" size={13} color={colors.spotifyGreen} />

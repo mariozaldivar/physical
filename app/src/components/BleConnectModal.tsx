@@ -52,14 +52,27 @@ export function BleConnectModal({ visible, onClose, onConnected }: BleConnectMod
   const [status, setStatus] = useState<ConnectStatus>("scanning");
   const [devices, setDevices] = useState<DiscoveredDevice[]>([]);
   const [selected, setSelected] = useState<DiscoveredDevice | null>(null);
+  // Cierra la ventana entre "el usuario tocó un dispositivo" y "la promesa de
+  // connectToDevice resuelve": sin esto, cancelar (Cancelar / tocar el fondo)
+  // mientras está "connecting" no interrumpe la conexión simulada en curso —
+  // sigue completando en segundo plano y dispara onConnected (arranca una
+  // sesión) aunque el usuario ya haya cerrado el modal.
+  const activeRef = useRef(false);
 
   useEffect(() => {
-    if (!visible) return;
+    if (!visible) {
+      activeRef.current = false;
+      return;
+    }
+    activeRef.current = true;
     setStatus("scanning");
     setDevices([]);
     setSelected(null);
     const scan = startScan((device) => setDevices((prev) => [...prev, device]));
-    return () => scan.stop();
+    return () => {
+      activeRef.current = false;
+      scan.stop();
+    };
   }, [visible]);
 
   async function handleSelect(device: DiscoveredDevice) {
@@ -67,10 +80,13 @@ export function BleConnectModal({ visible, onClose, onConnected }: BleConnectMod
     setStatus("connecting");
     try {
       await connectToDevice(device.id);
+      if (!activeRef.current) return;
       setStatus("connected");
-      setTimeout(() => onConnected(device), 550);
+      setTimeout(() => {
+        if (activeRef.current) onConnected(device);
+      }, 550);
     } catch {
-      setStatus("error");
+      if (activeRef.current) setStatus("error");
     }
   }
 
