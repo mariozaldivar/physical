@@ -1,0 +1,267 @@
+import { useEffect, useState } from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { DrawerActions } from "@react-navigation/native";
+import type { DrawerScreenProps } from "@react-navigation/drawer";
+import { BleConnectModal, BpmMonitorBar, NextUpQueue, NowPlayingCard } from "../components";
+import type { MainDrawerParamList } from "../navigation/types";
+import { useSessionStore } from "../store/sessionStore";
+import { useSpotifyStore } from "../store/spotifyStore";
+import { colors, fonts, radii, spacing, zoneColor } from "../theme/theme";
+import type { PulseZone } from "../theme/theme";
+
+type Props = DrawerScreenProps<MainDrawerParamList, "Home">;
+
+const ZONE_LABEL: Record<PulseZone, string> = {
+  calm: "Estudio",
+  hot: "Ejercicio",
+};
+
+const READING_INTERVAL_MS = 2500;
+const NOW_PLAYING_POLL_MS = 5000;
+
+export function HomeScreen({ navigation }: Props) {
+  const {
+    isSyncing,
+    connection,
+    zone,
+    bpm,
+    nowPlaying: simulatedNowPlaying,
+    queue: simulatedQueue,
+    setZone,
+    startSync,
+    stopSync,
+    refreshReading,
+  } = useSessionStore();
+  const [bleModalVisible, setBleModalVisible] = useState(false);
+
+  const spotifySession = useSpotifyStore((state) => state.session);
+  const spotifyNowPlaying = useSpotifyStore((state) => state.nowPlaying);
+  const spotifyQueue = useSpotifyStore((state) => state.queue);
+  const queueError = useSpotifyStore((state) => state.queueError);
+  const lastAutoQueuedTrack = useSpotifyStore((state) => state.lastAutoQueuedTrack);
+  const loadCachedLibrary = useSpotifyStore((state) => state.loadCachedLibrary);
+  const syncLibrary = useSpotifyStore((state) => state.syncLibrary);
+  const refreshNowPlaying = useSpotifyStore((state) => state.refreshNowPlaying);
+  const refreshQueueForBpm = useSpotifyStore((state) => state.refreshQueueForBpm);
+
+  useEffect(() => {
+    if (connection !== "connected") return;
+    const id = setInterval(refreshReading, READING_INTERVAL_MS);
+    return () => clearInterval(id);
+  }, [connection, refreshReading]);
+
+  // Cache local primero (offline-first), luego sync fresco si hay sesión real de Spotify.
+  useEffect(() => {
+    loadCachedLibrary();
+  }, [loadCachedLibrary]);
+
+  useEffect(() => {
+    if (spotifySession) syncLibrary();
+  }, [spotifySession, syncLibrary]);
+
+  // Playback en vivo: solo aplica con sesión real de Spotify (no es parte del mock de BPM).
+  useEffect(() => {
+    if (!spotifySession) return;
+    refreshNowPlaying();
+    const id = setInterval(refreshNowPlaying, NOW_PLAYING_POLL_MS);
+    return () => clearInterval(id);
+  }, [spotifySession, refreshNowPlaying]);
+
+  const accent = zoneColor(zone);
+  const nowPlayingTrack = spotifySession ? (spotifyNowPlaying?.track ?? null) : simulatedNowPlaying;
+
+  // Rearma la cola real (Liked Songs + playlists seleccionadas) cada vez que
+  // cambia el BPM leído — refreshQueueForBpm ya hace no-op si el cambio no es
+  // significativo, así que este efecto puede correr en cada tick sin problema.
+  useEffect(() => {
+    if (!spotifySession || connection !== "connected") return;
+    refreshQueueForBpm(bpm, nowPlayingTrack?.id);
+  }, [spotifySession, connection, bpm, nowPlayingTrack?.id, refreshQueueForBpm]);
+
+  return (
+    <SafeAreaView style={styles.screen} edges={["top", "left", "right"]}>
+      <View style={styles.header}>
+        <View style={styles.wordmarkRow}>
+          <Text style={styles.wordmark}>Physical</Text>
+          <Pressable
+            onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+            hitSlop={12}
+            style={styles.playlistsButton}
+          >
+            <Ionicons name="albums-outline" size={18} color={colors.inkMuted} />
+          </Pressable>
+        </View>
+
+        <View style={styles.headerActions}>
+          <View style={styles.zoneToggle}>
+            {(["calm", "hot"] as const).map((option) => {
+              const selected = option === zone;
+              return (
+                <Pressable
+                  key={option}
+                  onPress={() => setZone(option)}
+                  style={[
+                    styles.zoneOption,
+                    selected && { backgroundColor: zoneColor(option) },
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.zoneOptionText,
+                      selected && styles.zoneOptionTextSelected,
+                    ]}
+                  >
+                    {ZONE_LABEL[option]}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </View>
+
+          <Pressable
+            onPress={isSyncing ? stopSync : () => setBleModalVisible(true)}
+            style={[styles.syncButton, isSyncing && { borderColor: accent }]}
+          >
+            <Ionicons
+              name={isSyncing ? "stop" : "play"}
+              size={14}
+              color={isSyncing ? accent : colors.ink}
+            />
+            <Text style={[styles.syncButtonText, isSyncing && { color: accent }]}>
+              {isSyncing ? "Detener" : "Iniciar sesión"}
+            </Text>
+          </Pressable>
+        </View>
+      </View>
+
+      <View style={styles.stack}>
+        <BpmMonitorBar reading={{ bpm, zone, connection }} />
+        <NowPlayingCard
+          track={nowPlayingTrack}
+          zone={zone}
+          isLive={Boolean(spotifySession)}
+          onStartSession={
+            !spotifySession && connection !== "connected" ? () => setBleModalVisible(true) : undefined
+          }
+        />
+        <NextUpQueue queue={spotifySession ? spotifyQueue : simulatedQueue} zone={zone} />
+        {spotifySession && lastAutoQueuedTrack ? (
+          <View style={styles.autoQueuedRow}>
+            <Ionicons name="checkmark-circle" size={13} color={colors.spotifyGreen} />
+            <Text style={styles.autoQueuedText} numberOfLines={1}>
+              “{lastAutoQueuedTrack.title}” se agregó a tu cola de Spotify
+            </Text>
+          </View>
+        ) : null}
+        {spotifySession && queueError ? (
+          <View style={styles.autoQueuedRow}>
+            <Ionicons name="alert-circle" size={13} color={colors.pulseHot} />
+            <Text style={[styles.autoQueuedText, styles.autoQueuedTextError]} numberOfLines={2}>
+              {queueError}
+            </Text>
+          </View>
+        ) : null}
+      </View>
+
+      <BleConnectModal
+        visible={bleModalVisible}
+        onClose={() => setBleModalVisible(false)}
+        onConnected={() => {
+          setBleModalVisible(false);
+          startSync();
+        }}
+      />
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    backgroundColor: colors.bg,
+    paddingHorizontal: spacing.lg,
+  },
+  header: {
+    paddingTop: spacing.sm,
+    paddingBottom: spacing.lg,
+    gap: spacing.md,
+  },
+  wordmarkRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  wordmark: {
+    fontFamily: fonts.display,
+    color: colors.ink,
+    fontSize: 22,
+  },
+  playlistsButton: {
+    width: 32,
+    height: 32,
+    borderRadius: radii.pill,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.surface,
+  },
+  headerActions: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  zoneToggle: {
+    flexDirection: "row",
+    backgroundColor: colors.surface,
+    borderRadius: radii.pill,
+    padding: 3,
+  },
+  zoneOption: {
+    paddingVertical: 6,
+    paddingHorizontal: spacing.md,
+    borderRadius: radii.pill,
+  },
+  zoneOptionText: {
+    fontSize: 12.5,
+    color: colors.inkMuted,
+    fontFamily: fonts.displayMedium,
+  },
+  zoneOptionTextSelected: {
+    color: colors.bg,
+  },
+  syncButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    paddingVertical: 8,
+    paddingHorizontal: spacing.md,
+    borderRadius: radii.pill,
+    borderWidth: 1,
+    borderColor: colors.hairline,
+  },
+  syncButtonText: {
+    fontSize: 12.5,
+    color: colors.ink,
+    fontFamily: fonts.displayMedium,
+  },
+  stack: {
+    flex: 1,
+    gap: spacing.lg,
+    paddingBottom: spacing.xxxl,
+  },
+  autoQueuedRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    marginTop: -spacing.sm,
+  },
+  autoQueuedText: {
+    color: colors.inkFaint,
+    fontSize: 11,
+    flexShrink: 1,
+  },
+  autoQueuedTextError: {
+    color: colors.pulseHot,
+  },
+});
