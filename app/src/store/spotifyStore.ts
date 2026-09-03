@@ -98,9 +98,17 @@ export const useSpotifyStore = create<SpotifyState>((set, get) => ({
       ]);
       set({ playlists, likedSongs });
     } catch (error) {
+      // "Invalid VFS state" es un bug conocido del worker web de expo-sqlite: si el
+      // Fast Refresh interrumpe la inicialización del Worker a medias, este queda
+      // atascado permanentemente y ningún reintento en JS lo arregla — solo una
+      // recarga completa de la pestaña (no Fast Refresh) crea un Worker nuevo.
+      const isWedgedSqliteWorker = error instanceof Error && error.message === "Invalid VFS state";
       set({
-        libraryError:
-          error instanceof Error ? error.message : "No se pudo sincronizar tu biblioteca de Spotify.",
+        libraryError: isWedgedSqliteWorker
+          ? "El almacenamiento local del navegador quedó en un estado inválido. Recarga la página completa (Ctrl+Shift+R) para solucionarlo."
+          : error instanceof Error
+            ? error.message
+            : "No se pudo sincronizar tu biblioteca de Spotify.",
       });
     } finally {
       set({ librarySyncing: false });
