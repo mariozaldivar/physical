@@ -37,22 +37,6 @@ la mayoría de las placas ESP-32 DevKitC. Si tu placa específica los tiene en
 otro lado, remapea con `Wire.begin(sda, scl)` en `HeartRateSensor::begin()`
 (`src/HeartRateSensor.cpp`).
 
-**Sólo se usan 4 pines** (`VIN`, `GND`, `SDA`, `SCL`). El breakout típico de
-MAX30102 (como el que trae este proyecto) también expone `INT` y, en el
-reverso, test points `RD`/`IRD` (cátodos de los LEDs rojo/infrarrojo) —
-ninguno se conecta: `INT` no se usa porque el firmware lee el sensor por
-polling en `loop()` (no por interrupción), y `RD`/`IRD` son sólo para
-depuración analógica.
-
-**Jumper de voltaje de pull-up (reverso de la placa, marcado `1V8`/`3V3`
-junto a `VIN`/`SDA`/`SCL`/`GND`/`3V3`): debe quedar soldado en `3V3`, no en
-`1V8`.** Ese jumper fija el voltaje al que quedan las resistencias pull-up
-del bus I2C. El ESP-32 opera I2C a 3.3V lógicos — con el jumper en `1V8` el
-nivel alto del bus queda en ~1.8V, por debajo del umbral de "alto" que el
-ESP-32 necesita para leerlo de forma confiable, y el sensor no será
-detectado (mismo síntoma que un wiring SDA/SCL incorrecto). Revisar esto
-primero si `begin()` falla con el wiring de la tabla ya verificado.
-
 ## Build / flash
 
 Requiere [PlatformIO](https://platformio.org/) (extensión de VS Code, o el

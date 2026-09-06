@@ -1,0 +1,35 @@
+/* Paleta: Azul profundo — solo cambia el tono base (fondo/superficies más
+ * oscuras y con más peso azul-acero), los acentos cian/coral se quedan
+ * IDÉNTICOS al original para aislar el efecto del cambio de fondo.
+ * Cárgalo ANTES de base.css.
+ */
+:root {
+  --bg: #0d1424;
+  --surface: #16203a;
+  --surface-alt: #1e2a4a;
+  --hairline: #29365c;
+
+  --ink: #edeff5;
+  --ink-muted: #8891a8;
+  --ink-faint: #5b6580;
+
+  --pulse-hot: #ff6a4d;
+  --pulse-hot-dim: #3a2a2e;
+  --pulse-calm: #4dd9e8;
+  --pulse-calm-dim: #1c313c;
+
+  --spotify-black: #000000;
+  --spotify-green: #1db954;
+  --spotify-green-bright: #1ed760;
+
+  --background-color: var(--bg);
+  --section-divider-bg: var(--surface);
+
+  --text-color: var(--ink);
+  --muted-color: var(--ink-muted);
+  --line-color: var(--hairline);
+
+  --panel-bg: var(--surface);
+  --panel-bg-strong: var(--surface-alt);
+  --panel-border: var(--hairline);
+}

@@ -54,6 +54,16 @@ async function request<T>(
   const text = await response.text();
   if (!text) return null as T;
 
+  // Verificado contra la API real (2026-09-03): `POST /me/player/queue` a
+  // veces responde 200 con un body que no es JSON ni está documentado (un id
+  // de correlación interno de Spotify, sin header Content-Type) en vez de los
+  // 204 sin cuerpo que documenta el spec. Ningún endpoint de control de
+  // playback expone datos útiles en el body de éxito, así que un 2xx sin
+  // Content-Type de JSON se trata como "sin cuerpo", igual que el 204 — sólo
+  // se exige JSON válido cuando el propio Content-Type dice que lo es.
+  const contentType = response.headers.get("content-type") ?? "";
+  if (!contentType.includes("application/json")) return null as T;
+
   try {
     return JSON.parse(text) as T;
   } catch {

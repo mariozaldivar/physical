@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Physical — U-Challenge</title>
+
+  <!-- Reveal.js core -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Paleta de color (ver también las variantes en paletas/) + estilos compartidos -->
+  <link rel="stylesheet" href="palette-b-azul-profundo.css">
+  <link rel="stylesheet" href="base.css">
+
+  <!-- Chart.js for data visualization (no charts en esta plantilla todavía, se deja disponible) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ============ 1. PORTADA ============ -->
+      <section id="title" class="section-divider" data-state="is-section-divider">
+        <div class="tag-pill" style="position: absolute; top: 40px; left: 60px;">
+          <span class="dot"></span>
+          <p>U-Challenge · Universidad Anáhuac Mayab</p>
+        </div>
+
+        <div class="cover-stage" id="cover-stage">
+
+          <!-- Fondo: orbes + partículas flotando en loop continuo. Los
+               orbes además se desplazan con el reacomodo (fases 2 y 3) para
+               que el movimiento no sea solo del texto. -->
+          <div class="cover-bg" aria-hidden="true">
+            <span class="cover-orb orb-1"></span>
+            <span class="cover-orb orb-2"></span>
+            <span class="cover-orb orb-3"></span>
+            <span class="cover-particle particle-1"></span>
+            <span class="cover-particle particle-2"></span>
+            <span class="cover-particle particle-3"></span>
+            <span class="cover-particle particle-4"></span>
+            <span class="cover-particle particle-5"></span>
+            <span class="cover-particle particle-6"></span>
+            <span class="cover-particle particle-7"></span>
+            <span class="cover-particle particle-8"></span>
+          </div>
+
+          <!-- Fase 1: SOLO logo + título, resaltados y centrados. Fase 2
+               (clase "rearranged", disparada por JS): se reacomodan a la
+               izquierda y AHÍ aparecen la descripción y el equipo (no
+               existen visualmente en la fase 1).
+
+               El logo y el título van en .cover-fx: se autocentran con
+               left:50%+translateX(-50%) (sin conocer su propio ancho) y
+               pasan a left:0%+translateX(0) (flush-left) cuando
+               .rearranged. A diferencia de text-align/align-items (no
+               animables, saltan de golpe), left y transform sí se animan,
+               así que el reacomodo se ve fluido. h1 va en su propio
+               wrapper .cover-fx porque ya tiene su propia animación de
+               entrada (que también usa transform) — envolverlo evita que
+               ambas animaciones compitan por la misma propiedad.
+
+               La descripción y el equipo NO necesitan ese truco: como
+               solo existen a partir de la fase 2 (nunca se ven en el
+               centro), simplemente aparecen con un fade — y como el
+               .cover-brand ya no se centra verticalmente según su propia
+               altura (ver .cover-brand en base.css), que crezca hacia
+               abajo no mueve el logo/título ni un píxel. -->
+          <div class="cover-brand">
+            <div class="pulse-wave cover-fx" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="cover-fx">
+              <h1 class="hero-title">Physical</h1>
+            </div>
+            <p class="tagline-hero cover-tagline">Haz que tu música nunca más te vuelva a sacar del momento que estás viviendo.</p>
+            <div class="cover-team" style="margin-top: 22px;">
+              <span class="cover-team-name">Mario Zaldívar</span>
+              <span class="cover-team-dot"></span>
+              <span class="cover-team-name">Julio Olguín</span>
+              <span class="cover-team-dot"></span>
+              <span class="cover-team-name">Aranza Aguilar</span>
+              <span class="cover-team-dot"></span>
+              <span class="cover-team-name">Rodolfo Concha</span>
+            </div>
+          </div>
+
+          <!-- Fase 3 (clase "show-demo", disparada por JS): demo a la
+               derecha — cola de Spotify reacomodándose según el BPM
+               (placeholder; reemplazar por screen recording real del app). -->
+          <div class="cover-demo" aria-hidden="true">
+            <div class="demo-panel">
+              <div class="demo-panel-header">
+                <i class="fa-brands fa-spotify"></i>
+                <p>Cola adaptativa</p>
+                <span class="demo-live-dot"></span>
+              </div>
+              <div class="demo-queue-viewport">
+
+                <!-- Modo estudio — BPM en calma (canciones reales, BPM público aproximado) -->
+                <div class="demo-queue-frame">
+                  <div class="demo-track now-playing">
+                    <div class="demo-track-art"><img src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e027e7e5dd9d1ab19fcded8a17f" alt=""></div>
+                    <div class="demo-track-meta">
+                      <p class="demo-track-title">Someone Like You</p>
+                      <p class="demo-track-artist">Adele</p>
+                    </div>
+                    <span class="demo-track-bpm" style="--zone-color: var(--pulse-calm);">67 BPM</span>
+                  </div>
+                  <div class="demo-track">
+                    <div class="demo-track-art"><img src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02bf7c317a63c4f128b8823406" alt=""></div>
+                    <div class="demo-track-meta">
+                      <p class="demo-track-title">Skinny Love</p>
+                      <p class="demo-track-artist">Bon Iver</p>
+                    </div>
+                    <span class="demo-track-bpm">63 BPM</span>
+                  </div>
+                  <div class="demo-track">
+                    <div class="demo-track-art"><img src="https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0217875a0610c23d8946454583" alt=""></div>
+                    <div class="demo-track-meta">
+                      <p class="demo-track-title">The Night We Met</p>
+                      <p class="demo-track-artist">Lord Huron</p>
+                    </div>
+                    <span class="demo-track-bpm">74 BPM</span>
+                  </div>
+                  <div class="demo-track">
+                    <div class="demo-track-art"><img src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02f8553e18a11209d4becd0336" alt=""></div>
+                    <div class="demo-track-meta">
+                      <p class="demo-track-title">Liability</p>
+                      <p class="demo-track-artist">Lorde</p>
+                    </div>
+                    <span class="demo-track-bpm">74 BPM</span>
+                  </div>
+                </div>
+
+                <!-- Transición — el pulso empieza a subir -->
+                <div class="demo-queue-frame">
+                  <div class="demo-track now-playing">
+                    <div class="demo-track-art"><img src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02692098cde3ee765b886c7629" alt=""></div>
+                    <div class="demo-track-meta">
+                      <p class="demo-track-title">Watermelon Sugar</p>
+                      <p class="demo-track-artist">Harry Styles</p>
+                    </div>
+                    <span class="demo-track-bpm">95 BPM</span>
+                  </div>
+                  <div class="demo-track">
+                    <div class="demo-track-art"><img src="https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0226f7f19c7f0381e56156c94a" alt=""></div>
+                    <div class="demo-track-meta">
+                      <p class="demo-track-title">Stronger</p>
+                      <p class="demo-track-artist">Kanye West</p>
+                    </div>
+                    <span class="demo-track-bpm">104 BPM</span>
+                  </div>
+                  <div class="demo-track">
+                    <div class="demo-track-art"><img src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02c88bae7846e62a8ba59ee0bd" alt=""></div>
+                    <div class="demo-track-meta">
+                      <p class="demo-track-title">Levitating</p>
+                      <p class="demo-track-artist">Dua Lipa</p>
+                    </div>
+                    <span class="demo-track-bpm">103 BPM</span>
+                  </div>
+                  <div class="demo-track">
+                    <div class="demo-track-art"><img src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e022199f4c497dd5301c08239cd" alt=""></div>
+                    <div class="demo-track-meta">
+                      <p class="demo-track-title">Sunflower</p>
+                      <p class="demo-track-artist">Post Malone, Swae Lee</p>
+                    </div>
+                    <span class="demo-track-bpm">90 BPM</span>
+                  </div>
+                </div>
+
+                <!-- Modo ejercicio — BPM alto -->
+                <div class="demo-queue-frame">
+                  <div class="demo-track now-playing">
+                    <div class="demo-track-art"><img src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02c88bae7846e62a8ba59ee0bd" alt=""></div>
+                    <div class="demo-track-meta">
+                      <p class="demo-track-title">Physical</p>
+                      <p class="demo-track-artist">Dua Lipa</p>
+                    </div>
+                    <span class="demo-track-bpm" style="--zone-color: var(--pulse-hot);">146 BPM</span>
+                  </div>
+                  <div class="demo-track">
+                    <div class="demo-track-art"><img src="https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02b234aeff6eedc8276fe0333a" alt=""></div>
+                    <div class="demo-track-meta">
+                      <p class="demo-track-title">Titanium</p>
+                      <p class="demo-track-artist">David Guetta, Sia</p>
+                    </div>
+                    <span class="demo-track-bpm">126 BPM</span>
+                  </div>
+                  <div class="demo-track">
+                    <div class="demo-track-art"><img src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02781f6dd5abe91929df0314e3" alt=""></div>
+                    <div class="demo-track-meta">
+                      <p class="demo-track-title">Don't You Worry Child</p>
+                      <p class="demo-track-artist">Swedish House Mafia</p>
+                    </div>
+                    <span class="demo-track-bpm">129 BPM</span>
+                  </div>
+                  <div class="demo-track">
+                    <div class="demo-track-art"><img src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02a376041c1b429d1a3c15bacf" alt=""></div>
+                    <div class="demo-track-meta">
+                      <p class="demo-track-title">Levels</p>
+                      <p class="demo-track-artist">Avicii</p>
+                    </div>
+                    <span class="demo-track-bpm">126 BPM</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============ 2. DIVISOR — El problema ============ -->
+      <section id="divider-1" class="section-divider" data-state="is-section-divider">
+        <div class="tag-pill" style="position: absolute; top: 40px; left: 60px;">
+          <span class="dot"></span>
+          <p>01 — Contexto</p>
+        </div>
+        <h1>El problema</h1>
+        <p class="divider-subtitle">Tu cuerpo cambia de ritmo todo el tiempo. Tu música, no.</p>
+      </section>
+
+      <!-- ============ 3. El problema (contenido) ============ -->
+      <section id="slide-3">
+        <h2>La música no se entera de lo que te pasa</h2>
+        <div class="content" style="justify-content: center;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
+            <div class="pending">
+              <p>describir el problema real — la desconexión entre tu estado físico/mental (estudiando, entrenando, relajándote) y la música que sigue sonando igual todo el tiempo</p>
+            </div>
+            <div class="panel panel-strong" style="display: flex; align-items: center; justify-content: center; gap: 22px; padding: 34px 24px;">
+              <div class="bpm-readout">
+                <i class="fa-solid fa-heart-pulse"></i>
+                <p>128 BPM</p>
+              </div>
+              <i class="fa-solid fa-arrow-right-arrow-left text-muted" style="font-size: 15pt; position: relative; z-index: 1;"></i>
+              <div class="bpm-readout" style="animation-delay: 1.7s;">
+                <i class="fa-brands fa-spotify" style="color: var(--muted-color);"></i>
+                <p>Lo-fi · 70 BPM</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 4. DIVISOR — La solución ============ -->
+      <section id="divider-2" class="section-divider" data-state="is-section-divider">
+        <div class="tag-pill" style="position: absolute; top: 40px; left: 60px;">
+          <span class="dot"></span>
+          <p>02 — Concepto</p>
+        </div>
+        <h1>La solución</h1>
+        <p class="divider-subtitle">Una banda que escucha tu pulso, para que Spotify escuche lo que tú necesitas</p>
+      </section>
+
+      <!-- ============ 5. Concepto en una línea ============ -->
+      <section id="slide-5">
+        <h2>La idea en una frase</h2>
+        <div class="content" style="justify-content: center; align-items: center; text-align: center;">
+          <div class="tag-pill" style="align-self: center;">
+            <span class="dot"></span>
+            <p>Borrador — texto final pendiente</p>
+          </div>
+          <blockquote style="border-left: none; text-align: center; font-family: var(--heading-font); font-weight: 500; font-size: 25pt; font-style: normal; max-width: 840px; margin: 22px auto 0 auto;">
+            Una banda que lee tu pulso y una app que reordena tu música de Spotify para que siempre vaya al ritmo de lo que estás viviendo.
+          </blockquote>
+        </div>
+      </section>
+
+      <!-- ============ 6. Cómo funciona (pipeline) ============ -->
+      <section id="slide-6">
+        <h2>Cómo funciona</h2>
+        <div class="content" style="justify-content: center;">
+          <div class="tag-pill">
+            <span class="dot"></span>
+            <p>El pipeline en tres saltos</p>
+          </div>
+          <div class="flow-track" style="margin-top: 10px;">
+            <div class="flow-node">
+              <div class="flow-icon"><i class="fa-solid fa-microchip"></i></div>
+              <p>Banda ESP-32</p>
+              <p class="flow-label-muted">Heart Rate Service BLE 0x180D</p>
+            </div>
+            <div class="flow-connector"><span class="flow-dot"></span></div>
+            <div class="flow-node">
+              <div class="flow-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+              <p>App móvil</p>
+              <p class="flow-label-muted">Lee BPM en tiempo real</p>
+            </div>
+            <div class="flow-connector"><span class="flow-dot"></span></div>
+            <div class="flow-node flow-node--spotify">
+              <div class="flow-icon"><i class="fa-brands fa-spotify"></i></div>
+              <p>Spotify</p>
+              <p class="flow-label-muted">Cola adaptativa</p>
+            </div>
+          </div>
+          <div class="bpm-readout" style="align-self: center; margin-top: 8px;">
+            <i class="fa-solid fa-heart-pulse"></i>
+            <p>72 → 128 BPM en vivo</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 7. Stack vertical — los 3 pasos del flujo ============ -->
+      <section>
+        <section id="slide-7-1">
+          <div class="content">
+            <div class="step-heading">
+              <div class="step-tile">1</div>
+              <div>
+                <p class="step-kicker">Durante la sesión</p>
+                <h2>Lee tus pulsaciones</h2>
+              </div>
+            </div>
+            <div class="pending">
+              <p>describir cómo la banda transmite el BPM en vivo a la app por Bluetooth (handshake GATT, frecuencia de lectura)</p>
+            </div>
+          </div>
+        </section>
+        <section id="slide-7-2">
+          <div class="content">
+            <div class="step-heading">
+              <div class="step-tile">2</div>
+              <div>
+                <p class="step-kicker">Durante la sesión</p>
+                <h2>Cruza con tu biblioteca</h2>
+              </div>
+            </div>
+            <div class="pending">
+              <p>explicar el cross-reference contra Liked Songs / playlists guardadas del usuario más el BPM de cada canción</p>
+            </div>
+          </div>
+        </section>
+        <section id="slide-7-3">
+          <div class="content">
+            <div class="step-heading">
+              <div class="step-tile">3</div>
+              <div>
+                <p class="step-kicker">Durante la sesión</p>
+                <h2>Encola — o hace skip</h2>
+              </div>
+            </div>
+            <div class="pending">
+              <p>explicar la regla: se encola el mejor match; si el cambio de ritmo es demasiado drástico, se hace skip</p>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- ============ 8. DIVISOR — Modo estudio vs. ejercicio ============ -->
+      <section id="divider-3" class="section-divider" data-state="is-section-divider">
+        <div class="tag-pill" style="position: absolute; top: 40px; left: 60px;">
+          <span class="dot"></span>
+          <p>03 — Personalización</p>
+        </div>
+        <h1>Un ritmo, dos modos</h1>
+        <p class="divider-subtitle">Tú decides si más pulsaciones aceleran o calman tu música</p>
+      </section>
+
+      <!-- ============ 9. Modo estudio vs. ejercicio (contenido) ============ -->
+      <section id="slide-9">
+        <h2>Modo estudio vs. modo ejercicio</h2>
+        <div class="content" style="justify-content: center;">
+          <div class="mode-grid">
+            <div class="mode-card mode-study">
+              <div class="mode-icon"><i class="fa-solid fa-book"></i></div>
+              <h3>Modo estudio</h3>
+              <p>Más pulsaciones → música más calmada, para sostener la concentración.</p>
+            </div>
+            <div class="mode-card mode-exercise">
+              <div class="mode-icon"><i class="fa-solid fa-dumbbell"></i></div>
+              <h3>Modo ejercicio</h3>
+              <p>Más pulsaciones → música más acelerada, para sostener el esfuerzo.</p>
+            </div>
+          </div>
+          <div class="pending" style="margin-top: 22px;">
+            <p>confirmar rangos de BPM exactos por modo y si el usuario podrá definir modos propios</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 10. DIVISOR — El prototipo ============ -->
+      <section id="divider-4" class="section-divider" data-state="is-section-divider">
+        <div class="tag-pill" style="position: absolute; top: 40px; left: 60px;">
+          <span class="dot"></span>
+          <p>04 — Producto</p>
+        </div>
+        <h1>El prototipo</h1>
+        <p class="divider-subtitle">Banda + ESP-32 + sensor de pulso, conectados por Bluetooth</p>
+      </section>
+
+      <!-- ============ 11. Prototipo y costos ============ -->
+      <section id="slide-11">
+        <h2>Costo de producción del prototipo</h2>
+        <div class="content">
+          <div class="fact-strip">
+            <div class="fact-chip"><span class="fact-value">$120</span><p class="fact-label">ESP-32</p></div>
+            <div class="fact-chip"><span class="fact-value">$100</span><p class="fact-label">Sensor BPM</p></div>
+            <div class="fact-chip"><span class="fact-value">$50</span><p class="fact-label">Batería</p></div>
+            <div class="fact-chip"><span class="fact-value">$50</span><p class="fact-label">Banda / materiales</p></div>
+            <div class="fact-chip fact-chip--total"><span class="fact-value">$320</span><p class="fact-label">Total prototipo</p></div>
+          </div>
+          <div class="collage-row" style="margin-top: 30px;">
+            <div class="collage-item tilt-1">
+              <div class="shot-placeholder"><i class="fa-solid fa-camera"></i></div>
+              <p>foto del prototipo armado</p>
+            </div>
+            <div class="collage-item tilt-2 drop-1">
+              <div class="shot-placeholder"><i class="fa-solid fa-camera"></i></div>
+              <p>foto de la banda en uso</p>
+            </div>
+            <div class="collage-item tilt-3">
+              <div class="shot-placeholder"><i class="fa-solid fa-camera"></i></div>
+              <p>captura de la app</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 12. DIVISOR — Modelo de negocio ============ -->
+      <section id="divider-5" class="section-divider" data-state="is-section-divider">
+        <div class="tag-pill" style="position: absolute; top: 40px; left: 60px;">
+          <span class="dot"></span>
+          <p>05 — Negocio</p>
+        </div>
+        <h1>Más que una banda</h1>
+        <p class="divider-subtitle">La música según tu BPM es la puerta de entrada a un ecosistema más grande</p>
+      </section>
+
+      <!-- ============ 13. Ecosistema Physical ============ -->
+      <section id="slide-13">
+        <h2>Physical como ecosistema</h2>
+        <div class="content" style="justify-content: center;">
+          <div class="panel-card-grid">
+            <div class="panel-card">
+              <div class="panel-card-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+              <h3>Música adaptativa</h3>
+              <p>El producto de hoy: cola de Spotify según tu BPM en vivo.</p>
+            </div>
+            <div class="panel-card">
+              <div class="panel-card-icon"><i class="fa-solid fa-sliders"></i></div>
+              <h3>Modos configurables</h3>
+              <p>Estudio, ejercicio, y los que el usuario quiera definir.</p>
+            </div>
+            <div class="panel-card">
+              <div class="panel-card-icon"><i class="fa-solid fa-sitemap"></i></div>
+              <h3>Ecosistema Physical</h3>
+              <p>La banda como primer sensor de una plataforma más amplia.</p>
+            </div>
+          </div>
+          <div class="pending" style="margin-top: 22px;">
+            <p>definir qué otras funciones/productos entran al ecosistema, y el pitch de precio final</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 14. Equipo ============ -->
+      <section id="slide-14">
+        <h2>Equipo</h2>
+        <div class="content" style="justify-content: center;">
+          <div class="team-grid">
+            <div class="team-card">
+              <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+              <h3>Nombre pendiente</h3>
+              <p>Rol pendiente</p>
+            </div>
+            <div class="team-card">
+              <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+              <h3>Nombre pendiente</h3>
+              <p>Rol pendiente</p>
+            </div>
+            <div class="team-card">
+              <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+              <h3>Nombre pendiente</h3>
+              <p>Rol pendiente</p>
+            </div>
+          </div>
+          <div class="pending" style="margin-top: 24px;">
+            <p>agregar nombres, roles y foto/avatar real de cada integrante del equipo</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 15. Cierre ============ -->
+      <section id="slide-15" class="section-divider" data-state="is-section-divider">
+        <div class="tag-pill" style="position: absolute; top: 40px; left: 60px;">
+          <span class="dot"></span>
+          <p>Physical · U-Challenge</p>
+        </div>
+        <div class="pulse-wave" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <h1 class="hero-title" style="font-size: 48pt !important;">Gracias</h1>
+        <p class="tagline-hero">Haz que tu música nunca más te vuelva a sacar del momento que estás viviendo.</p>
+        <div class="ghost-pill" style="margin-top: 12px;">
+          <i class="fa-solid fa-comments"></i>
+          <p>Preguntas</p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/chart/plugin.js"></script>
+  <script>
+    Reveal.initialize({
+      width: 1280,
+      height: 720,
+      margin: 0,
+      controls: true,
+      progress: true,
+      slideNumber: false,
+      hash: true,
+      transition: 'slide',
+      center: false,
+      plugins: [ RevealChart ],
+      chart: {
+        defaults: Object.assign({
+          color: 'rgba(0, 0, 0, 0.8)',
+          borderColor: 'rgba(0, 0, 0, 0.8)',
+          devicePixelRatio: 2
+        }, window.location.search.includes('export') ? { animation: false } : {})
+      }
+    });
+
+    // Coreografía de la portada: 1) logo + título resaltados en el centro,
+    // 2) se reacomodan a la izquierda, 3) aparece la demo de la cola de
+    // Spotify a la derecha. Se reproduce cada vez que se entra a la
+    // diapositiva y se reinicia al salir, para que siempre arranque limpia.
+    (function () {
+      var stage = document.getElementById('cover-stage');
+      if (!stage) return;
+      var timers = [];
+
+      function clearTimers() {
+        timers.forEach(function (id) { clearTimeout(id); });
+        timers = [];
+      }
+
+      function playCoverIntro() {
+        clearTimers();
+        stage.classList.remove('rearranged', 'show-demo');
+        void stage.offsetWidth; // forzar reflow para reiniciar las transiciones
+        timers.push(setTimeout(function () { stage.classList.add('rearranged'); }, 1900));
+        timers.push(setTimeout(function () { stage.classList.add('show-demo'); }, 2800));
+      }
+
+      function onSlideChange(event) {
+        var slide = event.currentSlide;
+        if (slide && slide.id === 'title') {
+          playCoverIntro();
+        } else {
+          clearTimers();
+          stage.classList.remove('rearranged', 'show-demo');
+        }
+      }
+
+      Reveal.on('ready', onSlideChange);
+      Reveal.on('slidechanged', onSlideChange);
+    })();
+  </script>
+</body>
+</html>

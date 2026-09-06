@@ -1,0 +1,3 @@
+Trabajemos en la portada:
+
+Me gusta mucho el diseño e iconografía actual. Quiero hacer el diseño y la animación más detallada. Implementa lo que te voy a describir utilizando tu skill de reveal.js . Quiero que, iniciando la animación aparezca el logo y el título en el centro de forma resaltada con un animación, después de lo cuál, con otra animación los elementos se "re-acomoden" en la parte izquierda de la diapositiva, después de lo cual a la derecha aparece con una animación suave una imagen / animación con una demostración de la aplicación (por ahorita puedes poner una animación de una serie de canciones en spotify cambiando).

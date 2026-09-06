@@ -1,0 +1,35 @@
+/* Paleta: Original (Índigo) — calcada de app/src/theme/theme.ts sin cambios.
+ * Fondo azul-tinta, acento cian ("pulso en calma") + coral ("pulso caliente"),
+ * verde Spotify reservado solo para el glifo/botón de Spotify.
+ * Cárgalo ANTES de base.css.
+ */
+:root {
+  --bg: #12182a;
+  --surface: #1b2338;
+  --surface-alt: #232c45;
+  --hairline: #2c3654;
+
+  --ink: #edeff5;
+  --ink-muted: #8891a8;
+  --ink-faint: #5b6580;
+
+  --pulse-hot: #ff6a4d;
+  --pulse-hot-dim: #3a2a2e;
+  --pulse-calm: #4dd9e8;
+  --pulse-calm-dim: #1f323a;
+
+  --spotify-black: #000000;
+  --spotify-green: #1db954;
+  --spotify-green-bright: #1ed760;
+
+  --background-color: var(--bg);
+  --section-divider-bg: var(--surface);
+
+  --text-color: var(--ink);
+  --muted-color: var(--ink-muted);
+  --line-color: var(--hairline);
+
+  --panel-bg: var(--surface);
+  --panel-bg-strong: var(--surface-alt);
+  --panel-border: var(--hairline);
+}

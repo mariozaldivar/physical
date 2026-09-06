@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { DrawerActions } from "@react-navigation/native";
@@ -49,7 +49,13 @@ export function PlaylistSelectionScreen({ navigation }: Partial<DrawerContentCom
             Elige de qué playlists saca Physical las canciones que sugiere según tu pulso.
           </Text>
         </View>
-        <Pressable onPress={close} hitSlop={12} style={styles.closeButton}>
+        <Pressable
+          onPress={close}
+          hitSlop={12}
+          accessibilityRole="button"
+          accessibilityLabel="Cerrar"
+          style={styles.closeButton}
+        >
           <Ionicons name="close" size={20} color={colors.inkMuted} />
         </Pressable>
       </View>
@@ -70,7 +76,12 @@ export function PlaylistSelectionScreen({ navigation }: Partial<DrawerContentCom
                 : "Todavía no hay playlists sincronizadas."}
           </Text>
           {!librarySyncing ? (
-            <Pressable onPress={() => syncLibrary()} style={styles.retryButton}>
+            <Pressable
+              onPress={() => syncLibrary()}
+              accessibilityRole="button"
+              accessibilityLabel={libraryError ? "Reintentar sincronización" : "Sincronizar ahora"}
+              style={styles.retryButton}
+            >
               <Ionicons name="refresh" size={14} color={colors.inkMuted} />
               <Text style={styles.retryButtonText}>
                 {libraryError ? "Reintentar" : "Sincronizar ahora"}
@@ -80,13 +91,21 @@ export function PlaylistSelectionScreen({ navigation }: Partial<DrawerContentCom
         </View>
       ) : (
         <>
-          <Text style={styles.countLabel}>
-            {selectedCount === 0
-              ? "Ninguna seleccionada todavía"
-              : selectedCount === 1
-                ? "1 playlist seleccionada"
-                : `${selectedCount} playlists seleccionadas`}
-          </Text>
+          <View style={styles.countRow}>
+            <Text style={styles.countLabel}>
+              {selectedCount === 0
+                ? "Ninguna seleccionada todavía"
+                : selectedCount === 1
+                  ? "1 playlist seleccionada"
+                  : `${selectedCount} playlists seleccionadas`}
+            </Text>
+            {librarySyncing ? (
+              <View style={styles.syncingRow}>
+                <ActivityIndicator size="small" color={colors.inkFaint} />
+                <Text style={styles.syncingText}>Sincronizando…</Text>
+              </View>
+            ) : null}
+          </View>
           <FlatList
             data={playlists}
             keyExtractor={(playlist) => playlist.id}
@@ -101,7 +120,12 @@ export function PlaylistSelectionScreen({ navigation }: Partial<DrawerContentCom
 
       {session ? (
         <View style={styles.footer}>
-          <Pressable onPress={handleSignOut} style={styles.signOutButton}>
+          <Pressable
+            onPress={handleSignOut}
+            accessibilityRole="button"
+            accessibilityLabel="Cerrar sesión de Spotify"
+            style={styles.signOutButton}
+          >
             <Ionicons name="log-out-outline" size={14} color={colors.inkFaint} />
             <Text style={styles.signOutText}>Cerrar sesión de Spotify</Text>
           </Pressable>
@@ -151,11 +175,25 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: colors.surface,
   },
+  countRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: spacing.lg,
+    marginBottom: spacing.xs,
+  },
   countLabel: {
     color: colors.inkFaint,
     fontSize: 11.5,
-    paddingHorizontal: spacing.lg,
-    marginBottom: spacing.xs,
+  },
+  syncingRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
+  syncingText: {
+    color: colors.inkFaint,
+    fontSize: 11,
   },
   list: {
     paddingHorizontal: spacing.sm,

@@ -48,6 +48,21 @@ function RadarPulse() {
   );
 }
 
+/** Pequeño "pop" al confirmar la conexión — el único momento de éxito del modal, merece un acento. */
+function ConnectedBadge() {
+  const scale = useRef(new Animated.Value(0.4)).current;
+
+  useEffect(() => {
+    Animated.spring(scale, { toValue: 1, friction: 5, tension: 140, useNativeDriver: true }).start();
+  }, [scale]);
+
+  return (
+    <Animated.View style={{ transform: [{ scale }] }}>
+      <Ionicons name="checkmark-circle" size={18} color={colors.pulseCalm} style={styles.rowIcon} />
+    </Animated.View>
+  );
+}
+
 export function BleConnectModal({ visible, onClose, onConnected }: BleConnectModalProps) {
   const [status, setStatus] = useState<ConnectStatus>("scanning");
   const [devices, setDevices] = useState<DiscoveredDevice[]>([]);
@@ -101,7 +116,7 @@ export function BleConnectModal({ visible, onClose, onConnected }: BleConnectMod
             <RadarPulse />
             <View style={styles.headerText}>
               <Text style={styles.title}>Conectar banda</Text>
-              <Text style={styles.subtitle}>
+              <Text style={styles.subtitle} accessibilityLiveRegion="polite">
                 {status === "scanning" && "Buscando dispositivos cercanos…"}
                 {status === "connecting" && `Conectando con ${selected?.name}…`}
                 {status === "connected" && `Conectado con ${selected?.name}`}
@@ -118,6 +133,9 @@ export function BleConnectModal({ visible, onClose, onConnected }: BleConnectMod
                 <Pressable
                   key={device.id}
                   onPress={() => status === "scanning" && handleSelect(device)}
+                  disabled={status !== "scanning"}
+                  accessibilityRole="button"
+                  accessibilityLabel={`${device.name}, señal ${bars} de 3`}
                   style={[styles.row, isSelected && styles.rowSelected]}
                 >
                   <Ionicons name="bluetooth" size={18} color={colors.pulseCalm} />
@@ -139,9 +157,7 @@ export function BleConnectModal({ visible, onClose, onConnected }: BleConnectMod
                   {isSelected && status === "connecting" && (
                     <Ionicons name="sync" size={16} color={colors.inkMuted} style={styles.rowIcon} />
                   )}
-                  {isSelected && status === "connected" && (
-                    <Ionicons name="checkmark-circle" size={18} color={colors.pulseCalm} style={styles.rowIcon} />
-                  )}
+                  {isSelected && status === "connected" && <ConnectedBadge />}
                   {isSelected && status === "error" && (
                     <Ionicons name="alert-circle" size={18} color={colors.pulseHot} style={styles.rowIcon} />
                   )}
@@ -157,6 +173,8 @@ export function BleConnectModal({ visible, onClose, onConnected }: BleConnectMod
           {status === "error" && (
             <Pressable
               style={styles.retryButton}
+              accessibilityRole="button"
+              accessibilityLabel="Reintentar búsqueda"
               onPress={() => {
                 setStatus("scanning");
                 setSelected(null);
@@ -166,7 +184,7 @@ export function BleConnectModal({ visible, onClose, onConnected }: BleConnectMod
             </Pressable>
           )}
 
-          <Pressable onPress={onClose} style={styles.cancelButton}>
+          <Pressable onPress={onClose} accessibilityRole="button" accessibilityLabel="Cancelar" style={styles.cancelButton}>
             <Text style={styles.cancelButtonText}>Cancelar</Text>
           </Pressable>
         </View>

@@ -1,0 +1,35 @@
+/* Paleta: Cálida — fondo con un pelín más de violeta (menos azul puro) y el
+ * acento "caliente" más saturado/anaranjado; el cian y el verde de Spotify
+ * se quedan igual, para aislar el efecto de calentar el balance general.
+ * Cárgalo ANTES de base.css.
+ */
+:root {
+  --bg: #171526;
+  --surface: #201d38;
+  --surface-alt: #2a2648;
+  --hairline: #362f57;
+
+  --ink: #edeff5;
+  --ink-muted: #8891a8;
+  --ink-faint: #5b6580;
+
+  --pulse-hot: #ff7a3d;
+  --pulse-hot-dim: #3d2b22;
+  --pulse-calm: #4dd9e8;
+  --pulse-calm-dim: #1f323a;
+
+  --spotify-black: #000000;
+  --spotify-green: #1db954;
+  --spotify-green-bright: #1ed760;
+
+  --background-color: var(--bg);
+  --section-divider-bg: var(--surface);
+
+  --text-color: var(--ink);
+  --muted-color: var(--ink-muted);
+  --line-color: var(--hairline);
+
+  --panel-bg: var(--surface);
+  --panel-bg-strong: var(--surface-alt);
+  --panel-border: var(--hairline);
+}

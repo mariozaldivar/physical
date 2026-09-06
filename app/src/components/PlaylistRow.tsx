@@ -24,6 +24,9 @@ export function PlaylistRow({ playlist, onToggle }: PlaylistRowProps) {
   return (
     <Pressable
       onPress={() => onToggle(id)}
+      accessibilityRole="checkbox"
+      accessibilityState={{ checked: selectedForBpm }}
+      accessibilityLabel={`${name}, ${trackCountLabel(trackCount)}`}
       style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
     >
       {imageUrl ? (

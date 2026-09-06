@@ -27,6 +27,8 @@ export function StartSessionCard({ zone, onPress }: StartSessionCardProps) {
       </Text>
       <Pressable
         onPress={onPress}
+        accessibilityRole="button"
+        accessibilityLabel="Conectar banda y empezar sesión"
         style={({ pressed }) => [styles.button, { backgroundColor: accent }, pressed && styles.buttonPressed]}
       >
         <Ionicons name="bluetooth" size={16} color={colors.bg} />

@@ -6,7 +6,7 @@ import { create } from "zustand";
  * también se puede pisar por llamada con el segundo argumento de `recordPlayed`.
  * Documentado en Stack_tecnico_proyecto.md §7.
  */
-export const DEFAULT_PLAY_HISTORY_SIZE = 10;
+export const DEFAULT_PLAY_HISTORY_SIZE = 15;
 
 interface PlayHistoryState {
   /** IDs de Spotify (o del pool simulado), más reciente primero. Acotado al límite configurado. */

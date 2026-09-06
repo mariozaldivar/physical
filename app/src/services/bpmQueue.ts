@@ -17,6 +17,9 @@ import type { QueueTrack } from "../types/music";
 // sesión se sienta lenta (ver "costo de sync completa" en Informe_retrieval_datos.md).
 const MAX_CANDIDATES = 150;
 
+/** Tamaño del batch de "siguientes canciones" — ver store/spotifyStore.ts, que lo mantiene siempre lleno reponiendo de a una. */
+export const DEFAULT_QUEUE_BATCH_SIZE = 3;
+
 function toTrack(track: LibraryTrack): Omit<QueueTrack, "bpm" | "matchReason"> {
   return {
     id: track.id,
@@ -51,7 +54,11 @@ async function getCandidatePool(): Promise<LibraryTrack[]> {
  * candidatos frescos, `pickAvoidingRepeats` rellena con repetidos antes que
  * devolver una cola corta.
  */
-export async function buildQueueForBpm(targetBpm: number, excludeTrackId?: string, count = 3): Promise<QueueTrack[]> {
+export async function buildQueueForBpm(
+  targetBpm: number,
+  excludeTrackId?: string,
+  count = DEFAULT_QUEUE_BATCH_SIZE,
+): Promise<QueueTrack[]> {
   const pool = await getCandidatePool();
   const candidates = pool.filter((track) => track.id !== excludeTrackId).slice(0, MAX_CANDIDATES);
   if (candidates.length === 0) return [];

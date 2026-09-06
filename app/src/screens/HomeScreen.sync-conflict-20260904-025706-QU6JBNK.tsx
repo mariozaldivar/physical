@@ -20,9 +20,6 @@ const ZONE_LABEL: Record<PulseZone, string> = {
 
 const READING_INTERVAL_MS = 2500;
 const NOW_PLAYING_POLL_MS = 5000;
-// Cada cuánto se contrasta el modelo local de la cola contra la cola real de
-// Spotify — ver QUEUE_MODEL_SYNC_MS en store/spotifyStore.ts (deben ir de la mano).
-const QUEUE_MODEL_POLL_MS = 30000;
 
 export function HomeScreen({ navigation }: Props) {
   const {
@@ -45,12 +42,11 @@ export function HomeScreen({ navigation }: Props) {
   const queueError = useSpotifyStore((state) => state.queueError);
   const queueBuilding = useSpotifyStore((state) => state.queueBuilding);
   const librarySyncing = useSpotifyStore((state) => state.librarySyncing);
-  const lastAutoQueuedTracks = useSpotifyStore((state) => state.lastAutoQueuedTracks);
+  const lastAutoQueuedTrack = useSpotifyStore((state) => state.lastAutoQueuedTrack);
   const loadCachedLibrary = useSpotifyStore((state) => state.loadCachedLibrary);
   const syncLibrary = useSpotifyStore((state) => state.syncLibrary);
   const refreshNowPlaying = useSpotifyStore((state) => state.refreshNowPlaying);
   const refreshQueueForBpm = useSpotifyStore((state) => state.refreshQueueForBpm);
-  const syncQueueModel = useSpotifyStore((state) => state.syncQueueModel);
   const clearQueue = useSpotifyStore((state) => state.clearQueue);
 
   useEffect(() => {
@@ -88,17 +84,6 @@ export function HomeScreen({ navigation }: Props) {
     const id = setInterval(refreshNowPlaying, NOW_PLAYING_POLL_MS);
     return () => clearInterval(id);
   }, [spotifySession, refreshNowPlaying]);
-
-  // Monitoreo de la cola real de Spotify — independiente de los cambios de
-  // BPM, para podar del modelo local lo que Physical encoló y ya sonó o el
-  // usuario ya sacó de la cola (ver syncQueueModel/QUEUE_MODEL_SYNC_MS en
-  // spotifyStore.ts). No hace nada mientras Physical no haya encolado algo.
-  useEffect(() => {
-    if (!spotifySession) return;
-    syncQueueModel();
-    const id = setInterval(syncQueueModel, QUEUE_MODEL_POLL_MS);
-    return () => clearInterval(id);
-  }, [spotifySession, syncQueueModel]);
 
   const accent = zoneColor(zone);
   const nowPlayingTrack = spotifySession ? (spotifyNowPlaying?.track ?? null) : simulatedNowPlaying;
@@ -203,13 +188,11 @@ export function HomeScreen({ navigation }: Props) {
           zone={zone}
           isUpdating={Boolean(spotifySession) && (queueBuilding || (connection === "connected" && librarySyncing))}
         />
-        {spotifySession && lastAutoQueuedTracks.length > 0 ? (
+        {spotifySession && lastAutoQueuedTrack ? (
           <View style={[styles.statusChip, styles.statusChipSuccess]}>
             <Ionicons name="checkmark-circle" size={14} color={colors.spotifyGreen} />
             <Text style={styles.statusChipText} numberOfLines={1}>
-              {lastAutoQueuedTracks.length === 1
-                ? `“${lastAutoQueuedTracks[0].title}” se agregó a tu cola de Spotify`
-                : `${lastAutoQueuedTracks.length} canciones se agregaron a tu cola de Spotify`}
+              “{lastAutoQueuedTrack.title}” se agregó a tu cola de Spotify
             </Text>
           </View>
         ) : null}

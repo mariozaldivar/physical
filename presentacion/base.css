@@ -1,0 +1,1309 @@
+/* Physical — plantilla base reveal.js (reglas compartidas, sin colores)
+ *
+ * Lenguaje visual: NO inventado — tomado directamente de la pantalla de
+ * login ya implementada en la app (app/src/screens/LoginScreen.tsx,
+ * app/src/components/SpotifyLoginButton.tsx, app/src/theme/theme.ts):
+ * fondo plano (sin gradientes, sin blur), texto casi blanco, un acento
+ * "pulso en calma" y uno "pulso caliente", verde Spotify reservado
+ * ESTRICTAMENTE para el glifo/botón de Spotify, tipografía Space Grotesk
+ * solo en headings (el cuerpo usa la fuente del sistema, a propósito, para
+ * que Space Grotesk se sienta como el único acento), y como motivo animado
+ * de marca un ecualizador de 9 barras (el mismo que anima en LoginScreen)
+ * en vez de cualquier blob/gradiente.
+ *
+ * Este archivo NO define colores — esos viven en un archivo `palette-*.css`
+ * separado (ver palette-original.css y las variantes palette-b/-c/-d),
+ * cargado ANTES que este en el <head> del HTML. Así se pueden comparar
+ * paletas sin duplicar las ~900 líneas de componentes/animaciones.
+ *
+ * Coreografía de entrada (staggered, disparada por section.present) y
+ * catálogo de keyframes en la línea de las diapositivas del club de Linux
+ * (../diapositivas-club-linux-anahuac-mayab/STYLEGUIDE.md), adaptados a
+ * esta identidad plana.
+ *
+ * Todo tamaño de fuente en pt (nunca em/rem/px), por convención del
+ * scaffold de reveal.js.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap');
+
+/* ===========================================
+   CSS VARIABLES — tipografía y layout (NO colores, ver palette-*.css)
+   =========================================== */
+:root {
+  --heading-font: "Space Grotesk", -apple-system, "Segoe UI", sans-serif;
+  --body-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --base-font-size: 32px;
+  --text-size: 15pt;
+  --h1-size: 44pt;
+  --h2-size: 31pt;
+  --h3-size: 20pt;
+  --footnote-size: 10.5pt;
+
+  --slide-padding: 60px;
+  --slide-padding-top: 40px;
+  --content-gap: 26px;
+
+  --box-radius: 14px;
+}
+
+/* ===========================================
+   BASE STYLES
+   =========================================== */
+
+.reveal {
+  font-family: var(--body-font);
+  font-size: var(--base-font-size);
+}
+
+.reveal strong,
+.reveal b {
+  font-weight: 600;
+  color: var(--pulse-calm);
+}
+
+.reveal-viewport {
+  background-color: var(--background-color);
+}
+
+.reveal-viewport.is-section-divider .slide-background.present {
+  background-color: var(--section-divider-bg) !important;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  font-family: var(--heading-font);
+  text-transform: none;
+  color: var(--text-color);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.reveal h1 { font-size: var(--h1-size); }
+.reveal h2 { font-size: var(--h2-size); margin-bottom: 0; }
+.reveal h3 { font-size: var(--h3-size); font-weight: 500; }
+
+.reveal p,
+.reveal li,
+.reveal td,
+.reveal th,
+.reveal blockquote {
+  font-size: var(--text-size);
+  color: var(--text-color);
+  line-height: 1.55;
+}
+
+/* ===========================================
+   LISTS
+   =========================================== */
+
+.reveal ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 15px 0;
+}
+
+.reveal ul li {
+  position: relative;
+  padding-left: 26px;
+  margin-bottom: 10px;
+}
+
+.reveal ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 8px;
+  height: 8px;
+  background: var(--pulse-calm);
+  border-radius: 50%;
+}
+
+.reveal ul ul li::before {
+  background: var(--muted-color);
+  width: 6px;
+  height: 6px;
+}
+
+.reveal blockquote p { font-size: inherit; }
+
+/* ===========================================
+   SLIDE LAYOUT
+   =========================================== */
+
+.reveal .slides section {
+  height: 100%;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: var(--slide-padding-top) var(--slide-padding) var(--slide-padding) var(--slide-padding) !important;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.reveal .slides section.stack {
+  padding: 0 !important;
+}
+
+.reveal .slides section > .content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-top: var(--content-gap);
+  text-align: left;
+  position: relative;
+  z-index: 1;
+}
+
+.reveal .slides section > .footnote {
+  position: absolute;
+  bottom: 15px;
+  left: var(--slide-padding);
+  right: var(--slide-padding);
+  font-size: var(--footnote-size);
+  color: var(--muted-color);
+  z-index: 1;
+}
+
+/* ===========================================
+   SECTION DIVIDERS
+   =========================================== */
+
+.reveal .slides section.section-divider {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center;
+}
+
+.reveal .slides section.section-divider h1 {
+  font-size: 52pt;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.reveal .slides section.section-divider p {
+  font-size: 18pt;
+  color: var(--muted-color);
+  position: relative;
+  z-index: 1;
+}
+
+/* ===========================================
+   TEXT SIZE UTILITIES
+   =========================================== */
+
+.text-lg { font-size: 17pt !important; }
+.text-xl { font-size: 19pt !important; }
+.text-2xl { font-size: 23pt !important; }
+.text-3xl { font-size: 27pt !important; }
+.text-4xl { font-size: 32pt !important; }
+
+.text-muted { color: var(--muted-color) !important; }
+.text-center { text-align: center !important; }
+.text-uppercase { text-transform: uppercase; letter-spacing: 0.12em; }
+.font-light { font-weight: 300; }
+.font-bold { font-weight: 600; }
+
+/* ===========================================
+   BLOCKQUOTES
+   =========================================== */
+
+.reveal blockquote {
+  border-left: 4px solid var(--pulse-calm);
+  padding-left: 20px;
+  margin: 20px 0;
+  font-style: italic;
+  background: none;
+  box-shadow: none;
+  width: 100%;
+  max-width: none;
+}
+
+.reveal blockquote cite {
+  display: block;
+  margin-top: 10px;
+  font-style: normal;
+  color: var(--muted-color);
+}
+
+/* ===========================================
+   COREOGRAFÍA ESTÁNDAR DE ENTRADA
+   =========================================== */
+
+@keyframes fadeUpIn {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes zoomFadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.reveal .slides section > h2 {
+  opacity: 0;
+}
+
+.reveal .slides section.present > h2 {
+  animation: fadeUpIn 0.6s ease forwards 0.15s;
+}
+
+.reveal .slides section.section-divider h1:not(.hero-title) {
+  opacity: 0;
+}
+
+.reveal .slides section.present.section-divider h1:not(.hero-title) {
+  animation: zoomFadeIn 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.2s;
+}
+
+/* ===========================================
+   TAG PILL — kicker tipo "01 — Contexto"
+   =========================================== */
+
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+}
+
+.tag-pill p {
+  font-size: 11pt !important;
+  color: var(--muted-color) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin: 0;
+}
+
+.tag-pill .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--pulse-calm);
+}
+
+.reveal .slides section.present .tag-pill {
+  animation: fadeUpIn 0.6s ease forwards 0.1s;
+}
+
+/* ===========================================
+   PULSE WAVE — ecualizador de 9 barras
+   Motivo de marca real: mismas 9 barras, mismo stagger (90ms) y el mismo
+   ciclo 560ms-arriba/560ms-abajo que PulseWaveform en LoginScreen.tsx.
+   =========================================== */
+
+.pulse-wave {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 46px;
+  position: relative;
+  z-index: 1;
+}
+
+.pulse-wave span {
+  width: 7px;
+  height: 46px;
+  border-radius: 3px;
+  background: var(--pulse-calm);
+  transform: scaleY(0.35);
+  transform-origin: bottom;
+  opacity: 0;
+}
+
+.pulse-wave.pulse-wave--hot span { background: var(--pulse-hot); }
+
+.reveal .slides section.present .pulse-wave span {
+  animation: waveFadeIn 0.25s ease forwards var(--wave-delay, 0.2s),
+             waveBeat 1.12s ease-in-out infinite var(--wave-delay, 0.2s);
+}
+
+.pulse-wave span:nth-child(1) { --wave-delay: 0.20s; }
+.pulse-wave span:nth-child(2) { --wave-delay: 0.29s; }
+.pulse-wave span:nth-child(3) { --wave-delay: 0.38s; }
+.pulse-wave span:nth-child(4) { --wave-delay: 0.47s; }
+.pulse-wave span:nth-child(5) { --wave-delay: 0.56s; }
+.pulse-wave span:nth-child(6) { --wave-delay: 0.65s; }
+.pulse-wave span:nth-child(7) { --wave-delay: 0.74s; }
+.pulse-wave span:nth-child(8) { --wave-delay: 0.83s; }
+.pulse-wave span:nth-child(9) { --wave-delay: 0.92s; }
+
+@keyframes waveFadeIn {
+  to { opacity: 1; }
+}
+
+@keyframes waveBeat {
+  0%, 100% { transform: scaleY(0.35); }
+  50%      { transform: scaleY(1); }
+}
+
+/* ===========================================
+   HERO — título de portada / cierre
+   =========================================== */
+
+.hero-title {
+  font-family: var(--heading-font);
+  font-weight: 700;
+  font-size: 64pt !important;
+  letter-spacing: -0.02em;
+  color: var(--text-color);
+  margin: 18px 0 0 0;
+  opacity: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.reveal .slides section.present .hero-title {
+  animation: zoomFadeIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.5s;
+}
+
+.tagline-hero {
+  font-size: 18pt !important;
+  color: var(--muted-color) !important;
+  max-width: 720px;
+  text-align: center;
+  opacity: 0;
+  position: relative;
+  z-index: 1;
+  margin-top: 14px !important;
+}
+
+.reveal .slides section.present .tagline-hero {
+  animation: fadeUpIn 0.7s ease forwards 0.9s;
+}
+
+.divider-subtitle {
+  font-size: 17pt !important;
+  color: var(--muted-color) !important;
+  max-width: 620px;
+  text-align: center;
+  opacity: 0;
+  position: relative;
+  z-index: 1;
+  margin-top: 14px !important;
+}
+
+.reveal .slides section.present .divider-subtitle {
+  animation: fadeUpIn 0.6s ease forwards 0.5s;
+}
+
+/* ===========================================
+   SPOTIFY PILL — calcado de SpotifyLoginButton.tsx
+   Negro sólido + glifo verde + label blanco. El verde de Spotify NUNCA
+   se usa fuera de este componente (misma regla que theme.ts).
+   =========================================== */
+
+.spotify-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 999px;
+  background: var(--spotify-black);
+  min-height: 40px;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+}
+
+.spotify-pill i {
+  font-size: 15pt;
+  color: var(--spotify-green);
+}
+
+.spotify-pill p {
+  font-size: 14pt !important;
+  font-weight: 500;
+  color: var(--ink) !important;
+  margin: 0;
+}
+
+.reveal .slides section.present .spotify-pill {
+  animation: pillPopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 1.3s;
+}
+
+/* ===========================================
+   GHOST PILL — CTA secundaria (sin marca Spotify)
+   =========================================== */
+
+.ghost-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 26px;
+  border-radius: 999px;
+  background: transparent;
+  border: 1.5px solid var(--hairline);
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+}
+
+.ghost-pill i { font-size: 13pt; color: var(--pulse-calm); }
+
+.ghost-pill p {
+  font-size: 13pt !important;
+  font-weight: 500;
+  color: var(--ink) !important;
+  margin: 0;
+}
+
+.reveal .slides section.present .ghost-pill {
+  animation: pillPopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 1.3s;
+}
+
+@keyframes pillPopIn {
+  0%   { opacity: 0; transform: scale(0.7) translateY(10px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ===========================================
+   PANEL — caja base
+   =========================================== */
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--box-radius);
+  padding: 22px 26px;
+  position: relative;
+  z-index: 1;
+}
+
+.panel-strong { background: var(--surface-alt); }
+
+/* ===========================================
+   PENDING — placeholder de contenido real
+   =========================================== */
+
+.pending {
+  border: 1.5px dashed var(--hairline);
+  border-radius: var(--box-radius);
+  padding: 18px 22px;
+  position: relative;
+  z-index: 1;
+  background: var(--surface);
+}
+
+.pending p {
+  color: var(--muted-color) !important;
+  font-size: var(--text-size) !important;
+  margin: 0;
+}
+
+.pending p::before {
+  content: '// TODO — ';
+  color: var(--pulse-hot);
+  font-family: monospace;
+  font-weight: 600;
+}
+
+/* ===========================================
+   FLOW TRACK — pipeline Banda → App → Spotify
+   =========================================== */
+
+.flow-track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  position: relative;
+  z-index: 1;
+  padding: 20px 0;
+}
+
+.flow-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 190px;
+  opacity: 0;
+}
+
+.flow-node .flow-icon {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-alt);
+  border: 1.5px solid var(--hairline);
+  font-size: 30pt;
+  color: var(--pulse-calm);
+}
+
+.flow-node.flow-node--spotify .flow-icon {
+  background: var(--spotify-black);
+  border-color: var(--spotify-black);
+  color: var(--spotify-green);
+}
+
+.flow-node p {
+  text-align: center;
+  font-size: 13pt !important;
+  margin: 0;
+}
+
+.flow-node p.flow-label-muted {
+  color: var(--muted-color) !important;
+  font-size: 11pt !important;
+}
+
+.flow-connector {
+  flex: 1;
+  max-width: 130px;
+  height: 3px;
+  position: relative;
+  background: var(--hairline);
+  border-radius: 2px;
+  overflow: visible;
+  opacity: 0;
+}
+
+.flow-connector .flow-dot {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  margin-top: -5px;
+  border-radius: 50%;
+  background: var(--pulse-calm);
+  opacity: 0;
+}
+
+.reveal .slides section.present .flow-node:nth-child(1) { animation: nodePopIn 0.5s ease forwards 0.3s; }
+.reveal .slides section.present .flow-connector:nth-child(2) { animation: connectorGrow 0.5s ease forwards 0.8s; }
+.reveal .slides section.present .flow-node:nth-child(3) { animation: nodePopIn 0.5s ease forwards 1.1s; }
+.reveal .slides section.present .flow-connector:nth-child(4) { animation: connectorGrow 0.5s ease forwards 1.6s; }
+.reveal .slides section.present .flow-node:nth-child(5) { animation: nodePopIn 0.5s ease forwards 1.9s; }
+
+.reveal .slides section.present .flow-connector:nth-child(2) .flow-dot { animation: dotTravel 1.8s ease-in-out infinite 2.3s; }
+.reveal .slides section.present .flow-connector:nth-child(4) .flow-dot { animation: dotTravel 1.8s ease-in-out infinite 2.3s; }
+
+@keyframes nodePopIn {
+  0%   { opacity: 0; transform: scale(0.75) translateY(14px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes connectorGrow {
+  from { opacity: 0; transform: scaleX(0.3); }
+  to   { opacity: 1; transform: scaleX(1); }
+}
+
+@keyframes dotTravel {
+  0%   { left: 0%;   opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+/* ===========================================
+   STEP TILE — pasos numerados (stack vertical)
+   =========================================== */
+
+.step-heading {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-bottom: 8px;
+}
+
+.step-tile {
+  width: 68px;
+  height: 68px;
+  flex-shrink: 0;
+  border-radius: 18px;
+  background: var(--pulse-calm);
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--heading-font);
+  font-weight: 700;
+  font-size: 26pt;
+  transform: rotate(-4deg);
+  opacity: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.step-heading .step-kicker {
+  font-size: 11pt;
+  color: var(--muted-color);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin: 0 0 4px 0;
+  opacity: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.step-heading h2 { opacity: 0; }
+
+.reveal .slides section.present .step-tile { animation: stepPopIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 0.15s; }
+.reveal .slides section.present .step-heading .step-kicker { animation: fadeUpIn 0.5s ease forwards 0.1s; }
+.reveal .slides section.present .step-heading h2 { animation: fadeUpIn 0.5s ease forwards 0.3s; }
+
+@keyframes stepPopIn {
+  0%   { opacity: 0; transform: scale(0.5) rotate(-4deg); }
+  100% { opacity: 1; transform: scale(1) rotate(-4deg); }
+}
+
+/* ===========================================
+   MODE CARDS — Modo estudio (calma) vs
+   Modo ejercicio (caliente) — mismo par
+   semántico pulseCalm/pulseHot que theme.ts
+   =========================================== */
+
+.mode-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  position: relative;
+  z-index: 1;
+}
+
+.mode-card {
+  border-radius: var(--box-radius);
+  padding: 26px 28px;
+  background: var(--surface);
+  border: 1.5px solid var(--hairline);
+  opacity: 0;
+}
+
+.mode-card .mode-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20pt;
+  margin-bottom: 14px;
+}
+
+.mode-card.mode-study {
+  border-color: var(--pulse-calm-dim);
+  background: var(--pulse-calm-dim);
+}
+
+.mode-card.mode-study .mode-icon {
+  background: var(--surface-alt);
+  color: var(--pulse-calm);
+}
+
+.mode-card.mode-exercise {
+  border-color: var(--pulse-hot-dim);
+  background: var(--pulse-hot-dim);
+}
+
+.mode-card.mode-exercise .mode-icon {
+  background: var(--surface-alt);
+  color: var(--pulse-hot);
+}
+
+.mode-card h3 { margin-bottom: 6px; }
+
+.reveal .slides section.present .mode-card.mode-study { animation: fadeUpIn 0.55s ease forwards 0.3s; }
+.reveal .slides section.present .mode-card.mode-exercise { animation: fadeUpIn 0.55s ease forwards 0.55s; }
+
+/* ===========================================
+   PANEL CARD GRID — ecosistema / features
+   =========================================== */
+
+.panel-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  position: relative;
+  z-index: 1;
+}
+
+.panel-card {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--box-radius);
+  padding: 24px 20px;
+  text-align: center;
+  opacity: 0;
+}
+
+.panel-card .panel-card-icon {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 14px auto;
+  border-radius: 50%;
+  background: var(--surface-alt);
+  color: var(--pulse-calm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19pt;
+}
+
+.panel-card h3 { font-size: 15pt; margin-bottom: 6px; }
+.panel-card p { font-size: 12.5pt !important; }
+
+.reveal .slides section.present .panel-card:nth-child(1) { animation: panelPopIn 0.5s ease forwards 0.25s; }
+.reveal .slides section.present .panel-card:nth-child(2) { animation: panelPopIn 0.5s ease forwards 0.45s; }
+.reveal .slides section.present .panel-card:nth-child(3) { animation: panelPopIn 0.5s ease forwards 0.65s; }
+
+@keyframes panelPopIn {
+  0%   { opacity: 0; transform: scale(0.9) translateY(16px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ===========================================
+   FACT STRIP — chips de costos del prototipo
+   =========================================== */
+
+.fact-strip {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.fact-chip {
+  flex: 1;
+  min-width: 150px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--box-radius);
+  padding: 16px 18px;
+  opacity: 0;
+}
+
+.fact-chip .fact-value {
+  font-family: var(--heading-font);
+  font-size: 22pt;
+  font-weight: 700;
+  color: var(--pulse-calm);
+  display: block;
+}
+
+.fact-chip .fact-label {
+  font-size: 11.5pt !important;
+  color: var(--muted-color) !important;
+}
+
+.fact-chip.fact-chip--total {
+  background: var(--pulse-calm-dim);
+  border-color: var(--pulse-calm);
+}
+
+.fact-chip.fact-chip--total .fact-value { color: var(--text-color); }
+
+.reveal .slides section.present .fact-chip:nth-child(1) { animation: fadeUpIn 0.45s ease forwards 0.2s; }
+.reveal .slides section.present .fact-chip:nth-child(2) { animation: fadeUpIn 0.45s ease forwards 0.35s; }
+.reveal .slides section.present .fact-chip:nth-child(3) { animation: fadeUpIn 0.45s ease forwards 0.5s; }
+.reveal .slides section.present .fact-chip:nth-child(4) { animation: fadeUpIn 0.45s ease forwards 0.65s; }
+.reveal .slides section.present .fact-chip:nth-child(5) { animation: fadeUpIn 0.45s ease forwards 0.8s; }
+
+/* ===========================================
+   COLLAGE — fotos de prototipo (placeholder)
+   =========================================== */
+
+.collage-row {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  padding-top: 10px;
+}
+
+.collage-item {
+  width: 210px;
+  opacity: 0;
+}
+
+.collage-item .shot-placeholder {
+  background: var(--surface);
+  border: 1.5px dashed var(--hairline);
+  border-radius: 10px;
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26pt;
+  color: var(--muted-color);
+  margin-bottom: 10px;
+}
+
+.collage-item p {
+  font-size: 11pt !important;
+  color: var(--muted-color) !important;
+  text-align: center;
+}
+
+.collage-item.tilt-1 { --tilt: -4deg; }
+.collage-item.tilt-2 { --tilt: 3deg; }
+.collage-item.tilt-3 { --tilt: -2deg; }
+.collage-item.drop-1 { margin-top: 18px; }
+.collage-item.drop-2 { margin-top: -6px; }
+
+.reveal .slides section.present .collage-item:nth-child(1) { animation: collagePopIn 0.5s ease forwards 0.2s; }
+.reveal .slides section.present .collage-item:nth-child(2) { animation: collagePopIn 0.5s ease forwards 0.4s; }
+.reveal .slides section.present .collage-item:nth-child(3) { animation: collagePopIn 0.5s ease forwards 0.6s; }
+
+@keyframes collagePopIn {
+  0%   { opacity: 0; transform: translateY(20px) scale(0.92) rotate(var(--tilt, 0deg)); }
+  100% { opacity: 1; transform: translateY(0) scale(1) rotate(var(--tilt, 0deg)); }
+}
+
+/* ===========================================
+   TEAM CARDS
+   =========================================== */
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.team-card {
+  text-align: center;
+  opacity: 0;
+}
+
+.team-card .team-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  margin: 0 auto 14px auto;
+  background: var(--surface-alt);
+  border: 1.5px dashed var(--hairline);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24pt;
+  color: var(--muted-color);
+}
+
+.team-card h3 { font-size: 14pt; margin-bottom: 4px; }
+.team-card p { font-size: 11.5pt !important; color: var(--muted-color) !important; }
+
+.reveal .slides section.present .team-card:nth-child(1) { animation: fadeUpIn 0.5s ease forwards 0.2s; }
+.reveal .slides section.present .team-card:nth-child(2) { animation: fadeUpIn 0.5s ease forwards 0.4s; }
+.reveal .slides section.present .team-card:nth-child(3) { animation: fadeUpIn 0.5s ease forwards 0.6s; }
+
+/* ===========================================
+   BPM READOUT — mini widget decorativo
+   =========================================== */
+
+.bpm-readout {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--surface-alt);
+  border: 1px solid var(--hairline);
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+}
+
+.bpm-readout i {
+  color: var(--pulse-hot);
+  font-size: 14pt;
+}
+
+.reveal .slides section.present .bpm-readout i {
+  animation: heartbeat 1.1s ease-in-out infinite 1.6s;
+}
+
+.bpm-readout p {
+  margin: 0;
+  font-size: 13pt !important;
+  font-family: var(--heading-font);
+  font-weight: 500;
+}
+
+.reveal .slides section.present .bpm-readout {
+  animation: fadeUpIn 0.5s ease forwards 1.4s;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  25%      { transform: scale(1.25); }
+  40%      { transform: scale(1); }
+  55%      { transform: scale(1.18); }
+}
+
+/* ===========================================
+   COVER STAGE — portada en 3 fases:
+   1) logo + título resaltados y centrados (estado inicial)
+   2) clase "rearranged" (JS): se reacomodan a la izquierda
+   3) clase "show-demo" (JS): entra la demo a la derecha
+   =========================================== */
+
+.cover-stage {
+  position: relative;
+  flex: 1;
+  align-self: stretch;
+  width: 100%;
+}
+
+/* .cover-brand SIEMPRE es align-items:flex-start / text-align:left — nunca
+   se alterna, porque align-items y text-align no son animables (cambian de
+   golpe, sin transición). El efecto "centrado" de la fase 1 no lo da esto,
+   lo dan las .cover-fx de cada hijo (ver abajo): por eso el reflow del
+   texto se ve fluido en vez de saltar.
+
+   El desplazamiento vertical usa un valor FIJO en px (-78px, calculado para
+   centrar solo el logo+título) en vez de translateY(-50%) — a propósito:
+   -50% se recalcula según la altura TOTAL del bloque, y la descripción +
+   equipo (que en fase 1 no existen visualmente pero sí ocupan su espacio
+   en el flujo) harían que ese -50% cambiara en cuanto aparecen, saltando
+   el logo/título hacia arriba. Con un valor fijo, el logo/título no se
+   mueve ni un píxel en todo el recorrido — la descripción y el equipo
+   simplemente crecen hacia abajo. */
+.cover-brand {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  width: 520px;
+  max-width: 90%;
+  transform: translate(-50%, -78px) scale(1.08);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  transition: left 1s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cover-stage.rearranged .cover-brand {
+  left: 27%;
+  transform: translate(-50%, -78px) scale(1);
+}
+
+/* COVER-FX — reacomodo interno fluido del logo y el título (los únicos
+   elementos visibles desde la fase 1, centrados). left:50%+translateX(-50%)
+   autocentra el elemento SIN conocer su ancho; al reacomodar, left:0%+
+   translateX(0) lo deja flush-left en su posición natural. Ambas
+   propiedades sí son animables, a diferencia de text-align/align-items. */
+.cover-fx {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: left 1s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cover-stage.rearranged .cover-fx {
+  left: 0%;
+  transform: translateX(0);
+}
+
+/* Descripción de la portada: NO existe visualmente en la fase 1 (solo
+   logo+título) — aparece con la fase 2 ("rearranged"), ya en su posición
+   final a la izquierda. Por eso no necesita el truco de .cover-fx (no hay
+   ningún estado "centrado" del que partir, así que no hay salto que
+   disimular): solo un fade + slide-up normal, con un pequeño delay para
+   que entre justo cuando el reacomodo ya empezó a asentarse. Solo aplica
+   al .cover-tagline de la portada — el .tagline-hero del cierre sigue
+   centrado y visible desde el inicio, sin cambios. */
+.cover-tagline {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition-delay: 0.5s;
+}
+
+.cover-stage.rearranged .cover-tagline {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Equipo — reemplaza el pill "Impulsado por Spotify" de la portada.
+   Mismo criterio que .cover-tagline: solo existe desde la fase 2, así que
+   solo necesita un fade, un poco más tarde para que se sienta escalonado
+   detrás de la descripción. */
+.cover-team {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition-delay: 0.65s;
+}
+
+.cover-stage.rearranged .cover-team {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cover-team-name {
+  font-size: 12pt;
+  font-family: var(--heading-font);
+  font-weight: 500;
+  color: var(--muted-color);
+  white-space: nowrap;
+}
+
+.cover-team-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--muted-color);
+  flex-shrink: 0;
+}
+
+/* ===========================================
+   COVER BACKGROUND — orbes y partículas flotando en loop continuo.
+   Los orbes también se desplazan con el reacomodo (fases 2 y 3), para que
+   el movimiento de la portada no sea solo el texto — dan sensación de
+   profundidad/parallax detrás del contenido.
+   =========================================== */
+
+.cover-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  transition: transform 1.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.cover-stage.rearranged .cover-bg {
+  transform: translateX(-22px);
+}
+
+.cover-orb {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--ink-faint);
+  opacity: 0.045;
+  transform: translate(0, 0) scale(1);
+  transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1),
+              opacity 1s ease;
+}
+
+.orb-1 { width: 420px; height: 420px; top: -130px; left: 6%; }
+.orb-2 { width: 300px; height: 300px; bottom: -150px; left: 32%; opacity: 0.035; }
+.orb-3 { width: 260px; height: 260px; top: 18%; right: 4%; opacity: 0.04; }
+
+.cover-stage.rearranged .orb-1 { transform: translate(-50px, 34px) scale(1.15); }
+.cover-stage.rearranged .orb-2 { transform: translate(120px, -30px) scale(0.85); }
+.cover-stage.show-demo .orb-3 { transform: translate(40px, -22px) scale(1.3); opacity: 0.06; }
+
+/* Puntos de fondo — deliberadamente monocromos (var(--ink-faint), sin cian
+   ni acento "hot") y sin loop propio: no flotan solos, solo se mueven
+   cuando .rearranged se activa, con la MISMA duración/easing que .cover-fx
+   (1s, cubic-bezier(0.34,1.56,0.64,1)) para que se desplacen exactamente
+   en el mismo instante que el texto, como si fueran parte de la misma
+   escena en vez de un efecto aparte. */
+.cover-particle {
+  position: absolute;
+  width: var(--size, 4px);
+  height: var(--size, 4px);
+  border-radius: 50%;
+  background: var(--ink-faint);
+  opacity: var(--dot-opacity, 0.16);
+  transform: translate(0, 0);
+  transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cover-stage.rearranged .cover-particle {
+  transform: translate(var(--drift-x, -14px), var(--drift-y, 8px));
+}
+
+.particle-1 { top: 14%; left: 6%;  --size: 4px; --drift-x: -16px; --drift-y: 10px; }
+.particle-2 { top: 64%; left: 15%; --size: 3px; --dot-opacity: 0.12; --drift-x: -12px; --drift-y: -8px; }
+.particle-3 { top: 32%; left: 46%; --size: 3px; --dot-opacity: 0.13; --drift-x: -18px; --drift-y: 6px; }
+.particle-4 { top: 80%; left: 40%; --size: 4px; --dot-opacity: 0.12; --drift-x: -14px; --drift-y: -10px; }
+.particle-5 { top: 10%; left: 66%; --size: 3px; --dot-opacity: 0.15; --drift-x: -20px; --drift-y: 8px; }
+.particle-6 { top: 48%; left: 84%; --size: 4px; --dot-opacity: 0.11; --drift-x: -16px; --drift-y: -6px; }
+.particle-7 { top: 86%; left: 76%; --size: 3px; --dot-opacity: 0.13; --drift-x: -12px; --drift-y: 10px; }
+.particle-8 { top: 6%;  left: 28%; --size: 3px; --dot-opacity: 0.12; --drift-x: -10px; --drift-y: -8px; }
+
+.cover-demo {
+  position: absolute;
+  z-index: 1;
+  right: 6%;
+  top: 50%;
+  width: 360px;
+  max-width: 34%;
+  opacity: 0;
+  transform: translate(0, -50%) translateX(36px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.cover-stage.show-demo .cover-demo {
+  opacity: 1;
+  transform: translate(0, -50%) translateX(0);
+}
+
+.demo-panel {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--box-radius);
+  padding: 18px 18px 20px 18px;
+}
+
+.demo-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.demo-panel-header i {
+  color: var(--spotify-green);
+  font-size: 13pt;
+}
+
+.demo-panel-header p {
+  flex: 1;
+  margin: 0;
+  font-size: 11pt !important;
+  color: var(--muted-color) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.demo-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--pulse-hot);
+  animation: heartbeat 1.1s ease-in-out infinite;
+}
+
+.demo-queue-viewport {
+  position: relative;
+  height: 226px;
+}
+
+.demo-queue-frame {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  opacity: 0;
+  animation: demoFrameCycle 9s ease-in-out infinite;
+  animation-fill-mode: backwards;
+  animation-play-state: paused;
+}
+
+.cover-stage.show-demo .demo-queue-frame {
+  animation-play-state: running;
+}
+
+/* Delays positivos (no negativos) para que el orden de aparición respete
+   el orden real del DOM: calma → transición → alto, en vez de saltar de
+   frame en frame según el resto de la división módulo la duración. */
+.demo-queue-frame:nth-child(1) { animation-delay: 0s; }
+.demo-queue-frame:nth-child(2) { animation-delay: 3s; }
+.demo-queue-frame:nth-child(3) { animation-delay: 6s; }
+
+@keyframes demoFrameCycle {
+  0%   { opacity: 0; transform: translateY(8px); }
+  4%   { opacity: 1; transform: translateY(0); }
+  29%  { opacity: 1; transform: translateY(0); }
+  33%  { opacity: 0; transform: translateY(-8px); }
+  100% { opacity: 0; transform: translateY(-8px); }
+}
+
+.demo-track {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: 10px;
+}
+
+.demo-track.now-playing {
+  background: var(--surface-alt);
+  border: 1px solid var(--hairline);
+}
+
+.demo-track-art {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--surface-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-size: 12pt;
+  color: var(--muted-color);
+}
+
+.demo-track-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.demo-track.now-playing .demo-track-art {
+  background: var(--spotify-black);
+  color: var(--spotify-green);
+}
+
+.demo-track-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.demo-track-title,
+.demo-track-artist {
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.demo-track-title {
+  font-size: 11.5pt !important;
+  font-family: var(--heading-font);
+  font-weight: 500;
+  color: var(--text-color) !important;
+}
+
+.demo-track-artist {
+  font-size: 10pt !important;
+  color: var(--muted-color) !important;
+}
+
+.demo-track-bpm {
+  flex-shrink: 0;
+  font-size: 10pt !important;
+  font-family: var(--heading-font);
+  font-weight: 600;
+  color: var(--zone-color, var(--muted-color));
+}

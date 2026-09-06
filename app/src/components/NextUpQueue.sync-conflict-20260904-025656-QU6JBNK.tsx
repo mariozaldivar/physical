@@ -1,4 +1,4 @@
-import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { colors, fonts, radii, spacing, zoneColor } from "../theme/theme";
 import type { PulseZone, QueueTrack } from "../types/music";
@@ -45,11 +45,7 @@ export function NextUpQueue({ queue, zone, isUpdating = false }: NextUpQueueProp
           {queue.map((track) => (
             <View key={track.id} style={styles.chip}>
               <View style={styles.thumb}>
-                {track.albumArtUrl ? (
-                  <Image source={{ uri: track.albumArtUrl }} style={styles.thumbImage} />
-                ) : (
-                  <Ionicons name="musical-note" size={16} color={colors.inkFaint} />
-                )}
+                <Ionicons name="musical-note" size={16} color={colors.inkFaint} />
               </View>
               <View style={styles.chipMeta}>
                 <Text style={styles.chipTitle} numberOfLines={1}>
@@ -119,11 +115,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surfaceAlt,
     alignItems: "center",
     justifyContent: "center",
-    overflow: "hidden",
-  },
-  thumbImage: {
-    width: "100%",
-    height: "100%",
   },
   chipMeta: {
     flex: 1,
