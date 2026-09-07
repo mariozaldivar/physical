@@ -766,6 +766,9 @@
 .reveal .slides section.present .panel-card:nth-child(1) { animation: panelPopIn 0.5s ease forwards 0.25s; }
 .reveal .slides section.present .panel-card:nth-child(2) { animation: panelPopIn 0.5s ease forwards 0.45s; }
 .reveal .slides section.present .panel-card:nth-child(3) { animation: panelPopIn 0.5s ease forwards 0.65s; }
+.reveal .slides section.present .panel-card:nth-child(4) { animation: panelPopIn 0.5s ease forwards 0.85s; }
+.reveal .slides section.present .panel-card:nth-child(5) { animation: panelPopIn 0.5s ease forwards 1.05s; }
+.reveal .slides section.present .panel-card:nth-child(6) { animation: panelPopIn 0.5s ease forwards 1.25s; }
 
 @keyframes panelPopIn {
   0%   { opacity: 0; transform: scale(0.9) translateY(16px); }
@@ -868,6 +871,7 @@
 .reveal .slides section.present .collage-item:nth-child(1) { animation: collagePopIn 0.5s ease forwards 0.2s; }
 .reveal .slides section.present .collage-item:nth-child(2) { animation: collagePopIn 0.5s ease forwards 0.4s; }
 .reveal .slides section.present .collage-item:nth-child(3) { animation: collagePopIn 0.5s ease forwards 0.6s; }
+.reveal .slides section.present .collage-item:nth-child(4) { animation: collagePopIn 0.5s ease forwards 0.8s; }
 
 @keyframes collagePopIn {
   0%   { opacity: 0; transform: translateY(20px) scale(0.92) rotate(var(--tilt, 0deg)); }
@@ -908,9 +912,12 @@
 .team-card h3 { font-size: 14pt; margin-bottom: 4px; }
 .team-card p { font-size: 11.5pt !important; color: var(--muted-color) !important; }
 
-.reveal .slides section.present .team-card:nth-child(1) { animation: fadeUpIn 0.5s ease forwards 0.2s; }
-.reveal .slides section.present .team-card:nth-child(2) { animation: fadeUpIn 0.5s ease forwards 0.4s; }
-.reveal .slides section.present .team-card:nth-child(3) { animation: fadeUpIn 0.5s ease forwards 0.6s; }
+.reveal .slides section.present .team-card:nth-child(1) { animation: fadeUpIn 0.5s ease forwards 0.20s; }
+.reveal .slides section.present .team-card:nth-child(2) { animation: fadeUpIn 0.5s ease forwards 0.32s; }
+.reveal .slides section.present .team-card:nth-child(3) { animation: fadeUpIn 0.5s ease forwards 0.44s; }
+.reveal .slides section.present .team-card:nth-child(4) { animation: fadeUpIn 0.5s ease forwards 0.56s; }
+.reveal .slides section.present .team-card:nth-child(5) { animation: fadeUpIn 0.5s ease forwards 0.68s; }
+.reveal .slides section.present .team-card:nth-child(6) { animation: fadeUpIn 0.5s ease forwards 0.80s; }
 
 /* ===========================================
    BPM READOUT — mini widget decorativo
@@ -996,8 +1003,8 @@
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
-  transition: left 1s cubic-bezier(0.34, 1.56, 0.64, 1),
-              transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: left 1.1s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .cover-stage.rearranged .cover-brand {
@@ -1014,13 +1021,59 @@
   position: relative;
   left: 50%;
   transform: translateX(-50%);
-  transition: left 1s cubic-bezier(0.34, 1.56, 0.64, 1),
-              transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: left 1.1s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .cover-stage.rearranged .cover-fx {
   left: 0%;
   transform: translateX(0);
+}
+
+/* ===========================================
+   WORDMARK — "Physical" letra por letra.
+   Dos momentos, no uno: (a) la entrada, cada glifo sube desde abajo pasando
+   de desenfocado a nítido, como un instrumento enfocando; (b) el reacomodo, donde cada glifo se queda atrás unos milisegundos
+   respecto al bloque que se mueve a la izquierda — ese arrastre es lo que
+   hace que el movimiento se lea, en vez de un deslizamiento rígido.
+   =========================================== */
+
+.hero-title.wordmark {
+  opacity: 1;
+  perspective: 700px;
+  white-space: nowrap;
+}
+
+/* La animación de bloque de .hero-title (zoomFadeIn) se desactiva aquí:
+   en la portada el trabajo lo hacen los glifos. El cierre la conserva. */
+.reveal .slides section.present .hero-title.wordmark {
+  animation: none;
+}
+
+.wordmark-glyph {
+  display: inline-block;
+  opacity: 0;
+  transform-origin: 50% 100%;
+  will-change: transform, filter, opacity;
+}
+
+.reveal .slides section.present .wordmark-glyph {
+  animation: glyphFocus 0.95s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: calc(0.25s + var(--i) * 0.06s);
+}
+
+@keyframes glyphFocus {
+  0% {
+    opacity: 0;
+    transform: translateY(0.5em) rotateX(-58deg) scale(0.92);
+    filter: blur(14px);
+  }
+  60% { opacity: 1; }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotateX(0) scale(1);
+    filter: blur(0);
+  }
 }
 
 /* Descripción de la portada: NO existe visualmente en la fase 1 (solo
@@ -1032,15 +1085,22 @@
    al .cover-tagline de la portada — el .tagline-hero del cierre sigue
    centrado y visible desde el inicio, sin cambios. */
 .cover-tagline {
+  /* .tagline-hero centra su texto (lo necesita el cierre); aquí la portada
+     queda alineada a la izquierda de punta a punta, sin cambios de
+     alineación a medio camino que se vean como un salto. */
+  text-align: left;
+  /* Ancho fijo: como su .cover-fx se ajusta al contenido para poder
+     centrarse, sin esto la frase se estiraría a una sola línea larguísima. */
+  width: 470px;
+  max-width: 100%;
   opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-  transition-delay: 0.5s;
 }
 
-.cover-stage.rearranged .cover-tagline {
-  opacity: 1;
-  transform: translateY(0);
+/* Entra 1s después del título, todavía con el bloque centrado, y de ahí se
+   mueve junto a él. Delay propio: el de .tagline-hero (0.9s) es el del
+   cierre. */
+.reveal .slides section.present .cover-tagline {
+  animation: fadeUpIn 0.7s ease forwards 1.5s;
 }
 
 /* Equipo — reemplaza el pill "Impulsado por Spotify" de la portada.
@@ -1055,7 +1115,7 @@
   opacity: 0;
   transform: translateY(14px);
   transition: opacity 0.6s ease, transform 0.6s ease;
-  transition-delay: 0.65s;
+  transition-delay: 1s;
 }
 
 .cover-stage.rearranged .cover-team {
@@ -1079,77 +1139,12 @@
   flex-shrink: 0;
 }
 
-/* ===========================================
-   COVER BACKGROUND — orbes y partículas flotando en loop continuo.
-   Los orbes también se desplazan con el reacomodo (fases 2 y 3), para que
-   el movimiento de la portada no sea solo el texto — dan sensación de
-   profundidad/parallax detrás del contenido.
-   =========================================== */
-
-.cover-bg {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 0;
-  transition: transform 1.4s cubic-bezier(0.65, 0, 0.35, 1);
-}
-
-.cover-stage.rearranged .cover-bg {
-  transform: translateX(-22px);
-}
-
-.cover-orb {
-  position: absolute;
-  border-radius: 50%;
-  background: var(--ink-faint);
-  opacity: 0.045;
-  transform: translate(0, 0) scale(1);
-  transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1),
-              opacity 1s ease;
-}
-
-.orb-1 { width: 420px; height: 420px; top: -130px; left: 6%; }
-.orb-2 { width: 300px; height: 300px; bottom: -150px; left: 32%; opacity: 0.035; }
-.orb-3 { width: 260px; height: 260px; top: 18%; right: 4%; opacity: 0.04; }
-
-.cover-stage.rearranged .orb-1 { transform: translate(-50px, 34px) scale(1.15); }
-.cover-stage.rearranged .orb-2 { transform: translate(120px, -30px) scale(0.85); }
-.cover-stage.show-demo .orb-3 { transform: translate(40px, -22px) scale(1.3); opacity: 0.06; }
-
-/* Puntos de fondo — deliberadamente monocromos (var(--ink-faint), sin cian
-   ni acento "hot") y sin loop propio: no flotan solos, solo se mueven
-   cuando .rearranged se activa, con la MISMA duración/easing que .cover-fx
-   (1s, cubic-bezier(0.34,1.56,0.64,1)) para que se desplacen exactamente
-   en el mismo instante que el texto, como si fueran parte de la misma
-   escena en vez de un efecto aparte. */
-.cover-particle {
-  position: absolute;
-  width: var(--size, 4px);
-  height: var(--size, 4px);
-  border-radius: 50%;
-  background: var(--ink-faint);
-  opacity: var(--dot-opacity, 0.16);
-  transform: translate(0, 0);
-  transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.cover-stage.rearranged .cover-particle {
-  transform: translate(var(--drift-x, -14px), var(--drift-y, 8px));
-}
-
-.particle-1 { top: 14%; left: 6%;  --size: 4px; --drift-x: -16px; --drift-y: 10px; }
-.particle-2 { top: 64%; left: 15%; --size: 3px; --dot-opacity: 0.12; --drift-x: -12px; --drift-y: -8px; }
-.particle-3 { top: 32%; left: 46%; --size: 3px; --dot-opacity: 0.13; --drift-x: -18px; --drift-y: 6px; }
-.particle-4 { top: 80%; left: 40%; --size: 4px; --dot-opacity: 0.12; --drift-x: -14px; --drift-y: -10px; }
-.particle-5 { top: 10%; left: 66%; --size: 3px; --dot-opacity: 0.15; --drift-x: -20px; --drift-y: 8px; }
-.particle-6 { top: 48%; left: 84%; --size: 4px; --dot-opacity: 0.11; --drift-x: -16px; --drift-y: -6px; }
-.particle-7 { top: 86%; left: 76%; --size: 3px; --dot-opacity: 0.13; --drift-x: -12px; --drift-y: 10px; }
-.particle-8 { top: 6%;  left: 28%; --size: 3px; --dot-opacity: 0.12; --drift-x: -10px; --drift-y: -8px; }
-
 .cover-demo {
   position: absolute;
   z-index: 1;
+  /* .section-divider centra todo su texto; la demo es una lista y un panel
+     de instrumento, así que aquí se vuelve a alinear a la izquierda. */
+  text-align: left;
   right: 6%;
   top: 50%;
   width: 360px;
@@ -1162,6 +1157,236 @@
 .cover-stage.show-demo .cover-demo {
   opacity: 1;
   transform: translate(0, -50%) translateX(0);
+}
+
+/* Entrada escalonada de arriba abajo — monitor, riel, cola — para que la
+   demo se arme en el mismo orden en que se lee la cadena. */
+.bpm-monitor,
+.bpm-link,
+.cover-demo .demo-panel {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.cover-stage.show-demo .bpm-monitor,
+.cover-stage.show-demo .bpm-link,
+.cover-stage.show-demo .cover-demo .demo-panel {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.bpm-monitor { transition-delay: 0.05s; }
+.bpm-link { transition-delay: 0.28s; }
+.cover-demo .demo-panel { transition-delay: 0.42s; }
+
+/* ===========================================
+   BPM MONITOR — corazón + lectura + traza ECG.
+   El color y el ritmo salen de dos variables que el reloj de JS cambia por
+   zona: --zone (calma cian → esfuerzo coral) y --beat (duración de UN
+   latido). Todo lo que late en la portada deriva de --beat, así que nada
+   se sincroniza a mano.
+   =========================================== */
+
+.cover-stage {
+  /* El tono intermedio es el mismo coral "pulso caliente" aclarado, no un
+     color nuevo: la rampa calma → esfuerzo se lee como temperatura. */
+  --tone-calm: var(--pulse-calm);
+  --tone-rising: #ff9d7a;
+  --tone-hot: var(--pulse-hot);
+
+  --zone: var(--tone-calm);
+  --beat: 0.9s;
+}
+
+.cover-stage[data-zone="rising"] { --zone: var(--tone-rising); }
+.cover-stage[data-zone="hot"]    { --zone: var(--tone-hot); }
+
+/* Cada frame de la cola conserva el tono de SU zona: el BPM de la canción
+   que suena no puede pintarse del color del pulso que aún no llega. */
+.demo-queue-frame:nth-child(1) { --zone: var(--tone-calm); }
+.demo-queue-frame:nth-child(2) { --zone: var(--tone-rising); }
+.demo-queue-frame:nth-child(3) { --zone: var(--tone-hot); }
+
+.bpm-monitor {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 16px;
+  margin-bottom: 10px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--box-radius);
+}
+
+.bpm-monitor-heart {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bpm-monitor-heart svg {
+  width: 30px;
+  height: 30px;
+  overflow: visible;
+}
+
+.bpm-monitor-heart path {
+  fill: var(--zone);
+  transition: fill 0.6s ease;
+  filter: drop-shadow(0 0 7px color-mix(in srgb, var(--zone) 45%, transparent));
+}
+
+/* Latido real, no un pulso simétrico: sístole fuerte, rebote menor
+   (lub-dub) y reposo — la misma forma que dibuja la traza ECG. */
+.cover-stage.show-demo .bpm-monitor-heart svg {
+  animation: cardiacBeat var(--beat) ease-out infinite;
+}
+
+@keyframes cardiacBeat {
+  0%   { transform: scale(1); }
+  10%  { transform: scale(1.22); }
+  20%  { transform: scale(1.02); }
+  30%  { transform: scale(1.12); }
+  45%  { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+/* Onda que se expande del corazón hacia afuera en cada latido. */
+.bpm-monitor-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--zone);
+  opacity: 0;
+}
+
+.cover-stage.show-demo .bpm-monitor-ring {
+  animation: cardiacRing var(--beat) ease-out infinite;
+}
+
+@keyframes cardiacRing {
+  0%   { transform: scale(0.7); opacity: 0.55; }
+  70%  { transform: scale(1.9); opacity: 0; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+
+.bpm-monitor-read {
+  min-width: 92px;
+}
+
+.bpm-monitor-value {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  font-family: var(--heading-font);
+  font-weight: 700;
+  font-size: 21pt !important;
+  line-height: 1;
+  color: var(--zone) !important;
+  transition: color 0.6s ease;
+  font-variant-numeric: tabular-nums;
+}
+
+.bpm-monitor-unit {
+  font-size: 10pt;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--muted-color);
+}
+
+.bpm-monitor-zone {
+  margin: 3px 0 0 0;
+  font-size: 9.5pt !important;
+  color: var(--muted-color) !important;
+  transition: opacity 0.3s ease;
+}
+
+.bpm-monitor-zone.is-swapping { opacity: 0; }
+
+.bpm-monitor-ecg {
+  flex: 1;
+  height: 32px;
+  overflow: hidden;
+  /* Los extremos se desvanecen: la traza entra y sale del panel en vez de
+     cortarse a filo, que es lo que delata que es un loop. */
+  mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+}
+
+.bpm-monitor-ecg-rail {
+  display: flex;
+  width: 200%;
+  height: 100%;
+}
+
+.bpm-monitor-ecg svg {
+  flex: 0 0 50%;
+  width: 50%;
+  height: 100%;
+}
+
+.bpm-monitor-ecg path {
+  fill: none;
+  stroke: var(--zone);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  transition: stroke 0.6s ease;
+}
+
+/* Cada copia del trazo lleva 4 espigas, así que un ciclo completo dura
+   exactamente 4 latidos y las espigas caen sobre el corazón. */
+.cover-stage.show-demo .bpm-monitor-ecg-rail {
+  animation: ecgScroll calc(var(--beat) * 2) linear infinite;
+}
+
+@keyframes ecgScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ===========================================
+   BPM LINK — el riel por donde la lectura viaja hasta la cola. El pulso
+   se dispara solo en el cambio de zona (clase .is-firing desde JS), justo
+   antes de que la cola se reordene: ese retardo es lo que hace visible la
+   causa y el efecto.
+   =========================================== */
+
+.bpm-link {
+  position: relative;
+  height: 26px;
+  margin: 0 auto 10px auto;
+  width: 2px;
+  background: linear-gradient(180deg, var(--hairline), transparent);
+}
+
+.bpm-link-pulse {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  border-radius: 50%;
+  background: var(--zone);
+  opacity: 0;
+}
+
+.bpm-link.is-firing .bpm-link-pulse {
+  animation: linkTravel 0.55s cubic-bezier(0.5, 0, 0.75, 0) forwards;
+}
+
+@keyframes linkTravel {
+  0%   { transform: translateY(-2px) scale(0.5); opacity: 0; }
+  20%  { opacity: 1; }
+  100% { transform: translateY(26px) scale(1.15); opacity: 0; }
 }
 
 .demo-panel {
@@ -1196,15 +1421,21 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--pulse-hot);
-  animation: heartbeat 1.1s ease-in-out infinite;
+  background: var(--zone);
+  transition: background-color 0.6s ease;
+  animation: heartbeat var(--beat) ease-in-out infinite;
 }
 
 .demo-queue-viewport {
   position: relative;
-  height: 226px;
+  height: 268px;
 }
 
+/* Los frames ya no corren en su propio loop de CSS: los enciende el reloj
+   de JS (clase .is-active) para que el reordenamiento caiga siempre en la
+   misma fase que el latido y el pulso del riel. */
+/* El fundido lo lleva el frame (no cada canción): así el que sale y el que
+   entra se cruzan y el panel nunca se queda en blanco a media transición. */
 .demo-queue-frame {
   position: absolute;
   inset: 0;
@@ -1212,29 +1443,29 @@
   flex-direction: column;
   gap: 8px;
   opacity: 0;
-  animation: demoFrameCycle 9s ease-in-out infinite;
-  animation-fill-mode: backwards;
-  animation-play-state: paused;
+  pointer-events: none;
+  transition: opacity 0.32s ease;
 }
 
-.cover-stage.show-demo .demo-queue-frame {
-  animation-play-state: running;
+.demo-queue-frame.is-active {
+  opacity: 1;
 }
 
-/* Delays positivos (no negativos) para que el orden de aparición respete
-   el orden real del DOM: calma → transición → alto, en vez de saltar de
-   frame en frame según el resto de la división módulo la duración. */
-.demo-queue-frame:nth-child(1) { animation-delay: 0s; }
-.demo-queue-frame:nth-child(2) { animation-delay: 3s; }
-.demo-queue-frame:nth-child(3) { animation-delay: 6s; }
-
-@keyframes demoFrameCycle {
-  0%   { opacity: 0; transform: translateY(8px); }
-  4%   { opacity: 1; transform: translateY(0); }
-  29%  { opacity: 1; transform: translateY(0); }
-  33%  { opacity: 0; transform: translateY(-8px); }
-  100% { opacity: 0; transform: translateY(-8px); }
+/* Las canciones se acomodan una tras otra, de arriba abajo: se lee como una
+   cola que se reordena, no como un panel que se cambia de golpe. El retardo
+   escalonado solo aplica a la entrada — al salir se van todas juntas. */
+.demo-queue-frame .demo-track {
+  transform: translateY(12px);
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
+
+.demo-queue-frame.is-active .demo-track {
+  transform: translateY(0);
+}
+
+.demo-queue-frame.is-active .demo-track:nth-child(2) { transition-delay: 0.07s; }
+.demo-queue-frame.is-active .demo-track:nth-child(3) { transition-delay: 0.14s; }
+.demo-queue-frame.is-active .demo-track:nth-child(4) { transition-delay: 0.21s; }
 
 .demo-track {
   display: flex;
@@ -1300,10 +1531,1392 @@
   color: var(--muted-color) !important;
 }
 
+.demo-track.now-playing .demo-track-bpm {
+  color: var(--zone);
+  transition: color 0.6s ease;
+}
+
 .demo-track-bpm {
   flex-shrink: 0;
   font-size: 10pt !important;
   font-family: var(--heading-font);
   font-weight: 600;
   color: var(--zone-color, var(--muted-color));
+}
+
+/* ===========================================
+   MOVIMIENTO REDUCIDO — se conservan los estados finales (todo legible),
+   se apagan los loops y los recorridos largos.
+   =========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .cover-stage .wordmark-glyph,
+  .cover-stage.show-demo .bpm-monitor-heart svg,
+  .cover-stage.show-demo .bpm-monitor-ring,
+  .cover-stage.show-demo .bpm-monitor-ecg-rail,
+  .cover-stage.show-demo .demo-live-dot,
+  .cover-stage.show-demo .pulse-wave span {
+    animation: none !important;
+  }
+
+  .cover-stage .wordmark-glyph { opacity: 1; }
+  /* La descripción de la portada depende de su animación de entrada para
+     hacerse visible; al apagarla se quedaba en opacity:0 para siempre. */
+  .cover-stage .cover-tagline { opacity: 1; transform: none; }
+  .cover-stage .pulse-wave span { opacity: 1; transform: scaleY(0.6); }
+
+  .cover-brand,
+  .cover-fx,
+  .cover-tagline,
+  .cover-team,
+  .cover-demo,
+  .bpm-monitor,
+  .bpm-link,
+  .cover-demo .demo-panel,
+  .demo-queue-frame .demo-track {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===========================================
+   STORY SLIDES — las dos diapositivas narradas (gimnasio y mañana).
+   Foto de fondo a sangre + velo: la foto pone el contexto en un segundo y
+   el velo devuelve el contraste para que el texto y los instrumentos se
+   lean encima. El degradado es más denso del lado donde vive el texto.
+   =========================================== */
+
+.reveal .slides section.story {
+  overflow: hidden;
+}
+
+.story-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Deriva lenta solo en la que abre el pitch: 26s de acercamiento apenas
+   perceptible, lo justo para que la apertura no se sienta una foto pegada.
+   Las demás quedan quietas. */
+.reveal .slides section.present .story-photo--drift {
+  animation: photoDrift 26s ease-out forwards;
+}
+
+@keyframes photoDrift {
+  from { transform: scale(1); }
+  to   { transform: scale(1.09); }
+}
+
+.reveal .slides section.story::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(100deg,
+      color-mix(in srgb, var(--bg) 95%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 78%, transparent) 42%,
+      color-mix(in srgb, var(--bg) 30%, transparent) 100%),
+    linear-gradient(180deg,
+      transparent 52%,
+      color-mix(in srgb, var(--bg) 70%, transparent) 100%);
+}
+
+.reveal .slides section.story > *:not(.story-photo) {
+  position: relative;
+  z-index: 2;
+}
+
+/* Texto principal de la narración — no es un título de sección, es la frase
+   con la que el presentador abre. Por eso pesa como un h1 y no como un h2. */
+.story-lead {
+  font-family: var(--heading-font);
+  font-weight: 700;
+  font-size: 40pt !important;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--text-color) !important;
+  margin: 0 0 4px 0 !important;
+}
+
+/* La que abre el pitch pesa más: es lo primero que ve el jurado.
+   Va DESPUÉS de .story-lead a propósito — misma especificidad, así que
+   colocarla antes hacía que la regla base la pisara por orden. */
+.story-lead--intro {
+  font-size: 52pt !important;
+}
+
+/* BEATS — los golpes de la narración. Texto corto: el guion lo dice el
+   presentador, aquí solo va el ancla visual. */
+.beat {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  margin: 0 0 14px 0;
+  max-width: 470px;
+}
+
+.beat-icon {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12pt;
+  background: var(--surface-alt);
+  border: 1px solid var(--hairline);
+  color: var(--muted-color);
+}
+
+.beat p {
+  margin: 0;
+  font-size: 14pt !important;
+  line-height: 1.35;
+  padding-top: 3px;
+}
+
+.beat--hot .beat-icon { background: var(--pulse-hot-dim); border-color: var(--pulse-hot); color: var(--pulse-hot); }
+.beat--calm .beat-icon { background: var(--pulse-calm-dim); border-color: var(--pulse-calm); color: var(--pulse-calm); }
+
+.beat--break p {
+  color: var(--pulse-hot) !important;
+  font-weight: 600;
+  font-size: 16pt !important;
+}
+
+/* ===========================================
+   SYNC STACK — las dos lecturas enfrentadas, cuerpo y música. Es el mismo
+   lenguaje del monitor de la portada a propósito: cuando el aleatorio parte
+   la sincronía, el público ya sabe leer estas tarjetas.
+   =========================================== */
+
+.sync-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 380px;
+}
+
+.sync-card {
+  --tone: var(--pulse-hot);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  border: 1px solid var(--hairline);
+  border-radius: var(--box-radius);
+  padding: 14px 16px;
+  backdrop-filter: blur(6px);
+}
+
+.sync-card--calm { --tone: var(--pulse-calm); }
+
+.sync-card-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 9px;
+}
+
+.sync-card-head i {
+  color: var(--tone);
+  font-size: 12pt;
+}
+
+.sync-card-head p {
+  flex: 1;
+  margin: 0;
+  font-size: 10pt !important;
+  color: var(--muted-color) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+}
+
+.sync-card-body {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.sync-art,
+.sync-tile {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 9px;
+  overflow: hidden;
+}
+
+/* Filete en la carátula: sin él, una portada casi negra se lee como un
+   hueco en la tarjeta en vez de como una imagen. */
+.sync-art {
+  border: 1px solid var(--hairline);
+  background: var(--surface-alt);
+}
+
+.sync-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* El "arte" de la lectura corporal es su propio latido. */
+.sync-tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--pulse-hot-dim);
+  border: 1px solid var(--pulse-hot);
+  color: var(--pulse-hot);
+  font-size: 15pt;
+}
+
+.reveal .slides section.present .sync-tile i {
+  animation: heartbeat 0.36s ease-in-out infinite;
+}
+
+.sync-bpm {
+  margin: 0 0 0 auto !important;
+  padding-left: 6px;
+  white-space: nowrap;
+  font-family: var(--heading-font);
+  font-weight: 700;
+  font-size: 26pt !important;
+  line-height: 1;
+  color: var(--tone) !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.sync-bpm span {
+  font-size: 10pt;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--muted-color);
+  margin-left: 5px;
+}
+
+.sync-track {
+  flex: 1;
+  min-width: 0;
+}
+
+.sync-track p {
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sync-track-title {
+  font-family: var(--heading-font);
+  font-weight: 500;
+  font-size: 12pt !important;
+}
+
+.sync-track-artist {
+  font-size: 10pt !important;
+  color: var(--muted-color) !important;
+}
+
+/* El eslabón entre las dos tarjetas: en sincronía es una flecha doble viva;
+   roto, se parte y se pinta de coral. Es el único sitio de la diapositiva
+   donde el estado cambia de forma, no solo de color. */
+.sync-link {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 16px;
+  margin-left: 22px;
+  border-left: 2px dashed var(--hairline);
+}
+
+.sync-link i {
+  font-size: 11pt;
+  color: var(--pulse-calm);
+}
+
+.sync-link p {
+  margin: 0;
+  font-size: 10.5pt !important;
+  color: var(--muted-color) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+[data-scene="broken"] .sync-link {
+  border-left-color: var(--pulse-hot);
+  border-left-style: solid;
+}
+
+[data-scene="broken"] .sync-link i,
+[data-scene="broken"] .sync-link p {
+  color: var(--pulse-hot) !important;
+}
+
+.sync-when-broken { display: none; }
+[data-scene="broken"] .sync-when-ok { display: none; }
+[data-scene="broken"] .sync-when-broken { display: block; }
+[data-scene="broken"] i.sync-when-broken { display: inline-block; }
+
+/* El aleatorio: antes de romper nada, el eslabón ya tiembla. */
+[data-scene="shuffle"] .sync-link {
+  border-left-color: var(--pulse-hot);
+  animation: syncJitter 0.9s ease-in-out infinite;
+}
+
+@keyframes syncJitter {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(3px); }
+  75%      { transform: translateX(-3px); }
+}
+
+/* Las dos canciones ocupan la misma celda y se cruzan al cambiar la escena. */
+.sync-swap { display: grid; }
+
+.sync-swap > .sync-card {
+  grid-area: 1 / 1;
+  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.sync-swap-calm { opacity: 0; transform: translateY(12px); }
+
+[data-scene="broken"] .sync-swap-hot { opacity: 0; transform: translateY(-12px); }
+[data-scene="broken"] .sync-swap-calm { opacity: 1; transform: translateY(0); }
+
+/* Ecualizador en versión chica, para caber dentro de una .sync-card. */
+.pulse-wave--mini { height: 26px; gap: 4px; }
+.pulse-wave--mini span { width: 5px; height: 26px; }
+
+/* ===========================================
+   MORNING TIMELINE — aquí los marcadores numerados sí corresponden: la
+   mañana ES una secuencia, un contratiempo detrás de otro.
+   =========================================== */
+
+.morning-track {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.morning-step {
+  flex: 1;
+  min-width: 0;
+  padding: 14px 12px;
+  border-radius: var(--box-radius);
+  background: color-mix(in srgb, var(--surface) 85%, transparent);
+  border: 1px solid var(--hairline);
+  backdrop-filter: blur(6px);
+}
+
+.morning-step i {
+  font-size: 15pt;
+  color: var(--muted-color);
+}
+
+.morning-step p {
+  margin: 9px 0 0 0;
+  font-size: 11.5pt !important;
+  line-height: 1.3;
+}
+
+.morning-step--crash {
+  border-color: var(--pulse-hot);
+  background: color-mix(in srgb, var(--pulse-hot-dim) 85%, transparent);
+}
+
+.morning-step--crash i,
+.morning-step--crash p { color: var(--pulse-hot) !important; }
+
+/* Medidor de estrés — sube con cada contratiempo. El ancho lo fija el JS
+   leyendo data-stress del fragmento que se acaba de revelar, así que la
+   barra avanza al ritmo del presentador y no en un loop propio. */
+.stress-meter {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: 620px;
+}
+
+.stress-meter > p {
+  margin: 0;
+  font-size: 10.5pt !important;
+  color: var(--muted-color) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  white-space: nowrap;
+}
+
+.stress-rail {
+  flex: 1;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--surface-alt);
+  overflow: hidden;
+}
+
+.stress-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--pulse-calm), var(--pulse-hot));
+  transition: width 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* ===========================================
+   STAT CARDS — las dos cifras respaldadas del pitch.
+   =========================================== */
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+}
+
+.stat-card {
+  padding: 26px 26px 22px 26px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--box-radius);
+  border-left: 3px solid var(--pulse-calm);
+}
+
+.stat-figure {
+  margin: 0 0 12px 0 !important;
+  font-family: var(--heading-font);
+  font-weight: 700;
+  font-size: 38pt !important;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--pulse-calm) !important;
+}
+
+.stat-card p:not(.stat-figure) {
+  margin: 0;
+  font-size: 13.5pt !important;
+  line-height: 1.45;
+}
+
+.stat-source {
+  margin-top: 14px !important;
+  font-size: 10pt !important;
+  color: var(--ink-faint) !important;
+}
+
+/* Puente a la siguiente diapositiva: se queda solo, centrado y sin adornos
+   — el silencio antes del giro. */
+.turn-line {
+  align-self: center;
+  margin: 0 !important;
+  font-family: var(--heading-font);
+  font-weight: 500;
+  font-size: 21pt !important;
+  color: var(--muted-color) !important;
+}
+
+/* ===========================================
+   STATEMENT — la frase que cierra el bloque del problema. Estática por
+   pedido: sin loops, solo la entrada. El contraste lo da el tamaño y el
+   corte de línea, no el movimiento.
+   =========================================== */
+
+.statement {
+  font-family: var(--heading-font);
+  font-weight: 700;
+  font-size: 56pt !important;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  text-align: left;
+  margin: 0;
+}
+
+.statement em {
+  font-style: normal;
+  color: var(--pulse-hot);
+}
+
+/* Va DESPUÉS de .statement: misma especificidad, así que el orden decide. */
+.statement--long {
+  font-size: 36pt !important;
+}
+
+/* ===========================================
+   STATEMENT — variante "respuesta". La 5 plantea el problema en coral y la
+   6 responde en cian: mismo tratamiento tipográfico a propósito, para que
+   el par se lea como pregunta y respuesta y no como dos diapositivas
+   sueltas que quedaron iguales por descuido.
+   =========================================== */
+
+.statement--answer em { color: var(--pulse-calm); }
+
+/* ===========================================
+   REFRÁN — la frase de venta, sola. Aparece dos veces en el pitch: cierra
+   el bloque de producto y cierra la presentación. Es una pausa, no una
+   diapositiva de contenido, así que no lleva nada más.
+   =========================================== */
+
+.refrain {
+  font-family: var(--heading-font);
+  font-weight: 700;
+  font-size: 40pt !important;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  text-align: center;
+  margin: 24px 0 0 0;
+}
+
+.refrain em {
+  font-style: normal;
+  color: var(--pulse-calm);
+}
+
+/* ===========================================
+   PHONE MOCK — maqueta de la pantalla de configuración. Deliberadamente
+   esquemática: comunica la decisión de producto (qué se puede configurar)
+   sin fingir que es una captura de una app que todavía no existe.
+   =========================================== */
+
+.phone-mock {
+  width: 268px;
+  border-radius: 26px;
+  padding: 12px;
+  background: var(--surface-alt);
+  border: 1px solid var(--hairline);
+  flex-shrink: 0;
+}
+
+.phone-screen {
+  border-radius: 18px;
+  background: var(--bg);
+  padding: 18px 16px 16px 16px;
+}
+
+.phone-screen-title {
+  margin: 0 0 14px 0 !important;
+  font-size: 10pt !important;
+  color: var(--muted-color) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.mode-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 11px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+}
+
+.mode-toggle p {
+  margin: 0;
+  padding: 8px 0;
+  text-align: center;
+  border-radius: 8px;
+  font-size: 11pt !important;
+  font-family: var(--heading-font);
+  font-weight: 500;
+  color: var(--muted-color) !important;
+}
+
+.mode-toggle p.is-on {
+  background: var(--pulse-calm-dim);
+  color: var(--pulse-calm) !important;
+}
+
+.phone-rule {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 16px;
+  padding: 12px 13px;
+  border-radius: 11px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+}
+
+.phone-rule i {
+  color: var(--pulse-calm);
+  font-size: 11pt;
+}
+
+.phone-rule p {
+  margin: 0;
+  font-size: 11pt !important;
+  line-height: 1.3;
+}
+
+.phone-range {
+  margin-top: 16px;
+}
+
+.phone-range-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.phone-range-head p {
+  margin: 0;
+  font-size: 10pt !important;
+  color: var(--muted-color) !important;
+}
+
+.phone-range-head .phone-range-value {
+  font-family: var(--heading-font);
+  font-weight: 600;
+  color: var(--pulse-calm) !important;
+}
+
+.phone-range-rail {
+  position: relative;
+  height: 6px;
+  margin-top: 9px;
+  border-radius: 999px;
+  background: var(--surface-alt);
+}
+
+.phone-range-span {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 18%;
+  right: 42%;
+  border-radius: 999px;
+  background: var(--pulse-calm);
+}
+
+.phone-session {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--hairline);
+}
+
+.phone-session i {
+  color: var(--pulse-hot);
+  font-size: 11pt;
+}
+
+.reveal .slides section.present .phone-session i {
+  animation: heartbeat 0.78s ease-in-out infinite;
+}
+
+.phone-session p {
+  margin: 0;
+  font-size: 10.5pt !important;
+  color: var(--muted-color) !important;
+}
+
+/* ===========================================
+   SPEC LIST — los componentes reales del prototipo, con su costo al lado.
+   =========================================== */
+
+.spec-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 16px;
+  border-radius: var(--box-radius);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  margin-bottom: 9px;
+}
+
+.spec-row i {
+  width: 20px;
+  text-align: center;
+  color: var(--pulse-calm);
+  font-size: 13pt;
+}
+
+.spec-row .spec-name {
+  flex: 1;
+  margin: 0;
+  font-size: 12.5pt !important;
+  font-family: var(--heading-font);
+  font-weight: 500;
+}
+
+.spec-row .spec-note {
+  margin: 0;
+  font-size: 10.5pt !important;
+  color: var(--muted-color) !important;
+}
+
+.spec-row .spec-cost {
+  margin: 0 0 0 14px;
+  font-size: 12.5pt !important;
+  font-family: var(--heading-font);
+  font-weight: 600;
+  color: var(--muted-color) !important;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===========================================
+   PRICE LADDER — el argumento de precio en tres peldaños: lo que cuesta
+   maquetear, lo que costará producir, y lo que se cobra. El tercero está
+   sin definir a propósito y así se marca.
+   =========================================== */
+
+.price-ladder {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.price-step {
+  padding: 22px 22px 20px 22px;
+  border-radius: var(--box-radius);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+}
+
+.price-step-label {
+  margin: 0 0 12px 0 !important;
+  font-size: 10pt !important;
+  color: var(--muted-color) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+}
+
+.price-step-value {
+  margin: 0 0 10px 0 !important;
+  font-family: var(--heading-font);
+  font-weight: 700;
+  font-size: 32pt !important;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.price-step p:last-child {
+  margin: 0;
+  font-size: 11.5pt !important;
+  color: var(--muted-color) !important;
+  line-height: 1.4;
+}
+
+.price-step--now .price-step-value { color: var(--muted-color) !important; }
+.price-step--scale .price-step-value { color: var(--pulse-calm) !important; }
+.price-step--sale { border-style: dashed; }
+.price-step--sale .price-step-value { color: var(--ink-faint) !important; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PASE DE ANIMACIÓN — todo lo que sigue existe para que la baraja se sienta
+   viva y para que el movimiento CUENTE algo del producto: señales que
+   viajan, pulsos que laten, configuraciones que cambian solas. Nada de
+   movimiento decorativo por moverse.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ───────────────────────────────────────────────
+   FRASES PIVOTE — revelado renglón por renglón, como se escribe una idea.
+   Cada .line sube desde detrás de su propia línea base.
+   ─────────────────────────────────────────────── */
+
+.statement .line,
+.refrain .line {
+  display: block;
+  opacity: 0;
+  transform: translateY(0.42em);
+  clip-path: inset(-0.25em -0.5em 0 -0.5em);
+}
+
+.reveal .slides section.present .statement .line,
+.reveal .slides section.present .refrain .line {
+  animation: lineRise 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.statement .line:nth-child(1), .refrain .line:nth-child(1) { animation-delay: 0.25s; }
+.statement .line:nth-child(2), .refrain .line:nth-child(2) { animation-delay: 0.42s; }
+.statement .line:nth-child(3), .refrain .line:nth-child(3) { animation-delay: 0.59s; }
+.statement .line:nth-child(4), .refrain .line:nth-child(4) { animation-delay: 0.76s; }
+
+@keyframes lineRise {
+  from { opacity: 0; transform: translateY(0.42em); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* El acento de la última línea llega un instante después que la línea:
+   primero se lee la frase, después cae el color. */
+.statement .line em,
+.refrain .line em {
+  color: inherit;
+  transition: color 0.5s ease;
+}
+
+.reveal .slides section.present .statement .line em { animation: emInk 0.01s linear forwards 1.15s; }
+.reveal .slides section.present .refrain .line em { animation: emInkCalm 0.01s linear forwards 1.05s; }
+
+@keyframes emInk { to { color: var(--pulse-hot); } }
+@keyframes emInkCalm { to { color: var(--pulse-calm); } }
+
+.statement--answer .line em { animation-name: emInkCalm !important; }
+
+/* ───────────────────────────────────────────────
+   PIPELINE VIVO (¿Cómo lo hace?) — un ciclo de 3.6s recorre la cadena:
+   late la banda, viaja la señal, responde el algoritmo, viaja la señal,
+   reacciona Spotify. Es el producto entero explicado sin una palabra.
+   ─────────────────────────────────────────────── */
+
+.flow-node .flow-icon {
+  position: relative;
+}
+
+/* Anillo que sale de cada nodo cuando le toca su turno en el ciclo. */
+.flow-node .flow-icon::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 2px solid var(--pulse-calm);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.flow-node--spotify .flow-icon::after { border-color: var(--spotify-green-bright); }
+
+.reveal .slides section.present .flow-node:nth-child(1) .flow-icon::after { animation: flowPing 3.6s ease-out infinite 2.4s; }
+.reveal .slides section.present .flow-node:nth-child(3) .flow-icon::after { animation: flowPing 3.6s ease-out infinite 3.9s; }
+.reveal .slides section.present .flow-node:nth-child(5) .flow-icon::after { animation: flowPing 3.6s ease-out infinite 5.4s; }
+
+/* Solo el primer 17% del ciclo (≈0.6s) es visible: el resto el nodo espera
+   su turno. Así los tres anillos nunca coinciden. */
+@keyframes flowPing {
+  0%   { transform: scale(1);    opacity: 0.9; }
+  17%  { transform: scale(1.28); opacity: 0; }
+  100% { transform: scale(1.28); opacity: 0; }
+}
+
+/* El glifo del nodo da un tumbo cuando la señal lo alcanza. */
+.reveal .slides section.present .flow-node:nth-child(1) .flow-icon i { animation: flowKick 3.6s ease-out infinite 2.4s; }
+.reveal .slides section.present .flow-node:nth-child(3) .flow-icon i { animation: flowKick 3.6s ease-out infinite 3.9s; }
+.reveal .slides section.present .flow-node:nth-child(5) .flow-icon i { animation: flowKick 3.6s ease-out infinite 5.4s; }
+
+@keyframes flowKick {
+  0%   { transform: scale(1); }
+  8%   { transform: scale(1.22); }
+  20%  { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+/* Los puntos viajeros se re-sincronizan al mismo ciclo de 3.6s y dejan
+   estela, para que se lean como una señal y no como una bolita. */
+.reveal .slides section.present .flow-connector:nth-child(2) .flow-dot { animation: dotRun 3.6s cubic-bezier(0.5, 0, 0.5, 1) infinite 3.0s; }
+.reveal .slides section.present .flow-connector:nth-child(4) .flow-dot { animation: dotRun 3.6s cubic-bezier(0.5, 0, 0.5, 1) infinite 4.5s; }
+
+@keyframes dotRun {
+  0%   { left: 0%;   opacity: 0; box-shadow: none; }
+  6%   { opacity: 1; }
+  20%  { left: 100%; opacity: 1; box-shadow: -14px 0 12px -6px var(--pulse-calm); }
+  25%  { left: 100%; opacity: 0; box-shadow: none; }
+  100% { left: 100%; opacity: 0; }
+}
+
+/* El riel se ilumina por debajo al paso de la señal. */
+.flow-connector::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  background: var(--pulse-calm);
+  opacity: 0;
+}
+
+.reveal .slides section.present .flow-connector:nth-child(2)::after { animation: railGlow 3.6s ease-out infinite 3.0s; }
+.reveal .slides section.present .flow-connector:nth-child(4)::after { animation: railGlow 3.6s ease-out infinite 4.5s; }
+
+@keyframes railGlow {
+  0%   { opacity: 0; }
+  8%   { opacity: 0.5; }
+  28%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+.turn-line {
+  opacity: 0;
+}
+
+.reveal .slides section.present .turn-line {
+  animation: fadeUpIn 0.7s ease forwards 0.7s;
+}
+
+/* ───────────────────────────────────────────────
+   MAQUETA DEL TELÉFONO — no es una captura fija: alterna sola entre los dos
+   modos. Enseñar la configuración cambiando dice "es configurable" mucho
+   mejor que una viñeta que lo prometa. El estado lo pone el reloj de JS en
+   el data-mode de la diapositiva, y de ahí baja a todo lo que reacciona.
+   ─────────────────────────────────────────────── */
+
+#adapts {
+  --mode-tone: var(--pulse-calm);
+  --mode-tone-dim: var(--pulse-calm-dim);
+}
+
+#adapts[data-mode="ejercicio"] {
+  --mode-tone: var(--pulse-hot);
+  --mode-tone-dim: var(--pulse-hot-dim);
+}
+
+.phone-mock {
+  opacity: 0;
+  transform: translateY(18px) scale(0.97);
+  transition: border-color 0.6s ease;
+}
+
+.reveal .slides section.present .phone-mock {
+  animation: phoneIn 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.2s;
+}
+
+@keyframes phoneIn {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Selector: el pastilla se desliza de un lado al otro. El movimiento del
+   thumb ES el cambio de modo — el color solo lo confirma. */
+.mode-toggle { position: relative; }
+
+.mode-toggle-thumb {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc(50% - 5px);
+  border-radius: 8px;
+  background: var(--mode-tone-dim);
+  border: 1px solid color-mix(in srgb, var(--mode-tone) 55%, transparent);
+  transition: transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1),
+              background-color 0.5s ease, border-color 0.5s ease;
+}
+
+#adapts[data-mode="ejercicio"] .mode-toggle-thumb {
+  transform: translateX(calc(100% + 2px));
+}
+
+.mode-toggle-opt {
+  position: relative;
+  z-index: 1;
+  transition: color 0.4s ease;
+}
+
+#adapts[data-mode="estudio"]   .mode-toggle-opt[data-for="estudio"],
+#adapts[data-mode="ejercicio"] .mode-toggle-opt[data-for="ejercicio"] {
+  color: var(--mode-tone) !important;
+}
+
+/* Los dos textos de cada fila viven apilados en la misma celda y se cruzan:
+   la fila nunca cambia de alto, así que la maqueta no da saltos. */
+.phone-rule-icon,
+.phone-rule-text,
+.phone-range-value {
+  display: grid;
+}
+
+.phone-when {
+  grid-area: 1 / 1;
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+#adapts[data-mode="estudio"]   .phone-when--ejercicio,
+#adapts[data-mode="ejercicio"] .phone-when--estudio {
+  opacity: 0;
+  transform: translateY(-7px);
+}
+
+#adapts[data-mode="estudio"]   .phone-when--estudio,
+#adapts[data-mode="ejercicio"] .phone-when--ejercicio {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.phone-rule i,
+.phone-rule strong,
+.phone-range-head .phone-range-value p {
+  color: var(--mode-tone) !important;
+  transition: color 0.5s ease;
+}
+
+.phone-rule { transition: border-color 0.5s ease; }
+#adapts[data-mode="ejercicio"] .phone-rule { border-color: color-mix(in srgb, var(--mode-tone) 40%, var(--hairline)); }
+
+/* El rango objetivo se desliza por el riel al cambiar de modo: se ve que
+   "estudio" vive abajo en la escala y "ejercicio" arriba. */
+.phone-range-span {
+  background: var(--mode-tone);
+  transition: left 0.6s cubic-bezier(0.34, 1.3, 0.64, 1),
+              right 0.6s cubic-bezier(0.34, 1.3, 0.64, 1),
+              background-color 0.5s ease;
+}
+
+#adapts[data-mode="estudio"]   .phone-range-span { left: 12%; right: 52%; }
+#adapts[data-mode="ejercicio"] .phone-range-span { left: 56%; right: 6%; }
+
+/* Marcas del riel, para que el desplazamiento tenga contra qué medirse. */
+.phone-range-rail::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: repeating-linear-gradient(90deg,
+    transparent 0 calc(12.5% - 1px),
+    var(--hairline) calc(12.5% - 1px) 12.5%);
+}
+
+.phone-session i { color: var(--mode-tone) !important; transition: color 0.5s ease; }
+
+.phone-bpm {
+  font-family: var(--heading-font);
+  font-weight: 600;
+  color: var(--mode-tone);
+  font-variant-numeric: tabular-nums;
+  transition: color 0.5s ease;
+}
+
+/* La tarjeta del modo activo se enciende al mismo tiempo que la maqueta:
+   la maqueta y la explicación siempre hablan del mismo modo. */
+.mode-card { transition: border-color 0.5s ease, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease, filter 0.5s ease; }
+
+/* !important porque la entrada de .mode-card corre con fill forwards, y una
+   animación terminada gana sobre una declaración normal: sin esto la tarjeta
+   inactiva nunca se atenuaba. */
+#adapts[data-mode="estudio"]   .mode-exercise,
+#adapts[data-mode="ejercicio"] .mode-study {
+  opacity: 0.4 !important;
+  transform: scale(0.97) !important;
+  filter: saturate(0.4);
+}
+
+#adapts[data-mode="estudio"]   .mode-study,
+#adapts[data-mode="ejercicio"] .mode-exercise {
+  opacity: 1 !important;
+  transform: scale(1) !important;
+  filter: none;
+}
+
+.mode-card { filter: saturate(1); }
+
+/* ───────────────────────────────────────────────
+   ENTRADAS QUE FALTABAN — tarjetas de dato, filas de componentes y peldaños
+   de precio. Todas escalonadas en el sentido de lectura.
+   ─────────────────────────────────────────────── */
+
+.stat-card,
+.spec-row,
+.price-step,
+.stress-meter,
+.pending {
+  opacity: 0;
+}
+
+.reveal .slides section.present .stat-card:nth-child(1) { animation: panelPopIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.25s; }
+.reveal .slides section.present .stat-card:nth-child(2) { animation: panelPopIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.45s; }
+
+.reveal .slides section.present .spec-row:nth-child(1) { animation: slideInLeft 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.20s; }
+.reveal .slides section.present .spec-row:nth-child(2) { animation: slideInLeft 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.32s; }
+.reveal .slides section.present .spec-row:nth-child(3) { animation: slideInLeft 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.44s; }
+.reveal .slides section.present .spec-row:nth-child(4) { animation: slideInLeft 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.56s; }
+.reveal .slides section.present .spec-row:nth-child(5) { animation: slideInLeft 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.68s; }
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-22px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Los peldaños de precio entran como escalera, de izquierda a derecha. */
+.reveal .slides section.present .price-step:nth-child(1) { animation: stepUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.25s; }
+.reveal .slides section.present .price-step:nth-child(2) { animation: stepUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.45s; }
+.reveal .slides section.present .price-step:nth-child(3) { animation: stepUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.65s; }
+
+@keyframes stepUp {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal .slides section.present .stress-meter { animation: fadeUpIn 0.6s ease forwards 0.3s; }
+.reveal .slides section.present .pending { animation: fadeUpIn 0.6s ease forwards 0.9s; }
+
+/* ───────────────────────────────────────────────
+   BLE BADGE — la banda emitiendo por el perfil estándar de Bluetooth.
+   Tres arcos que salen en bucle: es literalmente lo que hace el firmware.
+   ─────────────────────────────────────────────── */
+
+.ble-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px 12px 14px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+}
+
+.ble-emitter {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--pulse-calm);
+  font-size: 12pt;
+}
+
+.ble-emitter span {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--pulse-calm);
+  opacity: 0;
+}
+
+.reveal .slides section.present .ble-emitter span {
+  animation: bleWave 2.2s ease-out infinite;
+}
+
+.ble-emitter span:nth-child(1) { animation-delay: 0.6s; }
+.ble-emitter span:nth-child(2) { animation-delay: 1.1s; }
+.ble-emitter span:nth-child(3) { animation-delay: 1.6s; }
+
+@keyframes bleWave {
+  0%   { transform: scale(0.65); opacity: 0.75; }
+  70%  { transform: scale(2.1);  opacity: 0; }
+  100% { transform: scale(2.1);  opacity: 0; }
+}
+
+.ble-badge p {
+  margin: 0;
+  font-size: 11pt !important;
+  color: var(--muted-color) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+.ble-badge .ble-uuid {
+  font-family: var(--heading-font);
+  font-weight: 600;
+  color: var(--pulse-calm) !important;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* ───────────────────────────────────────────────
+   MOVIMIENTO REDUCIDO — segunda tanda: se apaga todo lo que late en bucle y
+   se dejan los estados finales legibles.
+   ─────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .statement .line,
+  .refrain .line,
+  .stat-card,
+  .spec-row,
+  .price-step,
+  .stress-meter,
+  .pending,
+  .phone-mock,
+  .turn-line {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .flow-node .flow-icon::after,
+  .flow-node .flow-icon i,
+  .flow-connector .flow-dot,
+  .flow-connector::after,
+  .ble-emitter span,
+  .phone-session i {
+    animation: none !important;
+  }
+
+  .statement .line em { color: var(--pulse-hot); }
+  .statement--answer .line em,
+  .refrain .line em { color: var(--pulse-calm); }
+
+  .mode-toggle-thumb,
+  .phone-when,
+  .phone-range-span,
+  .mode-card {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ───────────────────────────────────────────────
+   LÍNEA DE TENDENCIA DEL PRECIO — se traza de izquierda a derecha y va
+   bajando, y cada punto aparece cuando el trazo lo alcanza. El argumento
+   ("hoy cuesta esto, en producción bastante menos") se ve antes de leerse.
+   ─────────────────────────────────────────────── */
+
+.price-trend {
+  width: 100%;
+  height: 56px;
+  margin-bottom: -6px;
+  overflow: visible;
+}
+
+.price-trend-line {
+  fill: none;
+  stroke: var(--pulse-calm);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 800;
+  stroke-dashoffset: 800;
+  opacity: 0.55;
+}
+
+.reveal .slides section.present .price-trend-line {
+  animation: trendDraw 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.35s;
+}
+
+@keyframes trendDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+.price-trend-dot {
+  fill: var(--pulse-calm);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.reveal .slides section.present .price-trend-dot {
+  animation: trendDot 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.price-trend-dot--1 { animation-delay: 0.45s; }
+.price-trend-dot--2 { animation-delay: 1.05s; }
+.price-trend-dot--3 { animation-delay: 1.65s; }
+
+@keyframes trendDot {
+  from { opacity: 0; transform: scale(0.3); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* El último punto es el que sigue sin definirse: se queda hueco y parpadea
+   despacio, en lugar de fingir que ya hay una cifra. */
+.price-trend-dot--3 {
+  fill: none;
+  stroke: var(--ink-faint);
+  stroke-width: 2;
+}
+
+.reveal .slides section.present .price-trend-dot--3 {
+  animation: trendDot 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 1.65s,
+             trendPending 2.4s ease-in-out infinite 2.1s;
+}
+
+@keyframes trendPending {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.35; }
+}
+
+/* ───────────────────────────────────────────────
+   LATIDOS SUELTOS — cada icono de pulso de la baraja late de verdad. Es el
+   motivo de marca: donde aparece un corazón, el corazón se mueve.
+   ─────────────────────────────────────────────── */
+
+.reveal .slides section.present .spec-row .fa-heart-pulse,
+.reveal .slides section.present .panel-card .fa-heart-pulse,
+.reveal .slides section.present .sync-card-head .fa-heart-pulse,
+.reveal .slides section.present .flow-node .fa-heart-pulse {
+  animation: heartbeat 1.05s ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* El nodo de la banda ya tiene su propio tumbo sincronizado al pipeline —
+   no debe latir por su cuenta o los dos ritmos se pelean. */
+.reveal .slides section.present .flow-node:nth-child(1) .flow-icon .fa-heart-pulse {
+  animation: flowKick 3.6s ease-out infinite 2.4s;
+}
+
+/* ───────────────────────────────────────────────
+   CROMO DE REVEAL — la barra de progreso y las flechas con el acento de la
+   marca, no con el gris por defecto.
+   ─────────────────────────────────────────────── */
+
+.reveal .progress {
+  height: 3px;
+  color: var(--pulse-calm);
+  background: color-mix(in srgb, var(--hairline) 60%, transparent);
+}
+
+.reveal .controls {
+  color: var(--ink-faint);
+}
+
+.reveal .controls button:hover,
+.reveal .controls .navigate-right.highlight,
+.reveal .controls .navigate-left.highlight {
+  color: var(--pulse-calm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .price-trend-line,
+  .price-trend-dot,
+  .spec-row .fa-heart-pulse,
+  .panel-card .fa-heart-pulse,
+  .sync-card-head .fa-heart-pulse,
+  .flow-node .fa-heart-pulse {
+    animation: none !important;
+    opacity: 1 !important;
+    stroke-dashoffset: 0 !important;
+  }
+}
+
+/* Paneo lateral para la mañana: misma idea que la deriva de la apertura,
+   gesto distinto, para que no se lea como el mismo efecto repetido. */
+.reveal .slides section.present .story-photo--pan {
+  animation: photoPan 30s ease-out forwards;
+}
+
+@keyframes photoPan {
+  from { transform: scale(1.07) translateX(1.2%); }
+  to   { transform: scale(1.07) translateX(-1.6%); }
+}
+
+/* Los huecos de foto respiran despacio: se lee que están esperando material
+   real, no que son un recuadro vacío del diseño. */
+.reveal .slides section.present .shot-placeholder i {
+  animation: placeholderBreath 3.4s ease-in-out infinite;
+}
+
+@keyframes placeholderBreath {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-photo--pan,
+  .shot-placeholder i {
+    animation: none !important;
+  }
+}
+
+/* Última red de seguridad de movimiento reducido: todo componente que nace
+   en opacity:0 y depende de su animación de entrada para aparecer queda
+   visible aunque esa animación no corra. Sin esto, apagar una animación
+   equivale a borrar el contenido. */
+@media (prefers-reduced-motion: reduce) {
+  .flow-node,
+  .flow-connector,
+  .fact-chip,
+  .panel-card,
+  .team-card,
+  .mode-card,
+  .collage-item,
+  .step-tile,
+  .tag-pill,
+  .ghost-pill,
+  .bpm-readout,
+  .divider-subtitle,
+  .cover-tagline,
+  .reveal .slides section > h2 {
+    opacity: 1 !important;
+  }
 }
