@@ -1085,22 +1085,41 @@
    al .cover-tagline de la portada — el .tagline-hero del cierre sigue
    centrado y visible desde el inicio, sin cambios. */
 .cover-tagline {
-  /* .tagline-hero centra su texto (lo necesita el cierre); aquí la portada
-     queda alineada a la izquierda de punta a punta, sin cambios de
-     alineación a medio camino que se vean como un salto. */
+  /* .tagline-hero centra su texto (lo necesita el cierre); aquí el centrado
+     de la fase 1 lo hace cada .cover-tagline-line por separado, para que el
+     paso a la izquierda sea animable (ver abajo). */
   text-align: left;
-  /* Ancho fijo: como su .cover-fx se ajusta al contenido para poder
-     centrarse, sin esto la frase se estiraría a una sola línea larguísima. */
+  /* Ancho fijo: es la caja respecto a la que se centra cada línea, y el
+     ancho para el que están calculados sus cortes. */
   width: 470px;
   max-width: 100%;
   opacity: 0;
 }
 
-/* Entra 1s después del título, todavía con el bloque centrado, y de ahí se
-   mueve junto a él. Delay propio: el de .tagline-hero (0.9s) es el del
-   cierre. */
+/* Cada línea se autocentra dentro de los 470px con el mismo truco de
+   .cover-fx (left + translateX, ambas animables) y se va a flush-left en el
+   reacomodo, con la misma duración y curva que el bloque: así las líneas y
+   el bloque se mueven como un solo gesto, sin salto de alineación. */
+.cover-tagline-line {
+  display: block;
+  width: fit-content;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: left 1.1s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cover-stage.rearranged .cover-tagline-line {
+  left: 0%;
+  transform: translateX(0);
+}
+
+/* Entra a los 2s —ya aterrizados los glifos del título—, todavía con el
+   bloque centrado, y de ahí se mueve junto a él. Delay propio: el de
+   .tagline-hero (0.9s) es el del cierre. */
 .reveal .slides section.present .cover-tagline {
-  animation: fadeUpIn 0.7s ease forwards 1.5s;
+  animation: fadeUpIn 0.7s ease forwards 2s;
 }
 
 /* Equipo — reemplaza el pill "Impulsado por Spotify" de la portada.
@@ -1568,6 +1587,7 @@
   .cover-brand,
   .cover-fx,
   .cover-tagline,
+  .cover-tagline-line,
   .cover-team,
   .cover-demo,
   .bpm-monitor,
@@ -1975,7 +1995,7 @@
 }
 
 .stat-card {
-  padding: 26px 26px 22px 26px;
+  padding: 38px 34px 32px 34px;
   background: var(--surface);
   border: 1px solid var(--hairline);
   border-radius: var(--box-radius);
@@ -1983,10 +2003,10 @@
 }
 
 .stat-figure {
-  margin: 0 0 12px 0 !important;
+  margin: 0 0 18px 0 !important;
   font-family: var(--heading-font);
   font-weight: 700;
-  font-size: 38pt !important;
+  font-size: 50pt !important;
   line-height: 1;
   letter-spacing: -0.02em;
   color: var(--pulse-calm) !important;
@@ -1994,12 +2014,12 @@
 
 .stat-card p:not(.stat-figure) {
   margin: 0;
-  font-size: 13.5pt !important;
-  line-height: 1.45;
+  font-size: 15pt !important;
+  line-height: 1.5;
 }
 
 .stat-source {
-  margin-top: 14px !important;
+  margin-top: 20px !important;
   font-size: 10pt !important;
   color: var(--ink-faint) !important;
 }
@@ -2027,7 +2047,7 @@
   font-size: 56pt !important;
   line-height: 1.12;
   letter-spacing: -0.025em;
-  text-align: left;
+  text-align: center;
   margin: 0;
 }
 
@@ -2919,4 +2939,236 @@
   .reveal .slides section > h2 {
     opacity: 1 !important;
   }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ENTRADAS DE LOS GOLPES NARRADOS
+   El fade-up genérico de reveal entraba todo el bloque de una pieza y se
+   sentía plano. Aquí cada fila entra en dos tiempos: primero ATERRIZA su
+   icono, después se DESCUBRE su texto. Dos tiempos es lo que hace que se
+   lea como algo que ocurre y no como algo que aparece.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── BEAT-IN — las viñetas narradas del gimnasio y el remate de la mañana ── */
+
+/* El contenedor no se transforma: quien se mueve es cada pieza por dentro.
+   Así el icono puede rebotar mientras el texto se descubre. */
+.fragment.beat-in { transform: none; }
+
+.beat.fragment .beat-icon {
+  opacity: 0;
+  transform: scale(0.35) rotate(-24deg);
+  position: relative;
+}
+
+.beat.fragment.visible .beat-icon {
+  animation: beatIconLand 0.6s cubic-bezier(0.34, 1.7, 0.5, 1) forwards;
+}
+
+@keyframes beatIconLand {
+  0%   { opacity: 0; transform: scale(0.35) rotate(-24deg); }
+  55%  { opacity: 1; transform: scale(1.16) rotate(4deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+/* Onda que sale del icono en el instante en que aterriza: es el mismo
+   gesto del pulso del producto, aplicado a cada golpe del guion. */
+.beat .beat-icon::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 11px;
+  border: 1.5px solid currentColor;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.beat.fragment.visible .beat-icon::after {
+  animation: beatIconPing 0.75s ease-out forwards 0.18s;
+}
+
+@keyframes beatIconPing {
+  0%   { transform: scale(0.85); opacity: 0.85; }
+  100% { transform: scale(1.9);  opacity: 0; }
+}
+
+/* El texto se revela de izquierda a derecha, saliendo de desenfoque: se lee
+   como un renglón que se está imprimiendo, no como un bloque que aparece. */
+.beat.fragment p {
+  opacity: 0;
+  clip-path: inset(0 100% -0.4em 0);
+  transform: translateX(-14px);
+  filter: blur(5px);
+}
+
+.beat.fragment.visible p {
+  animation: beatTextWipe 0.68s cubic-bezier(0.2, 0.9, 0.2, 1) forwards 0.16s;
+}
+
+@keyframes beatTextWipe {
+  0%   { opacity: 0; clip-path: inset(0 100% -0.4em 0); transform: translateX(-14px); filter: blur(5px); }
+  40%  { opacity: 1; }
+  100% { opacity: 1; clip-path: inset(0 0 -0.4em 0);    transform: translateX(0);     filter: blur(0); }
+}
+
+/* El remate llega distinto: sacude. Es el único golpe de la narración que
+   no se posa — se estrella, que es justo lo que cuenta. */
+.beat--break.fragment.visible .beat-icon {
+  animation: beatIconLand 0.6s cubic-bezier(0.34, 1.7, 0.5, 1) forwards,
+             beatShake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) 0.55s;
+}
+
+.beat--break.fragment.visible p {
+  animation: beatTextWipe 0.5s cubic-bezier(0.2, 0.9, 0.2, 1) forwards 0.12s,
+             beatShake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) 0.55s;
+}
+
+@keyframes beatShake {
+  0%, 100% { transform: translateX(0); }
+  15%      { transform: translateX(-7px); }
+  32%      { transform: translateX(6px); }
+  50%      { transform: translateX(-4px); }
+  68%      { transform: translateX(3px); }
+  84%      { transform: translateX(-1px); }
+}
+
+/* ── STEP-IN — las tarjetas de la mañana ── */
+
+/* Caen hacia adelante desde su borde superior, como una ficha que se abate
+   sobre la mesa. La secuencia de contratiempos se siente acumulándose. */
+.fragment.step-in {
+  transform: none;
+}
+
+.morning-step.fragment {
+  opacity: 0;
+  transform: perspective(760px) rotateX(-32deg) translateY(-14px) scale(0.95);
+  transform-origin: 50% 0%;
+}
+
+.morning-step.fragment.visible {
+  animation: stepFall 0.62s cubic-bezier(0.22, 1.15, 0.36, 1) forwards;
+}
+
+@keyframes stepFall {
+  0%   { opacity: 0; transform: perspective(760px) rotateX(-32deg) translateY(-14px) scale(0.95); }
+  60%  { opacity: 1; }
+  100% { opacity: 1; transform: perspective(760px) rotateX(0deg) translateY(0) scale(1); }
+}
+
+.morning-step.fragment i {
+  opacity: 0;
+  transform: scale(0.5) translateY(6px);
+}
+
+.morning-step.fragment.visible i {
+  animation: stepIconIn 0.45s cubic-bezier(0.34, 1.7, 0.5, 1) forwards 0.22s;
+}
+
+@keyframes stepIconIn {
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.morning-step.fragment p {
+  opacity: 0;
+  transform: translateY(7px);
+  filter: blur(3px);
+}
+
+.morning-step.fragment.visible p {
+  animation: stepTextIn 0.5s cubic-bezier(0.2, 0.9, 0.2, 1) forwards 0.3s;
+}
+
+@keyframes stepTextIn {
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* ── CARD-IN — los instrumentos del gimnasio ── */
+
+/* Llegan desde la derecha con un giro mínimo y su borde se enciende al
+   asentarse: es una lectura que se acaba de conectar. */
+.fragment.card-in { transform: none; }
+
+.card-in.sync-card,
+.card-in.sync-link,
+.card-in.sync-swap {
+  opacity: 0;
+  transform: translateX(30px) scale(0.96) rotate(1.2deg);
+}
+
+.card-in.visible {
+  animation: cardConnect 0.66s cubic-bezier(0.22, 1.1, 0.36, 1) forwards;
+}
+
+@keyframes cardConnect {
+  0%   { opacity: 0; transform: translateX(30px) scale(0.96) rotate(1.2deg); }
+  100% { opacity: 1; transform: translateX(0)    scale(1)    rotate(0deg); }
+}
+
+/* Destello del borde en el momento en que la tarjeta se posa. */
+.card-in.sync-card { position: relative; }
+
+.card-in.sync-card::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--box-radius);
+  border: 1px solid var(--tone);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.card-in.sync-card.visible::after {
+  animation: cardCharge 0.85s ease-out forwards 0.3s;
+}
+
+@keyframes cardCharge {
+  0%   { opacity: 0.9; box-shadow: 0 0 0 0 color-mix(in srgb, var(--tone) 40%, transparent); }
+  100% { opacity: 0;   box-shadow: 0 0 0 12px transparent; }
+}
+
+/* ── EL GIRO — "Pero hay un problema…" ── */
+
+.statement--turn {
+  font-size: 44pt !important;
+}
+
+.ellipsis i {
+  font-style: normal;
+  opacity: 0;
+  display: inline-block;
+}
+
+.reveal .slides section.present .ellipsis i {
+  animation: dotIn 0.3s ease forwards;
+}
+
+.ellipsis i:nth-child(1) { animation-delay: 0.95s; }
+.ellipsis i:nth-child(2) { animation-delay: 1.30s; }
+.ellipsis i:nth-child(3) { animation-delay: 1.65s; }
+
+@keyframes dotIn {
+  from { opacity: 0; transform: translateY(-0.15em); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beat.fragment .beat-icon,
+  .beat.fragment p,
+  .morning-step.fragment,
+  .morning-step.fragment i,
+  .morning-step.fragment p,
+  .card-in.sync-card,
+  .card-in.sync-link,
+  .card-in.sync-swap,
+  .ellipsis i {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    clip-path: none !important;
+    animation: none !important;
+  }
+
+  .beat .beat-icon::after,
+  .card-in.sync-card::after { display: none; }
 }

@@ -42,23 +42,23 @@
             <div>
               <p class="story-lead story-lead--intro">Imaginen esto</p>
               <div style="margin-top: 26px;">
-                <div class="beat fragment fade-up" data-fragment-index="0">
+                <div class="beat fragment beat-in" data-fragment-index="0">
                   <div class="beat-icon"><i class="fa-solid fa-dumbbell"></i></div>
                   <p>Última repetición. Vas por tu récord personal.</p>
                 </div>
-                <div class="beat beat--hot fragment fade-up" data-fragment-index="1">
+                <div class="beat beat--hot fragment beat-in" data-fragment-index="1">
                   <div class="beat-icon"><i class="fa-solid fa-bolt"></i></div>
                   <p>La canción te tiene justo donde necesitas estar.</p>
                 </div>
-                <div class="beat fragment fade-up" data-fragment-index="2" data-scene="shuffle">
+                <div class="beat fragment beat-in" data-fragment-index="2" data-scene="shuffle">
                   <div class="beat-icon"><i class="fa-solid fa-shuffle"></i></div>
                   <p>Tu playlist está en aleatorio.</p>
                 </div>
-                <div class="beat beat--calm fragment fade-up" data-fragment-index="3" data-scene="broken">
+                <div class="beat beat--calm fragment beat-in" data-fragment-index="3" data-scene="broken">
                   <div class="beat-icon"><i class="fa-solid fa-moon"></i></div>
                   <p>Entra la canción con la que te duermes.</p>
                 </div>
-                <div class="beat beat--break fragment fade-up" data-fragment-index="4">
+                <div class="beat beat--break fragment beat-in" data-fragment-index="4">
                   <div class="beat-icon"><i class="fa-solid fa-heart-crack"></i></div>
                   <p>Sueltas la barra para cambiarla.</p>
                 </div>
@@ -69,7 +69,7 @@
               <!-- Cada tarjeta entra con el beat que le toca (mismo
                    data-fragment-index), no al abrir la diapositiva: la
                    lectura aparece cuando el guion la nombra. -->
-              <div class="sync-card fragment fade-up" data-fragment-index="0">
+              <div class="sync-card fragment card-in" data-fragment-index="0">
                 <div class="sync-card-head">
                   <i class="fa-solid fa-heart-pulse"></i>
                   <p>Tu cuerpo</p>
@@ -84,7 +84,7 @@
                 </div>
               </div>
 
-              <div class="sync-link fragment fade-up" data-fragment-index="1">
+              <div class="sync-link fragment card-in" data-fragment-index="1">
                 <i class="fa-solid fa-right-left sync-when-ok"></i>
                 <i class="fa-solid fa-link-slash sync-when-broken"></i>
                 <p class="sync-when-ok">En sincronía</p>
@@ -94,7 +94,7 @@
               <!-- Las dos canciones viven apiladas en la misma celda: el
                    cambio de escena solo hace el cruce, sin que el JS tenga
                    que reescribir textos. -->
-              <div class="sync-swap fragment fade-up" data-fragment-index="1">
+              <div class="sync-swap fragment card-in" data-fragment-index="1">
                 <div class="sync-card sync-swap-hot">
                   <div class="sync-card-head">
                     <i class="fa-solid fa-music"></i>
@@ -137,26 +137,28 @@
       <section id="story-morning" class="story">
         <div class="story-photo story-photo--pan" style="background-image: url('img/trafico.jpg');" aria-hidden="true"></div>
 
-        <div class="content" style="justify-content: center; gap: 30px;">
+        <div class="content" style="justify-content: center; gap: 26px;">
+
+          <p class="story-lead">Imaginemos otro escenario</p>
 
           <div class="morning-track">
-            <div class="morning-step fragment fade-up" data-stress="18">
+            <div class="morning-step fragment step-in" data-stress="18">
               <i class="fa-solid fa-paw"></i>
               <p>Pisas el pipí del perro. A limpiar.</p>
             </div>
-            <div class="morning-step fragment fade-up" data-stress="34">
+            <div class="morning-step fragment step-in" data-stress="34">
               <i class="fa-solid fa-mug-hot"></i>
               <p>Sin tiempo de desayunar.</p>
             </div>
-            <div class="morning-step fragment fade-up" data-stress="52">
+            <div class="morning-step fragment step-in" data-stress="52">
               <i class="fa-solid fa-folder-open"></i>
               <p>Olvidaste la entrega. Regresas por ella.</p>
             </div>
-            <div class="morning-step fragment fade-up" data-stress="68">
+            <div class="morning-step fragment step-in" data-stress="68">
               <i class="fa-solid fa-clock"></i>
               <p>Ya vas tarde.</p>
             </div>
-            <div class="morning-step fragment fade-up" data-stress="80">
+            <div class="morning-step fragment step-in" data-stress="80">
               <i class="fa-solid fa-car-side"></i>
               <p>Y el tráfico está peor que nunca.</p>
             </div>
@@ -168,7 +170,7 @@
           </div>
 
           <div style="display: grid; grid-template-columns: 380px 1fr; gap: 40px; align-items: center;">
-            <div class="sync-card fragment fade-up" data-stress="92">
+            <div class="sync-card fragment card-in" data-stress="92">
               <div class="sync-card-head">
                 <i class="fa-solid fa-guitar"></i>
                 <p>Lo que suena al subirte</p>
@@ -183,7 +185,7 @@
               </div>
             </div>
 
-            <div class="beat beat--break fragment fade-up" data-stress="100" style="max-width: 100%;">
+            <div class="beat beat--break fragment beat-in" data-stress="100" style="max-width: 100%;">
               <div class="beat-icon"><i class="fa-solid fa-car-burst"></i></div>
               <p>Manejas desconcentrado. Y golpeas un coche.</p>
             </div>
@@ -208,11 +210,31 @@
               <p class="stat-source">Percepción de esfuerzo y carga interna con ejercicio musicalmente sincronizado · Retos</p>
             </div>
           </div>
-          <p class="turn-line">Pero hay un problema…</p>
         </div>
       </section>
 
-      <!-- ============ 4. PORTADA — la marca entra después del gancho ============ -->
+      <!-- ============ 4. El giro ============ -->
+      <!-- Sola, sin nada más: es la bisagra entre el respaldo científico y
+           el problema. Los puntos suspensivos se escriben uno a uno para
+           sostener el silencio antes de la frase que sigue. -->
+      <section id="problem-turn" data-state="is-section-divider" data-transition="fade"
+               style="justify-content: center;">
+        <h1 class="statement statement--turn">
+          <span class="line">Pero hay un problema<span class="ellipsis" aria-hidden="true"><i>.</i><i>.</i><i>.</i></span></span>
+        </h1>
+      </section>
+
+      <!-- ============ 5. La frase del problema ============ -->
+      <section id="statement" data-transition="fade" data-state="is-section-divider"
+               style="justify-content: center;">
+        <h1 class="statement">
+          <span class="line">Tu cuerpo cambia de ritmo</span>
+          <span class="line">todo el tiempo.</span>
+          <span class="line"><em>Tu música, no.</em></span>
+        </h1>
+      </section>
+
+      <!-- ============ 6. PORTADA — la marca responde a la frase ============ -->
       <section id="title" class="section-divider" data-state="is-section-divider">
         <!-- Pill "U-Challenge · Universidad Anáhuac Mayab" retirado a
              propósito; se vuelve a añadir más adelante:
@@ -260,7 +282,15 @@
               </h1>
             </div>
             <div class="cover-fx">
-              <p class="tagline-hero cover-tagline">Haz que tu música nunca más te vuelva a sacar del momento que estás viviendo.</p>
+              <!-- Cada línea es su propio <span> con el mismo truco de
+                   centrado que .cover-fx: en la fase 1 el texto se ve
+                   centrado y en el reacomodo cada línea se desliza a la
+                   izquierda a la vez que el bloque (text-align no es
+                   animable y saltaría). Los cortes de línea son fijos a
+                   propósito: son los mismos que daba el ancho de 470px. -->
+              <p class="tagline-hero cover-tagline">
+                <span class="cover-tagline-line">Haz que tu música nunca más te vuelva a </span><span class="cover-tagline-line">sacar del momento que estás viviendo.</span>
+              </p>
             </div>
             <div class="cover-team" style="margin-top: 22px;">
               <span class="cover-team-name">Mario Zaldívar</span>
@@ -435,17 +465,7 @@
         </div>
       </section>
 
-      <!-- ============ 5. La frase que cierra el problema ============ -->
-      <section id="statement" data-transition="fade" data-state="is-section-divider"
-               style="justify-content: center;">
-        <h1 class="statement">
-          <span class="line">Tu cuerpo cambia de ritmo</span>
-          <span class="line">todo el tiempo.</span>
-          <span class="line"><em>Tu música, no.</em></span>
-        </h1>
-      </section>
-
-      <!-- ============ 6. La respuesta ============ -->
+      <!-- ============ 7. La respuesta ============ -->
       <!-- Par tipográfico con la 5: mismo tratamiento, acento invertido.
            La 5 nombra el problema en coral; esta responde en cian. -->
       <section id="answer" data-transition="fade" data-state="is-section-divider" style="justify-content: center;">
@@ -931,7 +951,7 @@
           startZoneClock();
           return;
         }
-        // Los glifos aterrizan cerca de 1.6s y la descripción entra a 1.5s;
+        // Los glifos aterrizan cerca de 1.6s y la descripción entra a 2s;
         // el bloque se queda así, centrado, hasta 3.2s.
         later(function () { stage.classList.add('rearranged'); }, 3200);
         // El reacomodo tarda 1.1s: el equipo entra al asentarse y la demo
