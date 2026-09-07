@@ -30,18 +30,20 @@
            (ver el script de escenas al final del archivo). -->
       <!-- Abre el pitch: sin pill de sección (etiquetarla "el problema" delata
            el golpe antes de contarlo) y sin marca — Physical se revela hasta
-           la cuarta. La foto se acerca lentamente durante toda la diapositiva
-           para que la apertura respire en vez de quedarse congelada. -->
+           la sexta.
+
+           La foto NO es fondo a sangre: vive DENTRO de una .scene (tarjeta
+           retrato con marco) y las lecturas de BPM flotan sobre su esquina
+           inferior, sobresaliendo del marco. Así la imagen ubica la escena
+           sin tragarse el texto, y la UI del producto se lee literalmente
+           encima del momento real en vez de al lado de una postal. -->
       <section id="story-gym" class="story">
-        <div class="story-photo story-photo--drift"
-             style="background-image: url('img/gimnasio.jpg');" aria-hidden="true"></div>
+        <div class="content">
+          <div class="story-grid">
 
-        <div class="content" style="justify-content: center;">
-          <div style="display: grid; grid-template-columns: 1fr 380px; gap: 46px; align-items: center;">
-
-            <div>
+            <div class="story-column">
               <p class="story-lead story-lead--intro">Imaginen esto</p>
-              <div style="margin-top: 26px;">
+              <div class="beat-list">
                 <div class="beat fragment beat-in" data-fragment-index="0">
                   <div class="beat-icon"><i class="fa-solid fa-dumbbell"></i></div>
                   <p>Última repetición. Vas por tu récord personal.</p>
@@ -65,66 +67,77 @@
               </div>
             </div>
 
-            <div class="sync-stack">
+            <figure class="scene">
+              <div class="scene-frame">
+                <img class="scene-img scene-img--gym" src="img/gimnasio-audifonos.jpg"
+                     alt="Persona entrenando en un gimnasio con audífonos puestos">
+              </div>
+
               <!-- Cada tarjeta entra con el beat que le toca (mismo
                    data-fragment-index), no al abrir la diapositiva: la
                    lectura aparece cuando el guion la nombra. -->
-              <div class="sync-card fragment card-in" data-fragment-index="0">
-                <div class="sync-card-head">
-                  <i class="fa-solid fa-heart-pulse"></i>
-                  <p>Tu cuerpo</p>
-                </div>
-                <div class="sync-card-body">
-                  <div class="sync-tile"><i class="fa-solid fa-heart-pulse"></i></div>
-                  <div class="sync-track">
-                    <p class="sync-track-title">Ritmo cardíaco</p>
-                    <p class="sync-track-artist">Esfuerzo máximo</p>
-                  </div>
-                  <p class="sync-bpm">168<span>BPM</span></p>
-                </div>
-              </div>
-
-              <div class="sync-link fragment card-in" data-fragment-index="1">
-                <i class="fa-solid fa-right-left sync-when-ok"></i>
-                <i class="fa-solid fa-link-slash sync-when-broken"></i>
-                <p class="sync-when-ok">En sincronía</p>
-                <p class="sync-when-broken">Desincronizado</p>
-              </div>
-
-              <!-- Las dos canciones viven apiladas en la misma celda: el
-                   cambio de escena solo hace el cruce, sin que el JS tenga
-                   que reescribir textos. -->
-              <div class="sync-swap fragment card-in" data-fragment-index="1">
-                <div class="sync-card sync-swap-hot">
-                  <div class="sync-card-head">
-                    <i class="fa-solid fa-music"></i>
-                    <p>Tu música</p>
-                  </div>
-                  <div class="sync-card-body">
-                    <div class="sync-art"><img src="img/covers/till-i-collapse.jpg" alt=""></div>
-                    <div class="sync-track">
-                      <p class="sync-track-title">Till I Collapse</p>
-                      <p class="sync-track-artist">Eminem</p>
+              <div class="scene-cards">
+                <div class="sync-stack">
+                  <div class="sync-card fragment card-in" data-fragment-index="0">
+                    <div class="sync-card-head">
+                      <i class="fa-solid fa-heart-pulse"></i>
+                      <p>Tu cuerpo</p>
                     </div>
-                    <p class="sync-bpm">171<span>BPM</span></p>
-                  </div>
-                </div>
-                <div class="sync-card sync-card--calm sync-swap-calm">
-                  <div class="sync-card-head">
-                    <i class="fa-solid fa-music"></i>
-                    <p>Tu música</p>
-                  </div>
-                  <div class="sync-card-body">
-                    <div class="sync-art"><img src="img/covers/someone-like-you.jpg" alt=""></div>
-                    <div class="sync-track">
-                      <p class="sync-track-title">Someone Like You</p>
-                      <p class="sync-track-artist">Adele</p>
+                    <div class="sync-card-body">
+                      <div class="sync-tile"><i class="fa-solid fa-heart-pulse"></i></div>
+                      <div class="sync-track">
+                        <p class="sync-track-title">Ritmo cardíaco</p>
+                        <p class="sync-track-artist">Esfuerzo máximo</p>
+                      </div>
+                      <p class="sync-bpm">168<span>BPM</span></p>
                     </div>
-                    <p class="sync-bpm">67<span>BPM</span></p>
+                  </div>
+
+                  <div class="sync-link fragment card-in" data-fragment-index="1">
+                    <i class="fa-solid fa-right-left sync-when-ok"></i>
+                    <i class="fa-solid fa-link-slash sync-when-broken"></i>
+                    <p class="sync-when-ok">En sincronía</p>
+                    <p class="sync-when-broken">Desincronizado</p>
+                  </div>
+
+                  <!-- Las dos canciones viven apiladas en la misma celda: el
+                       cambio de escena solo hace el cruce, sin que el JS tenga
+                       que reescribir textos. -->
+                  <div class="sync-swap fragment card-in" data-fragment-index="1">
+                    <div class="sync-card sync-swap-hot"
+                         data-audio="audio/till-i-collapse.mp3" data-audio-scene="!broken">
+                      <div class="sync-card-head">
+                        <i class="fa-solid fa-music"></i>
+                        <p>Tu música</p>
+                      </div>
+                      <div class="sync-card-body">
+                        <div class="sync-art"><img src="img/covers/till-i-collapse.jpg" alt=""></div>
+                        <div class="sync-track">
+                          <p class="sync-track-title">Till I Collapse</p>
+                          <p class="sync-track-artist">Eminem</p>
+                        </div>
+                        <p class="sync-bpm">171<span>BPM</span></p>
+                      </div>
+                    </div>
+                    <div class="sync-card sync-card--calm sync-swap-calm"
+                         data-audio="audio/te-para-3.mp3" data-audio-scene="broken">
+                      <div class="sync-card-head">
+                        <i class="fa-solid fa-music"></i>
+                        <p>Tu música</p>
+                      </div>
+                      <div class="sync-card-body">
+                        <div class="sync-art"><img src="img/covers/te-para-3.jpg" alt=""></div>
+                        <div class="sync-track">
+                          <p class="sync-track-title">Té Para 3</p>
+                          <p class="sync-track-artist">Soda Stereo · Unplugged</p>
+                        </div>
+                        <p class="sync-bpm">116<span>BPM</span></p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </figure>
 
           </div>
         </div>
@@ -133,64 +146,81 @@
       <!-- ============ 2. HOOK — La mañana ============ -->
       <!-- Sin título, por pedido: la secuencia de contratiempos es la que
            lleva la narración. Cada paso trae data-stress, y el medidor sube
-           al ritmo con el que el presentador avanza. -->
+           al ritmo con el que el presentador avanza.
+
+           Espejo de la anterior (escena a la izquierda, guion a la derecha)
+           para que las dos hooks se lean como un par y no como la misma
+           diapositiva dos veces. Aquí los data-fragment-index son EXPLÍCITOS
+           porque la escena va primero en el DOM: sin ellos, la canción que
+           suena en el coche se revelaría antes que los contratiempos. -->
       <section id="story-morning" class="story">
-        <div class="story-photo story-photo--pan" style="background-image: url('img/trafico.jpg');" aria-hidden="true"></div>
+        <div class="content">
+          <div class="story-grid story-grid--mirror">
 
-        <div class="content" style="justify-content: center; gap: 26px;">
-
-          <p class="story-lead">Imaginemos otro escenario</p>
-
-          <div class="morning-track">
-            <div class="morning-step fragment step-in" data-stress="18">
-              <i class="fa-solid fa-paw"></i>
-              <p>Pisas el pipí del perro. A limpiar.</p>
-            </div>
-            <div class="morning-step fragment step-in" data-stress="34">
-              <i class="fa-solid fa-mug-hot"></i>
-              <p>Sin tiempo de desayunar.</p>
-            </div>
-            <div class="morning-step fragment step-in" data-stress="52">
-              <i class="fa-solid fa-folder-open"></i>
-              <p>Olvidaste la entrega. Regresas por ella.</p>
-            </div>
-            <div class="morning-step fragment step-in" data-stress="68">
-              <i class="fa-solid fa-clock"></i>
-              <p>Ya vas tarde.</p>
-            </div>
-            <div class="morning-step fragment step-in" data-stress="80">
-              <i class="fa-solid fa-car-side"></i>
-              <p>Y el tráfico está peor que nunca.</p>
-            </div>
-          </div>
-
-          <div class="stress-meter">
-            <p>Nivel de estrés</p>
-            <div class="stress-rail"><div class="stress-fill" id="stress-fill"></div></div>
-          </div>
-
-          <div style="display: grid; grid-template-columns: 380px 1fr; gap: 40px; align-items: center;">
-            <div class="sync-card fragment card-in" data-stress="92">
-              <div class="sync-card-head">
-                <i class="fa-solid fa-guitar"></i>
-                <p>Lo que suena al subirte</p>
+            <figure class="scene scene--mirror">
+              <div class="scene-frame">
+                <img class="scene-img scene-img--car" src="img/volante-estres.jpg"
+                     alt="Conductor con la cabeza apoyada sobre el volante">
               </div>
-              <div class="sync-card-body">
-                <div class="sync-art"><img src="img/covers/chop-suey.jpg" alt=""></div>
-                <div class="sync-track">
-                  <p class="sync-track-title">Chop Suey!</p>
-                  <p class="sync-track-artist">System Of A Down</p>
+
+              <div class="scene-cards">
+                <div class="sync-card fragment card-in" data-fragment-index="5" data-stress="92"
+                     data-audio="audio/chop-suey.mp3">
+                  <div class="sync-card-head">
+                    <i class="fa-solid fa-guitar"></i>
+                    <p>Lo que suena al subirte</p>
+                  </div>
+                  <div class="sync-card-body">
+                    <div class="sync-art"><img src="img/covers/chop-suey.jpg" alt=""></div>
+                    <div class="sync-track">
+                      <p class="sync-track-title">Chop Suey!</p>
+                      <p class="sync-track-artist">System Of A Down</p>
+                    </div>
+                    <p class="sync-bpm">127<span>BPM</span></p>
+                  </div>
                 </div>
-                <p class="sync-bpm">127<span>BPM</span></p>
+              </div>
+            </figure>
+
+            <div class="story-column">
+              <p class="story-lead">Imaginemos otro escenario</p>
+
+              <div class="morning-track">
+                <div class="morning-step fragment step-in" data-fragment-index="0" data-stress="18">
+                  <i class="fa-solid fa-paw"></i>
+                  <p>Pisas el pipí del perro. A limpiar.</p>
+                </div>
+                <div class="morning-step fragment step-in" data-fragment-index="1" data-stress="34">
+                  <i class="fa-solid fa-mug-hot"></i>
+                  <p>Sin tiempo de desayunar.</p>
+                </div>
+                <div class="morning-step fragment step-in" data-fragment-index="2" data-stress="52">
+                  <i class="fa-solid fa-folder-open"></i>
+                  <p>Olvidaste la entrega. Regresas por ella.</p>
+                </div>
+                <div class="morning-step fragment step-in" data-fragment-index="3" data-stress="68">
+                  <i class="fa-solid fa-clock"></i>
+                  <p>Ya vas tarde.</p>
+                </div>
+                <div class="morning-step fragment step-in" data-fragment-index="4" data-stress="80">
+                  <i class="fa-solid fa-car-side"></i>
+                  <p>Y el tráfico está peor que nunca.</p>
+                </div>
+              </div>
+
+              <div class="stress-meter">
+                <p>Nivel de estrés</p>
+                <div class="stress-rail"><div class="stress-fill" id="stress-fill"></div></div>
+              </div>
+
+              <div class="beat beat--break fragment beat-in" data-fragment-index="6" data-stress="100"
+                   style="max-width: 100%;">
+                <div class="beat-icon"><i class="fa-solid fa-car-burst"></i></div>
+                <p>Manejas desconcentrado. Y golpeas un coche.</p>
               </div>
             </div>
 
-            <div class="beat beat--break fragment beat-in" data-stress="100" style="max-width: 100%;">
-              <div class="beat-icon"><i class="fa-solid fa-car-burst"></i></div>
-              <p>Manejas desconcentrado. Y golpeas un coche.</p>
-            </div>
           </div>
-
         </div>
       </section>
 
@@ -988,10 +1018,17 @@
         return Reveal.getCurrentSlide();
       }
 
+      // El que manda es el orden de la NARRACIÓN (data-fragment-index), no el
+      // del documento: en la mañana la escena va primero en el DOM pero su
+      // tarjeta se revela hasta el final, así que recorrer el DOM y quedarse
+      // con el último visible dejaba el medidor corto.
       function lastVisible(slide, attr) {
         var seen = null;
-        slide.querySelectorAll('.fragment[data-' + attr + ']').forEach(function (el) {
-          if (el.classList.contains('visible')) seen = el.dataset[attr];
+        var seenAt = -Infinity;
+        slide.querySelectorAll('.fragment[data-' + attr + ']').forEach(function (el, i) {
+          if (!el.classList.contains('visible')) return;
+          var at = el.dataset.fragmentIndex === undefined ? i : Number(el.dataset.fragmentIndex);
+          if (at >= seenAt) { seenAt = at; seen = el.dataset[attr]; }
         });
         return seen;
       }
@@ -1007,6 +1044,133 @@
         var fill = slide.querySelector('.stress-fill');
         if (fill) fill.style.width = (lastVisible(slide, 'stress') || 0) + '%';
       }
+
+      Reveal.on('ready', sync);
+      Reveal.on('slidechanged', sync);
+      Reveal.on('fragmentshown', sync);
+      Reveal.on('fragmenthidden', sync);
+    })();
+
+    // Fragmentos de las canciones narradas.
+    //
+    // Cada tarjeta de canción declara su archivo en data-audio y suena
+    // mientras esa tarjeta esté ACTIVA en pantalla. "Activa" son dos cosas
+    // distintas a la vez:
+    //
+    //  - su fragmento ya se reveló (data-fragment-index manda sobre el orden
+    //    del documento, igual que en el medidor de estrés), y
+    //  - si declara data-audio-scene, la escena de la diapositiva coincide.
+    //    En el gimnasio las dos canciones viven en el MISMO fragmento y quien
+    //    decide cuál se ve —y cuál suena— es el aleatorio: "broken" para la
+    //    canción en calma, "!broken" para la que iba a tope.
+    //
+    // Al cambiar de diapositiva o de canción, la anterior se desvanece y
+    // arranca la nueva; se recalcula desde cero en cada evento, así que
+    // retroceder con la flecha izquierda también deshace el audio.
+    //
+    // Va DESPUÉS del script de escenas a propósito: los oyentes corren en
+    // orden de registro y este necesita leer el data-scene ya actualizado.
+    (function () {
+      var FADE_MS = 260;
+      var TICK_MS = 40;
+
+      var players = {};      // ruta -> <audio>, uno por canción, reutilizado
+      var playingSrc = null; // la que debería estar sonando ahora
+      var blockedSrc = null; // la que el navegador no dejó arrancar todavía
+
+      function player(src) {
+        if (!players[src]) {
+          var a = new Audio(src);
+          // El fragmento dura ~20s y el presentador puede tardar más en esa
+          // tarjeta: en loop se sostiene sola, sin silencio a media narración.
+          a.loop = true;
+          a.preload = 'auto';
+          players[src] = a;
+        }
+        return players[src];
+      }
+
+      function fade(audio, to, done) {
+        clearInterval(audio.fadeTimer);
+        var step = (to - audio.volume) / Math.max(1, FADE_MS / TICK_MS);
+        audio.fadeTimer = setInterval(function () {
+          var v = Math.min(1, Math.max(0, audio.volume + step));
+          audio.volume = v;
+          if (v === to) {
+            clearInterval(audio.fadeTimer);
+            if (done) done();
+          }
+        }, TICK_MS);
+      }
+
+      function stop(src) {
+        var a = players[src];
+        if (!a) return;
+        fade(a, 0, function () {
+          a.pause();
+          a.currentTime = 0;
+        });
+      }
+
+      function start(src) {
+        var a = player(src);
+        a.volume = 0;
+        var attempt = a.play();
+        // Ningún navegador deja sonar audio antes del primer gesto del
+        // usuario. Si lo bloquea, se anota y se reintenta con el gesto
+        // siguiente — que en una presentación es la flecha de avanzar.
+        if (attempt && attempt.catch) {
+          attempt.catch(function () { blockedSrc = src; });
+        }
+        fade(a, 1);
+      }
+
+      function activeSrc() {
+        var slide = Reveal.getCurrentSlide();
+        if (!slide) return null;
+
+        var scene = slide.dataset.scene || '';
+        var found = null;
+        var foundAt = -Infinity;
+
+        slide.querySelectorAll('[data-audio]').forEach(function (el, i) {
+          var frag = el.closest('.fragment');
+          if (frag && !frag.classList.contains('visible')) return;
+
+          var want = el.dataset.audioScene;
+          if (want) {
+            var negated = want.charAt(0) === '!';
+            var name = negated ? want.slice(1) : want;
+            if (negated ? scene === name : scene !== name) return;
+          }
+
+          var at = frag && frag.dataset.fragmentIndex !== undefined
+            ? Number(frag.dataset.fragmentIndex)
+            : i;
+          if (at >= foundAt) { foundAt = at; found = el.dataset.audio; }
+        });
+
+        return found;
+      }
+
+      function sync() {
+        var src = activeSrc();
+        if (src === playingSrc) return;
+        if (playingSrc) stop(playingSrc);
+        playingSrc = src;
+        blockedSrc = null;
+        if (src) start(src);
+      }
+
+      ['pointerdown', 'keydown'].forEach(function (evt) {
+        document.addEventListener(evt, function () {
+          if (blockedSrc && blockedSrc === playingSrc) {
+            var src = blockedSrc;
+            blockedSrc = null;
+            start(src);
+          }
+        });
+      });
 
       Reveal.on('ready', sync);
       Reveal.on('slidechanged', sync);
