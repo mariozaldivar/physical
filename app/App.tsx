@@ -34,23 +34,28 @@ const navigationTheme: Theme = {
 };
 
 export default function App() {
-  const [fontsLoaded] = useFonts({
+  // `fontError` importa especialmente en un build standalone: si la carga de
+  // fuentes falla ahí (assets corruptos, poca memoria), sin mirarlo la app se
+  // queda en el splash para siempre, sin pantalla y sin error visible. Se
+  // prefiere arrancar con la tipografía del sistema antes que no arrancar.
+  const [fontsLoaded, fontError] = useFonts({
     SpaceGrotesk_400Regular,
     SpaceGrotesk_500Medium,
     SpaceGrotesk_700Bold,
   });
+  const fontsSettled = fontsLoaded || Boolean(fontError);
 
   const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
+    if (fontsSettled) {
       await SplashScreen.hideAsync();
     }
-  }, [fontsLoaded]);
+  }, [fontsSettled]);
 
   useEffect(() => {
     onLayoutRootView();
   }, [onLayoutRootView]);
 
-  if (!fontsLoaded) return null;
+  if (!fontsSettled) return null;
 
   return (
     <GestureHandlerRootView style={styles.gestureRoot}>

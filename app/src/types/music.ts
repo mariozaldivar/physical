@@ -8,6 +8,12 @@ export interface BpmReading {
   bpm: number;
   zone: PulseZone;
   connection: BandConnectionState;
+  /**
+   * Contacto del sensor reportado por la banda: `true` midiendo, `false`
+   * conectada pero sin contacto con la piel, `null` conectada pero sin sensor
+   * que responda (ver `sensorContact` en store/sessionStore.ts).
+   */
+  sensorContact?: boolean | null;
 }
 
 export interface Track {

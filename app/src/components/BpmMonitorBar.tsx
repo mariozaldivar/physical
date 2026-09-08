@@ -10,6 +10,21 @@ const CONNECTION_COPY: Record<BpmReading["connection"], string> = {
   disconnected: "Banda desconectada",
 };
 
+/**
+ * Con la banda conectada, el texto tiene que distinguir tres situaciones que
+ * para el usuario son problemas distintos: la banda no trae sensor que
+ * responda (mal soldado/desconectado — el firmware lo reporta como "sensor
+ * contact not supported"), la trae pero no está en contacto con la piel, o
+ * está midiendo de verdad. Sin esto, las tres se ven igual: "Banda conectada"
+ * con 0 BPM.
+ */
+function statusCopy(connection: BpmReading["connection"], sensorContact: boolean | null | undefined): string {
+  if (connection !== "connected") return CONNECTION_COPY[connection];
+  if (sensorContact === null || sensorContact === undefined) return "Banda conectada · sin sensor";
+  if (!sensorContact) return "Banda conectada · sin contacto";
+  return "Banda conectada";
+}
+
 const CONNECTION_DOT_COLOR: Record<BpmReading["connection"], string> = {
   connected: colors.pulseCalm,
   scanning: colors.pulseHot,
@@ -26,9 +41,11 @@ interface BpmMonitorBarProps {
  * el mismo intervalo que separa dos pulsaciones reales.
  */
 export function BpmMonitorBar({ reading }: BpmMonitorBarProps) {
-  const { bpm, zone, connection } = reading;
+  const { bpm, zone, connection, sensorContact } = reading;
   const beat = useRef(new Animated.Value(0)).current;
-  const isLive = connection === "connected";
+  // "Conectada" no alcanza para latir: una banda conectada sin sensor manda 0
+  // BPM, y animar eso daría un latido inventado a ritmo del mínimo de 260ms.
+  const isLive = connection === "connected" && bpm > 0;
 
   useEffect(() => {
     beat.stopAnimation();
@@ -67,7 +84,7 @@ export function BpmMonitorBar({ reading }: BpmMonitorBarProps) {
         </Text>
         <View style={styles.subtitleRow}>
           <View style={[styles.dot, { backgroundColor: CONNECTION_DOT_COLOR[connection] }]} />
-          <Text style={styles.subtitle}>{CONNECTION_COPY[connection]}</Text>
+          <Text style={styles.subtitle}>{statusCopy(connection, sensorContact)}</Text>
         </View>
       </View>
 
