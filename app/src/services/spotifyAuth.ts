@@ -1,7 +1,7 @@
 import { Platform } from "react-native";
 import * as AuthSession from "expo-auth-session";
 import { secureStorage } from "./secureStorage";
-import { spotifyGet } from "./spotifyApi";
+import { SpotifyApiError, spotifyGet } from "./spotifyApi";
 
 const SESSION_STORAGE_KEY = "physical.spotifySession";
 // En web el flujo es de navegación completa (ver loginWithSpotify), no popup:
@@ -124,7 +124,23 @@ async function finishLogin(code: string, redirectUri: string, codeVerifier: stri
     throw new SpotifyAuthError("Spotify no devolvió un refresh token.");
   }
 
-  const profile = await spotifyGet<SpotifyProfile>("/me", tokenResponse.accessToken);
+  // Spotify puede entregar tokens válidos y aun así rechazar la primera
+  // llamada a la API con 403 cuando la app sigue en Development Mode y la
+  // cuenta que acaba de autorizar no está en el allowlist del dashboard. El
+  // mensaje crudo de Spotify no dice qué hacer, así que se traduce acá.
+  let profile: SpotifyProfile;
+  try {
+    profile = await spotifyGet<SpotifyProfile>("/me", tokenResponse.accessToken);
+  } catch (error) {
+    if (error instanceof SpotifyApiError && error.status === 403) {
+      throw new SpotifyAuthError(
+        "Spotify rechazó la sesión (403). La app está en Development Mode: agrega esta cuenta en el dashboard de Spotify (Settings → User Management) con el nombre y el email exactos de su perfil.",
+        error,
+      );
+    }
+    throw error;
+  }
+
   const session = toSession(
     {
       accessToken: tokenResponse.accessToken,
