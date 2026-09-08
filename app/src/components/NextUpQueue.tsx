@@ -1,6 +1,7 @@
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { colors, fonts, radii, spacing, zoneColor } from "../theme/theme";
+import { MIN_BLOCK_HEIGHT, useScreenSize } from "../theme/layout";
 import type { PulseZone, QueueTrack } from "../types/music";
 
 interface NextUpQueueProps {
@@ -17,9 +18,14 @@ interface NextUpQueueProps {
  */
 export function NextUpQueue({ queue, zone, isUpdating = false }: NextUpQueueProps) {
   const accent = zoneColor(zone);
+  const { width, compact } = useScreenSize();
+  // El chip se mide contra la pantalla en vez de llevar un ancho fijo: la idea
+  // es que siempre se asome el siguiente (señal de que la fila se desplaza),
+  // tanto en un 320dp como en un 412dp.
+  const chipWidth = Math.max(148, Math.min(190, (width - spacing.lg * 2) * 0.47));
 
   return (
-    <View style={styles.section}>
+    <View style={[styles.section, compact && styles.sectionCompact]}>
       <View style={styles.labelRow}>
         <Text style={styles.label}>A continuación</Text>
         {isUpdating ? (
@@ -43,7 +49,7 @@ export function NextUpQueue({ queue, zone, isUpdating = false }: NextUpQueueProp
           contentContainerStyle={styles.row}
         >
           {queue.map((track) => (
-            <View key={track.id} style={styles.chip}>
+            <View key={track.id} style={[styles.chip, { width: chipWidth }]}>
               <View style={styles.thumb}>
                 {track.albumArtUrl ? (
                   <Image source={{ uri: track.albumArtUrl }} style={styles.thumbImage} />
@@ -79,7 +85,12 @@ export function NextUpQueue({ queue, zone, isUpdating = false }: NextUpQueueProp
 const styles = StyleSheet.create({
   section: {
     flex: 1,
+    // Piso del bloque: etiqueta + un chip completo. Ver MIN_BLOCK_HEIGHT.
+    minHeight: MIN_BLOCK_HEIGHT.queue,
     paddingTop: spacing.lg,
+  },
+  sectionCompact: {
+    paddingTop: spacing.sm,
   },
   labelRow: {
     flexDirection: "row",
@@ -109,7 +120,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surface,
     borderRadius: radii.md,
     padding: spacing.sm,
-    width: 168,
     gap: spacing.sm,
   },
   thumb: {

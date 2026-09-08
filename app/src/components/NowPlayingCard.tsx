@@ -1,8 +1,13 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
+import { Image, StyleSheet, Text, View, type LayoutChangeEvent } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { StartSessionCard } from "./StartSessionCard";
 import { colors, fonts, radii, spacing, zoneColor } from "../theme/theme";
+import { MIN_BLOCK_HEIGHT, useScreenSize } from "../theme/layout";
 import type { Track, PulseZone } from "../types/music";
+
+/** Proporción del ancho disponible que ocupa la carátula cuando el alto no es el límite. */
+const ART_WIDTH_RATIO = 0.78;
 
 function formatTime(ms: number) {
   const totalSeconds = Math.max(0, Math.floor(ms / 1000));
@@ -27,9 +32,23 @@ interface NowPlayingCardProps {
  */
 export function NowPlayingCard({ track, zone, isLive = false, onStartSession }: NowPlayingCardProps) {
   const accent = zoneColor(zone);
+  const { compact } = useScreenSize();
+  // La carátula es cuadrada, así que dimensionarla sólo por ancho (como hacía
+  // el `width: "72%"` original) la desborda en cuanto la pantalla es baja: en
+  // un 360×640 el hueco disponible es ~135dp de alto contra 213dp de ancho.
+  // Se mide el hueco real y manda el lado más corto.
+  const [artBox, setArtBox] = useState<{ width: number; height: number } | null>(null);
+  const artSize = artBox ? Math.min(artBox.width * ART_WIDTH_RATIO, artBox.height) : null;
+
+  function measureArtRow(event: LayoutChangeEvent) {
+    const { width, height } = event.nativeEvent.layout;
+    setArtBox((current) =>
+      current && current.width === width && current.height === height ? current : { width, height },
+    );
+  }
 
   return (
-    <View style={styles.card}>
+    <View style={[styles.card, compact && styles.cardCompact]}>
       <View style={styles.attributionRow}>
         <MaterialCommunityIcons name="spotify" size={14} color={colors.spotifyGreen} />
         <Text style={styles.attributionText}>
@@ -39,18 +58,28 @@ export function NowPlayingCard({ track, zone, isLive = false, onStartSession }: 
 
       {track ? (
         <>
-          <View style={styles.artRow}>
+          <View style={styles.artRow} onLayout={measureArtRow}>
             {track.albumArtUrl ? (
-              <Image source={{ uri: track.albumArtUrl }} style={styles.art} />
+              <Image
+                source={{ uri: track.albumArtUrl }}
+                style={[styles.art, artSize !== null && { width: artSize, height: artSize }]}
+              />
             ) : (
-              <View style={[styles.art, styles.artPlaceholder, { borderColor: accent }]}>
+              <View
+                style={[
+                  styles.art,
+                  styles.artPlaceholder,
+                  { borderColor: accent },
+                  artSize !== null && { width: artSize, height: artSize },
+                ]}
+              >
                 <Ionicons name="musical-notes" size={28} color={accent} />
               </View>
             )}
           </View>
 
           <View style={styles.meta}>
-            <Text style={styles.title} numberOfLines={1}>
+            <Text style={[styles.title, compact && styles.titleCompact]} numberOfLines={1}>
               {track.title}
             </Text>
             <Text style={styles.artist} numberOfLines={1}>
@@ -103,9 +132,15 @@ export function NowPlayingCard({ track, zone, isLive = false, onStartSession }: 
 const styles = StyleSheet.create({
   card: {
     flex: 3,
+    // Piso del bloque: por debajo de esto la carátula queda tan chica que la
+    // tarjeta deja de leerse como "lo que está sonando". Ver MIN_BLOCK_HEIGHT.
+    minHeight: MIN_BLOCK_HEIGHT.nowPlaying,
     backgroundColor: colors.spotifyBlack,
     borderRadius: radii.lg,
     padding: spacing.lg,
+  },
+  cardCompact: {
+    padding: spacing.md,
   },
   attributionRow: {
     flexDirection: "row",
@@ -118,10 +153,15 @@ const styles = StyleSheet.create({
   },
   artRow: {
     flex: 1,
+    // Sin esto, el hueco medido nunca baja de lo que pide la carátula y la
+    // medición no tendría de qué protegerse.
+    minHeight: 0,
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: spacing.md,
+    paddingVertical: spacing.sm,
   },
+  // Medidas de arranque: valen sólo para el primer frame, antes de que
+  // `onLayout` reporte el hueco real (ver artSize).
   art: {
     width: "72%",
     aspectRatio: 1,
@@ -140,6 +180,9 @@ const styles = StyleSheet.create({
     fontFamily: fonts.display,
     color: colors.ink,
     fontSize: 19,
+  },
+  titleCompact: {
+    fontSize: 17,
   },
   artist: {
     color: colors.inkMuted,

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Animated, Easing, StyleSheet, Text, View } from "react-native";
+import { Animated, Easing, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { SpotifyLoginButton } from "../components";
@@ -123,7 +123,15 @@ export function LoginScreen({ navigation }: Props) {
 
   return (
     <SafeAreaView style={styles.screen}>
-      <View style={styles.content}>
+      {/* El titular ocupa cuatro renglones en un teléfono angosto y con la
+          escala de fuente del sistema al máximo no cabe centrado: con
+          `flexGrow: 1` se sigue centrando cuando sobra alto, y se desplaza
+          cuando no. */}
+      <ScrollView
+        style={styles.contentScroll}
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
+      >
         <PulseWaveform />
 
         <Text style={styles.headline}>
@@ -133,7 +141,7 @@ export function LoginScreen({ navigation }: Props) {
           Conecta tu banda y tu cuenta de Spotify: la cola se adapta a tu ritmo cardíaco en tiempo
           real, ya sea que estés estudiando o entrenando.
         </Text>
-      </View>
+      </ScrollView>
 
       <View style={styles.footer}>
         {error ? <Text style={styles.error}>{error}</Text> : null}
@@ -148,10 +156,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.bg,
   },
-  content: {
+  contentScroll: {
     flex: 1,
+  },
+  content: {
+    flexGrow: 1,
     justifyContent: "center",
     paddingHorizontal: spacing.xxl,
+    paddingVertical: spacing.xl,
   },
   waveform: {
     flexDirection: "row",

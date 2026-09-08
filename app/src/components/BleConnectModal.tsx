@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Animated, Easing, Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { Animated, Easing, Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { colors, fonts, radii, spacing } from "../theme/theme";
 import {
@@ -183,7 +183,11 @@ export function BleConnectModal({ visible, onClose, onConnected }: BleConnectMod
             </View>
           </View>
 
-          <View style={styles.list}>
+          <ScrollView
+            style={styles.list}
+            contentContainerStyle={styles.listContent}
+            showsVerticalScrollIndicator={false}
+          >
             {devices.map((device) => {
               const isSelected = selected?.id === device.id;
               const bars = signalBars(device.rssi);
@@ -230,7 +234,7 @@ export function BleConnectModal({ visible, onClose, onConnected }: BleConnectMod
                   : "Asegúrate de que la banda esté encendida y cerca. Sólo aparecen bandas con sensor de pulso estándar."}
               </Text>
             )}
-          </View>
+          </ScrollView>
 
           {status === "error" && (
             <Pressable
@@ -279,6 +283,10 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(4,6,12,0.6)",
   },
   sheet: {
+    // Sin tope, cada banda encontrada estira la hoja y en una pantalla baja
+    // "Cancelar" termina fuera del área visible. Con el tope, lo que se
+    // desplaza es la lista (ver styles.list), no los controles.
+    maxHeight: "88%",
     backgroundColor: colors.surface,
     borderTopLeftRadius: radii.xl,
     borderTopRightRadius: radii.xl,
@@ -335,6 +343,10 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   list: {
+    flexGrow: 0,
+    flexShrink: 1,
+  },
+  listContent: {
     gap: spacing.sm,
     minHeight: 64,
   },

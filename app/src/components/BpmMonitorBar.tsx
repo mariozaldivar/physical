@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { Animated, Easing, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { colors, fonts, radii, spacing, zoneColor } from "../theme/theme";
+import { MAX_FONT_SCALE, MIN_BLOCK_HEIGHT, useScreenSize } from "../theme/layout";
 import type { BpmReading } from "../types/music";
 
 const CONNECTION_COPY: Record<BpmReading["connection"], string> = {
@@ -42,6 +43,7 @@ interface BpmMonitorBarProps {
  */
 export function BpmMonitorBar({ reading }: BpmMonitorBarProps) {
   const { bpm, zone, connection, sensorContact } = reading;
+  const { compact } = useScreenSize();
   const beat = useRef(new Animated.Value(0)).current;
   // "Conectada" no alcanza para latir: una banda conectada sin sensor manda 0
   // BPM, y animar eso daría un latido inventado a ritmo del mínimo de 260ms.
@@ -77,21 +79,30 @@ export function BpmMonitorBar({ reading }: BpmMonitorBarProps) {
   const accent = isLive ? zoneColor(zone) : colors.inkFaint;
 
   return (
-    <View style={styles.bar}>
+    <View style={[styles.bar, compact && styles.barCompact]}>
       <View style={styles.leftBlock}>
-        <Text style={[styles.bpmValue, { color: isLive ? colors.ink : colors.inkFaint }]}>
+        <Text
+          maxFontSizeMultiplier={MAX_FONT_SCALE}
+          style={[
+            styles.bpmValue,
+            compact && styles.bpmValueCompact,
+            { color: isLive ? colors.ink : colors.inkFaint },
+          ]}
+        >
           {isLive ? Math.round(bpm) : "--"}
         </Text>
         <View style={styles.subtitleRow}>
           <View style={[styles.dot, { backgroundColor: CONNECTION_DOT_COLOR[connection] }]} />
-          <Text style={styles.subtitle}>{statusCopy(connection, sensorContact)}</Text>
+          <Text style={styles.subtitle} numberOfLines={2}>
+            {statusCopy(connection, sensorContact)}
+          </Text>
         </View>
       </View>
 
       <Animated.View style={{ transform: [{ scale }] }}>
         <Ionicons
           name={isLive ? "heart" : "heart-outline"}
-          size={34}
+          size={compact ? 28 : 34}
           color={accent}
         />
       </Animated.View>
@@ -104,21 +115,34 @@ export function BpmMonitorBar({ reading }: BpmMonitorBarProps) {
 const styles = StyleSheet.create({
   bar: {
     flex: 1,
+    // Piso de la barra cuando el alto de pantalla ya no alcanza para repartir
+    // proporcionalmente — por debajo de esto el numeral deja de respirar.
+    minHeight: MIN_BLOCK_HEIGHT.monitor,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    gap: spacing.md,
     backgroundColor: colors.surface,
     borderRadius: radii.lg,
     paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.md,
     overflow: "hidden",
   },
+  barCompact: {
+    paddingHorizontal: spacing.lg,
+  },
   leftBlock: {
+    flexShrink: 1,
     justifyContent: "center",
   },
   bpmValue: {
     fontFamily: fonts.display,
     fontSize: 44,
     lineHeight: 48,
+  },
+  bpmValueCompact: {
+    fontSize: 36,
+    lineHeight: 40,
   },
   subtitleRow: {
     flexDirection: "row",
@@ -134,6 +158,7 @@ const styles = StyleSheet.create({
   subtitle: {
     color: colors.inkMuted,
     fontSize: 13,
+    flexShrink: 1,
   },
   zoneBar: {
     position: "absolute",

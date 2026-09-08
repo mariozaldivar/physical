@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { DrawerActions } from "@react-navigation/native";
@@ -9,6 +9,7 @@ import type { MainDrawerParamList } from "../navigation/types";
 import { useSessionStore } from "../store/sessionStore";
 import { useSpotifyStore } from "../store/spotifyStore";
 import { colors, fonts, radii, spacing, zoneColor } from "../theme/theme";
+import { MAX_FONT_SCALE, useScreenSize } from "../theme/layout";
 import type { PulseZone } from "../theme/theme";
 
 type Props = DrawerScreenProps<MainDrawerParamList, "Home">;
@@ -41,6 +42,7 @@ export function HomeScreen({ navigation }: Props) {
     refreshReading,
   } = useSessionStore();
   const [bleModalVisible, setBleModalVisible] = useState(false);
+  const { compact, narrow } = useScreenSize();
 
   const spotifySession = useSpotifyStore((state) => state.session);
   const spotifyNowPlaying = useSpotifyStore((state) => state.nowPlaying);
@@ -125,7 +127,7 @@ export function HomeScreen({ navigation }: Props) {
 
   return (
     <SafeAreaView style={styles.screen} edges={["top", "left", "right"]}>
-      <View style={styles.header}>
+      <View style={[styles.header, compact && styles.headerCompact]}>
         <View style={styles.wordmarkRow}>
           <Text style={styles.wordmark}>Physical</Text>
           <Pressable
@@ -156,6 +158,7 @@ export function HomeScreen({ navigation }: Props) {
                   ]}
                 >
                   <Text
+                    maxFontSizeMultiplier={MAX_FONT_SCALE}
                     style={[
                       styles.zoneOptionText,
                       selected && styles.zoneOptionTextSelected,
@@ -189,14 +192,26 @@ export function HomeScreen({ navigation }: Props) {
               size={14}
               color={isSyncing ? accent : colors.bg}
             />
-            <Text style={[styles.syncButtonText, isSyncing ? { color: accent } : { color: colors.bg }]}>
-              {isSyncing ? "Detener" : "Conectar banda"}
+            <Text
+              maxFontSizeMultiplier={MAX_FONT_SCALE}
+              numberOfLines={1}
+              style={[styles.syncButtonText, isSyncing ? { color: accent } : { color: colors.bg }]}
+            >
+              {isSyncing ? "Detener" : narrow ? "Conectar" : "Conectar banda"}
             </Text>
           </Pressable>
         </View>
       </View>
 
-      <View style={styles.stack}>
+      {/* `flexGrow: 1` es lo que deja convivir las dos formas del layout: si el
+          contenido cabe, los bloques reparten el alto sobrante según su `flex`
+          (la composición 1/3/1 de siempre); si no cabe, cada uno se queda en su
+          altura mínima y la pantalla se desplaza. Ver MIN_BLOCK_HEIGHT. */}
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={[styles.stack, compact && styles.stackCompact]}
+        showsVerticalScrollIndicator={false}
+      >
         <BpmMonitorBar reading={{ bpm, zone, connection: displayConnection, sensorContact }} />
         <NowPlayingCard
           track={nowPlayingTrack}
@@ -235,7 +250,7 @@ export function HomeScreen({ navigation }: Props) {
             </Text>
           </View>
         ) : null}
-      </View>
+      </ScrollView>
 
       <BleConnectModal
         visible={bleModalVisible}
@@ -260,6 +275,11 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.lg,
     gap: spacing.md,
   },
+  headerCompact: {
+    paddingTop: spacing.xs,
+    paddingBottom: spacing.md,
+    gap: spacing.sm,
+  },
   wordmarkRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -278,10 +298,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: colors.surface,
   },
+  // Los dos controles miden ~290dp juntos: en un teléfono de 320dp de ancho ya
+  // no caben en una fila. `wrap` los baja a dos renglones en vez de empujar el
+  // botón fuera de la pantalla.
   headerActions: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    flexWrap: "wrap",
+    gap: spacing.sm,
   },
   zoneToggle: {
     flexDirection: "row",
@@ -317,10 +342,17 @@ const styles = StyleSheet.create({
     color: colors.ink,
     fontFamily: fonts.displayMedium,
   },
-  stack: {
+  scroll: {
     flex: 1,
+  },
+  stack: {
+    flexGrow: 1,
     gap: spacing.lg,
     paddingBottom: spacing.xxxl,
+  },
+  stackCompact: {
+    gap: spacing.md,
+    paddingBottom: spacing.xl,
   },
   statusChip: {
     flexDirection: "row",
