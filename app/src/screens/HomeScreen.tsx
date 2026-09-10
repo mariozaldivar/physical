@@ -30,6 +30,9 @@ export function HomeScreen({ navigation }: Props) {
     connection,
     zone,
     bpm,
+    source,
+    sensorContact,
+    bandError,
     nowPlaying: simulatedNowPlaying,
     queue: simulatedQueue,
     setZone,
@@ -53,11 +56,14 @@ export function HomeScreen({ navigation }: Props) {
   const syncQueueModel = useSpotifyStore((state) => state.syncQueueModel);
   const clearQueue = useSpotifyStore((state) => state.clearQueue);
 
+  // Sólo el flujo simulado necesita este intervalo: con banda real el BPM llega
+  // empujado por las notificaciones BLE del characteristic 0x2A37, y este
+  // timer las pisaría con valores inventados.
   useEffect(() => {
-    if (connection !== "connected") return;
+    if (connection !== "connected" || source !== "simulated") return;
     const id = setInterval(refreshReading, READING_INTERVAL_MS);
     return () => clearInterval(id);
-  }, [connection, refreshReading]);
+  }, [connection, source, refreshReading]);
 
   // Cache local primero (offline-first), luego sync fresco si hay sesión real de Spotify.
   useEffect(() => {
@@ -191,7 +197,7 @@ export function HomeScreen({ navigation }: Props) {
       </View>
 
       <View style={styles.stack}>
-        <BpmMonitorBar reading={{ bpm, zone, connection: displayConnection }} />
+        <BpmMonitorBar reading={{ bpm, zone, connection: displayConnection, sensorContact }} />
         <NowPlayingCard
           track={nowPlayingTrack}
           zone={zone}
@@ -213,6 +219,14 @@ export function HomeScreen({ navigation }: Props) {
             </Text>
           </View>
         ) : null}
+        {bandError ? (
+          <View style={[styles.statusChip, styles.statusChipError]}>
+            <Ionicons name="bluetooth" size={14} color={colors.pulseHot} />
+            <Text style={[styles.statusChipText, styles.statusChipTextError]} numberOfLines={3}>
+              {bandError}
+            </Text>
+          </View>
+        ) : null}
         {spotifySession && queueError ? (
           <View style={[styles.statusChip, styles.statusChipError]}>
             <Ionicons name="alert-circle" size={14} color={colors.pulseHot} />
@@ -226,9 +240,9 @@ export function HomeScreen({ navigation }: Props) {
       <BleConnectModal
         visible={bleModalVisible}
         onClose={() => setBleModalVisible(false)}
-        onConnected={() => {
+        onConnected={(device, connectedSource) => {
           setBleModalVisible(false);
-          startSync();
+          startSync(device, connectedSource);
         }}
       />
     </SafeAreaView>

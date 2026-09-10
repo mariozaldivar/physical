@@ -565,7 +565,7 @@
                   <span class="demo-live-dot"></span>
                 </div>
                 <div class="demo-queue-viewport">
-                  <!-- Modo estudio — BPM en calma (canciones reales, BPM público aproximado) -->
+                  <!-- Modo zen — BPM en calma (canciones reales, BPM público aproximado) -->
                   <div class="demo-queue-frame">
                     <div class="demo-track now-playing">
                       <div class="demo-track-art">
@@ -828,7 +828,7 @@
 
                   <div class="mode-toggle">
                     <span class="mode-toggle-thumb" aria-hidden="true"></span>
-                    <p class="mode-toggle-opt" data-for="estudio">Estudio</p>
+                    <p class="mode-toggle-opt" data-for="estudio">Zen</p>
                     <p class="mode-toggle-opt" data-for="ejercicio">
                       Ejercicio
                     </p>
@@ -887,7 +887,7 @@
                     <div class="mode-icon">
                       <i class="fa-solid fa-book"></i>
                     </div>
-                    <h3>Modo estudio</h3>
+                    <h3>Modo zen</h3>
                     <p>
                       Más pulsaciones → música más calmada, para sostener la
                       concentración.
@@ -973,7 +973,7 @@
                 <span class="guard-step-num">2</span>
                 <div>
                   <p class="guard-step-title">Se anula el modo</p>
-                  <p class="guard-step-note">Da igual estudio o ejercicio</p>
+                  <p class="guard-step-note">Da igual zen o ejercicio</p>
                 </div>
               </div>
               <div class="guard-step guard-step--3">
@@ -1917,8 +1917,10 @@
         Reveal.on("fragmenthidden", sync);
       })();
 
-      // Maqueta de configuración: alterna sola entre modo estudio y modo
-      // ejercicio mientras la diapositiva está en pantalla. Enseñar la
+      // Maqueta de configuración: alterna sola entre modo zen y modo
+      // ejercicio mientras la diapositiva está en pantalla. (El modo zen se
+      // llama "estudio" en el data-mode y en los selectores de base.css: es
+      // el nombre interno, anterior al cambio de nombre visible.) Enseñar la
       // configuración CAMBIANDO comunica "es configurable" mucho mejor que
       // una viñeta que lo prometa; el CSS deriva de data-mode el selector, la
       // regla, el rango, el color y qué tarjeta se enciende.

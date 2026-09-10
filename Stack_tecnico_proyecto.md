@@ -43,14 +43,19 @@ Basado en las features descritas en `Planeacion_proyecto.md`. Criterios de dise�
 | Comunicación         | **BLE (Bluetooth Low Energy)**, exponiendo el **Heart Rate Service estándar (UUID 0x180D)** | Es el mismo protocolo que usan bandas comerciales (Polar, Garmin, etc). Al usar el perfil estándar, **cualquier librería BLE de la industria fitness ya sabe leerlo** — no hay que inventar un protocolo propio, y las librerías del lado de la app (abajo) tienen soporte directo para este servicio. |
 | Sensor BPM           | El que ya tengan cotizado (ej. MAX30102/MAX30105 por I2C)                                   | No es una decisión de software; solo asegurarse de que el sensor puede alimentar el Heart Rate Service vía notificaciones BLE.                                                                                                                                                                         |
 
-**Implementado 2026-09-03 (base, sin hardware):** proyecto PlatformIO completo en
+**Implementado y flasheado (2026-09-07):** proyecto PlatformIO completo en
 `firmware/` — ver `firmware/README.md` para wiring, build/flash y verificación.
 Sensor vía SparkFun MAX3010x library (algoritmo de BPM verificado contra el
 ejemplo oficial del repo, no adivinado); BLE con el stack Arduino de ESP-32
 (`BLEDevice`/`BLEServer`/`BLE2902`), Heart Rate Service 0x180D + característica
-0x2A37 + Body Sensor Location 0x2A38. **No compilado ni flasheado todavía**
-(sin PlatformIO ni hardware físico en el entorno donde se escribió) — primera
-compilación real pendiente para cuando exista la banda física.
+0x2A37 + Body Sensor Location 0x2A38.
+
+Verificado sobre la placa real: se anuncia como "Physical Band", acepta conexión
+GATT y notifica el characteristic 0x2A37 una vez por segundo. **El BLE arranca
+siempre, haya sensor o no** — la versión anterior se colgaba en un `while (true)`
+si el MAX30102 no respondía, y nunca llegaba a encender el Bluetooth. El estado
+del sensor se reporta por Serial y por BLE (ver §8), lo que convierte al firmware
+en su propio diagnóstico de cableado/soldadura.
 
 ---
 
@@ -69,7 +74,7 @@ compilación real pendiente para cuando exista la banda física.
 | Pieza                | Elección                                                      | Por qué                                                                                                                                                                                |
 | -------------------- | ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Lenguaje             | **TypeScript**                                                | Estándar de facto en cualquier vacante de frontend/RN moderna.                                                                                                                         |
-| Comunicación BLE     | `react-native-ble-plx`                                        | Librería más madura del ecosistema RN para BLE; soporta directamente perfiles GATT estándar como el Heart Rate Service. **Instalada e implementada 2026-09-03** en `app/src/services/bleHeartRateService.native.ts` (scan/connect/subscribe + parseo del characteristic de medición). Archivo `.native.ts` a propósito — Metro lo excluye del bundle web por convención de plataforma, así que la librería (que no corre en web) no puede romper `expo start --web`. Todavía no conectado a `BleConnectModal`/`sessionStore` (que siguen usando el scanner simulado, `bleScanner.ts`): no hay banda física con la que probar el handshake real — ver el comentario al inicio de ese archivo. |
+| Comunicación BLE     | `react-native-ble-plx`                                        | Librería más madura del ecosistema RN para BLE; soporta directamente perfiles GATT estándar como el Heart Rate Service. Implementada en `app/src/services/bleHeartRateService.native.ts` (scan/connect/subscribe/desconexión + parseo del characteristic de medición). Archivo `.native.ts` a propósito — Metro lo excluye del bundle web por convención de plataforma, así que la librería (que no corre en web) no puede romper `expo start --web`. **Integrada end-to-end el 2026-09-07** (ver §8). |
 | Estado global        | **Zustand**                                                   | Más simple que Redux para un proyecto de este tamaño, pero sigue siendo una skill transferible y cada vez más pedida (ha desplazado a Redux en muchos stacks nuevos).                  |
 | Navegación           | `react-navigation`                                            | Estándar del ecosistema RN.                                                                                                                                                            |
 | Auth con Spotify     | **OAuth 2.0 con PKCE** (sin client secret embebido en la app), redirect URI nativo con **custom URL scheme** (`physical://spotify-auth-callback`) | Es el flujo correcto y seguro para apps públicas sin backend. Implementado con `expo-auth-session` (`app/src/services/spotifyAuth.ts`). **Nota de arquitectura (verificado 2026-09-02 contra el [blog post oficial de Spotify, feb 2025](https://developer.spotify.com/blog/2025-02-12-increasing-the-security-requirements-for-integrating-with-spotify)):** Spotify permite explícitamente custom URL schemes como redirect URI en apps móviles ("*Redirects using a custom scheme will still be supported*"), lo cual cierra la última pieza que parecía necesitar un backend — el deep link de vuelta a la app ya no requiere un endpoint HTTPS intermedio. **Implementado 2026-09-03:** `"scheme": "physical"` en `app.json` + `getRedirectUri()` usa `AuthSession.makeRedirectUri({ scheme: "physical", path: "spotify-auth-callback" })` en nativo (antes esperaba una URL HTTPS vía `EXPO_PUBLIC_SPOTIFY_REDIRECT_URI` que nunca pudo llenarse sin el backend ya eliminado — bloqueaba el login real en cualquier build nativo). Pendiente del usuario: registrar `physical://spotify-auth-callback` en el dashboard de Spotify. En web se mantiene el loopback `http://127.0.0.1:<puerto>` para desarrollo, sin cambios. |
@@ -225,3 +230,52 @@ playlists chica) rellena con repetidos — se prefiere repetir algo a devolver u
 cola más corta de lo pedido.
 
 Pendientes de cuentas/API keys para las capas 2 y 3 (GetSongBPM, Kaggle): ver `TODO_apis_bpm.md`.
+
+---
+
+## 8. Integración BLE end-to-end (2026-09-07)
+
+La app ya no usa el scanner simulado en nativo: busca, conecta y lee BPM de la
+banda real. El BPM que consume todo lo demás (`spotifyStore.refreshQueueForBpm`,
+`NextUpQueue`, `BpmMonitorBar`) es el mismo campo `bpm` de `sessionStore` de
+siempre — sólo cambió de dónde viene, así que nada aguas abajo tuvo que
+cambiar.
+
+### Despacho por plataforma
+
+`app/src/services/band.ts` (web) y `band.native.ts` (iOS/Android) son el único
+punto donde se decide si hay BLE real. Metro resuelve `.native.ts` en nativo por
+convención de plataforma, igual que ya protegía al cliente BLE del bundle web.
+Los consumidores miran `BLE_SUPPORTED` y, si es `false`, caen al flujo simulado
+de `bleScanner.ts`. En web eso es automático (no existe BLE en navegador); en
+nativo es una salida manual, el botón "Usar banda simulada" del modal — el plan B
+de feria del punto 0 de `Checklist_demo_proyecto.md` sigue disponible sin
+hardware.
+
+### Los tres estados del sensor llegan a la pantalla
+
+El firmware codifica el estado del sensor en los bits *Sensor Contact* del flags
+byte estándar (ver `firmware/README.md`), así que no hace falta un characteristic
+propietario. `sessionStore.sensorContact` los distingue y `BpmMonitorBar` los
+dice con todas sus letras:
+
+| Flags | `sensorContact` | Texto en pantalla |
+| --- | --- | --- |
+| `0x00` | `null` | "Banda conectada · sin sensor" |
+| `0x04` | `false` | "Banda conectada · sin contacto" |
+| `0x06` | `true` | "Banda conectada" |
+
+Esto importa hoy: la banda física tiene el MAX30102 con `SDA` en corto (ver
+`firmware/README.md`), así que se conecta bien y reporta `0x00`. Sin esta
+distinción la app mostraría "Banda conectada" con 0 BPM y parecería un bug de la
+app, no del hardware.
+
+### Errores que antes eran invisibles
+
+- Bluetooth apagado / sin permiso / no soportado: `startScan` consulta
+  `BleManager.state()` antes de escanear. Sin eso, `startDeviceScan` simplemente
+  no entrega nada y la pantalla se queda "buscando" para siempre —
+  indistinguible de "no hay ninguna banda cerca".
+- Desconexión inesperada (banda apagada, fuera de rango): `subscribeToDisconnection`
+  corta la sesión y lo dice, en vez de dejar el último BPM congelado en pantalla.
+- Todo error de banda se ve en `HomeScreen` vía `sessionStore.bandError`.

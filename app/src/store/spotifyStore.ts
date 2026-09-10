@@ -267,6 +267,14 @@ export const useSpotifyStore = create<SpotifyState>((set, get) => ({
     const { session, lastQueueBpm, queueBuilding } = get();
     if (!session || queueBuilding) return;
 
+    // 0 BPM no es un ritmo lento: es "todavía no hay lectura". Pasa siempre al
+    // conectar una banda real (la primera notificación tarda ~1s) y de forma
+    // permanente si el sensor no responde. Sin esta guarda se armaría una cola
+    // "para 0 BPM" —las canciones más lentas del catálogo— y, peor, se
+    // escribiría en la cola real de Spotify del usuario a partir de un dato
+    // que no existe.
+    if (targetBpm <= 0) return;
+
     if (!force && lastQueueBpm !== null) {
       const diff = Math.abs(targetBpm - lastQueueBpm);
       if (diff < BPM_RECOMPUTE_THRESHOLD) {

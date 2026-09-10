@@ -1,72 +1,86 @@
 #include <Arduino.h>
-#include <Wire.h>
 
-// Diagnóstico temporal de wiring I2C — NO es el firmware real de la banda
-// (ese está respaldado, ver conversación). Objetivo: aislar cuál pin/línea
-// está fallando cuando el MAX30102 no se detecta.
-//
-// 1) Lee el nivel crudo de SDA/SCL como GPIO digital plano, ANTES de tocar
-//    Wire — si el pull-up (fijado por el jumper de la placa) llega bien a
-//    3.3V, cada línea debe leer HIGH de forma estable en reposo. Una línea
-//    que lee LOW o inestable señala esa línea específica (cable suelto, GND
-//    flotante, o jumper en 1V8) — comparar SDA vs SCL aísla cuál de las dos.
-// 2) Escanea las 127 direcciones I2C posibles, no sólo 0x57 (dirección del
-//    MAX30102/MAX3010x) — si algo responde en cualquier dirección, el bus
-//    en sí funciona eléctricamente y el problema es más específico
-//    (mala dirección, sensor dañado, mal soldado en el propio chip).
+#include "BleHeartRateService.h"
+#include "HeartRateSensor.h"
+#include "I2cDiagnostics.h"
 
+// Nombre con el que se anuncia la banda por BLE.
+constexpr char kDeviceName[] = "Physical Band";
+
+// Pines I2C por defecto del ESP-32 DevKitC (ver README.md, sección Wiring).
 constexpr int kSdaPin = 21;
 constexpr int kSclPin = 22;
 
-void checkLineLevels() {
-  pinMode(kSdaPin, INPUT);
-  pinMode(kSclPin, INPUT);
-  delay(10);
+// Cada cuánto se envía una notificación BLE con el BPM actual, y se imprime
+// una línea de estado por Serial. El sensor se lee en cada loop() sin
+// bloquear; notificar más rápido que esto no aporta nada — el characteristic
+// estándar sólo lleva un entero de BPM.
+constexpr unsigned long kNotifyIntervalMs = 1000;
 
-  const int samples = 20;
-  int sdaHigh = 0;
-  int sclHigh = 0;
-  for (int i = 0; i < samples; i++) {
-    if (digitalRead(kSdaPin) == HIGH) sdaHigh++;
-    if (digitalRead(kSclPin) == HIGH) sclHigh++;
-    delay(5);
-  }
+// Cada cuánto se reintenta detectar el sensor (y se imprime el diagnóstico
+// del bus) mientras no esté presente. Permite arreglar la soldadura con la
+// banda encendida y ver cuándo empieza a responder, sin reflashear.
+constexpr unsigned long kSensorRetryIntervalMs = 3000;
 
-  Serial.printf("SDA (GPIO%d): HIGH en %d/%d muestras%s\n", kSdaPin, sdaHigh, samples,
-                sdaHigh == samples ? "  [OK - pull-up estable]" : "  [SOSPECHOSO]");
-  Serial.printf("SCL (GPIO%d): HIGH en %d/%d muestras%s\n", kSclPin, sclHigh, samples,
-                sclHigh == samples ? "  [OK - pull-up estable]" : "  [SOSPECHOSO]");
+HeartRateSensor heartRateSensor;
+unsigned long lastNotifyAt = 0;
+unsigned long lastSensorRetryAt = 0;
+
+SensorStatus currentStatus() {
+  if (!heartRateSensor.isPresent()) return SensorStatus::NotDetected;
+  return heartRateSensor.fingerDetected() ? SensorStatus::Measuring : SensorStatus::NoContact;
 }
 
-void scanI2C() {
-  Wire.begin(kSdaPin, kSclPin);
-  Serial.println("Escaneando bus I2C (direcciones 0x01-0x7E)...");
-  int found = 0;
-  for (uint8_t addr = 1; addr < 127; addr++) {
-    Wire.beginTransmission(addr);
-    uint8_t err = Wire.endTransmission();
-    if (err == 0) {
-      Serial.printf("  -> Dispositivo encontrado en 0x%02X%s\n", addr,
-                     addr == 0x57 ? "  <-- dirección esperada del MAX30102" : "");
-      found++;
-    }
+const char* statusLabel(SensorStatus status) {
+  switch (status) {
+    case SensorStatus::NotDetected: return "SENSOR NO DETECTADO";
+    case SensorStatus::NoContact:   return "sensor OK - sin contacto";
+    case SensorStatus::Measuring:   return "sensor OK - midiendo";
   }
-  if (found == 0) Serial.println("  Ningun dispositivo respondio en ninguna direccion.");
+  return "?";
 }
 
 void setup() {
   Serial.begin(115200);
-  delay(1500);
+  delay(1500);  // da tiempo a que el monitor serial se enganche antes del primer print
   Serial.println();
-  Serial.println("=== Diagnostico I2C MAX30102 (firmware temporal) ===");
-  checkLineLevels();
-  scanI2C();
-  Serial.println("=== Fin del diagnostico inicial (se repite cada 5s) ===");
+  Serial.println("=== Physical Band ===");
+
+  // El BLE arranca SIEMPRE, aunque el sensor falle: así la banda es
+  // localizable y reporta su propio estado (incluido "no hay sensor") en vez
+  // de quedarse muerta esperando un sensor que quizá está mal soldado.
+  bleHeartRateService.begin(kDeviceName);
+  Serial.printf("BLE activo - anunciandose como \"%s\" (Heart Rate Service 0x180D).\n", kDeviceName);
+
+  if (heartRateSensor.detect()) {
+    Serial.println("MAX30102 detectado.");
+  } else {
+    Serial.println("MAX30102 NO detectado - se reintenta solo cada 3s.");
+  }
 }
 
 void loop() {
-  delay(5000);
-  Serial.println("--- Reescaneo ---");
-  checkLineLevels();
-  scanI2C();
+  heartRateSensor.update();
+
+  unsigned long now = millis();
+
+  if (!heartRateSensor.isPresent() && now - lastSensorRetryAt >= kSensorRetryIntervalMs) {
+    lastSensorRetryAt = now;
+    printI2cDiagnostics(kSdaPin, kSclPin);
+    if (heartRateSensor.detect()) {
+      Serial.println("MAX30102 detectado - midiendo.");
+    }
+  }
+
+  if (now - lastNotifyAt >= kNotifyIntervalMs) {
+    lastNotifyAt = now;
+
+    SensorStatus status = currentStatus();
+    bleHeartRateService.notifyHeartRate((uint8_t)heartRateSensor.bpm(), status);
+
+    Serial.printf("[%s] BPM=%d BLE=%s\n",
+                  statusLabel(status),
+                  heartRateSensor.bpm(),
+                  bleHeartRateService.isConnected() ? "conectado" : "anunciando");
+  }
 }

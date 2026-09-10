@@ -10,18 +10,19 @@ conecta sin protocolo propio.
 
 ## Alcance de esta entrega
 
-Esto es la **base**: lectura de pulso + conexión BLE, pedidas explícitamente
-en `INSTRUCCIONES.md` (archivada en `../instructions_archive/` — ver el repo
-raíz). No incluye: gestión de batería/deep sleep, SpO2 (el sensor lo soporta,
-pero no se pidió), ni un LED de estado (para no asumir a qué GPIO está
-cableado uno en la placa específica que se termine comprando).
+Lectura de pulso + conexión BLE + **autodiagnóstico del sensor**. No incluye:
+gestión de batería/deep sleep, SpO2 (el sensor lo soporta, pero no se pidió),
+ni un LED de estado (para no asumir a qué GPIO está cableado uno en la placa
+específica que se termine comprando).
 
-**No se pudo compilar/flashear en esta sesión** — no hay PlatformIO instalado
-en este entorno ni hardware ESP-32/MAX30102 conectado para probar. El código
-está escrito y revisado contra la documentación oficial y los ejemplos
-verificados de las librerías usadas (ver más abajo), pero la primera
-compilación real y la prueba con el sensor físico quedan pendientes para
-cuando el usuario tenga el hardware a mano.
+**El BLE arranca siempre, haya sensor o no.** Es la diferencia principal
+contra la versión anterior del firmware, que hacía `while (true)` si el
+MAX30102 no respondía y por lo tanto nunca llegaba a encender el BLE — justo
+el escenario de un sensor mal soldado, en el que uno más necesita que la
+banda siga hablando para saber qué le pasa. Ahora el estado del sensor es un
+dato que se reporta (por Serial y por BLE), no una condición para arrancar,
+así que este mismo firmware sirve para verificar si el cableado/soldadura
+quedó bien.
 
 ## Wiring (MAX30102, I2C)
 
@@ -71,21 +72,48 @@ El `env` por defecto (`esp32dev`) apunta a un DevKitC genérico
 
 ## Verificar que funciona
 
-1. Al encender, si el sensor no se detecta (wiring/alimentación), el monitor
-   serial imprime un error y el firmware se detiene ahí (no sigue con datos
-   basura).
-2. Con el sensor detectado, el monitor serial imprime cada segundo algo como:
-   `BPM=0 dedo=no BLE=anunciando`.
-3. Al poner el dedo índice sobre el sensor con presión firme y constante,
-   `dedo` pasa a `si` y `BPM` empieza a mostrar un valor una vez que el
-   algoritmo detecta suficientes latidos consecutivos para promediar (unos
-   pocos segundos).
-4. Con un scanner BLE genérico (nRF Connect, LightBlue, etc.) o la app
-   Physical (ver `app/src/services/bleHeartRateService.native.ts`, todavía no
-   conectada al flujo principal — ver nota ahí), la banda debe aparecer
-   anunciándose como **"Physical Band"** con el servicio `0x180D`. Al
-   conectarse, `BLE` pasa a `conectado` y el characteristic de medición
-   empieza a notificar el BPM cada segundo.
+El monitor serial (115200 baud) imprime una línea de estado por segundo con
+uno de estos tres estados:
+
+| Línea serial | Qué significa |
+| --- | --- |
+| `[SENSOR NO DETECTADO] BPM=0 BLE=...` | El MAX30102 no responde en el bus I2C: mal soldado, cable suelto, sin alimentación, o jumper de pull-up en `1V8` (ver Wiring). |
+| `[sensor OK - sin contacto] BPM=0 BLE=...` | El sensor responde, pero no hay dedo/muñeca encima. |
+| `[sensor OK - midiendo] BPM=72 BLE=...` | Hay contacto y el BPM es real. |
+
+1. **Si el sensor no se detecta**, cada 3 s se imprime además un diagnóstico
+   del bus I2C y se reintenta la detección — se puede corregir la soldadura
+   con la banda encendida y ver el momento exacto en que empieza a responder,
+   sin reflashear. El diagnóstico distingue las causas entre sí:
+   - `SDA`/`SCL` marcadas `[SOSPECHOSO]` (no leen HIGH estable en reposo) →
+     el problema está en esa línea concreta o en la alimentación/GND.
+   - Ambas `[OK]` pero *"Ningun dispositivo responde en el bus"* → las líneas
+     llegan bien pero el chip no contesta (soldadura del propio MAX30102).
+   - `Responde 0x57` y aun así no inicializa → el cableado está bien, sospechar
+     del chip.
+2. **Con el sensor detectado**, poner el dedo índice encima con presión firme
+   y constante: el estado pasa a `midiendo` y el BPM aparece tras unos
+   segundos (el algoritmo necesita varios latidos consecutivos para promediar).
+3. **Por BLE**, con un scanner genérico (nRF Connect, LightBlue) o la app
+   Physical (`app/src/services/bleHeartRateService.native.ts`), la banda
+   aparece como **"Physical Band"** con el servicio `0x180D`. Al conectarse,
+   `BLE` pasa a `conectado` y el characteristic `0x2A37` notifica cada segundo.
+4. **El estado del sensor también viaja por BLE**, sin protocolo propio: va en
+   los bits de *Sensor Contact* del flags byte estándar del Heart Rate
+   Measurement, así que se lee desde cualquier cliente del perfil.
+
+   | Flags byte | Estado |
+   | --- | --- |
+   | `0x00` | Sensor no detectado (la banda no puede informar contacto) |
+   | `0x04` | Sensor OK, sin contacto |
+   | `0x06` | Sensor OK, con contacto — el BPM del byte 1 es real |
+
+   Fuera del estado `0x06` el BPM notificado es siempre `0`, para que la app
+   nunca muestre un valor viejo como si fuera una medición en curso.
+
+5. El sensor se revalida cada 2 s mientras mide (lectura del PART ID): si se
+   suelta a media sesión, el estado vuelve a `SENSOR NO DETECTADO` en vez de
+   dejar el último BPM congelado.
 
 ## Estructura
 
@@ -94,10 +122,12 @@ firmware/
 ├── platformio.ini
 ├── include/
 │   ├── HeartRateSensor.h      — wrapper del sensor MAX30102 + algoritmo de BPM
-│   └── BleHeartRateService.h  — servidor BLE (Heart Rate Service estándar)
+│   ├── BleHeartRateService.h  — servidor BLE (Heart Rate Service estándar)
+│   └── I2cDiagnostics.h       — diagnóstico del bus cuando el sensor no aparece
 └── src/
     ├── HeartRateSensor.cpp
     ├── BleHeartRateService.cpp
+    ├── I2cDiagnostics.cpp
     └── main.cpp                — setup()/loop(), une sensor + BLE
 ```
 
@@ -117,7 +147,8 @@ firmware/
 ## Próximos pasos (fuera de esta entrega)
 
 - Conseguir/armar el hardware físico (ver presupuesto en `../Planeacion_proyecto.md`).
-- Primera compilación y prueba real con el sensor.
+- Prueba real con el sensor bien soldado (a la fecha del flasheo, el MAX30102
+  no respondía en el bus — el firmware lo reporta como `SENSOR NO DETECTADO`).
 - Conectar `app/src/services/bleHeartRateService.native.ts` al flujo principal
   de la app una vez que haya banda física con la que probar el handshake —
   ver el comentario al inicio de ese archivo.

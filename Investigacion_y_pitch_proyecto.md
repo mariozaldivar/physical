@@ -82,3 +82,67 @@ Mismos datos, reescritos como ganchos de introducción — cortos, con ritmo, pe
 *(Basado en: FC media -5,5% / FC pico -5,2% con música sincronizada — Retos + PMC9032355; conecta directo con la frase de venta "Haz que tu música nunca más te vuelva a sacar del momento que estás viviendo" de Planeacion_proyecto.md)*
 
 Nota: en estas versiones evité mencionar "OMS" y cualquier cifra que no esté respaldada arriba. Si se usa un porcentaje en la presentación oral, tenerlo también en una diapositiva de "fuentes" por si el jurado pregunta de dónde sale.
+
+---
+
+## Frase 4: Leer el ánimo desde la muñeca (para la diapositiva "Lo que viene")
+
+Respaldo para la afirmación de que, con señales que una pulsera puede medir
+(pulso/PPG, variabilidad, sudoración de la piel, temperatura, acelerómetro), se
+puede inferir estado emocional. Verificado contra el texto de los artículos, no
+contra sus resúmenes.
+
+### Fuente A — WESAD (el estándar de referencia del área)
+
+Schmidt et al., *Introducing WESAD, a Multimodal Dataset for Wearable Stress and
+Affect Detection*, ACM ICMI 2018 — https://doi.org/10.1145/3242969.3242985
+(PDF abierto: https://ubi29.informatik.uni-siegen.de/usi/pdf/ubi_icmi2018.pdf)
+
+15 sujetos, laboratorio (protocolo TSST), validación leave-one-subject-out.
+Muñeca = Empatica E4 (BVP/PPG, EDA, temperatura, acelerómetro).
+
+- **Estrés vs. no-estrés, sólo con señales de MUÑECA: 88,33% ± 0,25** (Random
+  Forest) — Tabla 4, fila "Wrist physio".
+- Tres clases (neutral / estrés / diversión), sólo muñeca: 76,17% ± 0,42 —
+  Tabla 3, misma fila.
+- Línea base de "adivinador sofisticado": 69,94%.
+
+⚠️ **Trampa al citar este artículo:** las cifras de 80% y 93% que aparecen en el
+abstract son de la **banda de PECHO** (filas "Chest physio" de las Tablas 3 y 4),
+no de la muñeca. No atribuirlas a una pulsera — es justo el tipo de error que un
+jurado técnico puede pinchar.
+
+### Fuente B — Fuera del laboratorio
+
+Li & Zhang, *Sensors* 2025, 25(3):761 — https://doi.org/10.3390/s25030761
+Dataset DAPPER: **88 sujetos, 5 días de vida real** con pulsera (HR por PPG, GSR,
+acelerómetro).
+
+- **Afecto positivo vs. negativo: 71,50%** — Abstract y Tabla 3.
+- Valencia en 5 clases: 60,29% (Tabla 4). Arousal en 5 clases: 61,55% (Tabla 5).
+
+### Fuente C — Revisión sistemática
+
+Pinge et al., *Frontiers in Computer Science*, dic. 2024 —
+https://doi.org/10.3389/fcomp.2024.1478851. Revisión de 39 estudios; el Empatica
+E4 es el dispositivo de muñeca más usado; Random Forest reporta entre 76,5% y
+88,20% (§4.4.2). Limitación declarada (§5): casi todo es **análisis offline**, no
+detección en tiempo real, y en estudios de campo el ground truth por autoreporte
+es poco confiable (§4.1).
+
+### Lo que NO está demostrado (decirlo antes de que lo pregunten)
+
+Lo sólido es **estrés y activación**, no "emociones" en general. La **valencia**
+—lo que uno llamaría mood— es la parte floja: ~60% en vida real. WESAD son 15
+personas en laboratorio, y sus propios autores advierten que los clasificadores
+pudieron aprender en parte a distinguir "hablando vs. no hablando". Ninguna de
+estas cifras viene de un producto comercial validado clínicamente.
+
+### Frases para el jurado
+
+- "La misma muñeca que hoy mide tu pulso ya distingue si estás estresado o no:
+  88% de acierto, sólo con pulso, sudoración y temperatura de piel."
+- "No es una corazonada nuestra: es WESAD, el dataset público que desde 2018 es
+  el estándar para medir estos algoritmos."
+- "Fuera del laboratorio la cifra baja a 71% — por eso el ánimo es el siguiente
+  paso de Physical, no una promesa de hoy."

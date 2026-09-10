@@ -12,18 +12,21 @@
  * romper el bundle web (mismo tipo de problema que ya rompió el bundle de
  * expo-sqlite en web una vez — ver metro.config.js e Informe_retrieval_datos.md).
  *
- * A propósito NO está conectado a BleConnectModal/sessionStore todavía — no
- * hay banda física con la que probar el handshake real en este momento (ver
- * INSTRUCCIONES.md, tarea 1: "crea los scripts... aunque aún no estén
- * integrados"). Expone el mismo shape de `DiscoveredDevice`/`ScanHandle` que
- * services/bleScanner.ts (el simulado, que sigue siendo lo que usa la app
- * hoy) para que integrarlo más adelante sea, en lo posible, un cambio de
- * import — ver ese archivo para el resto del contrato esperado.
+ * Integrado desde `services/band.native.ts`, que es lo que consumen las
+ * pantallas — `BleConnectModal` para el scan/conexión y `sessionStore` para
+ * el stream de BPM. Comparte tipos (`DiscoveredDevice`, `HeartRateReading`,
+ * `ScanHandle`) con el cliente simulado de `bleScanner.ts`, que sigue siendo
+ * el camino en web y el plan B sin hardware.
  */
 
 import { PermissionsAndroid, Platform } from "react-native";
-import { BleManager, type Device, type Subscription } from "react-native-ble-plx";
-import type { DiscoveredDevice, ScanHandle } from "./bleScanner";
+import { BleManager, State, type Device } from "react-native-ble-plx";
+import type {
+  DiscoveredDevice,
+  HeartRateReading,
+  HeartRateSubscription,
+  ScanHandle,
+} from "./bleScanner";
 
 // UUIDs completos (base de Bluetooth SIG) del Heart Rate Service estándar —
 // ver GATT Specification Supplement. react-native-ble-plx acepta UUID como
@@ -31,12 +34,6 @@ import type { DiscoveredDevice, ScanHandle } from "./bleScanner";
 // librería expanda correctamente un UUID corto de 16 bits.
 export const HEART_RATE_SERVICE_UUID = "0000180d-0000-1000-8000-00805f9b34fb";
 export const HEART_RATE_MEASUREMENT_UUID = "00002a37-0000-1000-8000-00805f9b34fb";
-
-export interface HeartRateReading {
-  bpm: number;
-  /** null si el sensor no reporta si soporta detección de contacto (bit "sensor contact support" de la spec en 0). */
-  sensorContactDetected: boolean | null;
-}
 
 let manager: BleManager | null = null;
 
@@ -85,6 +82,27 @@ async function ensureBlePermissions(): Promise<void> {
 }
 
 /**
+ * El adaptador puede estar apagado o sin autorizar. Sin esto, `startDeviceScan`
+ * simplemente no entrega nada y la pantalla se queda "buscando" para siempre,
+ * que es indistinguible de "no hay ninguna banda cerca" — el error más
+ * confuso posible para alguien parado frente a su banda encendida.
+ */
+async function ensureBluetoothOn(bleManager: BleManager): Promise<void> {
+  const state = await bleManager.state();
+  if (state === State.PoweredOn) return;
+  if (state === State.PoweredOff) {
+    throw new Error("El Bluetooth está apagado. Actívalo para buscar tu banda.");
+  }
+  if (state === State.Unauthorized) {
+    throw new Error("Physical no tiene permiso de Bluetooth. Actívalo en los ajustes del sistema.");
+  }
+  if (state === State.Unsupported) {
+    throw new Error("Este dispositivo no soporta Bluetooth Low Energy.");
+  }
+  throw new Error(`El Bluetooth no está listo (estado: ${state}).`);
+}
+
+/**
  * Escanea dispositivos que anuncien el Heart Rate Service estándar. Mismo
  * shape que bleScanner.ts (`DiscoveredDevice`/`ScanHandle`), con un
  * `onError` opcional adicional — el scanner simulado nunca falla, pero uno
@@ -99,6 +117,7 @@ export function startScan(
   let stopped = false;
 
   ensureBlePermissions()
+    .then(() => ensureBluetoothOn(bleManager))
     .then(() => {
       if (stopped) return;
       bleManager.startDeviceScan([HEART_RATE_SERVICE_UUID], null, (error, device) => {
@@ -127,6 +146,14 @@ export function startScan(
 /** Conecta y descubre servicios/características — deja el device listo para subscribeToHeartRate. */
 export async function connectToDevice(deviceId: string): Promise<void> {
   const bleManager = getManager();
+
+  // Android deja conexiones GATT colgadas si la app se recarga o la sesión
+  // anterior no cerró limpio; reconectar sobre una de esas falla con un error
+  // opaco. Cerrar primero es barato y hace el reintento idempotente.
+  if (await bleManager.isDeviceConnected(deviceId)) {
+    await bleManager.cancelDeviceConnection(deviceId).catch(() => {});
+  }
+
   const device = await bleManager.connectToDevice(deviceId);
   await device.discoverAllServicesAndCharacteristics();
 }
@@ -144,7 +171,7 @@ export function subscribeToHeartRate(
   deviceId: string,
   onReading: (reading: HeartRateReading) => void,
   onError?: (error: Error) => void,
-): Subscription {
+): HeartRateSubscription {
   return getManager().monitorCharacteristicForDevice(
     deviceId,
     HEART_RATE_SERVICE_UUID,
@@ -158,6 +185,20 @@ export function subscribeToHeartRate(
       if (reading) onReading(reading);
     },
   );
+}
+
+/**
+ * Avisa cuando la banda se cae por su cuenta (se apagó, se quedó sin
+ * batería, o se alejó del teléfono). Sin esto la app se queda mostrando el
+ * último BPM recibido como si la sesión siguiera viva — el mismo problema de
+ * "dato viejo que parece fresco" que el firmware ya evita del lado del sensor
+ * (ver `HeartRateSensor::update()` en firmware/).
+ */
+export function subscribeToDisconnection(
+  deviceId: string,
+  onDisconnected: () => void,
+): HeartRateSubscription {
+  return getManager().onDeviceDisconnected(deviceId, () => onDisconnected());
 }
 
 /**

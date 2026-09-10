@@ -1,32 +1,35 @@
 # Checklist — Physical lista para demo
 
-Estado al 2026-09-03, basado en el código actual de `app/` y los tres documentos de planeación. Pensado para el U-Challenge: no es una lista de "producto terminado", es lo mínimo para poder pararse frente al jurado y que funcione.
+Estado al 2026-09-07, basado en el código actual de `app/` y los tres documentos de planeación. Pensado para el U-Challenge: no es una lista de "producto terminado", es lo mínimo para poder pararse frente al jurado y que funcione.
 
 ## 0. Decisión previa (afecta todo lo demás)
 
-- [ ] **Elegir qué se va a mostrar en vivo**: ya existe un flujo 100% simulado y funcional (banda BLE simulada + BPM simulado + cola armada por match de BPM, ver sección 4) que corre sin hardware. Si el demo va a incluir la banda física real, hay trabajo pendiente grande (sección 3) que no existe todavía ni en código. Recomendación: preparar el flujo simulado como **plan B garantizado** incluso si se apunta a hardware real — el Bluetooth en vivo frente a un jurado es un punto de falla clásico.
+- [ ] **Elegir qué se va a mostrar en vivo.** Las dos rutas ya existen en la app: la banda real por BLE (integrada, ver sección 3) y el flujo 100% simulado sin hardware. El plan B ya no requiere recompilar nada — en el modal de conexión hay un botón **"Usar banda simulada"** que arranca la sesión completa sin hardware. Recomendación: ensayar el pitch con los dos, porque el Bluetooth en vivo frente a un jurado es un punto de falla clásico.
 
 ## 1. Cuenta y credenciales de Spotify (bloqueante en cualquier escenario)
 
 - [ ] Confirmar que la app está creada en el [Spotify Developer Dashboard](https://developer.spotify.com/dashboard) (Development mode alcanza — tope ~25 usuarios agregados a mano, suficiente para una demo).
-- [ ] Llenar `app/.env` con `EXPO_PUBLIC_SPOTIFY_CLIENT_ID` real — **hoy está vacío**, el login nunca se ha probado de punta a punta, sólo se validó que el código compila.
-- [ ] Implementar el redirect URI nativo con custom URL scheme (`physical://...`): agregar `"scheme"` en `app.json` y actualizar `getRedirectUri()` en `spotifyAuth.ts` para nativo. Ya está verificado que Spotify lo permite (`Stack_tecnico_proyecto.md` §3, contra el blog oficial de Spotify), pero **sólo se documentó, nunca se implementó en código** — hoy `getRedirectUri()` sigue esperando una variable `EXPO_PUBLIC_SPOTIFY_REDIRECT_URI` HTTPS que no existe.
-- [ ] Probar login real al menos una vez en un dispositivo o simulador.
+- [x] `app/.env` tiene un `EXPO_PUBLIC_SPOTIFY_CLIENT_ID` real (32 caracteres), y se verificó que queda inlineado en el bundle de release — el APK no depende de `.env` en tiempo de ejecución.
+- [x] Redirect URI nativo con custom URL scheme implementado: `"scheme": "physical"` en `app.json` y `getRedirectUri()` usando `AuthSession.makeRedirectUri`. Verificado que el intent-filter `android:scheme="physical"` queda en el `AndroidManifest.xml` generado.
+- [ ] **Registrar `physical://spotify-auth-callback` en el dashboard de Spotify** (Settings → Redirect URIs). Sin esto el login falla en el APK con `INVALID_CLIENT: Invalid redirect URI` — es el único paso manual que queda entre el APK y un login funcionando.
+- [ ] Probar login real al menos una vez en un dispositivo.
+- [ ] Nota: `app/.env` todavía tiene una variable `EXPO_PUBLIC_SPOTIFY_REDIRECT_URI` sobrante de la arquitectura con backend. Ya no la lee nadie (`getRedirectUri()` la ignora); se puede borrar.
 - [ ] Confirmar que la cuenta de Spotify que se use en la demo es **Premium** — `spotifyPlaybackControl.ts` (play/pause/skip/queue) requiere Premium en todos sus endpoints, documentado así por Spotify.
 
 ## 2. Build nativo (bloqueante para BLE y para probar en dispositivo real)
 
-- [ ] No existe `eas.json` — nunca se corrió `eas build`. Configurar un profile `development` y generar un Expo Development Build (Expo Go no sirve, no soporta BLE — ver `Stack_tecnico_proyecto.md` §3).
-- [ ] Probar la app en un dispositivo físico o simulador real. Hasta ahora sólo se validó que el bundle de Metro compila (`platform=ios`/`android`), nunca se vio renderizada.
-- [ ] Configurar permisos de Bluetooth (y ubicación en Android, requisito de BLE) en `app.json` — no están declarados todavía.
+- [x] Build local de APK, sin EAS ni cuenta de Expo: `npm run apk` en `app/` (prebuild + `assembleRelease`, arm64-v8a, packaging comprimido). El APK sale en `android/app/build/outputs/apk/release/`. Se firma con el keystore de debug (default del template de Expo), así que instala directo por sideload — no sirve para Play Store, sí para probar.
+- [x] Permisos de Bluetooth declarados vía el plugin de `react-native-ble-plx` en `app.json`, con **`neverForLocation: true`**. Sin ese flag, en Android 12+ el sistema exige además permiso de *ubicación* concedido para entregar resultados de scan, y el código sólo pide `BLUETOOTH_SCAN`/`BLUETOOTH_CONNECT`: el scan habría devuelto cero dispositivos en silencio, en un teléfono moderno, sin ningún error.
+- [ ] Probar la app en un dispositivo físico. Hasta ahora se validó que compila, que el bundle nativo incluye el cliente BLE real y que el APK se genera — pero **nunca se vio renderizada en un teléfono**.
 
 ## 3. Banda física (sólo si el demo va a usar hardware real — ver punto 0)
 
-- [ ] **Firmware del ESP-32: no existe ni una línea de código.** No hay carpeta `firmware/`, ni proyecto de PlatformIO. `Stack_tecnico_proyecto.md` §2 documenta la decisión técnica (C++/PlatformIO, Heart Rate Service BLE 0x180D) pero es sólo la planeación.
-- [ ] Exponer el Heart Rate Service estándar BLE (UUID `0x180D`) desde el firmware — es lo que permite que `react-native-ble-plx` lo lea sin protocolo custom.
-- [ ] Conseguir/armar el hardware físico: ESP-32 + sensor BPM (MAX30102/30105) + batería + banda. Presupuesto ya estimado en `Planeacion_proyecto.md` (~$320 en componentes de prototipo).
-- [ ] Instalar `react-native-ble-plx` (a propósito no está instalado todavía — ver el comentario en `bleScanner.ts`) y reemplazar el scanner simulado por uno real. `bleScanner.ts` ya expone la misma forma de datos (`id`, `name`, `rssi`) que tendría el real, para que sea el único archivo a reemplazar.
-- [ ] Probar el handshake GATT real banda ↔ teléfono, con la banda física encendida y cerca.
+- [x] **Firmware del ESP-32 escrito y flasheado** (`firmware/`, PlatformIO). Expone el Heart Rate Service estándar `0x180D` + characteristic `0x2A37`.
+- [x] Verificado sobre la placa real: se anuncia como "Physical Band", acepta conexión GATT y notifica 1×/segundo. El BLE arranca aunque el sensor falle.
+- [x] `react-native-ble-plx` instalado e integrado end-to-end (scan → conexión → BPM en pantalla) — ver `Stack_tecnico_proyecto.md` §8.
+- [ ] **El sensor MAX30102 no funciona: `SDA` está en corto a masa.** El diagnóstico del propio firmware lo aísla (SDA lee LOW 0/20 muestras, SCL OK 20/20 — o sea que la placa sí tiene 3.3V y el jumper de pull-up está bien). Revisar con multímetro continuidad entre `SDA` y `GND`. Hasta arreglarlo, la banda conecta pero reporta "sin sensor" y 0 BPM.
+- [ ] Probar el handshake GATT real banda ↔ **teléfono** (el verificado hasta ahora fue banda ↔ laptop).
+- [ ] Armar el hardware como banda usable: batería + carcasa. Presupuesto en `Planeacion_proyecto.md` (~$320).
 
 ## 4. Cross-referencing de BPM
 
@@ -66,6 +69,9 @@ Estado al 2026-09-03, basado en el código actual de `app/` y los tres documento
 
 ## 9. Pitch / material de feria
 
-- [x] Respaldo científico verificado y con fuentes reales (`Investigacion_y_pitch_proyecto.md`) — ya corregido para no atribuir nada a la OMS.
-- [ ] Armar la presentación — `Planeacion_proyecto.md` todavía dice literalmente "Falta armar la presentación".
+- [x] Respaldo científico verificado y con fuentes reales (`Investigacion_y_pitch_proyecto.md`) — ya corregido para no atribuir nada a la OMS. Incluye el respaldo de inferencia de ánimo desde la muñeca (WESAD / DAPPER) que cita la diapositiva "Lo que viene".
+- [ ] Armar la presentación — `Planeacion_proyecto.md` todavía dice literalmente "Falta armar la presentación". La baraja vive en `docs/index.html` (reveal.js, 17 diapositivas).
+- [ ] **Cotizar el costo real por unidad en producción.** El precio de venta ya está decidido ($250, con la licencia incluida) y eso le pone techo al costo, pero no hay una cotización en volumen. En la diapositiva de precio ese peldaño es el único punteado a propósito; si el jurado pregunta, hoy no hay número.
+- [ ] Definir los rangos exactos de BPM por modo, y si el usuario podrá crear modos propios. (Estaba anotado dentro de la diapositiva de modos; se sacó de ahí al rediseñarla.)
+- [ ] Sustituir las dos fotos de referencia de la diapositiva "Qué lleva dentro" (`docs/img/esp32-devkit.jpg`, `docs/img/banda-muneca.jpg`) por fotos reales del prototipo armado y de la banda puesta. Mismos nombres de archivo y no hay que tocar nada más; ver `docs/img/CREDITOS.md`.
 - [ ] Preparar explícitamente el plan B: si el Bluetooth falla en vivo (el escenario más probable de falla frente al jurado), caer al flujo 100% simulado (punto 0) — hoy ya funciona y se puede mostrar sin ningún hardware.

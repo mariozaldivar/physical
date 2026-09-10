@@ -42,7 +42,8 @@
           "modes": [
             "central"
           ],
-          "bluetoothAlwaysPermission": "Physical usa Bluetooth para conectarse a tu banda de pulso y leer tu ritmo cardíaco."
+          "bluetoothAlwaysPermission": "Physical usa Bluetooth para conectarse a tu banda de pulso y leer tu ritmo cardíaco.",
+          "neverForLocation": true
         }
       ]
     ]

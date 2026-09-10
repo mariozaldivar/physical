@@ -1,12 +1,16 @@
 /**
- * Scanner BLE simulado. Expone la misma forma de datos que tendría un scan
- * real de react-native-ble-plx (id, name, rssi) para que el día que llegue
- * el ESP-32 físico, este archivo sea el único que hay que reemplazar —
- * BleConnectModal y todo lo demás no deberían cambiar.
+ * Scanner BLE **simulado**, y hogar de los tipos que comparten el cliente
+ * simulado y el real (`bleHeartRateService.native.ts`).
  *
- * No se instaló react-native-ble-plx todavía a propósito: requiere un Expo
- * Dev Client (no corre en Expo Go ni en web), y este proyecto se ha estado
- * probando en navegador. Ver la nota en components/INSTRUCTIONS.md archivado.
+ * Ya no es lo que usa la app por defecto: en nativo el flujo real pasa por
+ * `services/band` (ver ese archivo), que resuelve al cliente BLE de verdad.
+ * Esto sigue vivo por dos razones concretas:
+ *
+ *  - **Web no tiene BLE.** `react-native-ble-plx` no corre en navegador, y la
+ *    app se sigue probando ahí (`expo start --web`).
+ *  - **Plan B de la feria.** Si el Bluetooth falla en vivo frente al jurado
+ *    —el punto de falla más clásico de una demo— se puede caer a este flujo
+ *    sin hardware (ver `Checklist_demo_proyecto.md`, punto 0).
  */
 
 export interface DiscoveredDevice {
@@ -14,6 +18,30 @@ export interface DiscoveredDevice {
   name: string;
   /** dBm, más cercano a 0 = señal más fuerte. Rango típico BLE: -40 a -100. */
   rssi: number;
+}
+
+/**
+ * De qué viene el BPM de la sesión en curso: la banda real por BLE, o el
+ * flujo simulado. No es lo mismo que "hay o no hay sensor" — una banda real
+ * conectada con el sensor mal soldado sigue siendo `"band"`.
+ */
+export type BandSource = "band" | "simulated";
+
+/** Una lectura del characteristic 0x2A37 (o su equivalente simulado). */
+export interface HeartRateReading {
+  bpm: number;
+  /**
+   * Estado de contacto del sensor, leído de los bits "sensor contact" del
+   * flags byte de la spec. `null` = la banda no reporta contacto en absoluto,
+   * que es justo lo que manda el firmware de Physical cuando el MAX30102 no
+   * responde en el bus I2C (ver `firmware/src/BleHeartRateService.cpp`).
+   */
+  sensorContactDetected: boolean | null;
+}
+
+/** Lo que devuelve `subscribeToHeartRate` — mismo shape que `Subscription` de react-native-ble-plx. */
+export interface HeartRateSubscription {
+  remove: () => void;
 }
 
 const MOCK_DEVICES: DiscoveredDevice[] = [

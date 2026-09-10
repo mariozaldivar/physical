@@ -2,14 +2,25 @@ import { useEffect, useRef, useState } from "react";
 import { Animated, Easing, Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { colors, fonts, radii, spacing } from "../theme/theme";
-import { connectToDevice, startScan, type DiscoveredDevice } from "../services/bleScanner";
+import {
+  BLE_SUPPORTED,
+  connectToDevice as connectToRealDevice,
+  startScan as startRealScan,
+} from "../services/band";
+import {
+  connectToDevice as connectToSimulatedDevice,
+  startScan as startSimulatedScan,
+  type BandSource,
+  type DiscoveredDevice,
+  type ScanHandle,
+} from "../services/bleScanner";
 
 type ConnectStatus = "scanning" | "connecting" | "connected" | "error";
 
 interface BleConnectModalProps {
   visible: boolean;
   onClose: () => void;
-  onConnected: (device: DiscoveredDevice) => void;
+  onConnected: (device: DiscoveredDevice, source: BandSource) => void;
 }
 
 function signalBars(rssi: number) {
@@ -67,12 +78,23 @@ export function BleConnectModal({ visible, onClose, onConnected }: BleConnectMod
   const [status, setStatus] = useState<ConnectStatus>("scanning");
   const [devices, setDevices] = useState<DiscoveredDevice[]>([]);
   const [selected, setSelected] = useState<DiscoveredDevice | null>(null);
+  // En web nunca hay BLE real (react-native-ble-plx es nativo), así que ahí se
+  // arranca directamente en simulado. En nativo se empieza con la banda real y
+  // el simulado queda como salida manual — ver el botón al final del modal.
+  const [source, setSource] = useState<BandSource>(BLE_SUPPORTED ? "band" : "simulated");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  // Contador de intentos: "Reintentar" tiene que relanzar el scan de verdad,
+  // y el efecto de abajo sólo reacciona a sus dependencias. Sin esto el botón
+  // dejaba la pantalla en "buscando" sin ningún scan corriendo detrás.
+  const [scanAttempt, setScanAttempt] = useState(0);
   // Cierra la ventana entre "el usuario tocó un dispositivo" y "la promesa de
   // connectToDevice resuelve": sin esto, cancelar (Cancelar / tocar el fondo)
   // mientras está "connecting" no interrumpe la conexión simulada en curso —
   // sigue completando en segundo plano y dispara onConnected (arranca una
   // sesión) aunque el usuario ya haya cerrado el modal.
   const activeRef = useRef(false);
+  // Handle del scan en curso, para poder pararlo al elegir un dispositivo.
+  const scanRef = useRef<ScanHandle | null>(null);
 
   useEffect(() => {
     if (!visible) {
@@ -83,25 +105,60 @@ export function BleConnectModal({ visible, onClose, onConnected }: BleConnectMod
     setStatus("scanning");
     setDevices([]);
     setSelected(null);
-    const scan = startScan((device) => setDevices((prev) => [...prev, device]));
+    setErrorMessage(null);
+
+    const useRealBle = source === "band" && BLE_SUPPORTED;
+    // Un scan BLE real reporta el MISMO dispositivo en cada anuncio que emite
+    // (varias veces por segundo). Sin deduplicar por id, la lista crecería sin
+    // parar con copias de la misma banda — el scanner simulado nunca lo hacía
+    // notar porque emite cada device una sola vez.
+    const onDeviceFound = (device: DiscoveredDevice) =>
+      setDevices((prev) => {
+        const index = prev.findIndex((candidate) => candidate.id === device.id);
+        if (index === -1) return [...prev, device];
+        const next = [...prev];
+        next[index] = device; // refresca el RSSI, que sí cambia entre anuncios
+        return next;
+      });
+
+    const scan = useRealBle
+      ? startRealScan(onDeviceFound, (error) => {
+          if (!activeRef.current) return;
+          setErrorMessage(error.message);
+          setStatus("error");
+        })
+      : startSimulatedScan(onDeviceFound);
+
+    scanRef.current = scan;
     return () => {
       activeRef.current = false;
       scan.stop();
+      scanRef.current = null;
     };
-  }, [visible]);
+  }, [visible, source, scanAttempt]);
 
   async function handleSelect(device: DiscoveredDevice) {
+    // Escanear y conectar a la vez compite por la misma radio: en Android el
+    // handshake GATT se vuelve lento o falla directamente si el scan sigue
+    // corriendo. Ya se eligió una banda, el scan no aporta nada más.
+    scanRef.current?.stop();
+    scanRef.current = null;
+
     setSelected(device);
     setStatus("connecting");
+    setErrorMessage(null);
+    const connect = source === "band" && BLE_SUPPORTED ? connectToRealDevice : connectToSimulatedDevice;
     try {
-      await connectToDevice(device.id);
+      await connect(device.id);
       if (!activeRef.current) return;
       setStatus("connected");
       setTimeout(() => {
-        if (activeRef.current) onConnected(device);
+        if (activeRef.current) onConnected(device, source);
       }, 550);
-    } catch {
-      if (activeRef.current) setStatus("error");
+    } catch (error) {
+      if (!activeRef.current) return;
+      setErrorMessage(error instanceof Error ? error.message : null);
+      setStatus("error");
     }
   }
 
@@ -117,10 +174,11 @@ export function BleConnectModal({ visible, onClose, onConnected }: BleConnectMod
             <View style={styles.headerText}>
               <Text style={styles.title}>Conectar banda</Text>
               <Text style={styles.subtitle} accessibilityLiveRegion="polite">
-                {status === "scanning" && "Buscando dispositivos cercanos…"}
+                {status === "scanning" &&
+                  (source === "simulated" ? "Modo simulado · sin hardware" : "Buscando dispositivos cercanos…")}
                 {status === "connecting" && `Conectando con ${selected?.name}…`}
                 {status === "connected" && `Conectado con ${selected?.name}`}
-                {status === "error" && "No se pudo conectar. Intenta de nuevo."}
+                {status === "error" && (errorMessage ?? "No se pudo conectar. Intenta de nuevo.")}
               </Text>
             </View>
           </View>
@@ -166,7 +224,11 @@ export function BleConnectModal({ visible, onClose, onConnected }: BleConnectMod
             })}
 
             {devices.length === 0 && status === "scanning" && (
-              <Text style={styles.emptyHint}>Asegúrate de que la banda esté encendida y cerca.</Text>
+              <Text style={styles.emptyHint}>
+                {source === "simulated"
+                  ? "Preparando banda simulada…"
+                  : "Asegúrate de que la banda esté encendida y cerca. Sólo aparecen bandas con sensor de pulso estándar."}
+              </Text>
             )}
           </View>
 
@@ -178,9 +240,26 @@ export function BleConnectModal({ visible, onClose, onConnected }: BleConnectMod
               onPress={() => {
                 setStatus("scanning");
                 setSelected(null);
+                setErrorMessage(null);
+                setScanAttempt((attempt) => attempt + 1);
               }}
             >
               <Text style={styles.retryButtonText}>Reintentar</Text>
+            </Pressable>
+          )}
+
+          {/* Plan B documentado en Checklist_demo_proyecto.md (punto 0): si el
+              Bluetooth falla en vivo, se puede demostrar el flujo completo sin
+              hardware. Sólo se ofrece si hay BLE real disponible — en web ya se
+              arranca en simulado y el botón no diría nada nuevo. */}
+          {BLE_SUPPORTED && source === "band" && (
+            <Pressable
+              onPress={() => setSource("simulated")}
+              accessibilityRole="button"
+              accessibilityLabel="Usar banda simulada, sin hardware"
+              style={styles.fallbackButton}
+            >
+              <Text style={styles.fallbackButtonText}>Usar banda simulada</Text>
             </Pressable>
           )}
 
@@ -314,6 +393,16 @@ const styles = StyleSheet.create({
     color: colors.pulseHot,
     fontFamily: fonts.displayMedium,
     fontSize: 13,
+  },
+  fallbackButton: {
+    alignItems: "center",
+    paddingVertical: spacing.sm,
+  },
+  fallbackButtonText: {
+    color: colors.inkMuted,
+    fontFamily: fonts.displayMedium,
+    fontSize: 12.5,
+    textDecorationLine: "underline",
   },
   cancelButton: {
     alignItems: "center",
