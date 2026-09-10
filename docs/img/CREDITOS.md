@@ -9,6 +9,18 @@ obligatoria pero se agradece).
 | `gimnasio-audifonos.jpg` | "A man wearing headphones in a gym" | Daniel Azmanov | https://unsplash.com/photos/45thVQsUffQ |
 | `volante-estres.jpg` | "Man resting head on steering wheel in car" | Vitaly Gariev | https://unsplash.com/photos/67aPIxznblE |
 
+## Fotos de referencia del hardware (diapositiva "Qué lleva dentro")
+
+⚠️ **No son fotos del prototipo propio.** Son material de referencia mientras no
+existan fotos reales de la banda armada; el pie de cada una en la diapositiva lo
+dice explícitamente. Cuando se tomen las fotos reales, basta con reemplazar los
+dos archivos conservando los nombres.
+
+| Archivo | Qué muestra | Fuente | Licencia |
+|---|---|---|---|
+| `esp32-devkit.jpg` | Placa ESP-32 DevKit (mismo tipo de placa que usa el firmware, `board = esp32dev`) — rotada 90° y reescalada desde el original | Wikimedia Commons, [ESP32.jpg](https://commons.wikimedia.org/wiki/File:ESP32.jpg), por Edwiyanto | **CC BY-SA 4.0** — exige atribución y compartir igual; por eso queda anotada aquí |
+| `banda-muneca.jpg` | Banda de actividad puesta en la muñeca, para enseñar el formato al que apunta BePhysical — recortada a 4:3 | [Pexels, foto 1080745](https://www.pexels.com/photo/1080745/) | Pexels License (uso libre, comercial incluido, atribución no obligatoria) |
+
 Descargadas localmente a propósito: la presentación no debe depender de
 tener internet el día del pitch.
 

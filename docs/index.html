@@ -1,150 +1,206 @@
 <!doctype html>
 <html lang="es">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Physical — U-Challenge</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Physical — U-Challenge</title>
 
-  <!-- Reveal.js core -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+    <!-- Reveal.js core -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css"
+    />
 
-  <!-- Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
 
-  <!-- Paleta de color (ver también las variantes en paletas/) + estilos compartidos -->
-  <link rel="stylesheet" href="palette-b-azul-profundo.css">
-  <link rel="stylesheet" href="base.css">
+    <!-- Paleta de color (ver también las variantes en paletas/) + estilos compartidos -->
+    <link rel="stylesheet" href="palette-b-azul-profundo.css" />
+    <link rel="stylesheet" href="base.css" />
 
-  <!-- Chart.js for data visualization (no charts en esta plantilla todavía, se deja disponible) -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-  <div class="reveal">
-    <div class="slides">
-
-      <!-- ============ 1. HOOK — El gimnasio (abre el pitch) ============ -->
-      <!-- Diapositiva para narrar encima: cada .fragment es un golpe del
+    <!-- Chart.js for data visualization (no charts en esta plantilla todavía, se deja disponible) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- ============ 1. HOOK — El gimnasio (abre el pitch) ============ -->
+        <!-- Diapositiva para narrar encima: cada .fragment es un golpe del
            guion, así que el ritmo lo marca el presentador y no un timer.
            Los fragmentos con data-scene cambian el estado de las tarjetas
            (ver el script de escenas al final del archivo). -->
-      <!-- Abre el pitch: sin pill de sección (etiquetarla "el problema" delata
+        <!-- Abre el pitch: sin pill de sección (etiquetarla "el problema" delata
            el golpe antes de contarlo) y sin marca — Physical se revela hasta
-           la sexta.
+           la quinta.
 
            La foto NO es fondo a sangre: vive DENTRO de una .scene (tarjeta
            retrato con marco) y las lecturas de BPM flotan sobre su esquina
            inferior, sobresaliendo del marco. Así la imagen ubica la escena
            sin tragarse el texto, y la UI del producto se lee literalmente
            encima del momento real en vez de al lado de una postal. -->
-      <section id="story-gym" class="story">
-        <div class="content">
-          <div class="story-grid">
-
-            <div class="story-column">
-              <p class="story-lead story-lead--intro">Imaginen esto</p>
-              <div class="beat-list">
-                <div class="beat fragment beat-in" data-fragment-index="0">
-                  <div class="beat-icon"><i class="fa-solid fa-dumbbell"></i></div>
-                  <p>Última repetición. Vas por tu récord personal.</p>
-                </div>
-                <div class="beat beat--hot fragment beat-in" data-fragment-index="1">
-                  <div class="beat-icon"><i class="fa-solid fa-bolt"></i></div>
-                  <p>La canción te tiene justo donde necesitas estar.</p>
-                </div>
-                <div class="beat fragment beat-in" data-fragment-index="2" data-scene="shuffle">
-                  <div class="beat-icon"><i class="fa-solid fa-shuffle"></i></div>
-                  <p>Tu playlist está en aleatorio.</p>
-                </div>
-                <div class="beat beat--calm fragment beat-in" data-fragment-index="3" data-scene="broken">
-                  <div class="beat-icon"><i class="fa-solid fa-moon"></i></div>
-                  <p>Entra la canción con la que te duermes.</p>
-                </div>
-                <div class="beat beat--break fragment beat-in" data-fragment-index="4">
-                  <div class="beat-icon"><i class="fa-solid fa-heart-crack"></i></div>
-                  <p>Sueltas la barra para cambiarla.</p>
+        <section id="story-gym" class="story">
+          <div class="content">
+            <div class="story-grid">
+              <div class="story-column">
+                <p class="story-lead story-lead--intro">Imaginen esto</p>
+                <div class="beat-list">
+                  <div class="beat fragment beat-in" data-fragment-index="0">
+                    <div class="beat-icon">
+                      <i class="fa-solid fa-dumbbell"></i>
+                    </div>
+                    <p>Última repetición. Vas por tu récord personal.</p>
+                  </div>
+                  <div
+                    class="beat beat--hot fragment beat-in"
+                    data-fragment-index="1"
+                  >
+                    <div class="beat-icon">
+                      <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <p>La canción te tiene justo donde necesitas estar.</p>
+                  </div>
+                  <div
+                    class="beat fragment beat-in"
+                    data-fragment-index="2"
+                    data-scene="shuffle"
+                  >
+                    <div class="beat-icon">
+                      <i class="fa-solid fa-shuffle"></i>
+                    </div>
+                    <p>Tu playlist está en aleatorio.</p>
+                  </div>
+                  <div
+                    class="beat beat--calm fragment beat-in"
+                    data-fragment-index="3"
+                    data-scene="broken"
+                  >
+                    <div class="beat-icon">
+                      <i class="fa-solid fa-moon"></i>
+                    </div>
+                    <p>Entra la canción con la que te duermes.</p>
+                  </div>
+                  <div
+                    class="beat beat--break fragment beat-in"
+                    data-fragment-index="4"
+                  >
+                    <div class="beat-icon">
+                      <i class="fa-solid fa-heart-crack"></i>
+                    </div>
+                    <p>Sueltas la barra para cambiarla.</p>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <figure class="scene">
-              <div class="scene-frame">
-                <img class="scene-img scene-img--gym" src="img/gimnasio-audifonos.jpg"
-                     alt="Persona entrenando en un gimnasio con audífonos puestos">
-              </div>
+              <figure class="scene">
+                <div class="scene-frame">
+                  <img
+                    class="scene-img scene-img--gym"
+                    src="img/gimnasio-audifonos.jpg"
+                    alt="Persona entrenando en un gimnasio con audífonos puestos"
+                  />
+                </div>
 
-              <!-- Cada tarjeta entra con el beat que le toca (mismo
+                <!-- Cada tarjeta entra con el beat que le toca (mismo
                    data-fragment-index), no al abrir la diapositiva: la
                    lectura aparece cuando el guion la nombra. -->
-              <div class="scene-cards">
-                <div class="sync-stack">
-                  <div class="sync-card fragment card-in" data-fragment-index="0">
-                    <div class="sync-card-head">
-                      <i class="fa-solid fa-heart-pulse"></i>
-                      <p>Tu cuerpo</p>
-                    </div>
-                    <div class="sync-card-body">
-                      <div class="sync-tile"><i class="fa-solid fa-heart-pulse"></i></div>
-                      <div class="sync-track">
-                        <p class="sync-track-title">Ritmo cardíaco</p>
-                        <p class="sync-track-artist">Esfuerzo máximo</p>
+                <div class="scene-cards">
+                  <div class="sync-stack">
+                    <div
+                      class="sync-card fragment card-in"
+                      data-fragment-index="0"
+                    >
+                      <div class="sync-card-head">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                        <p>Tu cuerpo</p>
                       </div>
-                      <p class="sync-bpm">168<span>BPM</span></p>
+                      <div class="sync-card-body">
+                        <div class="sync-tile">
+                          <i class="fa-solid fa-heart-pulse"></i>
+                        </div>
+                        <div class="sync-track">
+                          <p class="sync-track-title">Ritmo cardíaco</p>
+                          <p class="sync-track-artist">Esfuerzo máximo</p>
+                        </div>
+                        <p class="sync-bpm">168<span>BPM</span></p>
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="sync-link fragment card-in" data-fragment-index="1">
-                    <i class="fa-solid fa-right-left sync-when-ok"></i>
-                    <i class="fa-solid fa-link-slash sync-when-broken"></i>
-                    <p class="sync-when-ok">En sincronía</p>
-                    <p class="sync-when-broken">Desincronizado</p>
-                  </div>
+                    <div
+                      class="sync-link fragment card-in"
+                      data-fragment-index="1"
+                    >
+                      <i class="fa-solid fa-right-left sync-when-ok"></i>
+                      <i class="fa-solid fa-link-slash sync-when-broken"></i>
+                      <p class="sync-when-ok">En sincronía</p>
+                      <p class="sync-when-broken">Desincronizado</p>
+                    </div>
 
-                  <!-- Las dos canciones viven apiladas en la misma celda: el
+                    <!-- Las dos canciones viven apiladas en la misma celda: el
                        cambio de escena solo hace el cruce, sin que el JS tenga
                        que reescribir textos. -->
-                  <div class="sync-swap fragment card-in" data-fragment-index="1">
-                    <div class="sync-card sync-swap-hot"
-                         data-audio="audio/till-i-collapse.mp3" data-audio-scene="!broken">
-                      <div class="sync-card-head">
-                        <i class="fa-solid fa-music"></i>
-                        <p>Tu música</p>
-                      </div>
-                      <div class="sync-card-body">
-                        <div class="sync-art"><img src="img/covers/till-i-collapse.jpg" alt=""></div>
-                        <div class="sync-track">
-                          <p class="sync-track-title">Till I Collapse</p>
-                          <p class="sync-track-artist">Eminem</p>
+                    <div
+                      class="sync-swap fragment card-in"
+                      data-fragment-index="1"
+                    >
+                      <div
+                        class="sync-card sync-swap-hot"
+                        data-audio="audio/till-i-collapse.mp3"
+                        data-audio-scene="!broken"
+                      >
+                        <div class="sync-card-head">
+                          <i class="fa-solid fa-music"></i>
+                          <p>Tu música</p>
                         </div>
-                        <p class="sync-bpm">171<span>BPM</span></p>
-                      </div>
-                    </div>
-                    <div class="sync-card sync-card--calm sync-swap-calm"
-                         data-audio="audio/te-para-3.mp3" data-audio-scene="broken">
-                      <div class="sync-card-head">
-                        <i class="fa-solid fa-music"></i>
-                        <p>Tu música</p>
-                      </div>
-                      <div class="sync-card-body">
-                        <div class="sync-art"><img src="img/covers/te-para-3.jpg" alt=""></div>
-                        <div class="sync-track">
-                          <p class="sync-track-title">Té Para 3</p>
-                          <p class="sync-track-artist">Soda Stereo · Unplugged</p>
+                        <div class="sync-card-body">
+                          <div class="sync-art">
+                            <img src="img/covers/till-i-collapse.jpg" alt="" />
+                          </div>
+                          <div class="sync-track">
+                            <p class="sync-track-title">Till I Collapse</p>
+                            <p class="sync-track-artist">Eminem</p>
+                          </div>
+                          <p class="sync-bpm">171<span>BPM</span></p>
                         </div>
-                        <p class="sync-bpm">116<span>BPM</span></p>
+                      </div>
+                      <div
+                        class="sync-card sync-card--calm sync-swap-calm"
+                        data-audio="audio/te-para-3.mp3"
+                        data-audio-scene="broken"
+                      >
+                        <div class="sync-card-head">
+                          <i class="fa-solid fa-music"></i>
+                          <p>Tu música</p>
+                        </div>
+                        <div class="sync-card-body">
+                          <div class="sync-art">
+                            <img src="img/covers/te-para-3.jpg" alt="" />
+                          </div>
+                          <div class="sync-track">
+                            <p class="sync-track-title">Té Para 3</p>
+                            <p class="sync-track-artist">
+                              Soda Stereo · Unplugged
+                            </p>
+                          </div>
+                          <p class="sync-bpm">116<span>BPM</span></p>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </figure>
-
+              </figure>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- ============ 2. HOOK — La mañana ============ -->
-      <!-- Sin título, por pedido: la secuencia de contratiempos es la que
+        <!-- ============ 2. HOOK — La mañana ============ -->
+        <!-- Sin título, por pedido: la secuencia de contratiempos es la que
            lleva la narración. Cada paso trae data-stress, y el medidor sube
            al ritmo con el que el presentador avanza.
 
@@ -153,120 +209,199 @@
            diapositiva dos veces. Aquí los data-fragment-index son EXPLÍCITOS
            porque la escena va primero en el DOM: sin ellos, la canción que
            suena en el coche se revelaría antes que los contratiempos. -->
-      <section id="story-morning" class="story">
-        <div class="content">
-          <div class="story-grid story-grid--mirror">
+        <section id="story-morning" class="story">
+          <div class="content">
+            <div class="story-grid story-grid--mirror">
+              <figure class="scene scene--mirror">
+                <div class="scene-frame">
+                  <img
+                    class="scene-img scene-img--car"
+                    src="img/volante-estres.jpg"
+                    alt="Conductor con la cabeza apoyada sobre el volante"
+                  />
+                </div>
 
-            <figure class="scene scene--mirror">
-              <div class="scene-frame">
-                <img class="scene-img scene-img--car" src="img/volante-estres.jpg"
-                     alt="Conductor con la cabeza apoyada sobre el volante">
-              </div>
-
-              <div class="scene-cards">
-                <div class="sync-card fragment card-in" data-fragment-index="5" data-stress="92"
-                     data-audio="audio/chop-suey.mp3">
-                  <div class="sync-card-head">
-                    <i class="fa-solid fa-guitar"></i>
-                    <p>Lo que suena al subirte</p>
-                  </div>
-                  <div class="sync-card-body">
-                    <div class="sync-art"><img src="img/covers/chop-suey.jpg" alt=""></div>
-                    <div class="sync-track">
-                      <p class="sync-track-title">Chop Suey!</p>
-                      <p class="sync-track-artist">System Of A Down</p>
+                <div class="scene-cards">
+                  <div
+                    class="sync-card fragment card-in"
+                    data-fragment-index="5"
+                    data-stress="92"
+                    data-audio="audio/chop-suey.mp3"
+                  >
+                    <div class="sync-card-head">
+                      <i class="fa-solid fa-guitar"></i>
+                      <p>Lo que suena al subirte</p>
                     </div>
-                    <p class="sync-bpm">127<span>BPM</span></p>
+                    <div class="sync-card-body">
+                      <div class="sync-art">
+                        <img src="img/covers/chop-suey.jpg" alt="" />
+                      </div>
+                      <div class="sync-track">
+                        <p class="sync-track-title">Chop Suey!</p>
+                        <p class="sync-track-artist">System Of A Down</p>
+                      </div>
+                      <p class="sync-bpm">127<span>BPM</span></p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </figure>
+              </figure>
 
-            <div class="story-column">
-              <p class="story-lead">Imaginemos otro escenario</p>
+              <div class="story-column">
+                <p class="story-lead">Imaginemos otro escenario</p>
 
-              <div class="morning-track">
-                <div class="morning-step fragment step-in" data-fragment-index="0" data-stress="18">
-                  <i class="fa-solid fa-paw"></i>
-                  <p>Pisas el pipí del perro. A limpiar.</p>
+                <div class="morning-track">
+                  <div
+                    class="morning-step fragment step-in"
+                    data-fragment-index="0"
+                    data-stress="18"
+                  >
+                    <i class="fa-solid fa-paw"></i>
+                    <p>
+                      Te levantaste con el pie izquierdo, y al salir de tu
+                      cuarto pisas el pipí del perro.
+                    </p>
+                  </div>
+                  <div
+                    class="morning-step fragment step-in"
+                    data-fragment-index="1"
+                    data-stress="34"
+                  >
+                    <i class="fa-solid fa-mug-hot"></i>
+                    <p>Te quedas sin tiempo de desayunar.</p>
+                  </div>
+                  <div
+                    class="morning-step fragment step-in"
+                    data-fragment-index="2"
+                    data-stress="52"
+                  >
+                    <i class="fa-solid fa-folder-open"></i>
+                    <p>Olvidaste tu entrega. Regresas por ella.</p>
+                  </div>
+                  <div
+                    class="morning-step fragment step-in"
+                    data-fragment-index="3"
+                    data-stress="68"
+                  >
+                    <i class="fa-solid fa-clock"></i>
+                    <p>Ya vas tarde.</p>
+                  </div>
+                  <div
+                    class="morning-step fragment step-in"
+                    data-fragment-index="4"
+                    data-stress="80"
+                  >
+                    <i class="fa-solid fa-car-side"></i>
+                    <p>El tráfico está peor que nunca.</p>
+                  </div>
                 </div>
-                <div class="morning-step fragment step-in" data-fragment-index="1" data-stress="34">
-                  <i class="fa-solid fa-mug-hot"></i>
-                  <p>Sin tiempo de desayunar.</p>
-                </div>
-                <div class="morning-step fragment step-in" data-fragment-index="2" data-stress="52">
-                  <i class="fa-solid fa-folder-open"></i>
-                  <p>Olvidaste la entrega. Regresas por ella.</p>
-                </div>
-                <div class="morning-step fragment step-in" data-fragment-index="3" data-stress="68">
-                  <i class="fa-solid fa-clock"></i>
-                  <p>Ya vas tarde.</p>
-                </div>
-                <div class="morning-step fragment step-in" data-fragment-index="4" data-stress="80">
-                  <i class="fa-solid fa-car-side"></i>
-                  <p>Y el tráfico está peor que nunca.</p>
-                </div>
-              </div>
 
-              <div class="stress-meter">
-                <p>Nivel de estrés</p>
-                <div class="stress-rail"><div class="stress-fill" id="stress-fill"></div></div>
-              </div>
+                <div class="stress-meter">
+                  <p>Nivel de estrés</p>
+                  <div class="stress-rail">
+                    <div class="stress-fill" id="stress-fill"></div>
+                  </div>
+                </div>
 
-              <div class="beat beat--break fragment beat-in" data-fragment-index="6" data-stress="100"
-                   style="max-width: 100%;">
-                <div class="beat-icon"><i class="fa-solid fa-car-burst"></i></div>
-                <p>Manejas desconcentrado. Y golpeas un coche.</p>
+                <div
+                  class="beat beat--break fragment beat-in"
+                  data-fragment-index="6"
+                  data-stress="100"
+                  style="max-width: 100%"
+                >
+                  <div class="beat-icon">
+                    <i class="fa-solid fa-car-burst"></i>
+                  </div>
+                  <p>Manejas desconcentrado, golpeas un coche.</p>
+                </div>
               </div>
             </div>
-
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- ============ 3. La música sí funciona (datos respaldados) ============ -->
-      <section id="slide-benefits">
-        <h2>Pero la música tiene muchos efectos positivos</h2>
-        <div class="content" style="justify-content: center; gap: 34px;">
-          <div class="stat-grid">
-            <div class="stat-card">
-              <p class="stat-figure" data-count-to="91" data-count-suffix="%">91%</p>
-              <p>La ciencia ya lo comprobó: la música correcta no solo te acompaña, te hace rendir más. Hasta 9 de cada 10 atletas entrenan mejor cuando su música los sigue a ellos, y no al revés.</p>
-              <p class="stat-source">Reporta mejor rendimiento físico entrenando con su música favorita · Apunts. Medicina de l'Esport</p>
-            </div>
-            <div class="stat-card">
-              <p class="stat-figure" data-count-to="10" data-count-prefix="−" data-count-suffix="%">−10%</p>
-              <p>Estudios demuestran que cuando la música se sincroniza con tu corazón, tu cuerpo siente hasta un 10% menos de esfuerzo.</p>
-              <p class="stat-source">Percepción de esfuerzo y carga interna con ejercicio musicalmente sincronizado · Retos</p>
+        <!-- ============ 3. La música sí funciona (datos respaldados) ============ -->
+        <section id="slide-benefits">
+          <h2>Pero la música tiene muchos efectos positivos</h2>
+          <div class="content" style="justify-content: center; gap: 34px">
+            <div class="stat-grid">
+              <div class="stat-card">
+                <p class="stat-figure" data-count-to="91" data-count-suffix="%">
+                  91%
+                </p>
+                <p>
+                  La ciencia ya lo comprobó: la música correcta no solo te
+                  acompaña, te hace rendir más. Hasta 9 de cada 10 atletas
+                  entrenan mejor cuando su música los sigue a ellos, y no al
+                  revés.
+                </p>
+                <p class="stat-source">
+                  Reporta mejor rendimiento físico entrenando con su música
+                  favorita · Apunts. Medicina de l'Esport
+                </p>
+              </div>
+              <div class="stat-card">
+                <p
+                  class="stat-figure"
+                  data-count-to="10"
+                  data-count-prefix="−"
+                  data-count-suffix="%"
+                >
+                  −10%
+                </p>
+                <p>
+                  Estudios demuestran que cuando la música se sincroniza con tu
+                  corazón, tu cuerpo siente hasta un 10% menos de esfuerzo.
+                </p>
+                <p class="stat-source">
+                  Percepción de esfuerzo y carga interna con ejercicio
+                  musicalmente sincronizado · Retos
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- ============ 4. El giro ============ -->
-      <!-- Sola, sin nada más: es la bisagra entre el respaldo científico y
-           el problema. Los puntos suspensivos se escriben uno a uno para
-           sostener el silencio antes de la frase que sigue. -->
-      <section id="problem-turn" data-state="is-section-divider" data-transition="fade"
-               style="justify-content: center;">
-        <h1 class="statement statement--turn">
-          <span class="line">Pero hay un problema<span class="ellipsis" aria-hidden="true"><i>.</i><i>.</i><i>.</i></span></span>
-        </h1>
-      </section>
+        <!-- ============ 4. El giro y la frase del problema ============ -->
+        <!-- Antes eran dos diapositivas. Ahora el relevo lo hace la propia
+           diapositiva: "Pero hay un problema…" se sostiene 1.5s (lo que
+           tardan los tres puntos en escribirse), se va, y la frase entra en
+           su lugar — el presentador no avanza a media pausa, que es justo
+           lo que rompía el silencio.
 
-      <!-- ============ 5. La frase del problema ============ -->
-      <section id="statement" data-transition="fade" data-state="is-section-divider"
-               style="justify-content: center;">
-        <h1 class="statement">
-          <span class="line">Tu cuerpo cambia de ritmo</span>
-          <span class="line">todo el tiempo.</span>
-          <span class="line"><em>Tu música, no.</em></span>
-        </h1>
-      </section>
+           Las dos fases viven APILADAS en la misma celda del grid: así
+           ninguna empuja a la otra y el centro óptico no se mueve durante
+           el cruce. Los tiempos de la segunda fase están en base.css
+           (#problem-turn), no aquí, porque son los mismos --line-delay que
+           usa cualquier otra frase del deck. -->
+        <section
+          id="problem-turn"
+          data-state="is-section-divider"
+          data-transition="fade"
+          style="justify-content: center"
+        >
+          <div class="turn-stage">
+            <h1 class="statement statement--turn turn-phase turn-phase--ask">
+              <span class="line"
+                >Pero hay un problema<span class="ellipsis" aria-hidden="true"
+                  ><i>.</i><i>.</i><i>.</i></span
+                ></span
+              >
+            </h1>
 
-      <!-- ============ 6. PORTADA — la marca responde a la frase ============ -->
-      <section id="title" class="section-divider" data-state="is-section-divider">
-        <!-- Pill "U-Challenge · Universidad Anáhuac Mayab" retirado a
+            <h1 class="statement turn-phase turn-phase--say">
+              <span class="line">Tu cuerpo cambia de ritmo</span>
+              <span class="line">todo el tiempo.</span>
+              <span class="line"><em>Tu música, no.</em></span>
+            </h1>
+          </div>
+        </section>
+
+        <!-- ============ 5. PORTADA — la marca responde a la frase ============ -->
+        <section
+          id="title"
+          class="section-divider"
+          data-state="is-section-divider"
+        >
+          <!-- Pill "U-Challenge · Universidad Anáhuac Mayab" retirado a
              propósito; se vuelve a añadir más adelante:
         <div class="tag-pill" style="position: absolute; top: 40px; left: 60px;">
           <span class="dot"></span>
@@ -274,9 +409,8 @@
         </div>
         -->
 
-        <div class="cover-stage" id="cover-stage">
-
-          <!-- Fase 1: SOLO logo + título, resaltados y centrados. Fase 2
+          <div class="cover-stage" id="cover-stage">
+            <!-- Fase 1: SOLO logo + título, resaltados y centrados. Fase 2
                (clase "rearranged", disparada por JS): se reacomodan a la
                izquierda y AHÍ aparecen la descripción y el equipo (no
                existen visualmente en la fase 1).
@@ -297,43 +431,83 @@
                .cover-brand ya no se centra verticalmente según su propia
                altura (ver .cover-brand en base.css), que crezca hacia
                abajo no mueve el logo/título ni un píxel. -->
-          <div class="cover-brand">
-            <div class="pulse-wave cover-fx" aria-hidden="true">
-              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-            </div>
-            <div class="cover-fx">
-              <!-- Cada glifo es su propio <span> con índice --i: así el título
+            <div class="cover-brand">
+              <div class="pulse-wave cover-fx" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span
+                ><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="cover-fx">
+                <!-- Cada glifo es su propio <span> con índice --i: así el título
                    puede entrar letra por letra (rise + desenfoque→foco) y, en
                    el reacomodo a la izquierda, arrastrar de forma escalonada
                    como una banda elástica. El texto accesible sigue siendo
                    "Physical" gracias al aria-label del h1. -->
-              <h1 class="hero-title wordmark" aria-label="Physical">
-                <span class="wordmark-glyph" style="--i: 0" aria-hidden="true">P</span><span class="wordmark-glyph" style="--i: 1" aria-hidden="true">h</span><span class="wordmark-glyph" style="--i: 2" aria-hidden="true">y</span><span class="wordmark-glyph" style="--i: 3" aria-hidden="true">s</span><span class="wordmark-glyph" style="--i: 4" aria-hidden="true">i</span><span class="wordmark-glyph" style="--i: 5" aria-hidden="true">c</span><span class="wordmark-glyph" style="--i: 6" aria-hidden="true">a</span><span class="wordmark-glyph" style="--i: 7" aria-hidden="true">l</span>
-              </h1>
-            </div>
-            <div class="cover-fx">
-              <!-- Cada línea es su propio <span> con el mismo truco de
+                <h1 class="hero-title wordmark" aria-label="Physical">
+                  <span class="wordmark-glyph" style="--i: 0" aria-hidden="true"
+                    >P</span
+                  ><span
+                    class="wordmark-glyph"
+                    style="--i: 1"
+                    aria-hidden="true"
+                    >h</span
+                  ><span
+                    class="wordmark-glyph"
+                    style="--i: 2"
+                    aria-hidden="true"
+                    >y</span
+                  ><span
+                    class="wordmark-glyph"
+                    style="--i: 3"
+                    aria-hidden="true"
+                    >s</span
+                  ><span
+                    class="wordmark-glyph"
+                    style="--i: 4"
+                    aria-hidden="true"
+                    >i</span
+                  ><span
+                    class="wordmark-glyph"
+                    style="--i: 5"
+                    aria-hidden="true"
+                    >c</span
+                  ><span
+                    class="wordmark-glyph"
+                    style="--i: 6"
+                    aria-hidden="true"
+                    >a</span
+                  ><span
+                    class="wordmark-glyph"
+                    style="--i: 7"
+                    aria-hidden="true"
+                    >l</span
+                  >
+                </h1>
+              </div>
+              <div class="cover-fx">
+                <!-- Cada línea es su propio <span> con el mismo truco de
                    centrado que .cover-fx: en la fase 1 el texto se ve
                    centrado y en el reacomodo cada línea se desliza a la
                    izquierda a la vez que el bloque (text-align no es
                    animable y saltaría). Los cortes de línea son fijos a
                    propósito: son los mismos que daba el ancho de 470px. -->
-              <p class="tagline-hero cover-tagline">
-                <span class="cover-tagline-line">Haz que tu música nunca más te vuelva a </span><span class="cover-tagline-line">sacar del momento que estás viviendo.</span>
-              </p>
+                <p class="tagline-hero cover-tagline">
+                  <span class="cover-tagline-line"
+                    >Tu corazón marca el ritmo. </span
+                  ><span class="cover-tagline-line">Tu música lo sigue.</span>
+                </p>
+              </div>
+              <div class="cover-team" style="margin-top: 22px">
+                <span class="cover-team-name">Mario Zaldívar</span>
+                <span class="cover-team-dot"></span>
+                <span class="cover-team-name">Julio Olguín</span>
+                <span class="cover-team-dot"></span>
+                <span class="cover-team-name">Aranza Aguilar</span>
+                <span class="cover-team-dot"></span>
+                <span class="cover-team-name">Rodolfo Concha</span>
+              </div>
             </div>
-            <div class="cover-team" style="margin-top: 22px;">
-              <span class="cover-team-name">Mario Zaldívar</span>
-              <span class="cover-team-dot"></span>
-              <span class="cover-team-name">Julio Olguín</span>
-              <span class="cover-team-dot"></span>
-              <span class="cover-team-name">Aranza Aguilar</span>
-              <span class="cover-team-dot"></span>
-              <span class="cover-team-name">Rodolfo Concha</span>
-            </div>
-          </div>
 
-          <!-- Fase 3 (clase "show-demo", disparada por JS): demo a la
+            <!-- Fase 3 (clase "show-demo", disparada por JS): demo a la
                derecha — monitor de pulso + cola de Spotify reordenándose
                según ese pulso. El ciclo de zonas (calma → sube → esfuerzo)
                lo maneja el reloj de JS al final del archivo: latido, ECG,
@@ -341,950 +515,1536 @@
                sola cadena "BPM detectado → playlist adaptada" y no como
                animaciones sueltas.
                (placeholder; reemplazar por screen recording real del app). -->
-          <div class="cover-demo" aria-hidden="true">
-
-            <div class="bpm-monitor">
-              <div class="bpm-monitor-heart">
-                <span class="bpm-monitor-ring"></span>
-                <svg viewBox="0 0 32 29" role="presentation">
-                  <path d="M16 28.2 3.6 15.6A7.6 7.6 0 0 1 16 6.9 7.6 7.6 0 0 1 28.4 15.6Z"/>
-                </svg>
-              </div>
-              <div class="bpm-monitor-read">
-                <p class="bpm-monitor-value"><span class="bpm-monitor-number">67</span><span class="bpm-monitor-unit">BPM</span></p>
-                <p class="bpm-monitor-zone">Pulso en calma</p>
-              </div>
-              <!-- Traza ECG: dos copias idénticas que se desplazan en loop.
+            <div class="cover-demo" aria-hidden="true">
+              <div class="bpm-monitor">
+                <div class="bpm-monitor-heart">
+                  <span class="bpm-monitor-ring"></span>
+                  <svg viewBox="0 0 32 29" role="presentation">
+                    <path
+                      d="M16 28.2 3.6 15.6A7.6 7.6 0 0 1 16 6.9 7.6 7.6 0 0 1 28.4 15.6Z"
+                    />
+                  </svg>
+                </div>
+                <div class="bpm-monitor-read">
+                  <p class="bpm-monitor-value">
+                    <span class="bpm-monitor-number">67</span
+                    ><span class="bpm-monitor-unit">BPM</span>
+                  </p>
+                  <p class="bpm-monitor-zone">Pulso en calma</p>
+                </div>
+                <!-- Traza ECG: dos copias idénticas que se desplazan en loop.
                    Su duración es exactamente 2 latidos (2 espigas por copia),
                    así que las espigas caen sobre el latido del corazón sin
                    sincronizarse a mano. -->
-              <div class="bpm-monitor-ecg">
-                <div class="bpm-monitor-ecg-rail">
-                  <svg viewBox="0 0 60 32" preserveAspectRatio="none"><path d="M0 16h8l2-1 2 6 3-16 3 11 2-2h18l2-1 2 6 3-16 3 11 2-2h10"/></svg>
-                  <svg viewBox="0 0 60 32" preserveAspectRatio="none"><path d="M0 16h8l2-1 2 6 3-16 3 11 2-2h18l2-1 2 6 3-16 3 11 2-2h10"/></svg>
+                <div class="bpm-monitor-ecg">
+                  <div class="bpm-monitor-ecg-rail">
+                    <svg viewBox="0 0 60 32" preserveAspectRatio="none">
+                      <path
+                        d="M0 16h8l2-1 2 6 3-16 3 11 2-2h18l2-1 2 6 3-16 3 11 2-2h10"
+                      />
+                    </svg>
+                    <svg viewBox="0 0 60 32" preserveAspectRatio="none">
+                      <path
+                        d="M0 16h8l2-1 2 6 3-16 3 11 2-2h18l2-1 2 6 3-16 3 11 2-2h10"
+                      />
+                    </svg>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Riel de señal: el pulso viaja del monitor a la cola JUSTO
+              <!-- Riel de señal: el pulso viaja del monitor a la cola JUSTO
                  antes de que la cola se reordene — es el "→" de la frase. -->
-            <div class="bpm-link">
-              <span class="bpm-link-pulse"></span>
-            </div>
-
-            <div class="demo-panel">
-              <div class="demo-panel-header">
-                <i class="fa-brands fa-spotify"></i>
-                <p>Cola adaptativa</p>
-                <span class="demo-live-dot"></span>
+              <div class="bpm-link">
+                <span class="bpm-link-pulse"></span>
               </div>
-              <div class="demo-queue-viewport">
 
-                <!-- Modo estudio — BPM en calma (canciones reales, BPM público aproximado) -->
-                <div class="demo-queue-frame">
-                  <div class="demo-track now-playing">
-                    <div class="demo-track-art"><img src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e027e7e5dd9d1ab19fcded8a17f" alt=""></div>
-                    <div class="demo-track-meta">
-                      <p class="demo-track-title">Someone Like You</p>
-                      <p class="demo-track-artist">Adele</p>
+              <div class="demo-panel">
+                <div class="demo-panel-header">
+                  <i class="fa-brands fa-spotify"></i>
+                  <p>Cola adaptativa</p>
+                  <span class="demo-live-dot"></span>
+                </div>
+                <div class="demo-queue-viewport">
+                  <!-- Modo estudio — BPM en calma (canciones reales, BPM público aproximado) -->
+                  <div class="demo-queue-frame">
+                    <div class="demo-track now-playing">
+                      <div class="demo-track-art">
+                        <img
+                          src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e027e7e5dd9d1ab19fcded8a17f"
+                          alt=""
+                        />
+                      </div>
+                      <div class="demo-track-meta">
+                        <p class="demo-track-title">Someone Like You</p>
+                        <p class="demo-track-artist">Adele</p>
+                      </div>
+                      <span class="demo-track-bpm">67 BPM</span>
                     </div>
-                    <span class="demo-track-bpm">67 BPM</span>
+                    <div class="demo-track">
+                      <div class="demo-track-art">
+                        <img
+                          src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02bf7c317a63c4f128b8823406"
+                          alt=""
+                        />
+                      </div>
+                      <div class="demo-track-meta">
+                        <p class="demo-track-title">Skinny Love</p>
+                        <p class="demo-track-artist">Bon Iver</p>
+                      </div>
+                      <span class="demo-track-bpm">63 BPM</span>
+                    </div>
+                    <div class="demo-track">
+                      <div class="demo-track-art">
+                        <img
+                          src="https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0217875a0610c23d8946454583"
+                          alt=""
+                        />
+                      </div>
+                      <div class="demo-track-meta">
+                        <p class="demo-track-title">The Night We Met</p>
+                        <p class="demo-track-artist">Lord Huron</p>
+                      </div>
+                      <span class="demo-track-bpm">74 BPM</span>
+                    </div>
+                    <div class="demo-track">
+                      <div class="demo-track-art">
+                        <img
+                          src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02f8553e18a11209d4becd0336"
+                          alt=""
+                        />
+                      </div>
+                      <div class="demo-track-meta">
+                        <p class="demo-track-title">Liability</p>
+                        <p class="demo-track-artist">Lorde</p>
+                      </div>
+                      <span class="demo-track-bpm">74 BPM</span>
+                    </div>
                   </div>
-                  <div class="demo-track">
-                    <div class="demo-track-art"><img src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02bf7c317a63c4f128b8823406" alt=""></div>
-                    <div class="demo-track-meta">
-                      <p class="demo-track-title">Skinny Love</p>
-                      <p class="demo-track-artist">Bon Iver</p>
+
+                  <!-- Transición — el pulso empieza a subir -->
+                  <div class="demo-queue-frame">
+                    <div class="demo-track now-playing">
+                      <div class="demo-track-art">
+                        <img
+                          src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02692098cde3ee765b886c7629"
+                          alt=""
+                        />
+                      </div>
+                      <div class="demo-track-meta">
+                        <p class="demo-track-title">Watermelon Sugar</p>
+                        <p class="demo-track-artist">Harry Styles</p>
+                      </div>
+                      <span class="demo-track-bpm">95 BPM</span>
                     </div>
-                    <span class="demo-track-bpm">63 BPM</span>
+                    <div class="demo-track">
+                      <div class="demo-track-art">
+                        <img
+                          src="https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0226f7f19c7f0381e56156c94a"
+                          alt=""
+                        />
+                      </div>
+                      <div class="demo-track-meta">
+                        <p class="demo-track-title">Stronger</p>
+                        <p class="demo-track-artist">Kanye West</p>
+                      </div>
+                      <span class="demo-track-bpm">104 BPM</span>
+                    </div>
+                    <div class="demo-track">
+                      <div class="demo-track-art">
+                        <img
+                          src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02c88bae7846e62a8ba59ee0bd"
+                          alt=""
+                        />
+                      </div>
+                      <div class="demo-track-meta">
+                        <p class="demo-track-title">Levitating</p>
+                        <p class="demo-track-artist">Dua Lipa</p>
+                      </div>
+                      <span class="demo-track-bpm">103 BPM</span>
+                    </div>
+                    <div class="demo-track">
+                      <div class="demo-track-art">
+                        <img
+                          src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e022199f4c497dd5301c08239cd"
+                          alt=""
+                        />
+                      </div>
+                      <div class="demo-track-meta">
+                        <p class="demo-track-title">Sunflower</p>
+                        <p class="demo-track-artist">Post Malone, Swae Lee</p>
+                      </div>
+                      <span class="demo-track-bpm">90 BPM</span>
+                    </div>
                   </div>
-                  <div class="demo-track">
-                    <div class="demo-track-art"><img src="https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0217875a0610c23d8946454583" alt=""></div>
-                    <div class="demo-track-meta">
-                      <p class="demo-track-title">The Night We Met</p>
-                      <p class="demo-track-artist">Lord Huron</p>
+
+                  <!-- Modo ejercicio — BPM alto -->
+                  <div class="demo-queue-frame">
+                    <div class="demo-track now-playing">
+                      <div class="demo-track-art">
+                        <img
+                          src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02c88bae7846e62a8ba59ee0bd"
+                          alt=""
+                        />
+                      </div>
+                      <div class="demo-track-meta">
+                        <p class="demo-track-title">Physical</p>
+                        <p class="demo-track-artist">Dua Lipa</p>
+                      </div>
+                      <span class="demo-track-bpm">146 BPM</span>
                     </div>
-                    <span class="demo-track-bpm">74 BPM</span>
-                  </div>
-                  <div class="demo-track">
-                    <div class="demo-track-art"><img src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02f8553e18a11209d4becd0336" alt=""></div>
-                    <div class="demo-track-meta">
-                      <p class="demo-track-title">Liability</p>
-                      <p class="demo-track-artist">Lorde</p>
+                    <div class="demo-track">
+                      <div class="demo-track-art">
+                        <img
+                          src="https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02b234aeff6eedc8276fe0333a"
+                          alt=""
+                        />
+                      </div>
+                      <div class="demo-track-meta">
+                        <p class="demo-track-title">Titanium</p>
+                        <p class="demo-track-artist">David Guetta, Sia</p>
+                      </div>
+                      <span class="demo-track-bpm">126 BPM</span>
                     </div>
-                    <span class="demo-track-bpm">74 BPM</span>
+                    <div class="demo-track">
+                      <div class="demo-track-art">
+                        <img
+                          src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02781f6dd5abe91929df0314e3"
+                          alt=""
+                        />
+                      </div>
+                      <div class="demo-track-meta">
+                        <p class="demo-track-title">Don't You Worry Child</p>
+                        <p class="demo-track-artist">Swedish House Mafia</p>
+                      </div>
+                      <span class="demo-track-bpm">129 BPM</span>
+                    </div>
+                    <div class="demo-track">
+                      <div class="demo-track-art">
+                        <img
+                          src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02a376041c1b429d1a3c15bacf"
+                          alt=""
+                        />
+                      </div>
+                      <div class="demo-track-meta">
+                        <p class="demo-track-title">Levels</p>
+                        <p class="demo-track-artist">Avicii</p>
+                      </div>
+                      <span class="demo-track-bpm">126 BPM</span>
+                    </div>
                   </div>
                 </div>
-
-                <!-- Transición — el pulso empieza a subir -->
-                <div class="demo-queue-frame">
-                  <div class="demo-track now-playing">
-                    <div class="demo-track-art"><img src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02692098cde3ee765b886c7629" alt=""></div>
-                    <div class="demo-track-meta">
-                      <p class="demo-track-title">Watermelon Sugar</p>
-                      <p class="demo-track-artist">Harry Styles</p>
-                    </div>
-                    <span class="demo-track-bpm">95 BPM</span>
-                  </div>
-                  <div class="demo-track">
-                    <div class="demo-track-art"><img src="https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0226f7f19c7f0381e56156c94a" alt=""></div>
-                    <div class="demo-track-meta">
-                      <p class="demo-track-title">Stronger</p>
-                      <p class="demo-track-artist">Kanye West</p>
-                    </div>
-                    <span class="demo-track-bpm">104 BPM</span>
-                  </div>
-                  <div class="demo-track">
-                    <div class="demo-track-art"><img src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02c88bae7846e62a8ba59ee0bd" alt=""></div>
-                    <div class="demo-track-meta">
-                      <p class="demo-track-title">Levitating</p>
-                      <p class="demo-track-artist">Dua Lipa</p>
-                    </div>
-                    <span class="demo-track-bpm">103 BPM</span>
-                  </div>
-                  <div class="demo-track">
-                    <div class="demo-track-art"><img src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e022199f4c497dd5301c08239cd" alt=""></div>
-                    <div class="demo-track-meta">
-                      <p class="demo-track-title">Sunflower</p>
-                      <p class="demo-track-artist">Post Malone, Swae Lee</p>
-                    </div>
-                    <span class="demo-track-bpm">90 BPM</span>
-                  </div>
-                </div>
-
-                <!-- Modo ejercicio — BPM alto -->
-                <div class="demo-queue-frame">
-                  <div class="demo-track now-playing">
-                    <div class="demo-track-art"><img src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02c88bae7846e62a8ba59ee0bd" alt=""></div>
-                    <div class="demo-track-meta">
-                      <p class="demo-track-title">Physical</p>
-                      <p class="demo-track-artist">Dua Lipa</p>
-                    </div>
-                    <span class="demo-track-bpm">146 BPM</span>
-                  </div>
-                  <div class="demo-track">
-                    <div class="demo-track-art"><img src="https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02b234aeff6eedc8276fe0333a" alt=""></div>
-                    <div class="demo-track-meta">
-                      <p class="demo-track-title">Titanium</p>
-                      <p class="demo-track-artist">David Guetta, Sia</p>
-                    </div>
-                    <span class="demo-track-bpm">126 BPM</span>
-                  </div>
-                  <div class="demo-track">
-                    <div class="demo-track-art"><img src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02781f6dd5abe91929df0314e3" alt=""></div>
-                    <div class="demo-track-meta">
-                      <p class="demo-track-title">Don't You Worry Child</p>
-                      <p class="demo-track-artist">Swedish House Mafia</p>
-                    </div>
-                    <span class="demo-track-bpm">129 BPM</span>
-                  </div>
-                  <div class="demo-track">
-                    <div class="demo-track-art"><img src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02a376041c1b429d1a3c15bacf" alt=""></div>
-                    <div class="demo-track-meta">
-                      <p class="demo-track-title">Levels</p>
-                      <p class="demo-track-artist">Avicii</p>
-                    </div>
-                    <span class="demo-track-bpm">126 BPM</span>
-                  </div>
-                </div>
-
               </div>
             </div>
           </div>
+        </section>
 
-        </div>
-      </section>
+        <!-- ============ 6. La respuesta ============ -->
+        <!-- Par tipográfico con la frase del problema (la 4): mismo tratamiento,
+           acento invertido. Aquella nombra el problema en coral; esta
+           responde en cian. -->
+        <section
+          id="answer"
+          data-transition="fade"
+          data-state="is-section-divider"
+          style="justify-content: center"
+        >
+          <h1 class="statement statement--answer statement--long">
+            <span class="line"
+              >Una aplicación que se encarga de leerte a ti,</span
+            >
+            <span class="line">para que tu música <em>siempre esté</em></span>
+            <span class="line"><em>en sincronía contigo.</em></span>
+          </h1>
+        </section>
 
-      <!-- ============ 7. La respuesta ============ -->
-      <!-- Par tipográfico con la 5: mismo tratamiento, acento invertido.
-           La 5 nombra el problema en coral; esta responde en cian. -->
-      <section id="answer" data-transition="fade" data-state="is-section-divider" style="justify-content: center;">
-        <h1 class="statement statement--answer statement--long">
-          <span class="line">Una aplicación que se encarga de leerte a ti,</span>
-          <span class="line">para que tu música <em>siempre esté</em></span>
-          <span class="line"><em>en sincronía contigo.</em></span>
-        </h1>
-      </section>
+        <!-- ============ 7. ¿Cómo lo hace? ============ -->
+        <section id="how">
+          <h2>¿Cómo lo hace?</h2>
+          <div class="content" style="justify-content: center">
+            <div class="tag-pill">
+              <span class="dot"></span>
+              <p>De tu pulso a tu cola, sin que toques nada</p>
+            </div>
 
-      <!-- ============ 7. ¿Cómo lo hace? ============ -->
-      <section id="how">
-        <h2>¿Cómo lo hace?</h2>
-        <div class="content" style="justify-content: center;">
-          <div class="tag-pill">
-            <span class="dot"></span>
-            <p>De tu pulso a tu cola, sin que toques nada</p>
+            <div class="flow-track" style="margin-top: 14px">
+              <div class="flow-node">
+                <div class="flow-icon">
+                  <i class="fa-solid fa-heart-pulse"></i>
+                </div>
+                <p>La banda BePhysical lee tu corazón</p>
+                <p class="flow-label-muted">
+                  Sensor de pulso en la muñeca, en vivo
+                </p>
+              </div>
+              <div class="flow-connector"><span class="flow-dot"></span></div>
+              <div class="flow-node">
+                <div class="flow-icon">
+                  <i class="fa-solid fa-code-branch"></i>
+                </div>
+                <p>Nuestro algoritmo cruza tu biblioteca</p>
+                <p class="flow-label-muted">
+                  Tus canciones guardadas × el BPM de cada una
+                </p>
+              </div>
+              <div class="flow-connector"><span class="flow-dot"></span></div>
+              <div class="flow-node flow-node--spotify">
+                <div class="flow-icon">
+                  <i class="fa-brands fa-spotify"></i>
+                </div>
+                <p>Y reacomoda tu cola solo</p>
+                <p class="flow-label-muted">
+                  Encola la que embona, o salta si el salto es brusco
+                </p>
+              </div>
+            </div>
+
+            <p
+              class="turn-line"
+              style="margin-top: 26px !important; font-size: 17pt !important"
+            >
+              Tú solo entrenas, estudias o manejas. La música se acomoda sola.
+            </p>
           </div>
+        </section>
 
-          <div class="flow-track" style="margin-top: 14px;">
-            <div class="flow-node">
-              <div class="flow-icon"><i class="fa-solid fa-heart-pulse"></i></div>
-              <p>La banda BePhysical lee tu corazón</p>
-              <p class="flow-label-muted">Sensor de pulso en la muñeca, en vivo</p>
-            </div>
-            <div class="flow-connector"><span class="flow-dot"></span></div>
-            <div class="flow-node">
-              <div class="flow-icon"><i class="fa-solid fa-code-branch"></i></div>
-              <p>Nuestro algoritmo cruza tu biblioteca</p>
-              <p class="flow-label-muted">Tus canciones guardadas × el BPM de cada una</p>
-            </div>
-            <div class="flow-connector"><span class="flow-dot"></span></div>
-            <div class="flow-node flow-node--spotify">
-              <div class="flow-icon"><i class="fa-brands fa-spotify"></i></div>
-              <p>Y reacomoda tu cola solo</p>
-              <p class="flow-label-muted">Encola la que embona, o salta si el salto es brusco</p>
-            </div>
-          </div>
-
-          <p class="turn-line" style="margin-top: 26px !important; font-size: 17pt !important;">Tú solo entrenas, estudias o manejas. La música se acomoda sola.</p>
-        </div>
-      </section>
-
-      <!-- ============ 8. Se adapta a la situación ============ -->
-      <!-- La maqueta del teléfono es esquemática a propósito: comunica QUÉ
+        <!-- ============ 8. Se adapta a la situación ============ -->
+        <!-- La maqueta del teléfono es esquemática a propósito: comunica QUÉ
            se puede configurar sin fingir una captura de una app que aún no
            existe. Los rangos exactos siguen abiertos y así se marca. -->
-      <section id="adapts" data-mode="estudio">
-        <h2>Se adapta a la situación</h2>
-        <div class="content" style="justify-content: center;">
-          <div style="display: grid; grid-template-columns: 268px 1fr; gap: 46px; align-items: center;">
+        <section id="adapts" data-mode="estudio">
+          <h2>Se adapta a la situación</h2>
+          <div class="content" style="justify-content: center">
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 268px 1fr;
+                gap: 46px;
+                align-items: center;
+              "
+            >
+              <div class="phone-mock">
+                <div class="phone-screen">
+                  <p class="phone-screen-title">Modo de sesión</p>
 
-            <div class="phone-mock">
-              <div class="phone-screen">
-                <p class="phone-screen-title">Modo de sesión</p>
+                  <div class="mode-toggle">
+                    <span class="mode-toggle-thumb" aria-hidden="true"></span>
+                    <p class="mode-toggle-opt" data-for="estudio">Estudio</p>
+                    <p class="mode-toggle-opt" data-for="ejercicio">
+                      Ejercicio
+                    </p>
+                  </div>
 
-                <div class="mode-toggle">
-                  <span class="mode-toggle-thumb" aria-hidden="true"></span>
-                  <p class="mode-toggle-opt" data-for="estudio">Estudio</p>
-                  <p class="mode-toggle-opt" data-for="ejercicio">Ejercicio</p>
-                </div>
-
-                <div class="phone-rule">
-                  <span class="phone-rule-icon" aria-hidden="true">
-                    <i class="fa-solid fa-arrow-trend-down phone-when phone-when--estudio"></i>
-                    <i class="fa-solid fa-arrow-trend-up phone-when phone-when--ejercicio"></i>
-                  </span>
-                  <span class="phone-rule-text">
-                    <p class="phone-when phone-when--estudio">Si mi pulso sube, <strong>baja</strong> el tempo</p>
-                    <p class="phone-when phone-when--ejercicio">Si mi pulso sube, <strong>sube</strong> el tempo</p>
-                  </span>
-                </div>
-
-                <div class="phone-range">
-                  <div class="phone-range-head">
-                    <p>Rango objetivo</p>
-                    <span class="phone-range-value">
-                      <p class="phone-when phone-when--estudio">60 – 90 BPM</p>
-                      <p class="phone-when phone-when--ejercicio">120 – 150 BPM</p>
+                  <div class="phone-rule">
+                    <span class="phone-rule-icon" aria-hidden="true">
+                      <i
+                        class="fa-solid fa-arrow-trend-down phone-when phone-when--estudio"
+                      ></i>
+                      <i
+                        class="fa-solid fa-arrow-trend-up phone-when phone-when--ejercicio"
+                      ></i>
+                    </span>
+                    <span class="phone-rule-text">
+                      <p class="phone-when phone-when--estudio">
+                        Si mi pulso sube, <strong>baja</strong> el tempo
+                      </p>
+                      <p class="phone-when phone-when--ejercicio">
+                        Si mi pulso sube, <strong>sube</strong> el tempo
+                      </p>
                     </span>
                   </div>
-                  <div class="phone-range-rail"><span class="phone-range-span"></span></div>
-                </div>
 
-                <div class="phone-session">
+                  <div class="phone-range">
+                    <div class="phone-range-head">
+                      <p>Rango objetivo</p>
+                      <span class="phone-range-value">
+                        <p class="phone-when phone-when--estudio">
+                          60 – 90 BPM
+                        </p>
+                        <p class="phone-when phone-when--ejercicio">
+                          120 – 150 BPM
+                        </p>
+                      </span>
+                    </div>
+                    <div class="phone-range-rail">
+                      <span class="phone-range-span"></span>
+                    </div>
+                  </div>
+
+                  <div class="phone-session">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                    <p>Sesión activa · <span class="phone-bpm">78</span> BPM</p>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <p style="font-size: 17pt !important; margin: 0 0 22px 0">
+                  Puedes configurarlo para que más pulsaciones signifiquen lo
+                  que tú necesites que signifiquen.
+                </p>
+                <div class="mode-grid">
+                  <div class="mode-card mode-study">
+                    <div class="mode-icon">
+                      <i class="fa-solid fa-book"></i>
+                    </div>
+                    <h3>Modo estudio</h3>
+                    <p>
+                      Más pulsaciones → música más calmada, para sostener la
+                      concentración.
+                    </p>
+                  </div>
+                  <div class="mode-card mode-exercise">
+                    <div class="mode-icon">
+                      <i class="fa-solid fa-dumbbell"></i>
+                    </div>
+                    <h3>Modo ejercicio</h3>
+                    <p>
+                      Más pulsaciones → música más acelerada, para sostener el
+                      esfuerzo.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 9. Uso preventivo ============ -->
+        <!-- La salvaguarda vivía apretada dentro de la diapositiva de modos y
+           competía con ella. Sola tiene el tamaño que el argumento merece:
+           el corazón, el medidor y los cuatro pasos son UNA sola animación
+           de 9s gobernada por --guard-heat (ver .guard-* en base.css), y el
+           ciclo cuenta la historia entera — el pulso se dispara, cruza el
+           umbral, entra la música relajada y el pulso VUELVE. Eso último es
+           el argumento; la alarma sola no vende nada.
+
+           El reloj vive en .guard-clock (el .content), no en la <section>:
+           así reveal maneja la transición de diapositiva sin pelearse con
+           una animación puesta sobre el mismo elemento. -->
+        <section id="safeguard">
+          <h2>Uso preventivo</h2>
+          <div
+            class="content guard-clock"
+            style="justify-content: center; gap: 30px"
+          >
+            <div class="tag-pill">
+              <span class="dot"></span>
+              <p>Por encima del umbral, el modo que elegiste se anula</p>
+            </div>
+
+            <div class="guard-stage">
+              <div class="guard-heart" aria-hidden="true">
+                <span class="guard-heart-ring"></span>
+                <span class="guard-heart-ring guard-heart-ring--late"></span>
+                <svg viewBox="0 0 32 29" role="presentation">
+                  <path
+                    d="M16 28.2 3.6 15.6A7.6 7.6 0 0 1 16 6.9 7.6 7.6 0 0 1 28.4 15.6Z"
+                  />
+                </svg>
+              </div>
+
+              <div class="guard-gauge">
+                <div class="guard-rail">
+                  <span class="guard-danger"></span>
+                  <span class="guard-fill"></span>
+                  <span class="guard-limit"></span>
+                  <p class="guard-read" aria-hidden="true">
+                    <span class="guard-bpm"></span
+                    ><span class="guard-unit">BPM</span>
+                  </p>
+                </div>
+                <div class="guard-scale">
+                  <p>60</p>
+                  <p class="guard-scale-limit">Umbral · +200 BPM</p>
+                  <p>240</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="guard-steps">
+              <div class="guard-step guard-step--1">
+                <span class="guard-step-num">1</span>
+                <div>
+                  <p class="guard-step-title">La banda lo ve</p>
+                  <p class="guard-step-note">Pulso fuera de todo rango</p>
+                </div>
+              </div>
+              <div class="guard-step guard-step--2">
+                <span class="guard-step-num">2</span>
+                <div>
+                  <p class="guard-step-title">Se anula el modo</p>
+                  <p class="guard-step-note">Da igual estudio o ejercicio</p>
+                </div>
+              </div>
+              <div class="guard-step guard-step--3">
+                <span class="guard-step-num">3</span>
+                <div>
+                  <p class="guard-step-title">Música relajada</p>
+                  <p class="guard-step-note">Por debajo de tu pulso</p>
+                </div>
+                <div class="pulse-wave pulse-wave--guard" aria-hidden="true">
+                  <span></span><span></span><span></span><span></span
+                  ><span></span>
+                </div>
+              </div>
+              <div class="guard-step guard-step--4">
+                <span class="guard-step-num">4</span>
+                <div>
+                  <p class="guard-step-title">El pulso vuelve</p>
+                  <p class="guard-step-note">Y la sesión sigue donde estaba</p>
+                </div>
+              </div>
+            </div>
+
+            <p class="guard-note">
+              No sustituye a un médico ni a una alerta de emergencia: es tu
+              música dejando de empujarte cuando tu cuerpo ya no lo necesita.
+            </p>
+          </div>
+        </section>
+
+        <!-- ============ 10. REFRÁN — cierra el bloque de producto ============ -->
+        <section
+          id="refrain-1"
+          data-transition="fade"
+          class="section-divider"
+          data-state="is-section-divider"
+        >
+          <div class="pulse-wave" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span
+            ><span></span><span></span><span></span><span></span>
+          </div>
+          <h1 class="refrain">
+            <span class="line">Haz que la música nunca vuelva a sacarte</span>
+            <span class="line"><em>del momento que estás viviendo.</em></span>
+          </h1>
+        </section>
+
+        <!-- ============ 11. DIVISOR — El prototipo ============ -->
+        <section
+          id="divider-proto"
+          class="section-divider"
+          data-state="is-section-divider"
+        >
+          <div
+            class="pulse-wave"
+            aria-hidden="true"
+            style="margin-bottom: 26px"
+          >
+            <span></span><span></span><span></span><span></span><span></span
+            ><span></span><span></span><span></span><span></span>
+          </div>
+          <h1>Pero, ¿cuánto cuesta?</h1>
+        </section>
+
+        <!-- ============ 12. El prototipo ============ -->
+        <section id="proto">
+          <h2>Qué lleva dentro</h2>
+          <div class="content" style="justify-content: center">
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 44px;
+                align-items: center;
+              "
+            >
+              <div>
+                <div class="spec-row">
+                  <i class="fa-solid fa-microchip"></i>
+                  <div style="flex: 1; min-width: 0">
+                    <p class="spec-name">ESP-32</p>
+                    <p class="spec-note">
+                      Microcontrolador con Bluetooth integrado
+                    </p>
+                  </div>
+                  <p class="spec-cost">$120</p>
+                </div>
+                <div class="spec-row">
                   <i class="fa-solid fa-heart-pulse"></i>
-                  <p>Sesión activa · <span class="phone-bpm">78</span> BPM</p>
+                  <div style="flex: 1; min-width: 0">
+                    <p class="spec-name">Sensor MAX30102</p>
+                    <p class="spec-note">
+                      Lectura óptica de pulso en la muñeca
+                    </p>
+                  </div>
+                  <p class="spec-cost">$100</p>
+                </div>
+                <div class="spec-row">
+                  <i class="fa-solid fa-battery-three-quarters"></i>
+                  <div style="flex: 1; min-width: 0">
+                    <p class="spec-name">Batería</p>
+                    <p class="spec-note">
+                      Para que la banda no dependa de un cable
+                    </p>
+                  </div>
+                  <p class="spec-cost">$50</p>
+                </div>
+                <div class="spec-row">
+                  <i class="fa-solid fa-screwdriver-wrench"></i>
+                  <div style="flex: 1; min-width: 0">
+                    <p class="spec-name">Banda y armado</p>
+                    <p class="spec-note">
+                      Correa, cables y carcasa del prototipo
+                    </p>
+                  </div>
+                  <p class="spec-cost">$50</p>
                 </div>
               </div>
-            </div>
 
-            <div>
-              <p style="font-size: 17pt !important; margin: 0 0 22px 0;">Puedes configurarlo para que más pulsaciones signifiquen lo que tú necesites que signifiquen.</p>
-              <div class="mode-grid">
-                <div class="mode-card mode-study">
-                  <div class="mode-icon"><i class="fa-solid fa-book"></i></div>
-                  <h3>Modo estudio</h3>
-                  <p>Más pulsaciones → música más calmada, para sostener la concentración.</p>
+              <div>
+                <div class="ble-badge" style="margin-bottom: 20px">
+                  <span class="ble-emitter" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                    <i class="fa-brands fa-bluetooth-b"></i>
+                  </span>
+                  <p>
+                    Emitiendo · <span class="ble-uuid">Heart Rate 0x180D</span>
+                  </p>
                 </div>
-                <div class="mode-card mode-exercise">
-                  <div class="mode-icon"><i class="fa-solid fa-dumbbell"></i></div>
-                  <h3>Modo ejercicio</h3>
-                  <p>Más pulsaciones → música más acelerada, para sostener el esfuerzo.</p>
-                </div>
-              </div>
-              <div class="pending" style="margin-top: 20px;">
-                <p>definir los rangos exactos de BPM por modo, y si el usuario podrá crear modos propios</p>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      <!-- ============ 9. REFRÁN — cierra el bloque de producto ============ -->
-      <section id="refrain-1" data-transition="fade" class="section-divider" data-state="is-section-divider">
-        <div class="pulse-wave" aria-hidden="true">
-          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-        </div>
-        <h1 class="refrain">
-          <span class="line">Haz que la música nunca vuelva a sacarte</span>
-          <span class="line"><em>del momento que estás viviendo.</em></span>
-        </h1>
-      </section>
-
-      <!-- ============ 10. DIVISOR — El prototipo ============ -->
-      <section id="divider-proto" class="section-divider" data-state="is-section-divider">
-        <div class="tag-pill" style="position: absolute; top: 40px; left: 60px;">
-          <span class="dot"></span>
-          <p>02 — El producto</p>
-        </div>
-        <h1>Ya existe</h1>
-        <p class="divider-subtitle">No es una idea en papel: la banda ya mide y la cola ya cambia</p>
-      </section>
-
-      <!-- ============ 11. El prototipo ============ -->
-      <section id="proto">
-        <h2>Qué lleva dentro</h2>
-        <div class="content" style="justify-content: center;">
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 44px; align-items: center;">
-
-            <div>
-              <div class="spec-row">
-                <i class="fa-solid fa-microchip"></i>
-                <div style="flex: 1; min-width: 0;">
-                  <p class="spec-name">ESP-32</p>
-                  <p class="spec-note">Microcontrolador con Bluetooth integrado</p>
-                </div>
-                <p class="spec-cost">$120</p>
-              </div>
-              <div class="spec-row">
-                <i class="fa-solid fa-heart-pulse"></i>
-                <div style="flex: 1; min-width: 0;">
-                  <p class="spec-name">Sensor MAX30102</p>
-                  <p class="spec-note">Lectura óptica de pulso en la muñeca</p>
-                </div>
-                <p class="spec-cost">$100</p>
-              </div>
-              <div class="spec-row">
-                <i class="fa-solid fa-battery-three-quarters"></i>
-                <div style="flex: 1; min-width: 0;">
-                  <p class="spec-name">Batería</p>
-                  <p class="spec-note">Para que la banda no dependa de un cable</p>
-                </div>
-                <p class="spec-cost">$50</p>
-              </div>
-              <div class="spec-row">
-                <i class="fa-solid fa-screwdriver-wrench"></i>
-                <div style="flex: 1; min-width: 0;">
-                  <p class="spec-name">Banda y armado</p>
-                  <p class="spec-note">Correa, cables y carcasa del prototipo</p>
-                </div>
-                <p class="spec-cost">$50</p>
-              </div>
-            </div>
-
-            <div>
-              <div class="ble-badge" style="margin-bottom: 20px;">
-                <span class="ble-emitter" aria-hidden="true">
-                  <span></span><span></span><span></span>
-                  <i class="fa-brands fa-bluetooth-b"></i>
-                </span>
-                <p>Emitiendo · <span class="ble-uuid">Heart Rate 0x180D</span></p>
-              </div>
-              <p style="font-size: 15pt !important; margin: 0 0 22px 0;">La banda publica el pulso por el <strong>Heart Rate Service de Bluetooth</strong>, el mismo perfil que usan las pulseras comerciales. Cualquier app del ecosistema fitness puede leerla — y la nuestra la lee sin adaptadores.</p>
-              <div class="collage-row">
-                <div class="collage-item tilt-1">
-                  <div class="shot-placeholder"><i class="fa-solid fa-camera"></i></div>
-                  <p>foto del prototipo armado</p>
-                </div>
-                <div class="collage-item tilt-2 drop-1">
-                  <div class="shot-placeholder"><i class="fa-solid fa-camera"></i></div>
-                  <p>foto de la banda puesta</p>
+                <p style="font-size: 15pt !important; margin: 0 0 22px 0">
+                  La banda publica el pulso por el
+                  <strong>Heart Rate Service de Bluetooth</strong>, el mismo
+                  perfil que usan las pulseras comerciales. Cualquier app del
+                  ecosistema fitness puede leerla — y la nuestra la lee sin
+                  adaptadores.
+                </p>
+                <!-- Fotos de referencia, no del prototipo propio: el pie de
+                   cada una lo dice con todas sus letras para que nadie del
+                   jurado suponga que ya está armado así. Cuando existan las
+                   fotos reales, se sustituyen los dos archivos y ya.
+                   Descargadas localmente (créditos en img/CREDITOS.md). -->
+                <div class="collage-row">
+                  <div class="collage-item tilt-1">
+                    <img
+                      src="img/esp32-devkit.jpg"
+                      alt="Placa ESP-32 DevKit vista desde arriba, con el módulo metálico y el puerto micro-USB"
+                    />
+                    <p>El ESP-32 que va dentro</p>
+                  </div>
+                  <div class="collage-item tilt-2 drop-1">
+                    <img
+                      src="img/banda-muneca.jpg"
+                      alt="Banda de actividad puesta en una muñeca, mostrando la hora en su pantalla"
+                    />
+                    <p>El formato al que apunta la banda</p>
+                  </div>
                 </div>
               </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      <!-- ============ 12. Precio ============ -->
-      <!-- Tres peldaños. El tercero va punteado y sin cifra a propósito: el
-           precio de venta todavía no está decidido y ponerle un número
-           inventado es justo lo que el jurado puede pinchar. -->
-      <section id="price">
-        <h2>Cuánto cuesta, y cuánto costará</h2>
-        <div class="content" style="justify-content: center;">
-          <!-- La línea se dibuja de izquierda a derecha y va bajando: el
-               argumento de precio contado como gesto antes de leerse. -->
-          <svg class="price-trend" viewBox="0 0 1160 56" preserveAspectRatio="none" aria-hidden="true">
-            <path class="price-trend-line" d="M193 12 L580 30 L967 46"/>
-            <circle class="price-trend-dot price-trend-dot--1" cx="193" cy="12" r="6"/>
-            <circle class="price-trend-dot price-trend-dot--2" cx="580" cy="30" r="6"/>
-            <circle class="price-trend-dot price-trend-dot--3" cx="967" cy="46" r="6"/>
-          </svg>
-
-          <div class="price-ladder">
-            <div class="price-step price-step--now">
-              <p class="price-step-label">Hoy · una unidad</p>
-              <p class="price-step-value" data-count-to="320" data-count-prefix="$">$320</p>
-              <p>Lo que cuesta armar este prototipo comprando componentes sueltos, al menudeo.</p>
-            </div>
-            <div class="price-step price-step--scale">
-              <p class="price-step-label">En producción</p>
-              <p class="price-step-value">Mucho menos</p>
-              <p>Sin componentes de maqueteo ni compra unitaria, el costo por banda cae bastante.</p>
-            </div>
-            <div class="price-step price-step--sale">
-              <p class="price-step-label">Precio de venta</p>
-              <p class="price-step-value">Por definir</p>
-              <p>La banda es la puerta de entrada; el valor recurrente vive en la app.</p>
             </div>
           </div>
-          <div class="pending" style="margin-top: 26px;">
-            <p>cerrar el costo estimado en producción y el precio de venta antes del pitch — el jurado va a preguntar por este número</p>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- ============ 13. El ecosistema ============ -->
-      <section id="ecosystem">
-        <h2>La banda es apenas el primer sensor</h2>
-        <div class="content" style="justify-content: center;">
-          <div class="panel-card-grid">
-            <div class="panel-card">
-              <div class="panel-card-icon"><i class="fa-solid fa-heart-pulse"></i></div>
-              <h3>Hoy: música adaptativa</h3>
-              <p>Tu cola de Spotify se acomoda a tu pulso, en vivo, sin que toques el teléfono.</p>
-            </div>
-            <div class="panel-card">
-              <div class="panel-card-icon"><i class="fa-solid fa-sliders"></i></div>
-              <h3>Después: tus propios modos</h3>
-              <p>Estudio y ejercicio son los primeros dos. El usuario podrá definir los suyos.</p>
-            </div>
-            <div class="panel-card">
-              <div class="panel-card-icon"><i class="fa-solid fa-sitemap"></i></div>
-              <h3>Luego: el ecosistema Physical</h3>
-              <p>Un cuerpo que ya se está midiendo puede ajustar mucho más que la música.</p>
-            </div>
-          </div>
-          <div class="pending" style="margin-top: 24px;">
-            <p>definir qué otros productos entran al ecosistema y en qué orden — hoy es la parte más floja del pitch</p>
-          </div>
-        </div>
-      </section>
+        <!-- ============ 13. Precio ============ -->
+        <!-- Tres tarjetas iguales aplanaban esto en una tabla de precios, y la
+           línea de tendencia que las cruzaba por encima chocaba con sus
+           bordes. Ahora la diapositiva dice UNA cosa y la dice con
+           geometría: el precio de venta es un UMBRAL, y los costos se miden
+           contra él.
 
-      <!-- ============ 14. Equipo ============ -->
-      <section id="team">
-        <h2>Quiénes lo estamos haciendo</h2>
-        <div class="content" style="justify-content: center;">
-          <div class="team-grid" style="grid-template-columns: repeat(4, 1fr);">
-            <div class="team-card">
-              <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
-              <h3>Mario Zaldívar</h3>
-              <p>Rol pendiente</p>
+           Las barras están a escala real (máximo = $320), así que el hecho
+           incómodo se ve antes de leerse: lo que hoy cuesta armar una unidad
+           se PASA del precio al que queremos venderla. La segunda fila no
+           finge un número que nadie ha cotizado — es un rango punteado que
+           termina en el umbral.
+
+           El umbral es el mismo lenguaje visual que la salvaguarda de +200
+           BPM: línea punteada, etiqueta con la cifra, destello al cruzarla.
+           Coral = se pasa, cian = objetivo; las dos marcas van etiquetadas
+           con texto, así que la identidad nunca depende sólo del color.
+           Sin hover ni tooltips a propósito: esto se proyecta en una pared. -->
+        <section id="price">
+          <h2>Cuánto cuesta, y cuánto costará</h2>
+          <div class="content" style="justify-content: center; gap: 32px">
+            <div class="tag-pill">
+              <span class="dot"></span>
+              <p>El precio de venta no sale del costo: le pone techo</p>
             </div>
-            <div class="team-card">
-              <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
-              <h3>Julio Olguín</h3>
-              <p>Rol pendiente</p>
+
+            <div class="cost-chart">
+              <!-- El umbral se dibuja sobre la columna del plot (no sobre las
+                 etiquetas) y cubre las dos filas: es el eje contra el que se
+                 miden las dos. -->
+              <div class="cost-ceiling" aria-hidden="true">
+                <div class="cost-ceiling-tag">
+                  <p class="cost-ceiling-label">Precio de venta · objetivo</p>
+                  <p
+                    class="cost-ceiling-value"
+                    data-count-to="250"
+                    data-count-prefix="$"
+                  >
+                    $250
+                  </p>
+                </div>
+                <span class="cost-ceiling-line"></span>
+              </div>
+
+              <div class="cost-side">
+                <p class="cost-name">Hoy · una unidad</p>
+                <p class="cost-note">
+                  Prototipo armado con componentes sueltos, al menudeo
+                </p>
+              </div>
+              <div class="cost-plot">
+                <span class="cost-bar cost-bar--over"></span>
+                <p
+                  class="cost-value cost-value--over"
+                  data-count-to="320"
+                  data-count-prefix="$"
+                >
+                  $320
+                </p>
+              </div>
+
+              <div class="cost-side">
+                <p class="cost-name">En producción</p>
+                <p class="cost-note">En volumen y sin piezas de maqueteo</p>
+              </div>
+              <div class="cost-plot">
+                <span class="cost-range"><p>tiene que caber aquí</p></span>
+                <p class="cost-value cost-value--todo">por cotizar</p>
+              </div>
             </div>
-            <div class="team-card">
-              <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
-              <h3>Aranza Aguilar</h3>
-              <p>Rol pendiente</p>
+
+            <p class="cost-foot">
+              Y dentro de esos $250 va la
+              <strong>licencia que por separado cuesta $150</strong>: quien
+              compra la banda no vuelve a pagar nada.
+            </p>
+          </div>
+        </section>
+
+        <!-- ============ 14. El modelo de negocio ============ -->
+        <!-- La compatibilidad abierta no es un detalle técnico: ES el modelo.
+           Por eso la diapositiva concede de entrada lo que el jurado ya
+           está pensando ("entonces no necesito su banda") y deja que las
+           dos rutas se comparen solas. La banda no se defiende cerrando la
+           puerta — se defiende siendo la ruta sin fricción.
+
+           El dato de compatibilidad es el mismo perfil BLE estándar 0x180D
+           que ya emite el firmware (ver la diapositiva del prototipo): no
+           es una promesa nueva, es una consecuencia de una decisión
+           técnica que ya está tomada. -->
+        <section id="business">
+          <h2>No necesitas nuestra banda</h2>
+          <div class="content" style="justify-content: center; gap: 22px">
+            <div class="tag-pill">
+              <span class="dot"></span>
+              <p>El modelo de negocio · dos caminos, la misma app</p>
             </div>
-            <div class="team-card">
-              <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
-              <h3>Rodolfo Concha</h3>
-              <p>Rol pendiente</p>
+
+            <div class="plan-grid">
+              <div class="plan">
+                <div class="plan-head">
+                  <span class="plan-icon"
+                    ><i class="fa-solid fa-stopwatch"></i
+                  ></span>
+                  <div>
+                    <p class="plan-kicker">Si ya traes uno puesto</p>
+                    <h3>Tu banda o tu reloj</h3>
+                  </div>
+                </div>
+                <!-- Marcas que hoy sí emiten el perfil estándar de Heart Rate
+                   (función "broadcast HR" de sus relojes deportivos). El
+                   Apple Watch NO entra aquí a propósito: no lo emite a apps
+                   de terceros, entra por la vía de iOS + Apple Health, que
+                   es justo lo que dice la pastilla de abajo. -->
+                <div class="device-row">
+                  <div class="device-chip"><p>Garmin</p></div>
+                  <div class="device-chip"><p>Polar</p></div>
+                  <div class="device-chip"><p>Wahoo</p></div>
+                  <div class="device-chip"><p>Suunto</p></div>
+                  <div class="device-chip"><p>Coros</p></div>
+                </div>
+                <ul>
+                  <li>
+                    Sirve cualquier dispositivo que emita el perfil
+                    <strong>Heart Rate de Bluetooth</strong>, el estándar de la
+                    industria fitness.
+                  </li>
+                  <li>
+                    El mismo algoritmo de detección de BPM y la misma cola
+                    adaptativa. No es una versión recortada.
+                  </li>
+                </ul>
+                <div class="plan-price">
+                  <p
+                    class="plan-price-value"
+                    data-count-to="150"
+                    data-count-prefix="$"
+                  >
+                    $150
+                  </p>
+                  <p class="plan-price-note">
+                    MXN · un solo pago<br />Licencia de por vida
+                  </p>
+                </div>
+              </div>
+
+              <div class="plan plan--ours">
+                <div class="plan-head">
+                  <span class="plan-icon"
+                    ><i class="fa-solid fa-heart-pulse"></i
+                  ></span>
+                  <div>
+                    <p class="plan-kicker">Si empiezas con la nuestra</p>
+                    <h3>Banda BePhysical</h3>
+                  </div>
+                </div>
+                <ul>
+                  <li>
+                    Trae la <strong>licencia dentro</strong> y la app sin costo:
+                    no hay nada más que pagar.
+                  </li>
+                  <li>
+                    <strong>Soporte nativo garantizado</strong>: las funciones
+                    de hoy, y también las que vengan después.
+                  </li>
+                  <li>
+                    Es la que crece con Physical: cada señal nueva llega primero
+                    aquí.
+                  </li>
+                </ul>
+                <div class="plan-price">
+                  <p class="plan-price-value plan-price-value--free">
+                    Incluida
+                  </p>
+                  <p class="plan-price-note">
+                    App y licencia,<br />dentro de la caja
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="plan-foot">
+              <div class="ghost-pill">
+                <i class="fa-brands fa-apple"></i>
+                <p>
+                  En el radar · <strong>Apple Watch</strong> vía Apple Health
+                </p>
+              </div>
+              <p class="plan-foot-note">
+                Cada reloj allá afuera es una puerta de entrada a Physical.
+              </p>
             </div>
           </div>
-          <div class="pending" style="margin-top: 24px;">
-            <p>asignar el rol de cada integrante y cambiar el avatar genérico por foto real</p>
+        </section>
+
+        <!-- ============ 15. El futuro: leer el ánimo ============ -->
+        <!-- Antes esta diapositiva prometía "un ecosistema" sin decir de qué,
+           y era la parte más floja del pitch. Ahora dice una sola cosa
+           concreta y defendible: la banda propia toca la piel, así que
+           puede dar más señales que un simple número de pulso — y con esas
+           señales la literatura ya infiere estado emocional.
+
+           Las dos cifras están VERIFICADAS contra los artículos (no contra
+           sus abstracts) y son las de MUÑECA, no las de banda de pecho, que
+           es el error fácil al citar WESAD. Detalle y enlaces en
+           Investigacion_y_pitch_proyecto.md. La advertencia de abajo no es
+           humildad decorativa: es la respuesta preparada para el jurado que
+           pregunte si esto ya funciona. -->
+        <section id="future">
+          <h2>Lo que viene: leer tu ánimo</h2>
+          <div class="content" style="justify-content: center; gap: 20px">
+            <div class="tag-pill">
+              <span class="dot"></span>
+              <p>Misma banda, más señales — lo que crece es el algoritmo</p>
+            </div>
+
+            <p class="mood-lead">
+              Un reloj ajeno te da <strong>un número</strong>. Nuestra banda
+              toca tu piel: puede llegar a darnos
+              <strong>cinco señales</strong>.
+            </p>
+
+            <div class="mood-flow">
+              <div class="signal-list">
+                <div class="signal signal--now">
+                  <span class="signal-icon"
+                    ><i class="fa-solid fa-heart-pulse"></i
+                  ></span>
+                  <p class="signal-name">Pulso</p>
+                  <p class="signal-tag">hoy</p>
+                </div>
+                <div class="signal">
+                  <span class="signal-icon"
+                    ><i class="fa-solid fa-wave-square"></i
+                  ></span>
+                  <p class="signal-name">Variabilidad del pulso</p>
+                </div>
+                <div class="signal">
+                  <span class="signal-icon"
+                    ><i class="fa-solid fa-droplet"></i
+                  ></span>
+                  <p class="signal-name">Sudoración de la piel</p>
+                </div>
+                <div class="signal">
+                  <span class="signal-icon"
+                    ><i class="fa-solid fa-temperature-half"></i
+                  ></span>
+                  <p class="signal-name">Temperatura de la piel</p>
+                </div>
+                <div class="signal">
+                  <span class="signal-icon"
+                    ><i class="fa-solid fa-person-running"></i
+                  ></span>
+                  <p class="signal-name">Movimiento</p>
+                </div>
+              </div>
+
+              <div class="mood-link" aria-hidden="true">
+                <span class="mood-link-dot"></span>
+              </div>
+
+              <div class="mood-out">
+                <p class="mood-out-label">Estado estimado</p>
+                <div class="mood-state">
+                  <span class="mood-dot" aria-hidden="true"></span>
+                  <div class="mood-words">
+                    <p class="mood-word mood-word--1">Estrés</p>
+                    <p class="mood-word mood-word--2">Calma</p>
+                    <p class="mood-word mood-word--3">Concentración</p>
+                  </div>
+                </div>
+                <p class="mood-out-note">
+                  Y de ahí sale la música — igual que hoy sale del BPM.
+                </p>
+              </div>
+            </div>
+
+            <div class="evidence-grid">
+              <div class="evidence">
+                <p class="evidence-figure">88%</p>
+                <div>
+                  <p>
+                    Distinguir estrés de no-estrés con
+                    <strong>solo señales de muñeca</strong>.
+                  </p>
+                  <p class="evidence-source">
+                    WESAD · Schmidt et al., ACM ICMI 2018 — laboratorio, 15
+                    personas
+                  </p>
+                </div>
+              </div>
+              <div class="evidence">
+                <p class="evidence-figure">71,5%</p>
+                <div>
+                  <p>
+                    Separar ánimo positivo de negativo
+                    <strong>fuera del laboratorio</strong>.
+                  </p>
+                  <p class="evidence-source">
+                    DAPPER · Li &amp; Zhang, Sensors 2025 — 88 personas, 5 días
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <p class="mood-caveat">
+              Lo que la ciencia sostiene hoy es estrés y activación, no
+              “emociones” en general. Por eso el ánimo es el siguiente paso de
+              Physical, no una promesa de hoy.
+            </p>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- ============ 15. REFRÁN — cierre ============ -->
-      <section id="refrain-2" data-transition="fade" class="section-divider" data-state="is-section-divider">
-        <div class="pulse-wave" aria-hidden="true">
-          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-        </div>
-        <h1 class="refrain">
-          <span class="line">Haz que la música nunca vuelva a sacarte</span>
-          <span class="line"><em>del momento que estás viviendo.</em></span>
-        </h1>
-        <div class="ghost-pill" style="margin-top: 30px;">
-          <i class="fa-solid fa-comments"></i>
-          <p>Gracias · Preguntas</p>
-        </div>
-      </section>
+        <!-- ============ 16. Equipo ============ -->
+        <!-- Fuera del deck de forma temporal (pedido del equipo): la
+             diapositiva completa queda comentada, no borrada. Para
+             volver a activarla, quitar este comentario de apertura y su
+             cierre justo después de </section>. Los nombres del equipo
+             siguen apareciendo en la portada (.cover-team). -->
+        <!--
+        <section id="team">
+          <h2>Quiénes lo estamos haciendo</h2>
+          <div class="content" style="justify-content: center">
+            <div
+              class="team-grid"
+              style="grid-template-columns: repeat(4, 1fr)"
+            >
+              <div class="team-card">
+                <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+                <h3>Mario Zaldívar</h3>
+                <p>Rol pendiente</p>
+              </div>
+              <div class="team-card">
+                <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+                <h3>Julio Olguín</h3>
+                <p>Rol pendiente</p>
+              </div>
+              <div class="team-card">
+                <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+                <h3>Aranza Aguilar</h3>
+                <p>Rol pendiente</p>
+              </div>
+              <div class="team-card">
+                <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+                <h3>Rodolfo Concha</h3>
+                <p>Rol pendiente</p>
+              </div>
+            </div>
+            <div class="pending" style="margin-top: 24px">
+              <p>
+                asignar el rol de cada integrante y cambiar el avatar genérico
+                por foto real
+              </p>
+            </div>
+          </div>
+        </section>
+        -->
 
+        <!-- ============ 17. REFRÁN — cierre ============ -->
+        <section
+          id="refrain-2"
+          data-transition="fade"
+          class="section-divider"
+          data-state="is-section-divider"
+        >
+          <div class="pulse-wave" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span
+            ><span></span><span></span><span></span><span></span>
+          </div>
+          <h1 class="refrain">
+            <span class="line">Haz que la música nunca vuelva a sacarte</span>
+            <span class="line"><em>del momento que estás viviendo.</em></span>
+          </h1>
+          <div class="ghost-pill" style="margin-top: 30px">
+            <i class="fa-solid fa-comments"></i>
+            <p>Gracias · Preguntas</p>
+          </div>
+        </section>
+      </div>
     </div>
-  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/chart/plugin.js"></script>
-  <script>
-    Reveal.initialize({
-      width: 1280,
-      height: 720,
-      margin: 0,
-      controls: true,
-      progress: true,
-      slideNumber: false,
-      hash: true,
-      transition: 'slide',
-      center: false,
-      plugins: [ RevealChart ],
-      chart: {
-        defaults: Object.assign({
-          color: 'rgba(0, 0, 0, 0.8)',
-          borderColor: 'rgba(0, 0, 0, 0.8)',
-          devicePixelRatio: 2
-        }, window.location.search.includes('export') ? { animation: false } : {})
-      }
-    });
-
-    // Coreografía de la portada.
-    //
-    // Fases de entrada: 1) logo + título resaltados en el centro, 2) se
-    // reacomodan a la izquierda, 3) entra la demo a la derecha. Se reproduce
-    // al entrar a la diapositiva y se reinicia al salir.
-    //
-    // A partir de la fase 3 arranca el RELOJ DE ZONAS: un único temporizador
-    // gobierna el latido del corazón, la traza ECG, el número de BPM, el
-    // pulso del riel y el reordenamiento de la cola. Están encadenados a
-    // propósito — primero sube el pulso, después viaja la señal, y solo
-    // entonces cambia la cola — porque esa secuencia ES el argumento del
-    // pitch: el BPM manda, la playlist obedece.
-    (function () {
-      var stage = document.getElementById('cover-stage');
-      if (!stage) return;
-
-      var monitor = stage.querySelector('.bpm-monitor');
-      var number = stage.querySelector('.bpm-monitor-number');
-      var zoneLabel = stage.querySelector('.bpm-monitor-zone');
-      var link = stage.querySelector('.bpm-link');
-      var frames = stage.querySelectorAll('.demo-queue-frame');
-      var beating = monitor
-        ? monitor.querySelectorAll('.bpm-monitor-heart svg, .bpm-monitor-ring, .bpm-monitor-ecg-rail')
-        : [];
-
-      // BPM de cada zona = el de la canción que suena en su frame de la cola.
-      var ZONES = [
-        { bpm: 67,  tone: 'calm',   label: 'Pulso en calma' },
-        { bpm: 96,  tone: 'rising', label: 'El pulso sube' },
-        { bpm: 146, tone: 'hot',    label: 'En esfuerzo' }
-      ];
-
-      var PHASE_MS = 3800;   // cuánto dura cada zona en pantalla
-      var LINK_MS = 380;     // la señal sale del monitor…
-      var QUEUE_MS = 900;    // …y la cola responde medio segundo después
-
-      var timers = [];
-      var cycle = null;
-      var countFrame = null;
-      var zoneIndex = 0;
-      var shownBpm = ZONES[0].bpm;
-      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
-
-      function clearTimers() {
-        timers.forEach(clearTimeout);
-        timers = [];
-        if (cycle) { clearInterval(cycle); cycle = null; }
-        if (countFrame) { cancelAnimationFrame(countFrame); countFrame = null; }
-      }
-
-      // El número no salta: recorre el trayecto como lo haría una lectura real.
-      function countTo(target) {
-        if (!number) return;
-        if (countFrame) cancelAnimationFrame(countFrame);
-        var from = shownBpm;
-        var start = performance.now();
-        var span = 900;
-
-        function step(now) {
-          var t = Math.min(1, (now - start) / span);
-          var eased = 1 - Math.pow(1 - t, 3);
-          shownBpm = Math.round(from + (target - from) * eased);
-          number.textContent = shownBpm;
-          if (t < 1) countFrame = requestAnimationFrame(step);
-          else countFrame = null;
-        }
-        countFrame = requestAnimationFrame(step);
-      }
-
-      // Reinicia latido, onda y ECG en el mismo frame: como el ciclo del ECG
-      // dura exactamente 4 latidos, arrancar juntos los deja sincronizados
-      // sin tener que calcular offsets.
-      function restartBeat() {
-        beating.forEach(function (el) {
-          el.style.animation = 'none';
-          void el.offsetWidth;
-          el.style.animation = '';
-        });
-      }
-
-      function showFrame(i) {
-        frames.forEach(function (frame, index) {
-          frame.classList.toggle('is-active', index === i);
-        });
-      }
-
-      function applyZone(i, animateChain) {
-        var zone = ZONES[i];
-        stage.dataset.zone = zone.tone;
-        stage.style.setProperty('--beat', (60 / zone.bpm).toFixed(3) + 's');
-        restartBeat();
-        countTo(zone.bpm);
-
-        if (zoneLabel) {
-          zoneLabel.classList.add('is-swapping');
-          later(function () {
-            zoneLabel.textContent = zone.label;
-            zoneLabel.classList.remove('is-swapping');
-          }, 260);
-        }
-
-        if (!animateChain) {
-          showFrame(i);
-          return;
-        }
-
-        later(function () {
-          if (link) {
-            link.classList.remove('is-firing');
-            void link.offsetWidth;
-            link.classList.add('is-firing');
-          }
-        }, LINK_MS);
-
-        later(function () { showFrame(i); }, QUEUE_MS);
-      }
-
-      function startZoneClock() {
-        zoneIndex = 0;
-        shownBpm = ZONES[0].bpm;
-        applyZone(0, false);
-        if (reduced) return;
-        cycle = setInterval(function () {
-          zoneIndex = (zoneIndex + 1) % ZONES.length;
-          applyZone(zoneIndex, true);
-        }, PHASE_MS);
-      }
-
-      function reset() {
-        clearTimers();
-        stage.classList.remove('rearranged', 'show-demo');
-        if (link) link.classList.remove('is-firing');
-        showFrame(-1);
-      }
-
-      function playCoverIntro() {
-        reset();
-        void stage.offsetWidth; // forzar reflow para reiniciar las transiciones
-        if (reduced) {
-          stage.classList.add('rearranged', 'show-demo');
-          startZoneClock();
-          return;
-        }
-        // Los glifos aterrizan cerca de 1.6s y la descripción entra a 2s;
-        // el bloque se queda así, centrado, hasta 3.2s.
-        later(function () { stage.classList.add('rearranged'); }, 3200);
-        // El reacomodo tarda 1.1s: el equipo entra al asentarse y la demo
-        // después de él, nunca encima.
-        later(function () {
-          stage.classList.add('show-demo');
-          startZoneClock();
-        }, 4700);
-      }
-
-      function onSlideChange(event) {
-        var slide = event.currentSlide;
-        if (slide && slide.id === 'title') playCoverIntro();
-        else reset();
-      }
-
-      Reveal.on('ready', onSlideChange);
-      Reveal.on('slidechanged', onSlideChange);
-    })();
-
-    // Diapositivas narradas: los fragmentos no solo aparecen, también
-    // cambian el ESTADO de la diapositiva.
-    //
-    //  - data-scene: el fragmento fija una escena en su <section> (el
-    //    aleatorio que rompe la sincronía en el gimnasio).
-    //  - data-stress: el fragmento mueve el medidor de estrés de la mañana.
-    //
-    // Ambas se recalculan desde CERO en cada evento, recorriendo los
-    // fragmentos ya visibles, en vez de aplicar solo el que se acaba de
-    // revelar: así retroceder con la flecha izquierda deshace el estado
-    // correctamente en lugar de dejarlo pegado en el último valor.
-    (function () {
-      function currentSlide() {
-        return Reveal.getCurrentSlide();
-      }
-
-      // El que manda es el orden de la NARRACIÓN (data-fragment-index), no el
-      // del documento: en la mañana la escena va primero en el DOM pero su
-      // tarjeta se revela hasta el final, así que recorrer el DOM y quedarse
-      // con el último visible dejaba el medidor corto.
-      function lastVisible(slide, attr) {
-        var seen = null;
-        var seenAt = -Infinity;
-        slide.querySelectorAll('.fragment[data-' + attr + ']').forEach(function (el, i) {
-          if (!el.classList.contains('visible')) return;
-          var at = el.dataset.fragmentIndex === undefined ? i : Number(el.dataset.fragmentIndex);
-          if (at >= seenAt) { seenAt = at; seen = el.dataset[attr]; }
-        });
-        return seen;
-      }
-
-      function sync() {
-        var slide = currentSlide();
-        if (!slide) return;
-
-        var scene = lastVisible(slide, 'scene');
-        if (scene) slide.dataset.scene = scene;
-        else delete slide.dataset.scene;
-
-        var fill = slide.querySelector('.stress-fill');
-        if (fill) fill.style.width = (lastVisible(slide, 'stress') || 0) + '%';
-      }
-
-      Reveal.on('ready', sync);
-      Reveal.on('slidechanged', sync);
-      Reveal.on('fragmentshown', sync);
-      Reveal.on('fragmenthidden', sync);
-    })();
-
-    // Fragmentos de las canciones narradas.
-    //
-    // Cada tarjeta de canción declara su archivo en data-audio y suena
-    // mientras esa tarjeta esté ACTIVA en pantalla. "Activa" son dos cosas
-    // distintas a la vez:
-    //
-    //  - su fragmento ya se reveló (data-fragment-index manda sobre el orden
-    //    del documento, igual que en el medidor de estrés), y
-    //  - si declara data-audio-scene, la escena de la diapositiva coincide.
-    //    En el gimnasio las dos canciones viven en el MISMO fragmento y quien
-    //    decide cuál se ve —y cuál suena— es el aleatorio: "broken" para la
-    //    canción en calma, "!broken" para la que iba a tope.
-    //
-    // Al cambiar de diapositiva o de canción, la anterior se desvanece y
-    // arranca la nueva; se recalcula desde cero en cada evento, así que
-    // retroceder con la flecha izquierda también deshace el audio.
-    //
-    // Va DESPUÉS del script de escenas a propósito: los oyentes corren en
-    // orden de registro y este necesita leer el data-scene ya actualizado.
-    (function () {
-      var FADE_MS = 260;
-      var TICK_MS = 40;
-
-      var players = {};      // ruta -> <audio>, uno por canción, reutilizado
-      var playingSrc = null; // la que debería estar sonando ahora
-      var blockedSrc = null; // la que el navegador no dejó arrancar todavía
-
-      function player(src) {
-        if (!players[src]) {
-          var a = new Audio(src);
-          // El fragmento dura ~20s y el presentador puede tardar más en esa
-          // tarjeta: en loop se sostiene sola, sin silencio a media narración.
-          a.loop = true;
-          a.preload = 'auto';
-          players[src] = a;
-        }
-        return players[src];
-      }
-
-      function fade(audio, to, done) {
-        clearInterval(audio.fadeTimer);
-        var step = (to - audio.volume) / Math.max(1, FADE_MS / TICK_MS);
-        audio.fadeTimer = setInterval(function () {
-          var v = Math.min(1, Math.max(0, audio.volume + step));
-          audio.volume = v;
-          if (v === to) {
-            clearInterval(audio.fadeTimer);
-            if (done) done();
-          }
-        }, TICK_MS);
-      }
-
-      function stop(src) {
-        var a = players[src];
-        if (!a) return;
-        fade(a, 0, function () {
-          a.pause();
-          a.currentTime = 0;
-        });
-      }
-
-      function start(src) {
-        var a = player(src);
-        a.volume = 0;
-        var attempt = a.play();
-        // Ningún navegador deja sonar audio antes del primer gesto del
-        // usuario. Si lo bloquea, se anota y se reintenta con el gesto
-        // siguiente — que en una presentación es la flecha de avanzar.
-        if (attempt && attempt.catch) {
-          attempt.catch(function () { blockedSrc = src; });
-        }
-        fade(a, 1);
-      }
-
-      function activeSrc() {
-        var slide = Reveal.getCurrentSlide();
-        if (!slide) return null;
-
-        var scene = slide.dataset.scene || '';
-        var found = null;
-        var foundAt = -Infinity;
-
-        slide.querySelectorAll('[data-audio]').forEach(function (el, i) {
-          var frag = el.closest('.fragment');
-          if (frag && !frag.classList.contains('visible')) return;
-
-          var want = el.dataset.audioScene;
-          if (want) {
-            var negated = want.charAt(0) === '!';
-            var name = negated ? want.slice(1) : want;
-            if (negated ? scene === name : scene !== name) return;
-          }
-
-          var at = frag && frag.dataset.fragmentIndex !== undefined
-            ? Number(frag.dataset.fragmentIndex)
-            : i;
-          if (at >= foundAt) { foundAt = at; found = el.dataset.audio; }
-        });
-
-        return found;
-      }
-
-      function sync() {
-        var src = activeSrc();
-        if (src === playingSrc) return;
-        if (playingSrc) stop(playingSrc);
-        playingSrc = src;
-        blockedSrc = null;
-        if (src) start(src);
-      }
-
-      ['pointerdown', 'keydown'].forEach(function (evt) {
-        document.addEventListener(evt, function () {
-          if (blockedSrc && blockedSrc === playingSrc) {
-            var src = blockedSrc;
-            blockedSrc = null;
-            start(src);
-          }
-        });
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/chart/plugin.js"></script>
+    <script>
+      Reveal.initialize({
+        width: 1280,
+        height: 720,
+        margin: 0,
+        controls: true,
+        progress: true,
+        slideNumber: false,
+        hash: true,
+        transition: "slide",
+        center: false,
+        plugins: [RevealChart],
+        chart: {
+          defaults: Object.assign(
+            {
+              color: "rgba(0, 0, 0, 0.8)",
+              borderColor: "rgba(0, 0, 0, 0.8)",
+              devicePixelRatio: 2,
+            },
+            window.location.search.includes("export")
+              ? { animation: false }
+              : {},
+          ),
+        },
       });
 
-      Reveal.on('ready', sync);
-      Reveal.on('slidechanged', sync);
-      Reveal.on('fragmentshown', sync);
-      Reveal.on('fragmenthidden', sync);
-    })();
+      // Coreografía de la portada.
+      //
+      // Fases de entrada: 1) logo + título resaltados en el centro, 2) se
+      // reacomodan a la izquierda, 3) entra la demo a la derecha. Se reproduce
+      // al entrar a la diapositiva y se reinicia al salir.
+      //
+      // A partir de la fase 3 arranca el RELOJ DE ZONAS: un único temporizador
+      // gobierna el latido del corazón, la traza ECG, el número de BPM, el
+      // pulso del riel y el reordenamiento de la cola. Están encadenados a
+      // propósito — primero sube el pulso, después viaja la señal, y solo
+      // entonces cambia la cola — porque esa secuencia ES el argumento del
+      // pitch: el BPM manda, la playlist obedece.
+      (function () {
+        var stage = document.getElementById("cover-stage");
+        if (!stage) return;
 
-    // Maqueta de configuración: alterna sola entre modo estudio y modo
-    // ejercicio mientras la diapositiva está en pantalla. Enseñar la
-    // configuración CAMBIANDO comunica "es configurable" mucho mejor que
-    // una viñeta que lo prometa; el CSS deriva de data-mode el selector, la
-    // regla, el rango, el color y qué tarjeta se enciende.
-    (function () {
-      var slide = document.getElementById('adapts');
-      if (!slide) return;
+        var monitor = stage.querySelector(".bpm-monitor");
+        var number = stage.querySelector(".bpm-monitor-number");
+        var zoneLabel = stage.querySelector(".bpm-monitor-zone");
+        var link = stage.querySelector(".bpm-link");
+        var frames = stage.querySelectorAll(".demo-queue-frame");
+        var beating = monitor
+          ? monitor.querySelectorAll(
+              ".bpm-monitor-heart svg, .bpm-monitor-ring, .bpm-monitor-ecg-rail",
+            )
+          : [];
 
-      var bpmOut = slide.querySelector('.phone-bpm');
-      var MODES = [
-        { name: 'estudio',   bpm: 78 },
-        { name: 'ejercicio', bpm: 146 }
-      ];
-      var SWITCH_MS = 3600;
+        // BPM de cada zona = el de la canción que suena en su frame de la cola.
+        var ZONES = [
+          { bpm: 67, tone: "calm", label: "Pulso en calma" },
+          { bpm: 96, tone: "rising", label: "El pulso sube" },
+          { bpm: 146, tone: "hot", label: "En esfuerzo" },
+        ];
 
-      var at = 0;
-      var timer = null;
-      var raf = null;
-      var shown = MODES[0].bpm;
+        var PHASE_MS = 3800; // cuánto dura cada zona en pantalla
+        var LINK_MS = 380; // la señal sale del monitor…
+        var QUEUE_MS = 900; // …y la cola responde medio segundo después
 
-      // El pulso de la sesión recorre el trayecto en vez de saltar: es el
-      // mismo gesto que el número del monitor de la portada.
-      function countTo(target) {
-        if (!bpmOut) return;
-        if (raf) cancelAnimationFrame(raf);
-        var from = shown, t0 = performance.now();
-        (function step(now) {
-          var t = Math.min(1, (now - t0) / 900);
-          shown = Math.round(from + (target - from) * (1 - Math.pow(1 - t, 3)));
-          bpmOut.textContent = shown;
-          raf = t < 1 ? requestAnimationFrame(step) : null;
-        })(performance.now());
-      }
+        var timers = [];
+        var cycle = null;
+        var countFrame = null;
+        var zoneIndex = 0;
+        var shownBpm = ZONES[0].bpm;
+        var reduced = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
 
-      function apply(i) {
-        slide.dataset.mode = MODES[i].name;
-        countTo(MODES[i].bpm);
-      }
+        function later(fn, ms) {
+          timers.push(setTimeout(fn, ms));
+        }
 
-      function stop() {
-        if (timer) { clearInterval(timer); timer = null; }
-        if (raf) { cancelAnimationFrame(raf); raf = null; }
-      }
+        function clearTimers() {
+          timers.forEach(clearTimeout);
+          timers = [];
+          if (cycle) {
+            clearInterval(cycle);
+            cycle = null;
+          }
+          if (countFrame) {
+            cancelAnimationFrame(countFrame);
+            countFrame = null;
+          }
+        }
 
-      function start() {
-        stop();
-        at = 0;
-        shown = MODES[0].bpm;
-        apply(0);
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        timer = setInterval(function () {
-          at = (at + 1) % MODES.length;
-          apply(at);
-        }, SWITCH_MS);
-      }
+        // El número no salta: recorre el trayecto como lo haría una lectura real.
+        function countTo(target) {
+          if (!number) return;
+          if (countFrame) cancelAnimationFrame(countFrame);
+          var from = shownBpm;
+          var start = performance.now();
+          var span = 900;
 
-      Reveal.on('slidechanged', function (e) {
-        if (e.currentSlide === slide) start(); else stop();
-      });
-      Reveal.on('ready', function (e) {
-        if (e.currentSlide === slide) start();
-      });
-    })();
-
-    // Cifras que se cuentan al entrar a su diapositiva, en vez de aparecer ya
-    // escritas: el número recorriendo su rango es lo que hace que el dato se
-    // registre. Se reinicia cada vez que se entra, para que también funcione
-    // al regresar sobre la baraja.
-    (function () {
-      var running = [];
-
-      function stop() {
-        running.forEach(cancelAnimationFrame);
-        running = [];
-      }
-
-      function play(slide) {
-        stop();
-        if (!slide) return;
-        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-        slide.querySelectorAll('[data-count-to]').forEach(function (el, i) {
-          var to = parseFloat(el.dataset.countTo);
-          var from = parseFloat(el.dataset.countFrom || 0);
-          var pre = el.dataset.countPrefix || '';
-          var suf = el.dataset.countSuffix || '';
-
-          if (reduce) { el.textContent = pre + to + suf; return; }
-
-          el.textContent = pre + from + suf;
-          var delay = 350 + i * 200;
-          var span = 1100;
-          var t0 = performance.now() + delay;
-
-          (function step(now) {
-            var t = Math.max(0, Math.min(1, (now - t0) / span));
+          function step(now) {
+            var t = Math.min(1, (now - start) / span);
             var eased = 1 - Math.pow(1 - t, 3);
-            el.textContent = pre + Math.round(from + (to - from) * eased) + suf;
-            if (t < 1) running.push(requestAnimationFrame(step));
-          })(performance.now());
-        });
-      }
+            shownBpm = Math.round(from + (target - from) * eased);
+            number.textContent = shownBpm;
+            if (t < 1) countFrame = requestAnimationFrame(step);
+            else countFrame = null;
+          }
+          countFrame = requestAnimationFrame(step);
+        }
 
-      Reveal.on('ready', function (e) { play(e.currentSlide); });
-      Reveal.on('slidechanged', function (e) { play(e.currentSlide); });
-    })();
-  </script>
-</body>
+        // Reinicia latido, onda y ECG en el mismo frame: como el ciclo del ECG
+        // dura exactamente 4 latidos, arrancar juntos los deja sincronizados
+        // sin tener que calcular offsets.
+        function restartBeat() {
+          beating.forEach(function (el) {
+            el.style.animation = "none";
+            void el.offsetWidth;
+            el.style.animation = "";
+          });
+        }
+
+        function showFrame(i) {
+          frames.forEach(function (frame, index) {
+            frame.classList.toggle("is-active", index === i);
+          });
+        }
+
+        function applyZone(i, animateChain) {
+          var zone = ZONES[i];
+          stage.dataset.zone = zone.tone;
+          stage.style.setProperty("--beat", (60 / zone.bpm).toFixed(3) + "s");
+          restartBeat();
+          countTo(zone.bpm);
+
+          if (zoneLabel) {
+            zoneLabel.classList.add("is-swapping");
+            later(function () {
+              zoneLabel.textContent = zone.label;
+              zoneLabel.classList.remove("is-swapping");
+            }, 260);
+          }
+
+          if (!animateChain) {
+            showFrame(i);
+            return;
+          }
+
+          later(function () {
+            if (link) {
+              link.classList.remove("is-firing");
+              void link.offsetWidth;
+              link.classList.add("is-firing");
+            }
+          }, LINK_MS);
+
+          later(function () {
+            showFrame(i);
+          }, QUEUE_MS);
+        }
+
+        function startZoneClock() {
+          zoneIndex = 0;
+          shownBpm = ZONES[0].bpm;
+          applyZone(0, false);
+          if (reduced) return;
+          cycle = setInterval(function () {
+            zoneIndex = (zoneIndex + 1) % ZONES.length;
+            applyZone(zoneIndex, true);
+          }, PHASE_MS);
+        }
+
+        function reset() {
+          clearTimers();
+          stage.classList.remove("rearranged", "show-demo");
+          if (link) link.classList.remove("is-firing");
+          showFrame(-1);
+        }
+
+        function playCoverIntro() {
+          reset();
+          void stage.offsetWidth; // forzar reflow para reiniciar las transiciones
+          if (reduced) {
+            stage.classList.add("rearranged", "show-demo");
+            startZoneClock();
+            return;
+          }
+          // Los glifos aterrizan cerca de 1.6s y la descripción entra a 2s;
+          // el bloque se queda así, centrado, hasta 3.2s.
+          later(function () {
+            stage.classList.add("rearranged");
+          }, 3200);
+          // El reacomodo tarda 1.1s: el equipo entra al asentarse y la demo
+          // después de él, nunca encima.
+          later(function () {
+            stage.classList.add("show-demo");
+            startZoneClock();
+          }, 4700);
+        }
+
+        function onSlideChange(event) {
+          var slide = event.currentSlide;
+          if (slide && slide.id === "title") playCoverIntro();
+          else reset();
+        }
+
+        Reveal.on("ready", onSlideChange);
+        Reveal.on("slidechanged", onSlideChange);
+      })();
+
+      // Diapositivas narradas: los fragmentos no solo aparecen, también
+      // cambian el ESTADO de la diapositiva.
+      //
+      //  - data-scene: el fragmento fija una escena en su <section> (el
+      //    aleatorio que rompe la sincronía en el gimnasio).
+      //  - data-stress: el fragmento mueve el medidor de estrés de la mañana.
+      //
+      // Ambas se recalculan desde CERO en cada evento, recorriendo los
+      // fragmentos ya visibles, en vez de aplicar solo el que se acaba de
+      // revelar: así retroceder con la flecha izquierda deshace el estado
+      // correctamente en lugar de dejarlo pegado en el último valor.
+      (function () {
+        function currentSlide() {
+          return Reveal.getCurrentSlide();
+        }
+
+        // El que manda es el orden de la NARRACIÓN (data-fragment-index), no el
+        // del documento: en la mañana la escena va primero en el DOM pero su
+        // tarjeta se revela hasta el final, así que recorrer el DOM y quedarse
+        // con el último visible dejaba el medidor corto.
+        function lastVisible(slide, attr) {
+          var seen = null;
+          var seenAt = -Infinity;
+          slide
+            .querySelectorAll(".fragment[data-" + attr + "]")
+            .forEach(function (el, i) {
+              if (!el.classList.contains("visible")) return;
+              var at =
+                el.dataset.fragmentIndex === undefined
+                  ? i
+                  : Number(el.dataset.fragmentIndex);
+              if (at >= seenAt) {
+                seenAt = at;
+                seen = el.dataset[attr];
+              }
+            });
+          return seen;
+        }
+
+        function sync() {
+          var slide = currentSlide();
+          if (!slide) return;
+
+          var scene = lastVisible(slide, "scene");
+          if (scene) slide.dataset.scene = scene;
+          else delete slide.dataset.scene;
+
+          var fill = slide.querySelector(".stress-fill");
+          if (fill)
+            fill.style.width = (lastVisible(slide, "stress") || 0) + "%";
+        }
+
+        Reveal.on("ready", sync);
+        Reveal.on("slidechanged", sync);
+        Reveal.on("fragmentshown", sync);
+        Reveal.on("fragmenthidden", sync);
+      })();
+
+      // Fragmentos de las canciones narradas.
+      //
+      // Cada tarjeta de canción declara su archivo en data-audio y suena
+      // mientras esa tarjeta esté ACTIVA en pantalla. "Activa" son dos cosas
+      // distintas a la vez:
+      //
+      //  - su fragmento ya se reveló (data-fragment-index manda sobre el orden
+      //    del documento, igual que en el medidor de estrés), y
+      //  - si declara data-audio-scene, la escena de la diapositiva coincide.
+      //    En el gimnasio las dos canciones viven en el MISMO fragmento y quien
+      //    decide cuál se ve —y cuál suena— es el aleatorio: "broken" para la
+      //    canción en calma, "!broken" para la que iba a tope.
+      //
+      // Al cambiar de diapositiva o de canción, la anterior se desvanece y
+      // arranca la nueva; se recalcula desde cero en cada evento, así que
+      // retroceder con la flecha izquierda también deshace el audio.
+      //
+      // Va DESPUÉS del script de escenas a propósito: los oyentes corren en
+      // orden de registro y este necesita leer el data-scene ya actualizado.
+      (function () {
+        var FADE_MS = 260;
+        var TICK_MS = 40;
+
+        var players = {}; // ruta -> <audio>, uno por canción, reutilizado
+        var playingSrc = null; // la que debería estar sonando ahora
+        var blockedSrc = null; // la que el navegador no dejó arrancar todavía
+
+        function player(src) {
+          if (!players[src]) {
+            var a = new Audio(src);
+            // El fragmento dura ~20s y el presentador puede tardar más en esa
+            // tarjeta: en loop se sostiene sola, sin silencio a media narración.
+            a.loop = true;
+            a.preload = "auto";
+            players[src] = a;
+          }
+          return players[src];
+        }
+
+        function fade(audio, to, done) {
+          clearInterval(audio.fadeTimer);
+          var step = (to - audio.volume) / Math.max(1, FADE_MS / TICK_MS);
+          audio.fadeTimer = setInterval(function () {
+            var v = Math.min(1, Math.max(0, audio.volume + step));
+            audio.volume = v;
+            if (v === to) {
+              clearInterval(audio.fadeTimer);
+              if (done) done();
+            }
+          }, TICK_MS);
+        }
+
+        function stop(src) {
+          var a = players[src];
+          if (!a) return;
+          fade(a, 0, function () {
+            a.pause();
+            a.currentTime = 0;
+          });
+        }
+
+        function start(src) {
+          var a = player(src);
+          a.volume = 0;
+          var attempt = a.play();
+          // Ningún navegador deja sonar audio antes del primer gesto del
+          // usuario. Si lo bloquea, se anota y se reintenta con el gesto
+          // siguiente — que en una presentación es la flecha de avanzar.
+          if (attempt && attempt.catch) {
+            attempt.catch(function () {
+              blockedSrc = src;
+            });
+          }
+          fade(a, 1);
+        }
+
+        function activeSrc() {
+          var slide = Reveal.getCurrentSlide();
+          if (!slide) return null;
+
+          var scene = slide.dataset.scene || "";
+          var found = null;
+          var foundAt = -Infinity;
+
+          slide.querySelectorAll("[data-audio]").forEach(function (el, i) {
+            var frag = el.closest(".fragment");
+            if (frag && !frag.classList.contains("visible")) return;
+
+            var want = el.dataset.audioScene;
+            if (want) {
+              var negated = want.charAt(0) === "!";
+              var name = negated ? want.slice(1) : want;
+              if (negated ? scene === name : scene !== name) return;
+            }
+
+            var at =
+              frag && frag.dataset.fragmentIndex !== undefined
+                ? Number(frag.dataset.fragmentIndex)
+                : i;
+            if (at >= foundAt) {
+              foundAt = at;
+              found = el.dataset.audio;
+            }
+          });
+
+          return found;
+        }
+
+        function sync() {
+          var src = activeSrc();
+          if (src === playingSrc) return;
+          if (playingSrc) stop(playingSrc);
+          playingSrc = src;
+          blockedSrc = null;
+          if (src) start(src);
+        }
+
+        ["pointerdown", "keydown"].forEach(function (evt) {
+          document.addEventListener(evt, function () {
+            if (blockedSrc && blockedSrc === playingSrc) {
+              var src = blockedSrc;
+              blockedSrc = null;
+              start(src);
+            }
+          });
+        });
+
+        Reveal.on("ready", sync);
+        Reveal.on("slidechanged", sync);
+        Reveal.on("fragmentshown", sync);
+        Reveal.on("fragmenthidden", sync);
+      })();
+
+      // Maqueta de configuración: alterna sola entre modo estudio y modo
+      // ejercicio mientras la diapositiva está en pantalla. Enseñar la
+      // configuración CAMBIANDO comunica "es configurable" mucho mejor que
+      // una viñeta que lo prometa; el CSS deriva de data-mode el selector, la
+      // regla, el rango, el color y qué tarjeta se enciende.
+      (function () {
+        var slide = document.getElementById("adapts");
+        if (!slide) return;
+
+        var bpmOut = slide.querySelector(".phone-bpm");
+        var MODES = [
+          { name: "estudio", bpm: 78 },
+          { name: "ejercicio", bpm: 146 },
+        ];
+        var SWITCH_MS = 3600;
+
+        var at = 0;
+        var timer = null;
+        var raf = null;
+        var shown = MODES[0].bpm;
+
+        // El pulso de la sesión recorre el trayecto en vez de saltar: es el
+        // mismo gesto que el número del monitor de la portada.
+        function countTo(target) {
+          if (!bpmOut) return;
+          if (raf) cancelAnimationFrame(raf);
+          var from = shown,
+            t0 = performance.now();
+          (function step(now) {
+            var t = Math.min(1, (now - t0) / 900);
+            shown = Math.round(
+              from + (target - from) * (1 - Math.pow(1 - t, 3)),
+            );
+            bpmOut.textContent = shown;
+            raf = t < 1 ? requestAnimationFrame(step) : null;
+          })(performance.now());
+        }
+
+        function apply(i) {
+          slide.dataset.mode = MODES[i].name;
+          countTo(MODES[i].bpm);
+        }
+
+        function stop() {
+          if (timer) {
+            clearInterval(timer);
+            timer = null;
+          }
+          if (raf) {
+            cancelAnimationFrame(raf);
+            raf = null;
+          }
+        }
+
+        function start() {
+          stop();
+          at = 0;
+          shown = MODES[0].bpm;
+          apply(0);
+          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+            return;
+          timer = setInterval(function () {
+            at = (at + 1) % MODES.length;
+            apply(at);
+          }, SWITCH_MS);
+        }
+
+        Reveal.on("slidechanged", function (e) {
+          if (e.currentSlide === slide) start();
+          else stop();
+        });
+        Reveal.on("ready", function (e) {
+          if (e.currentSlide === slide) start();
+        });
+      })();
+
+      // Cifras que se cuentan al entrar a su diapositiva, en vez de aparecer ya
+      // escritas: el número recorriendo su rango es lo que hace que el dato se
+      // registre. Se reinicia cada vez que se entra, para que también funcione
+      // al regresar sobre la baraja.
+      (function () {
+        var running = [];
+
+        function stop() {
+          running.forEach(cancelAnimationFrame);
+          running = [];
+        }
+
+        function play(slide) {
+          stop();
+          if (!slide) return;
+          var reduce = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+          ).matches;
+
+          slide.querySelectorAll("[data-count-to]").forEach(function (el, i) {
+            var to = parseFloat(el.dataset.countTo);
+            var from = parseFloat(el.dataset.countFrom || 0);
+            var pre = el.dataset.countPrefix || "";
+            var suf = el.dataset.countSuffix || "";
+
+            if (reduce) {
+              el.textContent = pre + to + suf;
+              return;
+            }
+
+            el.textContent = pre + from + suf;
+            var delay = 350 + i * 200;
+            var span = 1100;
+            var t0 = performance.now() + delay;
+
+            (function step(now) {
+              var t = Math.max(0, Math.min(1, (now - t0) / span));
+              var eased = 1 - Math.pow(1 - t, 3);
+              el.textContent =
+                pre + Math.round(from + (to - from) * eased) + suf;
+              if (t < 1) running.push(requestAnimationFrame(step));
+            })(performance.now());
+          });
+        }
+
+        Reveal.on("ready", function (e) {
+          play(e.currentSlide);
+        });
+        Reveal.on("slidechanged", function (e) {
+          play(e.currentSlide);
+        });
+      })();
+    </script>
+  </body>
 </html>

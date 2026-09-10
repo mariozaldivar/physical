@@ -1,3 +1,17 @@
 Trabajemos en la portada:
 
 Me gusta mucho el diseño e iconografía actual. Quiero hacer el diseño y la animación más detallada. Implementa lo que te voy a describir utilizando tu skill de reveal.js . Quiero que, iniciando la animación aparezca el logo y el título en el centro de forma resaltada con un animación, después de lo cuál, con otra animación los elementos se "re-acomoden" en la parte izquierda de la diapositiva, después de lo cual a la derecha aparece con una animación suave una imagen / animación con una demostración de la aplicación (por ahorita puedes poner una animación de una serie de canciones en spotify cambiando).
+
+Utiliza tus skills de reveal.js y diseño front-end.
+Modificaremos ligeramente la diapositiva de "Se adapta a la situación ". Cambia el apartado que está escrito explícitamente como un TODO, por una anotación acerca del posible uso preventivo para pulsaciones extremadamente altas, algo que diga por ejemplo +200BPM: Música relajada para intentar calmar las pulsaciones (añade una animación dinámica detallada y llamativa visualmente).
+
+Convertiremos la diapositiva de "pero hay un problema..." y la de "tu cuerpo cambia de ritmo constantemente" en una sola, de modo que por medio de una animación, automáticamente se transicione de "pero hay un problema..." después de 1.5 segundos a "tu cuerpo cambia de ritmo constantemente" junto con su respectiva animación
+
+Añadiremos también una presentación sobre nuestro modelo de negocio después de hablar del precio de la banda. Esta hablará sobre las integraciones que soportaremos para otro tipo de bandas y relojes inteligentes (ya está documentado en el proyecto que soportamos el protocolo estándar BLE, y se planea también eventualmente integrar a futuro compatibilidad con iOS y el Apple Health Kit). Diseña una presentación que hable de este tema a detalle y explique nuestra dinámica. La narración será la siguiente: "Para todos aquellos que quieran utilizar sus relojes o bandas de otros fabricantes, estas serán soportadas totalmente con el protocolo y nuestro algoritmo de detección de BPM, sin embargo, al descargar la aplicación tendrán que comprar una licencia (one-time lifetime purchase) de aproximadamente unos 150 pesos para poder desbloquear esta utilidad, mientras que las bandas BePhysical vendrán ya con esta licencia y la aplicación de forma totalmente gratuita, además de contar con la garantía de soporte nativo para todas nuestras funciones actuales y a futuro... y esta es una de las partes más prometedoras de Physical (este sería el segway a la siguiente presentación, donde hablaríamos del futuro de Physical)".
+
+Cambia el hook de "Ya existe" por uno más llamativo, y elimina la etiqueta que aparece arriba a la izquierda.
+
+
+Separemos la aclaración de "Uso preventivo" que acabamos de hacer a su propia diapositiva (para evitar bloat visual en la presentación de los modos). Haz su propia diapositiva, con animaciones detalladas y un diseño llamativo utilizando las skills que ya cargaste. 
+
+Re-diseña la diapositiva del ecosistema Physical, y cambia su énfasis a hablar de cómo a futuro, por medio de las bandas BePhysical se podría complejizar el algoritmo para, en lugar de solo leer el BPM, poder leer el mood de una persona (investiga respaldo científico para cómo, por medio de medidas físicas sencillas relizadas por una pulsera similar a la nuestra se podría predecir el mood y emociones de una persona)

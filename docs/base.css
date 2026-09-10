@@ -843,16 +843,16 @@
   opacity: 0;
 }
 
-.collage-item .shot-placeholder {
-  background: var(--surface);
-  border: 1.5px dashed var(--hairline);
-  border-radius: 10px;
+/* Las fotos entran en el mismo hueco 4:3 que ocupaba el marco punteado, y
+   se recortan con object-fit para que el collage no dependa de la
+   proporción exacta de cada archivo. */
+.collage-item img {
+  display: block;
+  width: 100%;
   aspect-ratio: 4 / 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26pt;
-  color: var(--muted-color);
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--hairline);
   margin-bottom: 10px;
 }
 
@@ -2357,55 +2357,6 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* ===========================================
-   PRICE LADDER — el argumento de precio en tres peldaños: lo que cuesta
-   maquetear, lo que costará producir, y lo que se cobra. El tercero está
-   sin definir a propósito y así se marca.
-   =========================================== */
-
-.price-ladder {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-  align-items: stretch;
-}
-
-.price-step {
-  padding: 22px 22px 20px 22px;
-  border-radius: var(--box-radius);
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-}
-
-.price-step-label {
-  margin: 0 0 12px 0 !important;
-  font-size: 10pt !important;
-  color: var(--muted-color) !important;
-  text-transform: uppercase;
-  letter-spacing: 0.11em;
-}
-
-.price-step-value {
-  margin: 0 0 10px 0 !important;
-  font-family: var(--heading-font);
-  font-weight: 700;
-  font-size: 32pt !important;
-  line-height: 1;
-  letter-spacing: -0.02em;
-}
-
-.price-step p:last-child {
-  margin: 0;
-  font-size: 11.5pt !important;
-  color: var(--muted-color) !important;
-  line-height: 1.4;
-}
-
-.price-step--now .price-step-value { color: var(--muted-color) !important; }
-.price-step--scale .price-step-value { color: var(--pulse-calm) !important; }
-.price-step--sale { border-style: dashed; }
-.price-step--sale .price-step-value { color: var(--ink-faint) !important; }
-
 /* ═══════════════════════════════════════════════════════════════════════
    PASE DE ANIMACIÓN — todo lo que sigue existe para que la baraja se sienta
    viva y para que el movimiento CUENTE algo del producto: señales que
@@ -2426,15 +2377,20 @@
   clip-path: inset(-0.25em -0.5em 0 -0.5em);
 }
 
+/* El retardo viaja por variable, no por animation-delay: la regla del
+   stagger tiene menos especificidad que esta, así que el atajo `animation`
+   de aquí le ganaba y los renglones subían todos a la vez — el escalonado
+   que describe el comentario de arriba nunca se veía. Mismo patrón que
+   --wave-delay en .pulse-wave. */
 .reveal .slides section.present .statement .line,
 .reveal .slides section.present .refrain .line {
-  animation: lineRise 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: lineRise 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards var(--line-delay, 0s);
 }
 
-.statement .line:nth-child(1), .refrain .line:nth-child(1) { animation-delay: 0.25s; }
-.statement .line:nth-child(2), .refrain .line:nth-child(2) { animation-delay: 0.42s; }
-.statement .line:nth-child(3), .refrain .line:nth-child(3) { animation-delay: 0.59s; }
-.statement .line:nth-child(4), .refrain .line:nth-child(4) { animation-delay: 0.76s; }
+.statement .line:nth-child(1), .refrain .line:nth-child(1) { --line-delay: 0.25s; }
+.statement .line:nth-child(2), .refrain .line:nth-child(2) { --line-delay: 0.42s; }
+.statement .line:nth-child(3), .refrain .line:nth-child(3) { --line-delay: 0.59s; }
+.statement .line:nth-child(4), .refrain .line:nth-child(4) { --line-delay: 0.76s; }
 
 @keyframes lineRise {
   from { opacity: 0; transform: translateY(0.42em); }
@@ -2449,8 +2405,8 @@
   transition: color 0.5s ease;
 }
 
-.reveal .slides section.present .statement .line em { animation: emInk 0.01s linear forwards 1.15s; }
-.reveal .slides section.present .refrain .line em { animation: emInkCalm 0.01s linear forwards 1.05s; }
+.reveal .slides section.present .statement .line em { animation: emInk 0.01s linear forwards var(--em-delay, 1.15s); }
+.reveal .slides section.present .refrain .line em { animation: emInkCalm 0.01s linear forwards var(--em-delay, 1.05s); }
 
 @keyframes emInk { to { color: var(--pulse-hot); } }
 @keyframes emInkCalm { to { color: var(--pulse-calm); } }
@@ -2699,6 +2655,459 @@
 
 .mode-card { filter: saturate(1); }
 
+/* ═══════════════════════════════════════════════════════════════════════
+   SALVAGUARDA (diapositiva "Uso preventivo") — la regla que anula al modo
+   activo cuando el pulso se dispara.
+
+   TODO lo que se mueve aquí sale de UN solo valor animado, --guard-heat
+   (0 = pulso normal, 1 = pico): el tamaño y el color del corazón, el ancho
+   y el color de la barra, la posición de la cifra, el tono del umbral.
+   --guard-bpm corre en las MISMAS keyframes, así que la cifra y la barra no
+   pueden desincronizarse nunca. Los cuatro pasos van aparte pero con el
+   mismo período y un desfase por paso, así que tampoco se salen de fase.
+
+   El ciclo cuenta la historia entera —sube, cruza el umbral, entra la
+   música relajada y el pulso VUELVE— porque el argumento no es la alarma:
+   es que el pulso vuelve. Una alarma la tiene cualquier reloj.
+
+   El reloj vive en .guard-clock (el .content de la diapositiva) y no en la
+   <section>, para no ponerle una animación al mismo elemento que reveal
+   está transicionando.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@property --guard-heat {
+  syntax: '<number>';
+  initial-value: 0.06;
+  inherits: true;
+}
+
+@property --guard-bpm {
+  syntax: '<integer>';
+  initial-value: 129;
+  inherits: true;
+}
+
+/* Sin position:relative — reveal ya posiciona cada <section> en absolute, y
+   ponerle relative la saca de ese esquema y empuja hacia abajo a TODAS las
+   diapositivas siguientes (se quedan fuera de cuadro). El ::before de abajo
+   se posiciona igual de bien contra la sección absoluta. */
+#safeguard {
+  --guard-cycle: 9s;
+}
+
+.guard-clock {
+  /* Mezcla calma→caliente compartida por corazón, barra, cifra y umbral.
+     Se declara en el MISMO elemento que anima --guard-heat: si se declarara
+     más arriba, se resolvería con el valor quieto de allá. */
+  --guard-tone: color-mix(in srgb, var(--pulse-hot) calc(var(--guard-heat) * 100%), var(--pulse-calm));
+}
+
+.reveal .slides section.present .guard-clock {
+  animation: guardSurge var(--guard-cycle) ease-in-out infinite;
+}
+
+@keyframes guardSurge {
+  0%        { --guard-heat: 0.06; --guard-bpm: 129; }
+  8%        { --guard-heat: 0.12; --guard-bpm: 136; }
+  26%       { --guard-heat: 0.84; --guard-bpm: 201; }  /* cruza el umbral */
+  34%       { --guard-heat: 1;    --guard-bpm: 214; }  /* pico */
+  48%       { --guard-heat: 0.95; --guard-bpm: 209; }
+  76%       { --guard-heat: 0.20; --guard-bpm: 140; }  /* la música ya bajó el pulso */
+  90%, 100% { --guard-heat: 0.06; --guard-bpm: 129; }
+}
+
+/* Destello de sala en el instante del cruce: la diapositiva entera acusa el
+   golpe durante medio segundo y vuelve. El resto del ciclo está quieta,
+   que es lo que hace que el destello signifique algo. */
+#safeguard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.reveal .slides section.present#safeguard::before {
+  animation: guardFlash var(--guard-cycle) ease-out infinite;
+}
+
+@keyframes guardFlash {
+  0%, 22%   { box-shadow: inset 0 0 0 0 transparent; }
+  27%       { box-shadow: inset 0 0 130px 14px color-mix(in srgb, var(--pulse-hot) 30%, transparent); }
+  48%, 100% { box-shadow: inset 0 0 0 0 transparent; }
+}
+
+/* ── El escenario: corazón a la izquierda, medidor a la derecha ── */
+
+.guard-stage {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  align-items: center;
+  gap: 42px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+}
+
+.reveal .slides section.present .guard-stage {
+  animation: fadeUpIn 0.6s ease forwards 0.3s;
+}
+
+/* El contenedor crece con el pulso; el <svg> de adentro late. Separados a
+   propósito: si la escala del pulso y el latido compartieran elemento se
+   pelearían por transform. */
+.guard-heart {
+  position: relative;
+  width: 176px;
+  height: 176px;
+  justify-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(calc(1 + var(--guard-heat) * 0.12));
+}
+
+.guard-heart svg {
+  width: 108px;
+  height: 98px;
+  overflow: visible;
+}
+
+.guard-heart path {
+  fill: var(--guard-tone);
+  filter: drop-shadow(0 0 calc(10px + var(--guard-heat) * 26px)
+          color-mix(in srgb, var(--guard-tone) calc(28% + var(--guard-heat) * 45%), transparent));
+}
+
+/* Sístole fuerte, rebote menor, reposo: el mismo latido que dibuja el
+   monitor de la portada, reutilizado tal cual. */
+.reveal .slides section.present .guard-heart svg {
+  animation: cardiacBeat 0.62s ease-out infinite;
+}
+
+.guard-heart-ring {
+  position: absolute;
+  inset: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--guard-tone);
+  opacity: 0;
+}
+
+.reveal .slides section.present .guard-heart-ring {
+  animation: cardiacRing 0.62s ease-out infinite;
+}
+
+/* Media onda de retraso: dos anillos en camino se ven como pulso continuo
+   y no como un parpadeo. */
+.reveal .slides section.present .guard-heart-ring--late {
+  animation: cardiacRing 0.62s ease-out infinite 0.31s;
+}
+
+/* ── El medidor ── */
+
+.guard-gauge { min-width: 0; }
+
+.guard-rail {
+  position: relative;
+  height: 18px;
+  margin-top: 78px;   /* hueco para la cifra que viaja por encima */
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+}
+
+/* El umbral no es un número suelto: es la zona en la que la banda deja de
+   acompañar y empieza a intervenir. */
+.guard-danger {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 77.8%;
+  right: 0;
+  border-radius: 0 999px 999px 0;
+  background: color-mix(in srgb, var(--pulse-hot) 20%, transparent);
+}
+
+/* Escala del riel: 60–240 BPM. El ancho sale de --guard-heat igual que el
+   color y que la cifra, así que la barra no puede contradecirlas: a
+   --guard-heat 0.84 la barra cae EXACTAMENTE sobre la marca del umbral,
+   que es cuando la cifra marca 201. */
+.guard-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: calc(38.3% + var(--guard-heat) * 47.2%);
+  border-radius: 999px;
+  background: var(--guard-tone);
+  box-shadow: 0 0 22px color-mix(in srgb,
+              var(--guard-tone) calc(18% + var(--guard-heat) * 50%), transparent);
+}
+
+.guard-limit {
+  position: absolute;
+  left: 77.8%;
+  top: -11px;
+  bottom: -11px;
+  width: 3px;
+  border-radius: 999px;
+  background: var(--pulse-hot);
+}
+
+/* Onda que sale del umbral en el instante exacto del cruce. */
+.guard-limit::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border-radius: 50%;
+  border: 2px solid var(--pulse-hot);
+  opacity: 0;
+}
+
+.reveal .slides section.present .guard-limit {
+  animation: guardLimitHit var(--guard-cycle) ease-out infinite;
+}
+
+.reveal .slides section.present .guard-limit::after {
+  animation: guardLimitRipple var(--guard-cycle) ease-out infinite;
+}
+
+@keyframes guardLimitHit {
+  0%, 23%   { opacity: 0.4; transform: scaleY(1); }
+  26%       { opacity: 1;   transform: scaleY(1.6); }
+  34%       { opacity: 1;   transform: scaleY(1.3); }
+  52%, 100% { opacity: 0.4; transform: scaleY(1); }
+}
+
+@keyframes guardLimitRipple {
+  0%, 24%   { opacity: 0;    transform: scale(0.35); }
+  26%       { opacity: 0.9;  transform: scale(0.45); }
+  48%, 100% { opacity: 0;    transform: scale(3.6); }
+}
+
+/* La cifra viaja sobre la cresta de la barra en vez de quedarse en una
+   esquina: se lee como una lectura en vivo, no como un dato impreso. */
+.guard-read {
+  position: absolute;
+  bottom: 34px;
+  left: calc(38.3% + var(--guard-heat) * 47.2%);
+  transform: translateX(-50%);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0 !important;
+  white-space: nowrap;
+}
+
+.guard-bpm {
+  font-family: var(--heading-font);
+  font-weight: 700;
+  font-size: 50pt;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--guard-tone);
+}
+
+/* La cifra la escribe el contador de CSS desde --guard-bpm: así corre en la
+   misma animación que todo lo demás, sin un reloj de JS aparte. */
+.guard-bpm::after {
+  counter-reset: guard-bpm var(--guard-bpm);
+  content: counter(guard-bpm);
+}
+
+.guard-unit {
+  font-size: 14pt;
+  letter-spacing: 0.08em;
+  color: var(--muted-color);
+}
+
+.guard-scale {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 13px;
+}
+
+.guard-scale p {
+  margin: 0 !important;
+  font-size: 11pt !important;
+  color: var(--ink-faint) !important;
+}
+
+/* Colgada de la marca del umbral, no del borde del riel: la etiqueta y la
+   línea hablan del mismo punto de la escala. */
+.guard-scale-limit {
+  position: absolute;
+  left: 77.8%;
+  transform: translateX(-50%);
+  font-family: var(--heading-font);
+  font-weight: 600;
+  font-size: 12pt !important;
+  color: color-mix(in srgb,
+          var(--pulse-hot) calc(45% + var(--guard-heat) * 55%), var(--muted-color)) !important;
+}
+
+/* ── Los cuatro pasos ──
+   Mismo período que el reloj y un desfase por paso: se encienden en
+   cascada, siempre en el mismo punto de la historia. */
+
+.guard-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+}
+
+.reveal .slides section.present .guard-steps {
+  animation: fadeUpIn 0.6s ease forwards 0.55s;
+}
+
+.guard-step {
+  --step-tone: var(--pulse-calm);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 15px;
+  border-radius: var(--box-radius);
+  background: var(--surface);
+  border: 1.5px solid var(--hairline);
+  opacity: 0.38;
+}
+
+/* Los dos primeros pasos son el problema (coral); los dos últimos son la
+   respuesta (cian). El color cuenta la mitad de la historia solo. */
+.guard-step--1,
+.guard-step--2 { --step-tone: var(--pulse-hot); }
+
+.guard-step--1 { --step-at: calc(var(--guard-cycle) * 0.05); }
+.guard-step--2 { --step-at: calc(var(--guard-cycle) * 0.22); }
+.guard-step--3 { --step-at: calc(var(--guard-cycle) * 0.40); }
+.guard-step--4 { --step-at: calc(var(--guard-cycle) * 0.58); }
+
+.reveal .slides section.present .guard-step {
+  animation: guardStepOn var(--guard-cycle) ease-in-out infinite var(--step-at, 0s);
+}
+
+@keyframes guardStepOn {
+  0%, 100% { opacity: 0.38; transform: translateY(0); border-color: var(--hairline); }
+  5%       { opacity: 1; transform: translateY(-6px); border-color: color-mix(in srgb, var(--step-tone) 60%, transparent); }
+  22%      { opacity: 1; transform: translateY(-6px); border-color: color-mix(in srgb, var(--step-tone) 60%, transparent); }
+  30%      { opacity: 0.38; transform: translateY(0); border-color: var(--hairline); }
+}
+
+.guard-step-num {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--heading-font);
+  font-weight: 700;
+  font-size: 12pt;
+  background: var(--surface-alt);
+  color: var(--muted-color);
+}
+
+/* Mismo desfase que su tarjeta (--step-at se hereda), así el número y el
+   marco encienden juntos. */
+.reveal .slides section.present .guard-step-num {
+  animation: guardStepNum var(--guard-cycle) ease-in-out infinite var(--step-at, 0s);
+}
+
+@keyframes guardStepNum {
+  0%, 100% { background: var(--surface-alt); color: var(--muted-color); }
+  5%, 22%  { background: color-mix(in srgb, var(--step-tone) 24%, var(--surface-alt));
+             color: var(--step-tone); }
+  30%      { background: var(--surface-alt); color: var(--muted-color); }
+}
+
+.guard-step-title {
+  margin: 0 !important;
+  font-family: var(--heading-font);
+  font-weight: 500;
+  font-size: 12.5pt !important;
+  line-height: 1.2;
+}
+
+.guard-step-note {
+  margin: 4px 0 0 0 !important;
+  font-size: 10pt !important;
+  line-height: 1.25;
+  color: var(--muted-color) !important;
+}
+
+/* El ecualizador de marca, en tamaño de chip: lo que suena en el paso 3. */
+.pulse-wave--guard {
+  height: 24px;
+  gap: 3px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.pulse-wave--guard span {
+  width: 3px;
+  height: 24px;
+}
+
+.guard-note {
+  align-self: center;
+  max-width: 800px;
+  margin: 0 !important;
+  text-align: center;
+  font-size: 12pt !important;
+  line-height: 1.4;
+  color: var(--ink-faint) !important;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+}
+
+.reveal .slides section.present .guard-note {
+  animation: fadeUpIn 0.6s ease forwards 1.5s;
+}
+
+/* Sin ciclo, la salvaguarda se congela en el instante que hay que
+   entender: el umbral ya cruzado, y los cuatro pasos legibles a la vez. */
+@media (prefers-reduced-motion: reduce) {
+  .guard-clock {
+    --guard-heat: 0.92;
+    --guard-bpm: 208;
+  }
+
+  .guard-stage,
+  .guard-steps,
+  .guard-step,
+  .guard-note {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .guard-heart svg,
+  .guard-heart-ring,
+  .guard-limit,
+  .guard-limit::after,
+  .guard-step-num,
+  #safeguard::before {
+    animation: none !important;
+  }
+
+  .guard-heart-ring { display: none; }
+  .guard-step { border-color: color-mix(in srgb, var(--step-tone) 50%, transparent); }
+  .guard-step-num { color: var(--step-tone); }
+}
+
 /* ───────────────────────────────────────────────
    ENTRADAS QUE FALTABAN — tarjetas de dato, filas de componentes y peldaños
    de precio. Todas escalonadas en el sentido de lectura.
@@ -2706,7 +3115,6 @@
 
 .stat-card,
 .spec-row,
-.price-step,
 .stress-meter,
 .pending {
   opacity: 0;
@@ -2724,16 +3132,6 @@
 @keyframes slideInLeft {
   from { opacity: 0; transform: translateX(-22px); }
   to   { opacity: 1; transform: translateX(0); }
-}
-
-/* Los peldaños de precio entran como escalera, de izquierda a derecha. */
-.reveal .slides section.present .price-step:nth-child(1) { animation: stepUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.25s; }
-.reveal .slides section.present .price-step:nth-child(2) { animation: stepUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.45s; }
-.reveal .slides section.present .price-step:nth-child(3) { animation: stepUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.65s; }
-
-@keyframes stepUp {
-  from { opacity: 0; transform: translateY(26px); }
-  to   { opacity: 1; transform: translateY(0); }
 }
 
 .reveal .slides section.present .stress-meter { animation: fadeUpIn 0.6s ease forwards 0.3s; }
@@ -2815,7 +3213,6 @@
   .refrain .line,
   .stat-card,
   .spec-row,
-  .price-step,
   .stress-meter,
   .pending,
   .phone-mock,
@@ -2844,76 +3241,6 @@
   .mode-card {
     transition-duration: 0.01ms !important;
   }
-}
-
-/* ───────────────────────────────────────────────
-   LÍNEA DE TENDENCIA DEL PRECIO — se traza de izquierda a derecha y va
-   bajando, y cada punto aparece cuando el trazo lo alcanza. El argumento
-   ("hoy cuesta esto, en producción bastante menos") se ve antes de leerse.
-   ─────────────────────────────────────────────── */
-
-.price-trend {
-  width: 100%;
-  height: 56px;
-  margin-bottom: -6px;
-  overflow: visible;
-}
-
-.price-trend-line {
-  fill: none;
-  stroke: var(--pulse-calm);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 800;
-  stroke-dashoffset: 800;
-  opacity: 0.55;
-}
-
-.reveal .slides section.present .price-trend-line {
-  animation: trendDraw 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.35s;
-}
-
-@keyframes trendDraw {
-  to { stroke-dashoffset: 0; }
-}
-
-.price-trend-dot {
-  fill: var(--pulse-calm);
-  opacity: 0;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
-.reveal .slides section.present .price-trend-dot {
-  animation: trendDot 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-.price-trend-dot--1 { animation-delay: 0.45s; }
-.price-trend-dot--2 { animation-delay: 1.05s; }
-.price-trend-dot--3 { animation-delay: 1.65s; }
-
-@keyframes trendDot {
-  from { opacity: 0; transform: scale(0.3); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-/* El último punto es el que sigue sin definirse: se queda hueco y parpadea
-   despacio, en lugar de fingir que ya hay una cifra. */
-.price-trend-dot--3 {
-  fill: none;
-  stroke: var(--ink-faint);
-  stroke-width: 2;
-}
-
-.reveal .slides section.present .price-trend-dot--3 {
-  animation: trendDot 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 1.65s,
-             trendPending 2.4s ease-in-out infinite 2.1s;
-}
-
-@keyframes trendPending {
-  0%, 100% { opacity: 1; }
-  50%      { opacity: 0.35; }
 }
 
 /* ───────────────────────────────────────────────
@@ -2957,8 +3284,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .price-trend-line,
-  .price-trend-dot,
   .spec-row .fa-heart-pulse,
   .panel-card .fa-heart-pulse,
   .sync-card-head .fa-heart-pulse,
@@ -2990,20 +3315,8 @@
   to   { transform: scale(1.12); }
 }
 
-/* Los huecos de foto respiran despacio: se lee que están esperando material
-   real, no que son un recuadro vacío del diseño. */
-.reveal .slides section.present .shot-placeholder i {
-  animation: placeholderBreath 3.4s ease-in-out infinite;
-}
-
-@keyframes placeholderBreath {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50%      { opacity: 1;   transform: scale(1.08); }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .scene-img,
-  .shot-placeholder i {
+  .scene-img {
     animation: none !important;
   }
 
@@ -3223,11 +3536,47 @@
   100% { opacity: 0;   box-shadow: 0 0 0 12px transparent; }
 }
 
-/* ── EL GIRO — "Pero hay un problema…" ── */
+/* ── EL GIRO — "Pero hay un problema…" y el relevo a la frase ──
+   Una sola diapositiva en dos tiempos. El reloj está escrito aquí de
+   corrido para poder leerlo como guion:
+
+     0.25s  sube "Pero hay un problema"
+     0.72s  ·   0.92s  ·   1.12s   los tres puntos
+     1.50s  se va la pregunta (fade + desenfoque hacia arriba)
+     1.88s  entra la frase, renglón por renglón
+     2.85s  cae el acento coral en "Tu música, no."           */
 
 .statement--turn {
   font-size: 44pt !important;
 }
+
+.turn-stage {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+}
+
+/* Apiladas en la misma celda: el cruce no mueve nada de sitio. */
+.turn-phase {
+  grid-area: 1 / 1;
+  width: 100%;
+}
+
+.reveal .slides section.present .turn-phase--ask {
+  animation: turnAskOut 0.55s cubic-bezier(0.4, 0, 0.2, 1) forwards 1.5s;
+}
+
+@keyframes turnAskOut {
+  to { opacity: 0; transform: translateY(-0.3em); filter: blur(4px); }
+}
+
+/* La segunda fase no necesita esconderse: sus renglones ya nacen en
+   opacity 0 y sólo se les mueve la salida de turno. */
+#problem-turn .turn-phase--say .line:nth-child(1) { --line-delay: 1.88s; }
+#problem-turn .turn-phase--say .line:nth-child(2) { --line-delay: 2.05s; }
+#problem-turn .turn-phase--say .line:nth-child(3) { --line-delay: 2.22s; }
+#problem-turn .turn-phase--say .line em { --em-delay: 2.85s; }
 
 .ellipsis i {
   font-style: normal;
@@ -3235,13 +3584,15 @@
   display: inline-block;
 }
 
+/* Por variable, por lo mismo que los renglones: si el retardo va en una
+   regla aparte, este atajo se lo come y los tres puntos caen juntos. */
 .reveal .slides section.present .ellipsis i {
-  animation: dotIn 0.3s ease forwards;
+  animation: dotIn 0.3s ease forwards var(--dot-delay, 0s);
 }
 
-.ellipsis i:nth-child(1) { animation-delay: 0.95s; }
-.ellipsis i:nth-child(2) { animation-delay: 1.30s; }
-.ellipsis i:nth-child(3) { animation-delay: 1.65s; }
+.ellipsis i:nth-child(1) { --dot-delay: 0.72s; }
+.ellipsis i:nth-child(2) { --dot-delay: 0.92s; }
+.ellipsis i:nth-child(3) { --dot-delay: 1.12s; }
 
 @keyframes dotIn {
   from { opacity: 0; transform: translateY(-0.15em); }
@@ -3267,4 +3618,747 @@
 
   .beat .beat-icon::after,
   .card-in.sync-card::after { display: none; }
+
+  /* Las dos fases del giro están apiladas: sin el relevo animado se
+     leerían una encima de la otra. Se queda la frase, que es el
+     contenido; la pregunta era la pausa. */
+  .turn-phase--ask { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PLANES — las dos rutas de entrada a Physical (modelo de negocio).
+   No es una tabla de precios: son dos caminos que terminan en la misma
+   app, y la comparación tiene que leerse de un vistazo desde el fondo del
+   salón. Por eso el precio vive abajo de todo, alineado entre las dos
+   tarjetas (margin-top:auto), y la nuestra es la única con color: la ruta
+   sin fricción se distingue sola, sin decir "recomendada".
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.plan-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+  align-items: stretch;
+  position: relative;
+  z-index: 1;
+}
+
+.plan {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 26px;
+  border-radius: var(--box-radius);
+  background: var(--surface);
+  border: 1.5px solid var(--hairline);
+  opacity: 0;
+}
+
+.plan--ours {
+  background: var(--pulse-calm-dim);
+  border-color: color-mix(in srgb, var(--pulse-calm) 45%, transparent);
+}
+
+.reveal .slides section.present .plan:nth-child(1) { animation: panelPopIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.30s; }
+.reveal .slides section.present .plan:nth-child(2) { animation: panelPopIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.50s; }
+
+.plan-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.plan-icon {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18pt;
+  background: var(--surface-alt);
+  border: 1px solid var(--hairline);
+  color: var(--muted-color);
+}
+
+.plan--ours .plan-icon {
+  color: var(--pulse-calm);
+  border-color: color-mix(in srgb, var(--pulse-calm) 40%, transparent);
+}
+
+.plan-kicker {
+  margin: 0 !important;
+  font-size: 9.5pt !important;
+  color: var(--muted-color) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.plan-head h3 {
+  margin: 3px 0 0 0;
+  font-size: 21pt;
+}
+
+.plan ul { margin: 0 0 18px 0; }
+
+.plan ul li {
+  font-size: 13.5pt !important;
+  line-height: 1.45;
+  margin-bottom: 9px;
+}
+
+/* Pegado al fondo de la tarjeta: las dos cifras quedan a la misma altura
+   aunque las viñetas de arriba no midan lo mismo. */
+.plan-price {
+  margin-top: auto;
+  padding-top: 15px;
+  border-top: 1px solid var(--hairline);
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.plan--ours .plan-price {
+  border-top-color: color-mix(in srgb, var(--pulse-calm) 28%, transparent);
+}
+
+.plan-price-value {
+  margin: 0 !important;
+  font-family: var(--heading-font);
+  font-weight: 700;
+  font-size: 30pt !important;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.plan-price-value--free {
+  font-size: 26pt !important;
+  color: var(--pulse-calm) !important;
+}
+
+.plan-price-note {
+  margin: 0 !important;
+  font-size: 11pt !important;
+  line-height: 1.3;
+  color: var(--muted-color) !important;
+}
+
+/* Marcas compatibles: pastillas de texto, no logos. Los logotipos de
+   Garmin/Polar/etc. son marcas registradas y además Font Awesome no los
+   trae — el nombre en la tipografía del deck comunica lo mismo y funciona
+   sin internet el día del pitch. El único logo real es el de Apple, que sí
+   está en Font Awesome, y va en la pastilla de "en el radar". */
+.device-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 16px 0;
+}
+
+.device-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--surface-alt);
+  border: 1px solid var(--hairline);
+}
+
+.device-chip p {
+  margin: 0 !important;
+  font-family: var(--heading-font);
+  font-weight: 500;
+  font-size: 10.5pt !important;
+  color: var(--ink) !important;
+}
+
+.device-chip i {
+  font-size: 11pt;
+  color: var(--pulse-calm);
+}
+
+.device-chip--more {
+  background: transparent;
+  border-style: dashed;
+}
+
+.device-chip--more p { color: var(--muted-color) !important; }
+
+.plan-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 26px;
+  position: relative;
+  z-index: 1;
+}
+
+.plan-foot-note {
+  margin: 0 !important;
+  font-family: var(--heading-font);
+  font-weight: 500;
+  font-size: 15pt !important;
+  color: var(--muted-color) !important;
+  text-align: right;
+  opacity: 0;
+}
+
+.reveal .slides section.present .plan-foot-note {
+  animation: fadeUpIn 0.6s ease forwards 1.45s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plan,
+  .plan-foot-note {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   LEER EL ÁNIMO (diapositiva "Lo que viene") — cinco señales entrando a un
+   modelo que devuelve un estado.
+
+   Un ciclo de 3.6s = una lectura: las cinco señales se recorren en cascada,
+   la señal viaja por el riel, y aparece el estado que salió de esa lectura.
+   Tres ciclos seguidos muestran los tres estados (10.8s), por eso las
+   palabras corren en una animación de 10.8s = 3 × el ciclo: así el estado
+   siempre aparece DESPUÉS de su lectura y nunca a media cascada.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+#future {
+  --mood-cycle: 3.6s;
+}
+
+.mood-lead {
+  margin: 0 !important;
+  font-family: var(--heading-font);
+  font-weight: 500;
+  font-size: 16pt !important;
+  position: relative;
+  z-index: 1;
+}
+
+.mood-flow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 74px 420px;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+}
+
+.reveal .slides section.present .mood-flow {
+  animation: fadeUpIn 0.6s ease forwards 0.35s;
+}
+
+.signal-list {
+  display: grid;
+  gap: 7px;
+}
+
+/* Punteadas las cuatro que faltan, sólida la que ya existe: la diapositiva
+   dice sin escribirlo cuánto de esto está construido. */
+.signal {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 14px 7px 8px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1.5px dashed var(--hairline);
+}
+
+.signal--now {
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--pulse-calm) 45%, transparent);
+  background: var(--pulse-calm-dim);
+}
+
+.signal-icon {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11pt;
+  background: var(--surface-alt);
+  color: var(--muted-color);
+}
+
+.signal--now .signal-icon { color: var(--pulse-calm); }
+
+.signal-name {
+  margin: 0 !important;
+  font-size: 12.5pt !important;
+}
+
+.signal-tag {
+  margin: 0 0 0 auto !important;
+  font-size: 9.5pt !important;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--pulse-calm) !important;
+}
+
+/* La cascada: cada señal se enciende 0.24s después de la anterior, y las
+   cinco caben en el primer tercio del ciclo — lo que queda es para el
+   resultado. */
+.reveal .slides section.present .signal {
+  animation: signalPing var(--mood-cycle) ease-out infinite var(--signal-at, 0s);
+}
+
+.signal:nth-child(1) { --signal-at: 0s; }
+.signal:nth-child(2) { --signal-at: 0.24s; }
+.signal:nth-child(3) { --signal-at: 0.48s; }
+.signal:nth-child(4) { --signal-at: 0.72s; }
+.signal:nth-child(5) { --signal-at: 0.96s; }
+
+@keyframes signalPing {
+  0%        { transform: translateX(0); }
+  5%        { transform: translateX(7px); border-color: color-mix(in srgb, var(--pulse-calm) 65%, transparent); }
+  22%       { transform: translateX(0); }
+  40%, 100% { transform: translateX(0); }
+}
+
+.mood-link {
+  position: relative;
+  height: 2px;
+  background: linear-gradient(90deg, var(--hairline), color-mix(in srgb, var(--pulse-calm) 45%, transparent));
+}
+
+.mood-link-dot {
+  position: absolute;
+  top: -4px;
+  left: 6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--pulse-calm);
+  opacity: 0;
+}
+
+.reveal .slides section.present .mood-link-dot {
+  animation: moodDotRun var(--mood-cycle) cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes moodDotRun {
+  0%, 33%   { opacity: 0; transform: translateX(0); }
+  36%       { opacity: 1; transform: translateX(0); }
+  47%       { opacity: 1; transform: translateX(50px); }
+  52%, 100% { opacity: 0; transform: translateX(50px); }
+}
+
+.mood-out {
+  padding: 20px 24px;
+  border-radius: var(--box-radius);
+  background: var(--surface);
+  border: 1.5px solid var(--hairline);
+}
+
+.mood-out-label {
+  margin: 0 0 12px 0 !important;
+  font-size: 9.5pt !important;
+  color: var(--muted-color) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.mood-state {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-height: 42px;
+}
+
+.mood-dot {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--muted-color);
+  opacity: 0.25;
+}
+
+/* Las tres palabras viven apiladas en la misma celda: la caja no cambia de
+   alto al cambiar de estado. */
+.mood-words {
+  display: grid;
+}
+
+.mood-word {
+  grid-area: 1 / 1;
+  margin: 0 !important;
+  font-family: var(--heading-font);
+  font-weight: 700;
+  font-size: 27pt !important;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  opacity: 0;
+}
+
+.mood-word--1 { color: var(--pulse-hot) !important; }
+.mood-word--2,
+.mood-word--3 { color: var(--pulse-calm) !important; }
+
+.reveal .slides section.present .mood-word {
+  animation: moodSwap calc(var(--mood-cycle) * 3) ease infinite var(--word-at, 0s);
+}
+
+.mood-word--1 { --word-at: 0s; }
+.mood-word--2 { --word-at: var(--mood-cycle); }
+.mood-word--3 { --word-at: calc(var(--mood-cycle) * 2); }
+
+@keyframes moodSwap {
+  0%, 14%   { opacity: 0; transform: translateY(10px); }
+  17%, 32%  { opacity: 1; transform: translateY(0); }
+  34%, 100% { opacity: 0; transform: translateY(-10px); }
+}
+
+.reveal .slides section.present .mood-dot {
+  animation: moodDotSwap calc(var(--mood-cycle) * 3) ease infinite;
+}
+
+@keyframes moodDotSwap {
+  0%, 14%   { opacity: 0.25; background: var(--muted-color); }
+  17%, 32%  { opacity: 1; background: var(--pulse-hot); box-shadow: 0 0 16px var(--pulse-hot); }
+  34%, 47%  { opacity: 0.25; background: var(--muted-color); box-shadow: none; }
+  50%, 65%  { opacity: 1; background: var(--pulse-calm); box-shadow: 0 0 16px var(--pulse-calm); }
+  67%, 80%  { opacity: 0.25; background: var(--muted-color); box-shadow: none; }
+  83%, 98%  { opacity: 1; background: var(--pulse-calm); box-shadow: 0 0 16px var(--pulse-calm); }
+  100%      { opacity: 0.25; background: var(--muted-color); box-shadow: none; }
+}
+
+.mood-out-note {
+  margin: 14px 0 0 0 !important;
+  font-size: 11pt !important;
+  color: var(--muted-color) !important;
+  line-height: 1.35;
+}
+
+/* La evidencia va en tira, no en tarjetas: son dos datos de apoyo, no el
+   protagonista de la diapositiva. */
+.evidence-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.evidence {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 13px 18px;
+  border-radius: var(--box-radius);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  opacity: 0;
+}
+
+.reveal .slides section.present .evidence:nth-child(1) { animation: fadeUpIn 0.6s ease forwards 0.8s; }
+.reveal .slides section.present .evidence:nth-child(2) { animation: fadeUpIn 0.6s ease forwards 0.95s; }
+
+.evidence-figure {
+  margin: 0 !important;
+  flex-shrink: 0;
+  font-family: var(--heading-font);
+  font-weight: 700;
+  font-size: 26pt !important;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--pulse-calm) !important;
+}
+
+.evidence p {
+  margin: 0 !important;
+  font-size: 11.5pt !important;
+  line-height: 1.3;
+}
+
+.evidence-source {
+  margin: 5px 0 0 0 !important;
+  font-size: 9.5pt !important;
+  color: var(--ink-faint) !important;
+}
+
+.mood-caveat {
+  align-self: center;
+  max-width: 900px;
+  margin: 0 !important;
+  text-align: center;
+  font-size: 11.5pt !important;
+  line-height: 1.4;
+  color: var(--ink-faint) !important;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+}
+
+.reveal .slides section.present .mood-caveat {
+  animation: fadeUpIn 0.6s ease forwards 1.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mood-flow,
+  .evidence,
+  .mood-caveat {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .signal,
+  .mood-link-dot,
+  .mood-dot {
+    animation: none !important;
+  }
+
+  /* Sin ciclo no hay turnos: se queda visible el primer estado, que es el
+     que la evidencia respalda mejor. */
+  .mood-word { animation: none !important; opacity: 0; }
+  .mood-word--1 { opacity: 1; transform: none; }
+  .mood-dot { opacity: 1; background: var(--pulse-hot); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   GRÁFICO DE COSTOS (diapositiva de precio) — dos magnitudes medidas contra
+   un umbral, a escala real.
+
+   La escala es lineal con máximo $320 = --bar-320. El umbral vive donde le
+   toca por aritmética: 250/320 × 88% = 68.75%. Si alguna de las dos cifras
+   cambia, se recalculan estas dos variables y nada más — la geometría no
+   está dibujada a mano en ningún lado.
+
+   Color por ESTADO, no por identidad: coral = se pasa del techo, cian =
+   objetivo. Las dos filas van etiquetadas con texto, así que quien no
+   distinga los tonos igual lee la diapositiva completa.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.cost-chart {
+  /* $320 no llega al 100% del ancho: el carril de la derecha es para la
+     cifra al final de la barra. --ceiling sale de 250/320 × --bar-320. */
+  --bar-320: 74%;
+  --ceiling: 57.8125%;
+  --side-col: 310px;
+  --col-gap: 30px;
+
+  display: grid;
+  grid-template-columns: var(--side-col) minmax(0, 1fr);
+  column-gap: var(--col-gap);
+  row-gap: 42px;
+  align-items: center;
+  width: 100%;
+  padding-top: 84px;   /* sitio para la etiqueta del umbral */
+  position: relative;
+  z-index: 1;
+}
+
+/* Eje del cero: sin él las barras flotan y "a escala" es sólo una promesa. */
+.cost-chart::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--side-col) + var(--col-gap));
+  top: 84px;
+  bottom: -10px;
+  width: 1px;
+  background: var(--hairline);
+}
+
+/* Cubre exactamente la columna del plot y las dos filas: el umbral es el
+   eje contra el que se miden ambas, no un adorno encima de una tarjeta. */
+.cost-ceiling {
+  position: absolute;
+  top: 0;
+  bottom: -10px;
+  left: calc(var(--side-col) + var(--col-gap));
+  right: 0;
+  pointer-events: none;
+}
+
+.cost-ceiling-tag {
+  position: absolute;
+  top: 0;
+  left: var(--ceiling);
+  transform: translateX(-50%);
+  text-align: center;
+  white-space: nowrap;
+  opacity: 0;
+}
+
+.cost-ceiling-label {
+  margin: 0 !important;
+  font-size: 10pt !important;
+  color: var(--muted-color) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.cost-ceiling-value {
+  margin: 4px 0 0 0 !important;
+  font-family: var(--heading-font);
+  font-weight: 700;
+  font-size: 34pt !important;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--pulse-calm) !important;
+}
+
+.cost-ceiling-line {
+  position: absolute;
+  left: var(--ceiling);
+  top: 72px;
+  bottom: 0;
+  width: 2px;
+  transform: scaleY(0);
+  transform-origin: top;
+  background: repeating-linear-gradient(180deg,
+    var(--pulse-calm) 0 7px, transparent 7px 14px);
+}
+
+.cost-side { min-width: 0; }
+
+.cost-name {
+  margin: 0 !important;
+  font-family: var(--heading-font);
+  font-weight: 500;
+  font-size: 16pt !important;
+  line-height: 1.2;
+}
+
+.cost-note {
+  margin: 6px 0 0 0 !important;
+  font-size: 11.5pt !important;
+  line-height: 1.3;
+  color: var(--muted-color) !important;
+}
+
+.cost-plot {
+  position: relative;
+  height: 40px;
+}
+
+/* Extremo del dato redondeado, origen del eje a escuadra. */
+.cost-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  border-radius: 0 7px 7px 0;
+  background: var(--pulse-hot);
+  box-shadow: 0 0 22px color-mix(in srgb, var(--pulse-hot) 30%, transparent);
+}
+
+/* El rango no finge un número: es una caja punteada que llega hasta el
+   umbral y dice que el costo real tiene que aterrizar ahí dentro. */
+.cost-range {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--ceiling);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px dashed color-mix(in srgb, var(--pulse-calm) 40%, var(--hairline));
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--pulse-calm) 7%, transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.cost-range p {
+  margin: 0 !important;
+  font-size: 11.5pt !important;
+  color: var(--muted-color) !important;
+}
+
+.cost-value {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0 !important;
+  white-space: nowrap;
+  font-family: var(--heading-font);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  opacity: 0;
+}
+
+.cost-value--over {
+  left: calc(var(--bar-320) + 16px);
+  font-size: 26pt !important;
+  color: var(--pulse-hot) !important;
+}
+
+.cost-value--todo {
+  left: calc(var(--ceiling) + 16px);
+  font-weight: 500;
+  font-size: 14pt !important;
+  color: var(--ink-faint) !important;
+}
+
+.cost-foot {
+  align-self: center;
+  max-width: 900px;
+  margin: 0 !important;
+  text-align: center;
+  font-size: 14pt !important;
+  line-height: 1.4;
+  color: var(--muted-color) !important;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+}
+
+/* Coreografía de una sola pasada (esto no es un bucle: es un argumento que
+   se cuenta una vez). Primero se planta el techo, después crece el costo de
+   hoy y LO CRUZA —ahí destella la línea, a 1.45s, que es cuando la barra
+   llega al 68.75%—, y al final entra el rango de lo que falta cotizar. */
+.reveal .slides section.present .cost-ceiling-tag { animation: fadeUpIn 0.55s ease forwards 0.25s; }
+.reveal .slides section.present .cost-ceiling-line {
+  animation: ceilingDrop 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.45s,
+             ceilingHit 0.9s ease-out 1.35s;
+}
+.reveal .slides section.present .cost-bar--over { animation: barGrow 0.9s cubic-bezier(0.3, 0, 0.2, 1) forwards 0.75s; }
+.reveal .slides section.present .cost-value--over { animation: fadeUpIn 0.5s ease forwards 1.55s; }
+.reveal .slides section.present .cost-range { animation: rangeIn 0.6s cubic-bezier(0.3, 0, 0.2, 1) forwards 1.9s; }
+.reveal .slides section.present .cost-value--todo { animation: fadeUpIn 0.5s ease forwards 2.3s; }
+.reveal .slides section.present .cost-foot { animation: fadeUpIn 0.6s ease forwards 2.6s; }
+
+@keyframes ceilingDrop { to { transform: scaleY(1); } }
+@keyframes barGrow { to { width: var(--bar-320); } }
+@keyframes rangeIn { to { transform: scaleX(1); } }
+
+@keyframes ceilingHit {
+  0%   { box-shadow: 0 0 0 0 transparent; }
+  25%  { box-shadow: 0 0 20px 3px color-mix(in srgb, var(--pulse-hot) 55%, transparent); }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cost-ceiling-tag,
+  .cost-value,
+  .cost-foot {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .cost-value { transform: translateY(-50%) !important; }
+  .cost-ceiling-line { transform: scaleY(1) !important; animation: none !important; }
+  .cost-range { transform: scaleX(1) !important; animation: none !important; }
+  .cost-bar--over { width: var(--bar-320) !important; animation: none !important; }
 }
