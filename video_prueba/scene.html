@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<link rel="stylesheet" href="../docs/palette-b-azul-profundo.css"/>
+<link rel="stylesheet" href="../docs/base.css"/>
+<style>
+  html,body{margin:0;background:transparent;width:1920px;height:1080px;overflow:hidden}
+  .stage{position:absolute;left:1180px;top:700px;width:620px}
+  .layer{position:absolute;inset:0}
+  .sync-card{box-shadow:0 28px 60px rgba(0,0,0,.55)}
+</style></head>
+<body>
+<div class="stage">
+  <div class="layer" id="A">
+    <div class="sync-card">
+      <div class="sync-card-head"><i class="fa-solid fa-music"></i><p>Tu música</p></div>
+      <div class="sync-card-body">
+        <div class="sync-art"><img src="../docs/img/covers/till-i-collapse.jpg" alt=""/></div>
+        <div class="sync-track">
+          <p class="sync-track-title">Till I Collapse</p>
+          <p class="sync-track-artist">Eminem</p>
+        </div>
+        <p class="sync-bpm" id="bpm">171<span>BPM</span></p>
+      </div>
+    </div>
+  </div>
+  <div class="layer" id="B">
+    <div class="sync-card sync-card--calm">
+      <div class="sync-card-head"><i class="fa-solid fa-music"></i><p>Tu música</p></div>
+      <div class="sync-card-body">
+        <div class="sync-art"><img src="../docs/img/covers/te-para-3.jpg" alt=""/></div>
+        <div class="sync-track">
+          <p class="sync-track-title">Té Para 3</p>
+          <p class="sync-track-artist">Soda Stereo · Unplugged</p>
+        </div>
+        <p class="sync-bpm">116<span>BPM</span></p>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+// Animación determinística: todo es función de t (segundos), así cada frame
+// se renderiza aislado y en paralelo, sin depender de un reloj real.
+const t = parseFloat(new URLSearchParams(location.search).get('t') || '0');
+const clamp=(x)=>Math.max(0,Math.min(1,x));
+const ease=(x)=>1-Math.pow(1-clamp(x),3);
+const A=document.getElementById('A'), B=document.getElementById('B');
+const inA  = ease(t/0.6);          // 0.0–0.6  entra la tarjeta
+const swap = ease((t-1.6)/0.7);    // 1.6–2.3  cruce de canción
+A.style.opacity = (inA*(1-swap)).toFixed(4);
+A.style.transform = `translateY(${((1-inA)*34 - swap*26).toFixed(2)}px) scale(${(1-swap*0.04).toFixed(4)})`;
+B.style.opacity = swap.toFixed(4);
+B.style.transform = `translateY(${((1-swap)*30).toFixed(2)}px) scale(${(0.96+swap*0.04).toFixed(4)})`;
+document.getElementById('bpm').firstChild.nodeValue = Math.round(171 - 55*ease((t-1.5)/0.8));
+</script></body></html>
