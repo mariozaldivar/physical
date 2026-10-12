@@ -58,3 +58,15 @@ audio al final de `index.html`).
 | `till-i-collapse.mp3` | Till I Collapse — Eminem | 18 s |
 | `te-para-3.mp3` | Té Para 3 — Soda Stereo (MTV Unplugged) | 25 s |
 | `chop-suey.mp3` | Chop Suey! — System Of A Down | 22 s |
+
+## Logos de tecnologías (`logos/tech/`, usados en `tecnico/`)
+
+- `react.svg`, `typescript.svg`, `sqlite.svg`, `expo.svg` — Simple Icons
+  (https://simpleicons.org, iconos bajo CC0 1.0), recoloreados para fondo
+  oscuro. Las marcas pertenecen a sus dueños.
+- `reccobeats.png` — logo de ReccoBeats, descargado de
+  https://reccobeats.com/img/recco.png.
+- `apple-health.svg` — dibujo propio que evoca el icono de la app Salud de
+  Apple (no es el archivo oficial). "Apple Health" y HealthKit son marcas de
+  Apple Inc.
+- Spotify y Apple: glifos de Font Awesome Brands.

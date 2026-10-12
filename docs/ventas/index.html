@@ -1,0 +1,1494 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Physical — Pitch de ventas</title>
+
+    <!-- Reveal.js core -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css"
+    />
+
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <!-- Paleta, estilos e imágenes son los del pitch general (carpeta de
+         arriba): esta baraja no duplica nada de eso. -->
+    <link rel="stylesheet" href="../palette-b-azul-profundo.css" />
+    <link rel="stylesheet" href="../base.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- ============ 1. HOOK — El gimnasio (abre el pitch) ============ -->
+        <!-- Diapositiva para narrar encima: cada .fragment es un golpe del
+           guion, así que el ritmo lo marca el presentador y no un timer.
+           Los fragmentos con data-scene cambian el estado de las tarjetas
+           (ver el script de escenas al final del archivo). -->
+        <!-- Abre el pitch: sin pill de sección (etiquetarla "el problema" delata
+           el golpe antes de contarlo) y sin marca — Physical se revela hasta
+           la quinta.
+
+           La foto NO es fondo a sangre: vive DENTRO de una .scene (tarjeta
+           retrato con marco) y las lecturas de BPM flotan sobre su esquina
+           inferior, sobresaliendo del marco. Así la imagen ubica la escena
+           sin tragarse el texto, y la UI del producto se lee literalmente
+           encima del momento real en vez de al lado de una postal. -->
+        <section id="story-gym" class="story">
+          <div class="content">
+            <div class="story-grid">
+              <div class="story-column">
+                <p class="story-lead story-lead--intro">Imaginen esto</p>
+                <div class="beat-list">
+                  <div class="beat fragment beat-in" data-fragment-index="0">
+                    <div class="beat-icon">
+                      <i class="fa-solid fa-dumbbell"></i>
+                    </div>
+                    <p>Última repetición. Vas por tu récord personal.</p>
+                  </div>
+                  <div
+                    class="beat beat--hot fragment beat-in"
+                    data-fragment-index="1"
+                  >
+                    <div class="beat-icon">
+                      <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <p>La canción te tiene justo donde necesitas estar.</p>
+                  </div>
+                  <div
+                    class="beat fragment beat-in"
+                    data-fragment-index="2"
+                    data-scene="shuffle"
+                  >
+                    <div class="beat-icon">
+                      <i class="fa-solid fa-shuffle"></i>
+                    </div>
+                    <p>Tu playlist está en aleatorio.</p>
+                  </div>
+                  <div
+                    class="beat beat--calm fragment beat-in"
+                    data-fragment-index="3"
+                    data-scene="broken"
+                  >
+                    <div class="beat-icon">
+                      <i class="fa-solid fa-moon"></i>
+                    </div>
+                    <p>Entra la canción con la que te duermes.</p>
+                  </div>
+                  <div
+                    class="beat beat--break fragment beat-in"
+                    data-fragment-index="4"
+                  >
+                    <div class="beat-icon">
+                      <i class="fa-solid fa-heart-crack"></i>
+                    </div>
+                    <p>Sueltas la barra para cambiarla.</p>
+                  </div>
+                </div>
+              </div>
+
+              <figure class="scene">
+                <div class="scene-frame">
+                  <img
+                    class="scene-img scene-img--gym"
+                    src="../img/gimnasio-audifonos.jpg"
+                    alt="Persona entrenando en un gimnasio con audífonos puestos"
+                  />
+                </div>
+
+                <!-- Cada tarjeta entra con el beat que le toca (mismo
+                   data-fragment-index), no al abrir la diapositiva: la
+                   lectura aparece cuando el guion la nombra. -->
+                <div class="scene-cards">
+                  <div class="sync-stack">
+                    <div
+                      class="sync-card fragment card-in"
+                      data-fragment-index="0"
+                    >
+                      <div class="sync-card-head">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                        <p>Tu cuerpo</p>
+                      </div>
+                      <div class="sync-card-body">
+                        <div class="sync-tile">
+                          <i class="fa-solid fa-heart-pulse"></i>
+                        </div>
+                        <div class="sync-track">
+                          <p class="sync-track-title">Ritmo cardíaco</p>
+                          <p class="sync-track-artist">Esfuerzo máximo</p>
+                        </div>
+                        <p class="sync-bpm">168<span>BPM</span></p>
+                      </div>
+                    </div>
+
+                    <div
+                      class="sync-link fragment card-in"
+                      data-fragment-index="1"
+                    >
+                      <i class="fa-solid fa-right-left sync-when-ok"></i>
+                      <i class="fa-solid fa-link-slash sync-when-broken"></i>
+                      <p class="sync-when-ok">En sincronía</p>
+                      <p class="sync-when-broken">Desincronizado</p>
+                    </div>
+
+                    <!-- Las dos canciones viven apiladas en la misma celda: el
+                       cambio de escena solo hace el cruce, sin que el JS tenga
+                       que reescribir textos. -->
+                    <div
+                      class="sync-swap fragment card-in"
+                      data-fragment-index="1"
+                    >
+                      <div
+                        class="sync-card sync-swap-hot"
+                        data-audio="../audio/till-i-collapse.mp3"
+                        data-audio-scene="!broken"
+                      >
+                        <div class="sync-card-head">
+                          <i class="fa-solid fa-music"></i>
+                          <p>Tu música</p>
+                        </div>
+                        <div class="sync-card-body">
+                          <div class="sync-art">
+                            <img src="../img/covers/till-i-collapse.jpg" alt="" />
+                          </div>
+                          <div class="sync-track">
+                            <p class="sync-track-title">Till I Collapse</p>
+                            <p class="sync-track-artist">Eminem</p>
+                          </div>
+                          <p class="sync-bpm">171<span>BPM</span></p>
+                        </div>
+                      </div>
+                      <div
+                        class="sync-card sync-card--calm sync-swap-calm"
+                        data-audio="../audio/te-para-3.mp3"
+                        data-audio-scene="broken"
+                      >
+                        <div class="sync-card-head">
+                          <i class="fa-solid fa-music"></i>
+                          <p>Tu música</p>
+                        </div>
+                        <div class="sync-card-body">
+                          <div class="sync-art">
+                            <img src="../img/covers/te-para-3.jpg" alt="" />
+                          </div>
+                          <div class="sync-track">
+                            <p class="sync-track-title">Té Para 3</p>
+                            <p class="sync-track-artist">
+                              Soda Stereo · Unplugged
+                            </p>
+                          </div>
+                          <p class="sync-bpm">116<span>BPM</span></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 2. HOOK — La mañana ============ -->
+        <!-- Sin título, por pedido: la secuencia de contratiempos es la que
+           lleva la narración. Cada paso trae data-stress, y el medidor sube
+           al ritmo con el que el presentador avanza.
+
+           Espejo de la anterior (escena a la izquierda, guion a la derecha)
+           para que las dos hooks se lean como un par y no como la misma
+           diapositiva dos veces. Aquí los data-fragment-index son EXPLÍCITOS
+           porque la escena va primero en el DOM: sin ellos, la canción que
+           suena en el coche se revelaría antes que los contratiempos. -->
+        <section id="story-morning" class="story">
+          <div class="content">
+            <div class="story-grid story-grid--mirror">
+              <figure class="scene scene--mirror">
+                <div class="scene-frame">
+                  <img
+                    class="scene-img scene-img--car"
+                    src="../img/volante-estres.jpg"
+                    alt="Conductor con la cabeza apoyada sobre el volante"
+                  />
+                </div>
+
+                <div class="scene-cards">
+                  <div
+                    class="sync-card fragment card-in"
+                    data-fragment-index="5"
+                    data-stress="92"
+                    data-audio="../audio/chop-suey.mp3"
+                  >
+                    <div class="sync-card-head">
+                      <i class="fa-solid fa-guitar"></i>
+                      <p>Lo que suena al subirte</p>
+                    </div>
+                    <div class="sync-card-body">
+                      <div class="sync-art">
+                        <img src="../img/covers/chop-suey.jpg" alt="" />
+                      </div>
+                      <div class="sync-track">
+                        <p class="sync-track-title">Chop Suey!</p>
+                        <p class="sync-track-artist">System Of A Down</p>
+                      </div>
+                      <p class="sync-bpm">127<span>BPM</span></p>
+                    </div>
+                  </div>
+                </div>
+              </figure>
+
+              <div class="story-column">
+                <p class="story-lead">Imaginemos otro escenario</p>
+
+                <div class="morning-track">
+                  <div
+                    class="morning-step fragment step-in"
+                    data-fragment-index="0"
+                    data-stress="18"
+                  >
+                    <i class="fa-solid fa-paw"></i>
+                    <p>
+                      Te levantaste con el pie izquierdo, y al salir de tu
+                      cuarto pisas el pipí del perro.
+                    </p>
+                  </div>
+                  <div
+                    class="morning-step fragment step-in"
+                    data-fragment-index="1"
+                    data-stress="34"
+                  >
+                    <i class="fa-solid fa-mug-hot"></i>
+                    <p>Te quedas sin tiempo de desayunar.</p>
+                  </div>
+                  <div
+                    class="morning-step fragment step-in"
+                    data-fragment-index="2"
+                    data-stress="52"
+                  >
+                    <i class="fa-solid fa-folder-open"></i>
+                    <p>Olvidaste tu entrega. Regresas por ella.</p>
+                  </div>
+                  <div
+                    class="morning-step fragment step-in"
+                    data-fragment-index="3"
+                    data-stress="68"
+                  >
+                    <i class="fa-solid fa-clock"></i>
+                    <p>Ya vas tarde.</p>
+                  </div>
+                  <div
+                    class="morning-step fragment step-in"
+                    data-fragment-index="4"
+                    data-stress="80"
+                  >
+                    <i class="fa-solid fa-car-side"></i>
+                    <p>El tráfico está peor que nunca.</p>
+                  </div>
+                </div>
+
+                <div class="stress-meter">
+                  <p>Nivel de estrés</p>
+                  <div class="stress-rail">
+                    <div class="stress-fill" id="stress-fill"></div>
+                  </div>
+                </div>
+
+                <div
+                  class="beat beat--break fragment beat-in"
+                  data-fragment-index="6"
+                  data-stress="100"
+                  style="max-width: 100%"
+                >
+                  <div class="beat-icon">
+                    <i class="fa-solid fa-car-burst"></i>
+                  </div>
+                  <p>Manejas desconcentrado, golpeas un coche.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 3. La música sí funciona (datos respaldados) ============ -->
+        <section id="slide-benefits">
+          <h2>Pero la música tiene muchos efectos positivos</h2>
+          <div class="content" style="justify-content: center; gap: 34px">
+            <div class="stat-grid">
+              <div class="stat-card">
+                <p class="stat-figure" data-count-to="91" data-count-suffix="%">
+                  91%
+                </p>
+                <p>
+                  La ciencia ya lo comprobó: la música correcta no solo te
+                  acompaña, te hace rendir más. Hasta 9 de cada 10 atletas
+                  entrenan mejor cuando su música los sigue a ellos, y no al
+                  revés.
+                </p>
+                <p class="stat-source">
+                  Reporta mejor rendimiento físico entrenando con su música
+                  favorita · Apunts. Medicina de l'Esport
+                </p>
+              </div>
+              <div class="stat-card">
+                <p
+                  class="stat-figure"
+                  data-count-to="10"
+                  data-count-prefix="−"
+                  data-count-suffix="%"
+                >
+                  −10%
+                </p>
+                <p>
+                  Estudios demuestran que cuando la música se sincroniza con tu
+                  corazón, tu cuerpo siente hasta un 10% menos de esfuerzo.
+                </p>
+                <p class="stat-source">
+                  Percepción de esfuerzo y carga interna con ejercicio
+                  musicalmente sincronizado · Retos
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 4. El giro y la frase del problema ============ -->
+        <!-- Antes eran dos diapositivas. Ahora el relevo lo hace la propia
+           diapositiva: "Pero hay un problema…" se sostiene 1.5s (lo que
+           tardan los tres puntos en escribirse), se va, y la frase entra en
+           su lugar — el presentador no avanza a media pausa, que es justo
+           lo que rompía el silencio.
+
+           Las dos fases viven APILADAS en la misma celda del grid: así
+           ninguna empuja a la otra y el centro óptico no se mueve durante
+           el cruce. Los tiempos de la segunda fase están en base.css
+           (#problem-turn), no aquí, porque son los mismos --line-delay que
+           usa cualquier otra frase del deck. -->
+        <section
+          id="problem-turn"
+          data-state="is-section-divider"
+          data-transition="fade"
+          style="justify-content: center"
+        >
+          <div class="turn-stage">
+            <h1 class="statement statement--turn turn-phase turn-phase--ask">
+              <span class="line"
+                >Pero hay un problema<span class="ellipsis" aria-hidden="true"
+                  ><i>.</i><i>.</i><i>.</i></span
+                ></span
+              >
+            </h1>
+
+            <h1 class="statement turn-phase turn-phase--say">
+              <span class="line">Tu cuerpo cambia de ritmo</span>
+              <span class="line">todo el tiempo.</span>
+              <span class="line"><em>Tu música, no.</em></span>
+            </h1>
+          </div>
+        </section>
+
+        <!-- ============ 5. PORTADA — la marca responde a la frase ============ -->
+        <section
+          id="title"
+          class="section-divider"
+          data-state="is-section-divider"
+        >
+          <!-- Pill "U-Challenge · Universidad Anáhuac Mayab" retirado a
+             propósito; se vuelve a añadir más adelante:
+        <div class="tag-pill" style="position: absolute; top: 40px; left: 60px;">
+          <span class="dot"></span>
+          <p>U-Challenge · Universidad Anáhuac Mayab</p>
+        </div>
+        -->
+
+          <div class="cover-stage" id="cover-stage">
+            <!-- Fase 1: SOLO logo + título, resaltados y centrados. Fase 2
+               (clase "rearranged", disparada por JS): se reacomodan a la
+               izquierda y AHÍ aparecen la descripción y el equipo (no
+               existen visualmente en la fase 1).
+
+               El logo y el título van en .cover-fx: se autocentran con
+               left:50%+translateX(-50%) (sin conocer su propio ancho) y
+               pasan a left:0%+translateX(0) (flush-left) cuando
+               .rearranged. A diferencia de text-align/align-items (no
+               animables, saltan de golpe), left y transform sí se animan,
+               así que el reacomodo se ve fluido. h1 va en su propio
+               wrapper .cover-fx porque ya tiene su propia animación de
+               entrada (que también usa transform) — envolverlo evita que
+               ambas animaciones compitan por la misma propiedad.
+
+               La descripción y el equipo NO necesitan ese truco: como
+               solo existen a partir de la fase 2 (nunca se ven en el
+               centro), simplemente aparecen con un fade — y como el
+               .cover-brand ya no se centra verticalmente según su propia
+               altura (ver .cover-brand en base.css), que crezca hacia
+               abajo no mueve el logo/título ni un píxel. -->
+            <div class="cover-brand">
+              <div class="pulse-wave cover-fx" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span
+                ><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="cover-fx">
+                <!-- Cada glifo es su propio <span> con índice --i: así el título
+                   puede entrar letra por letra (rise + desenfoque→foco) y, en
+                   el reacomodo a la izquierda, arrastrar de forma escalonada
+                   como una banda elástica. El texto accesible sigue siendo
+                   "Physical" gracias al aria-label del h1. -->
+                <h1 class="hero-title wordmark" aria-label="Physical">
+                  <span class="wordmark-glyph" style="--i: 0" aria-hidden="true"
+                    >P</span
+                  ><span
+                    class="wordmark-glyph"
+                    style="--i: 1"
+                    aria-hidden="true"
+                    >h</span
+                  ><span
+                    class="wordmark-glyph"
+                    style="--i: 2"
+                    aria-hidden="true"
+                    >y</span
+                  ><span
+                    class="wordmark-glyph"
+                    style="--i: 3"
+                    aria-hidden="true"
+                    >s</span
+                  ><span
+                    class="wordmark-glyph"
+                    style="--i: 4"
+                    aria-hidden="true"
+                    >i</span
+                  ><span
+                    class="wordmark-glyph"
+                    style="--i: 5"
+                    aria-hidden="true"
+                    >c</span
+                  ><span
+                    class="wordmark-glyph"
+                    style="--i: 6"
+                    aria-hidden="true"
+                    >a</span
+                  ><span
+                    class="wordmark-glyph"
+                    style="--i: 7"
+                    aria-hidden="true"
+                    >l</span
+                  >
+                </h1>
+              </div>
+              <div class="cover-fx">
+                <!-- Cada línea es su propio <span> con el mismo truco de
+                   centrado que .cover-fx: en la fase 1 el texto se ve
+                   centrado y en el reacomodo cada línea se desliza a la
+                   izquierda a la vez que el bloque (text-align no es
+                   animable y saltaría). Los cortes de línea son fijos a
+                   propósito: son los mismos que daba el ancho de 470px. -->
+                <p class="tagline-hero cover-tagline">
+                  <span class="cover-tagline-line"
+                    >Tu corazón marca el ritmo. </span
+                  ><span class="cover-tagline-line">Tu música lo sigue.</span>
+                </p>
+              </div>
+              <div class="cover-team" style="margin-top: 22px">
+                <span class="cover-team-name">Mario Zaldívar</span>
+                <span class="cover-team-dot"></span>
+                <span class="cover-team-name">Julio Olguín</span>
+                <span class="cover-team-dot"></span>
+                <span class="cover-team-name">Aranza Aguilar</span>
+                <span class="cover-team-dot"></span>
+                <span class="cover-team-name">Rodolfo Concha</span>
+              </div>
+            </div>
+
+            <!-- Fase 3 (clase "show-demo", disparada por JS): demo a la
+               derecha — monitor de pulso + cola de Spotify reordenándose
+               según ese pulso. El ciclo de zonas (calma → sube → esfuerzo)
+               lo maneja el reloj de JS al final del archivo: latido, ECG,
+               número, riel y cola comparten fase, para que se lea como una
+               sola cadena "BPM detectado → playlist adaptada" y no como
+               animaciones sueltas.
+               (placeholder; reemplazar por screen recording real del app). -->
+            <div class="cover-demo" aria-hidden="true">
+              <div class="bpm-monitor">
+                <div class="bpm-monitor-heart">
+                  <span class="bpm-monitor-ring"></span>
+                  <svg viewBox="0 0 32 29" role="presentation">
+                    <path
+                      d="M16 28.2 3.6 15.6A7.6 7.6 0 0 1 16 6.9 7.6 7.6 0 0 1 28.4 15.6Z"
+                    />
+                  </svg>
+                </div>
+                <div class="bpm-monitor-read">
+                  <p class="bpm-monitor-value">
+                    <span class="bpm-monitor-number">67</span
+                    ><span class="bpm-monitor-unit">BPM</span>
+                  </p>
+                  <p class="bpm-monitor-zone">Pulso en calma</p>
+                </div>
+                <!-- Traza ECG: dos copias idénticas que se desplazan en loop.
+                   Su duración es exactamente 2 latidos (2 espigas por copia),
+                   así que las espigas caen sobre el latido del corazón sin
+                   sincronizarse a mano. -->
+                <div class="bpm-monitor-ecg">
+                  <div class="bpm-monitor-ecg-rail">
+                    <svg viewBox="0 0 60 32" preserveAspectRatio="none">
+                      <path
+                        d="M0 16h8l2-1 2 6 3-16 3 11 2-2h18l2-1 2 6 3-16 3 11 2-2h10"
+                      />
+                    </svg>
+                    <svg viewBox="0 0 60 32" preserveAspectRatio="none">
+                      <path
+                        d="M0 16h8l2-1 2 6 3-16 3 11 2-2h18l2-1 2 6 3-16 3 11 2-2h10"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Riel de señal: el pulso viaja del monitor a la cola JUSTO
+                 antes de que la cola se reordene — es el "→" de la frase. -->
+              <div class="bpm-link">
+                <span class="bpm-link-pulse"></span>
+              </div>
+
+              <div class="demo-panel">
+                <div class="demo-panel-header">
+                  <i class="fa-brands fa-spotify"></i>
+                  <p>Cola adaptativa</p>
+                  <span class="demo-live-dot"></span>
+                </div>
+                <div class="demo-queue-viewport">
+                  <!-- Modo zen — BPM en calma (canciones reales, BPM público aproximado) -->
+                  <div class="demo-queue-frame">
+                    <div class="demo-track now-playing">
+                      <div class="demo-track-art">
+                        <img
+                          src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e027e7e5dd9d1ab19fcded8a17f"
+                          alt=""
+                        />
+                      </div>
+                      <div class="demo-track-meta">
+                        <p class="demo-track-title">Someone Like You</p>
+                        <p class="demo-track-artist">Adele</p>
+                      </div>
+                      <span class="demo-track-bpm">67 BPM</span>
+                    </div>
+                    <div class="demo-track">
+                      <div class="demo-track-art">
+                        <img
+                          src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02bf7c317a63c4f128b8823406"
+                          alt=""
+                        />
+                      </div>
+                      <div class="demo-track-meta">
+                        <p class="demo-track-title">Skinny Love</p>
+                        <p class="demo-track-artist">Bon Iver</p>
+                      </div>
+                      <span class="demo-track-bpm">63 BPM</span>
+                    </div>
+                    <div class="demo-track">
+                      <div class="demo-track-art">
+                        <img
+                          src="https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0217875a0610c23d8946454583"
+                          alt=""
+                        />
+                      </div>
+                      <div class="demo-track-meta">
+                        <p class="demo-track-title">The Night We Met</p>
+                        <p class="demo-track-artist">Lord Huron</p>
+                      </div>
+                      <span class="demo-track-bpm">74 BPM</span>
+                    </div>
+                    <div class="demo-track">
+                      <div class="demo-track-art">
+                        <img
+                          src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02f8553e18a11209d4becd0336"
+                          alt=""
+                        />
+                      </div>
+                      <div class="demo-track-meta">
+                        <p class="demo-track-title">Liability</p>
+                        <p class="demo-track-artist">Lorde</p>
+                      </div>
+                      <span class="demo-track-bpm">74 BPM</span>
+                    </div>
+                  </div>
+
+                  <!-- Transición — el pulso empieza a subir -->
+                  <div class="demo-queue-frame">
+                    <div class="demo-track now-playing">
+                      <div class="demo-track-art">
+                        <img
+                          src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02692098cde3ee765b886c7629"
+                          alt=""
+                        />
+                      </div>
+                      <div class="demo-track-meta">
+                        <p class="demo-track-title">Watermelon Sugar</p>
+                        <p class="demo-track-artist">Harry Styles</p>
+                      </div>
+                      <span class="demo-track-bpm">95 BPM</span>
+                    </div>
+                    <div class="demo-track">
+                      <div class="demo-track-art">
+                        <img
+                          src="https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0226f7f19c7f0381e56156c94a"
+                          alt=""
+                        />
+                      </div>
+                      <div class="demo-track-meta">
+                        <p class="demo-track-title">Stronger</p>
+                        <p class="demo-track-artist">Kanye West</p>
+                      </div>
+                      <span class="demo-track-bpm">104 BPM</span>
+                    </div>
+                    <div class="demo-track">
+                      <div class="demo-track-art">
+                        <img
+                          src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02c88bae7846e62a8ba59ee0bd"
+                          alt=""
+                        />
+                      </div>
+                      <div class="demo-track-meta">
+                        <p class="demo-track-title">Levitating</p>
+                        <p class="demo-track-artist">Dua Lipa</p>
+                      </div>
+                      <span class="demo-track-bpm">103 BPM</span>
+                    </div>
+                    <div class="demo-track">
+                      <div class="demo-track-art">
+                        <img
+                          src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e022199f4c497dd5301c08239cd"
+                          alt=""
+                        />
+                      </div>
+                      <div class="demo-track-meta">
+                        <p class="demo-track-title">Sunflower</p>
+                        <p class="demo-track-artist">Post Malone, Swae Lee</p>
+                      </div>
+                      <span class="demo-track-bpm">90 BPM</span>
+                    </div>
+                  </div>
+
+                  <!-- Modo ejercicio — BPM alto -->
+                  <div class="demo-queue-frame">
+                    <div class="demo-track now-playing">
+                      <div class="demo-track-art">
+                        <img
+                          src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02c88bae7846e62a8ba59ee0bd"
+                          alt=""
+                        />
+                      </div>
+                      <div class="demo-track-meta">
+                        <p class="demo-track-title">Physical</p>
+                        <p class="demo-track-artist">Dua Lipa</p>
+                      </div>
+                      <span class="demo-track-bpm">146 BPM</span>
+                    </div>
+                    <div class="demo-track">
+                      <div class="demo-track-art">
+                        <img
+                          src="https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02b234aeff6eedc8276fe0333a"
+                          alt=""
+                        />
+                      </div>
+                      <div class="demo-track-meta">
+                        <p class="demo-track-title">Titanium</p>
+                        <p class="demo-track-artist">David Guetta, Sia</p>
+                      </div>
+                      <span class="demo-track-bpm">126 BPM</span>
+                    </div>
+                    <div class="demo-track">
+                      <div class="demo-track-art">
+                        <img
+                          src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02781f6dd5abe91929df0314e3"
+                          alt=""
+                        />
+                      </div>
+                      <div class="demo-track-meta">
+                        <p class="demo-track-title">Don't You Worry Child</p>
+                        <p class="demo-track-artist">Swedish House Mafia</p>
+                      </div>
+                      <span class="demo-track-bpm">129 BPM</span>
+                    </div>
+                    <div class="demo-track">
+                      <div class="demo-track-art">
+                        <img
+                          src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02a376041c1b429d1a3c15bacf"
+                          alt=""
+                        />
+                      </div>
+                      <div class="demo-track-meta">
+                        <p class="demo-track-title">Levels</p>
+                        <p class="demo-track-artist">Avicii</p>
+                      </div>
+                      <span class="demo-track-bpm">126 BPM</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 6. La respuesta ============ -->
+        <!-- Par tipográfico con la frase del problema (la 4): mismo tratamiento,
+           acento invertido. Aquella nombra el problema en coral; esta
+           responde en cian. -->
+        <section
+          id="answer"
+          data-transition="fade"
+          data-state="is-section-divider"
+          style="justify-content: center"
+        >
+          <h1 class="statement statement--answer statement--long">
+            <span class="line"
+              >Una aplicación que se encarga de leerte a ti,</span
+            >
+            <span class="line">para que tu música <em>siempre esté</em></span>
+            <span class="line"><em>en sincronía contigo.</em></span>
+          </h1>
+        </section>
+
+        <!-- ============ 7. ¿Cómo lo hace? ============ -->
+        <section id="how">
+          <h2>¿Cómo lo hace?</h2>
+          <div class="content" style="justify-content: center">
+            <div class="tag-pill">
+              <span class="dot"></span>
+              <p>De tu pulso a tu cola, sin que toques nada</p>
+            </div>
+
+            <div class="flow-track" style="margin-top: 14px">
+              <div class="flow-node">
+                <div class="flow-icon">
+                  <i class="fa-solid fa-heart-pulse"></i>
+                </div>
+                <p>Tu banda o tu reloj lee tu corazón</p>
+                <p class="flow-label-muted">
+                  El que ya traes puesto, en vivo
+                </p>
+              </div>
+              <div class="flow-connector"><span class="flow-dot"></span></div>
+              <div class="flow-node">
+                <div class="flow-icon">
+                  <i class="fa-solid fa-code-branch"></i>
+                </div>
+                <p>Nuestro algoritmo cruza tu biblioteca</p>
+                <p class="flow-label-muted">
+                  Tus canciones guardadas × el BPM de cada una
+                </p>
+              </div>
+              <div class="flow-connector"><span class="flow-dot"></span></div>
+              <div class="flow-node flow-node--spotify">
+                <div class="flow-icon">
+                  <i class="fa-brands fa-spotify"></i>
+                </div>
+                <p>Y reacomoda tu cola solo</p>
+                <p class="flow-label-muted">
+                  Encola la que embona, o salta si el salto es brusco
+                </p>
+              </div>
+            </div>
+
+            <p
+              class="turn-line"
+              style="margin-top: 26px !important; font-size: 17pt !important"
+            >
+              Tú solo entrenas, estudias o manejas. La música se acomoda sola.
+            </p>
+          </div>
+        </section>
+
+        <!-- ============ 8. Se adapta a la situación ============ -->
+        <!-- La maqueta del teléfono es esquemática a propósito: comunica QUÉ
+           se puede configurar sin fingir una captura de una app que aún no
+           existe. Los rangos exactos siguen abiertos y así se marca. -->
+        <section id="adapts" data-mode="estudio">
+          <h2>Se adapta a la situación</h2>
+          <div class="content" style="justify-content: center">
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 268px 1fr;
+                gap: 46px;
+                align-items: center;
+              "
+            >
+              <div class="phone-mock">
+                <div class="phone-screen">
+                  <p class="phone-screen-title">Modo de sesión</p>
+
+                  <div class="mode-toggle">
+                    <span class="mode-toggle-thumb" aria-hidden="true"></span>
+                    <p class="mode-toggle-opt" data-for="estudio">Zen</p>
+                    <p class="mode-toggle-opt" data-for="ejercicio">
+                      Ejercicio
+                    </p>
+                  </div>
+
+                  <div class="phone-rule">
+                    <span class="phone-rule-icon" aria-hidden="true">
+                      <i
+                        class="fa-solid fa-arrow-trend-down phone-when phone-when--estudio"
+                      ></i>
+                      <i
+                        class="fa-solid fa-arrow-trend-up phone-when phone-when--ejercicio"
+                      ></i>
+                    </span>
+                    <span class="phone-rule-text">
+                      <p class="phone-when phone-when--estudio">
+                        Si mi pulso sube, <strong>baja</strong> el tempo
+                      </p>
+                      <p class="phone-when phone-when--ejercicio">
+                        Si mi pulso sube, <strong>sube</strong> el tempo
+                      </p>
+                    </span>
+                  </div>
+
+                  <div class="phone-range">
+                    <div class="phone-range-head">
+                      <p>Rango objetivo</p>
+                      <span class="phone-range-value">
+                        <p class="phone-when phone-when--estudio">
+                          60 – 90 BPM
+                        </p>
+                        <p class="phone-when phone-when--ejercicio">
+                          120 – 150 BPM
+                        </p>
+                      </span>
+                    </div>
+                    <div class="phone-range-rail">
+                      <span class="phone-range-span"></span>
+                    </div>
+                  </div>
+
+                  <div class="phone-session">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                    <p>Sesión activa · <span class="phone-bpm">78</span> BPM</p>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <p style="font-size: 17pt !important; margin: 0 0 22px 0">
+                  Puedes configurarlo para que más pulsaciones signifiquen lo
+                  que tú necesites que signifiquen.
+                </p>
+                <div class="mode-grid">
+                  <div class="mode-card mode-study">
+                    <div class="mode-icon">
+                      <i class="fa-solid fa-book"></i>
+                    </div>
+                    <h3>Modo zen</h3>
+                    <p>
+                      Más pulsaciones → música más calmada, para sostener la
+                      concentración.
+                    </p>
+                  </div>
+                  <div class="mode-card mode-exercise">
+                    <div class="mode-icon">
+                      <i class="fa-solid fa-dumbbell"></i>
+                    </div>
+                    <h3>Modo ejercicio</h3>
+                    <p>
+                      Más pulsaciones → música más acelerada, para sostener el
+                      esfuerzo.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 9. Uso preventivo ============ -->
+        <!-- La salvaguarda vivía apretada dentro de la diapositiva de modos y
+           competía con ella. Sola tiene el tamaño que el argumento merece:
+           el corazón, el medidor y los cuatro pasos son UNA sola animación
+           de 9s gobernada por --guard-heat (ver .guard-* en base.css), y el
+           ciclo cuenta la historia entera — el pulso se dispara, cruza el
+           umbral, entra la música relajada y el pulso VUELVE. Eso último es
+           el argumento; la alarma sola no vende nada.
+
+           El reloj vive en .guard-clock (el .content), no en la <section>:
+           así reveal maneja la transición de diapositiva sin pelearse con
+           una animación puesta sobre el mismo elemento. -->
+        <section id="safeguard">
+          <h2>Uso preventivo</h2>
+          <div
+            class="content guard-clock"
+            style="justify-content: center; gap: 30px"
+          >
+            <div class="tag-pill">
+              <span class="dot"></span>
+              <p>Por encima del umbral, el modo que elegiste se anula</p>
+            </div>
+
+            <div class="guard-stage">
+              <div class="guard-heart" aria-hidden="true">
+                <span class="guard-heart-ring"></span>
+                <span class="guard-heart-ring guard-heart-ring--late"></span>
+                <svg viewBox="0 0 32 29" role="presentation">
+                  <path
+                    d="M16 28.2 3.6 15.6A7.6 7.6 0 0 1 16 6.9 7.6 7.6 0 0 1 28.4 15.6Z"
+                  />
+                </svg>
+              </div>
+
+              <div class="guard-gauge">
+                <div class="guard-rail">
+                  <span class="guard-danger"></span>
+                  <span class="guard-fill"></span>
+                  <span class="guard-limit"></span>
+                  <p class="guard-read" aria-hidden="true">
+                    <span class="guard-bpm"></span
+                    ><span class="guard-unit">BPM</span>
+                  </p>
+                </div>
+                <div class="guard-scale">
+                  <p>60</p>
+                  <p class="guard-scale-limit">Umbral · +200 BPM</p>
+                  <p>240</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="guard-steps">
+              <div class="guard-step guard-step--1">
+                <span class="guard-step-num">1</span>
+                <div>
+                  <p class="guard-step-title">Tu dispositivo lo ve</p>
+                  <p class="guard-step-note">Pulso fuera de todo rango</p>
+                </div>
+              </div>
+              <div class="guard-step guard-step--2">
+                <span class="guard-step-num">2</span>
+                <div>
+                  <p class="guard-step-title">Se anula el modo</p>
+                  <p class="guard-step-note">Da igual zen o ejercicio</p>
+                </div>
+              </div>
+              <div class="guard-step guard-step--3">
+                <span class="guard-step-num">3</span>
+                <div>
+                  <p class="guard-step-title">Música relajada</p>
+                  <p class="guard-step-note">Por debajo de tu pulso</p>
+                </div>
+                <div class="pulse-wave pulse-wave--guard" aria-hidden="true">
+                  <span></span><span></span><span></span><span></span
+                  ><span></span>
+                </div>
+              </div>
+              <div class="guard-step guard-step--4">
+                <span class="guard-step-num">4</span>
+                <div>
+                  <p class="guard-step-title">El pulso vuelve</p>
+                  <p class="guard-step-note">Y la sesión sigue donde estaba</p>
+                </div>
+              </div>
+            </div>
+
+            <p class="guard-note">
+              No sustituye a un médico ni a una alerta de emergencia: es tu
+              música dejando de empujarte cuando tu cuerpo ya no lo necesita.
+            </p>
+          </div>
+        </section>
+
+        <!-- ============ 10. REFRÁN — cierra el bloque de producto ============ -->
+        <section
+          id="refrain-1"
+          data-transition="fade"
+          class="section-divider"
+          data-state="is-section-divider"
+        >
+          <div class="pulse-wave" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span
+            ><span></span><span></span><span></span><span></span>
+          </div>
+          <h1 class="refrain">
+            <span class="line">Haz que la música nunca vuelva a sacarte</span>
+            <span class="line"><em>del momento que estás viviendo.</em></span>
+          </h1>
+        </section>
+
+        <!-- ============ 11. DIVISOR — la tecnología que ya tienes ============ -->
+        <!-- Sustituye al bloque de hardware del pitch general (qué lleva
+           dentro la banda, cuánto cuesta armarla): el pitch de ventas ya no
+           vende un dispositivo, vende que no hace falta comprar uno. -->
+        <section
+          id="divider-compat"
+          data-transition="fade"
+          class="section-divider"
+          data-state="is-section-divider"
+        >
+          <div class="pulse-wave" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span
+            ><span></span><span></span><span></span><span></span>
+          </div>
+          <h1 class="refrain">
+            <span class="line">Y lo mejor: corre con tecnología</span>
+            <span class="line"><em>que probablemente ya tienes.</em></span>
+          </h1>
+        </section>
+
+        <!-- ============ 12. Compatibilidad ============ -->
+        <!-- Dos caminos de entrada, ninguno con hardware nuestro.
+
+           Izquierda: cualquier pulsera o banda que emita el perfil estándar
+           Heart Rate de Bluetooth (0x180D). Es lo que la app ya lee hoy con
+           react-native-ble-plx (Stack_tecnico_proyecto.md §8). Las marcas
+           listadas son las que ofrecen transmitir la frecuencia cardíaca por
+           ese perfil.
+
+           Derecha: relojes inteligentes. Los deportivos transmiten el pulso
+           por el mismo perfil; el Apple Watch NO lo emite a apps de
+           terceros, entra por Apple Health (HealthKit), que es la vía que
+           explica el pitch técnico. -->
+        <section id="compat">
+          <h2>Sirve con lo que ya traes puesto</h2>
+          <div class="content" style="justify-content: center; gap: 22px">
+            <div class="tag-pill">
+              <span class="dot"></span>
+              <p>Sin comprar ningún dispositivo nuestro</p>
+            </div>
+
+            <div class="plan-grid">
+              <div class="plan">
+                <div class="plan-head">
+                  <span class="plan-icon"
+                    ><i class="fa-brands fa-bluetooth-b"></i
+                  ></span>
+                  <div>
+                    <p class="plan-kicker">Bluetooth de bajo consumo (BLE)</p>
+                    <h3>Pulseras y bandas de pulso</h3>
+                  </div>
+                </div>
+                <div class="device-row">
+                  <div class="device-chip"><p>Polar</p></div>
+                  <div class="device-chip"><p>Garmin</p></div>
+                  <div class="device-chip"><p>Wahoo</p></div>
+                  <div class="device-chip"><p>Suunto</p></div>
+                  <div class="device-chip"><p>Coros</p></div>
+                </div>
+                <ul>
+                  <li>
+                    Sirve cualquiera que emita el perfil
+                    <strong>Heart Rate de Bluetooth</strong>, el estándar de la
+                    industria fitness.
+                  </li>
+                  <li>
+                    Se conecta directo a la app, sin adaptadores ni cuentas
+                    extra.
+                  </li>
+                  <li>De muñeca, de brazo o de pecho: da igual la forma.</li>
+                </ul>
+              </div>
+
+              <div class="plan plan--ours">
+                <div class="plan-head">
+                  <span class="plan-icon"
+                    ><i class="fa-solid fa-stopwatch"></i
+                  ></span>
+                  <div>
+                    <p class="plan-kicker">El que ya llevas todos los días</p>
+                    <h3>Relojes inteligentes</h3>
+                  </div>
+                </div>
+                <div class="device-row">
+                  <div class="device-chip">
+                    <p><i class="fa-brands fa-apple"></i> Apple Watch</p>
+                  </div>
+                  <div class="device-chip"><p>Relojes deportivos</p></div>
+                </div>
+                <ul>
+                  <li>
+                    <strong>Apple Watch</strong>: a través de Apple Health, con
+                    tu permiso.
+                  </li>
+                  <li>
+                    Relojes deportivos: activas “transmitir frecuencia
+                    cardíaca” y la app los ve como una banda más.
+                  </li>
+                  <li>
+                    El mismo algoritmo y la misma cola adaptativa. No es una
+                    versión recortada.
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="plan-foot">
+              <div class="ble-badge">
+                <span class="ble-emitter" aria-hidden="true">
+                  <span></span><span></span><span></span>
+                  <i class="fa-brands fa-bluetooth-b"></i>
+                </span>
+                <p>
+                  El estándar · <span class="ble-uuid">Heart Rate 0x180D</span>
+                </p>
+              </div>
+              <p class="plan-foot-note">
+                Cada reloj allá afuera es una puerta de entrada a Physical.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 13. DIVISOR — El precio ============ -->
+        <section
+          id="divider-proto"
+          class="section-divider"
+          data-state="is-section-divider"
+        >
+          <div
+            class="pulse-wave"
+            aria-hidden="true"
+            style="margin-bottom: 26px"
+          >
+            <span></span><span></span><span></span><span></span><span></span
+            ><span></span><span></span><span></span><span></span>
+          </div>
+          <h1>Pero, ¿cuánto cuesta?</h1>
+        </section>
+
+        <!-- ============ 14. Planes ============ -->
+        <!-- Sustituye a "Cuánto cuesta, y cuánto costará" (costo de la banda)
+           y a "No necesitas nuestra banda" (licencia de $150 de un solo
+           pago): sin hardware, el modelo es freemium. Los $30 son un precio
+           de ejemplo, no una cifra cerrada, y así van etiquetados. -->
+        <section id="plans">
+          <h2>Gratis para empezar</h2>
+          <div class="content" style="justify-content: center; gap: 22px">
+            <div class="tag-pill">
+              <span class="dot"></span>
+              <p>El modelo de negocio · solo la app, dos planes</p>
+            </div>
+
+            <div class="plan-grid">
+              <div class="plan">
+                <div class="plan-head">
+                  <span class="plan-icon"
+                    ><i class="fa-solid fa-clock"></i
+                  ></span>
+                  <div>
+                    <p class="plan-kicker">Para probarlo todos los días</p>
+                    <h3>Gratis</h3>
+                  </div>
+                </div>
+                <ul>
+                  <li>
+                    <strong>Una hora de escucha al día</strong>, todos los
+                    días.
+                  </li>
+                  <li>
+                    La app completa: la misma cola adaptativa y los mismos
+                    modos.
+                  </li>
+                </ul>
+                <div class="plan-price">
+                  <p class="plan-price-value plan-price-value--free">$0</p>
+                  <p class="plan-price-note">
+                    Sin comprar<br />ningún dispositivo
+                  </p>
+                </div>
+              </div>
+
+              <div class="plan plan--ours">
+                <div class="plan-head">
+                  <span class="plan-icon"
+                    ><i class="fa-solid fa-infinity"></i
+                  ></span>
+                  <div>
+                    <p class="plan-kicker">Cuando ya es parte de tu rutina</p>
+                    <h3>Ilimitado</h3>
+                  </div>
+                </div>
+                <ul>
+                  <li>
+                    <strong>Horas ilimitadas</strong>: entrenes, estudies o
+                    manejes.
+                  </li>
+                  <li>El mismo producto, sin el límite diario.</li>
+                </ul>
+                <div class="plan-price">
+                  <p
+                    class="plan-price-value"
+                    data-count-to="30"
+                    data-count-prefix="$"
+                  >
+                    $30
+                  </p>
+                  <p class="plan-price-note">
+                    MXN al mes<br />Precio de ejemplo
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="plan-foot">
+              <p class="plan-foot-note">
+                Lo pruebas sin pagar; pagas cuando ya no quieres que se acabe
+                la hora.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 15. El futuro: leer el ánimo ============ -->
+        <!-- Antes esta diapositiva prometía "un ecosistema" sin decir de qué,
+           y era la parte más floja del pitch. Ahora dice una sola cosa
+           concreta y defendible: el dispositivo que el usuario ya trae en
+           la muñeca puede dar más señales que un simple número de pulso — y
+           con esas señales la literatura ya infiere estado emocional.
+
+           Las dos cifras están VERIFICADAS contra los artículos (no contra
+           sus abstracts) y son las de MUÑECA, no las de banda de pecho, que
+           es el error fácil al citar WESAD. Detalle y enlaces en
+           Investigacion_y_pitch_proyecto.md. La advertencia de abajo no es
+           humildad decorativa: es la respuesta preparada para el jurado que
+           pregunte si esto ya funciona. -->
+        <section id="future">
+          <h2>Lo que viene: leer tu ánimo</h2>
+          <div class="content" style="justify-content: center; gap: 20px">
+            <div class="tag-pill">
+              <span class="dot"></span>
+              <p>Mismo dispositivo, más señales — lo que crece es el algoritmo</p>
+            </div>
+
+            <p class="mood-lead">
+              Hoy usamos <strong>un número</strong>: tu pulso. Los relojes y
+              bandas de hoy ya pueden medir hasta
+              <strong>cinco señales</strong>.
+            </p>
+
+            <div class="mood-flow">
+              <div class="signal-list">
+                <div class="signal signal--now">
+                  <span class="signal-icon"
+                    ><i class="fa-solid fa-heart-pulse"></i
+                  ></span>
+                  <p class="signal-name">Pulso</p>
+                  <p class="signal-tag">hoy</p>
+                </div>
+                <div class="signal">
+                  <span class="signal-icon"
+                    ><i class="fa-solid fa-wave-square"></i
+                  ></span>
+                  <p class="signal-name">Variabilidad del pulso</p>
+                </div>
+                <div class="signal">
+                  <span class="signal-icon"
+                    ><i class="fa-solid fa-droplet"></i
+                  ></span>
+                  <p class="signal-name">Sudoración de la piel</p>
+                </div>
+                <div class="signal">
+                  <span class="signal-icon"
+                    ><i class="fa-solid fa-temperature-half"></i
+                  ></span>
+                  <p class="signal-name">Temperatura de la piel</p>
+                </div>
+                <div class="signal">
+                  <span class="signal-icon"
+                    ><i class="fa-solid fa-person-running"></i
+                  ></span>
+                  <p class="signal-name">Movimiento</p>
+                </div>
+              </div>
+
+              <div class="mood-link" aria-hidden="true">
+                <span class="mood-link-dot"></span>
+              </div>
+
+              <div class="mood-out">
+                <p class="mood-out-label">Estado estimado</p>
+                <div class="mood-state">
+                  <span class="mood-dot" aria-hidden="true"></span>
+                  <div class="mood-words">
+                    <p class="mood-word mood-word--1">Estrés</p>
+                    <p class="mood-word mood-word--2">Calma</p>
+                    <p class="mood-word mood-word--3">Concentración</p>
+                  </div>
+                </div>
+                <p class="mood-out-note">
+                  Y de ahí sale la música — igual que hoy sale del BPM.
+                </p>
+              </div>
+            </div>
+
+            <div class="evidence-grid">
+              <div class="evidence">
+                <p class="evidence-figure">88%</p>
+                <div>
+                  <p>
+                    Distinguir estrés de no-estrés con
+                    <strong>solo señales de muñeca</strong>.
+                  </p>
+                  <p class="evidence-source">
+                    WESAD · Schmidt et al., ACM ICMI 2018 — laboratorio, 15
+                    personas
+                  </p>
+                </div>
+              </div>
+              <div class="evidence">
+                <p class="evidence-figure">71,5%</p>
+                <div>
+                  <p>
+                    Separar ánimo positivo de negativo
+                    <strong>fuera del laboratorio</strong>.
+                  </p>
+                  <p class="evidence-source">
+                    DAPPER · Li &amp; Zhang, Sensors 2025 — 88 personas, 5 días
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <p class="mood-caveat">
+              Lo que la ciencia sostiene hoy es estrés y activación, no
+              “emociones” en general. Por eso el ánimo es el siguiente paso de
+              Physical, no una promesa de hoy.
+            </p>
+          </div>
+        </section>
+
+        <!-- ============ 16. Equipo ============ -->
+        <!-- Fuera del deck de forma temporal (pedido del equipo): la
+             diapositiva completa queda comentada, no borrada. Para
+             volver a activarla, quitar este comentario de apertura y su
+             cierre justo después de </section>. Los nombres del equipo
+             siguen apareciendo en la portada (.cover-team). -->
+        <!--
+        <section id="team">
+          <h2>Quiénes lo estamos haciendo</h2>
+          <div class="content" style="justify-content: center">
+            <div
+              class="team-grid"
+              style="grid-template-columns: repeat(4, 1fr)"
+            >
+              <div class="team-card">
+                <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+                <h3>Mario Zaldívar</h3>
+                <p>Rol pendiente</p>
+              </div>
+              <div class="team-card">
+                <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+                <h3>Julio Olguín</h3>
+                <p>Rol pendiente</p>
+              </div>
+              <div class="team-card">
+                <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+                <h3>Aranza Aguilar</h3>
+                <p>Rol pendiente</p>
+              </div>
+              <div class="team-card">
+                <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+                <h3>Rodolfo Concha</h3>
+                <p>Rol pendiente</p>
+              </div>
+            </div>
+            <div class="pending" style="margin-top: 24px">
+              <p>
+                asignar el rol de cada integrante y cambiar el avatar genérico
+                por foto real
+              </p>
+            </div>
+          </div>
+        </section>
+        -->
+
+        <!-- ============ 17. Referencias ============ -->
+        <!-- Todas las fuentes que cita este pitch, en formato APA (7.ª ed.) y
+           en orden alfabético. Los datos bibliográficos se verificaron contra
+           Crossref (las tres con DOI) y contra la página de la revista
+           (Apunts, que no tiene DOI). Debajo de cada una, qué cifra del pitch
+           respalda. Detalle en Investigacion_y_pitch_proyecto.md. -->
+        <section id="references">
+          <h2>Referencias</h2>
+          <div class="content" style="justify-content: center; gap: 12px">
+              <div class="stat-card" style="padding: 14px 20px; opacity: 1; animation: fadeUpIn 0.5s ease both 0.3s">
+                <p style="font-size: 12pt !important; line-height: 1.45; padding-left: 2em; text-indent: -2em">
+                  Delfa-de-la-Morena, J. M., Paes, P. P., Dos Santos, W. R., Lillo,
+                  J. P., Mijarra-Murillo, J.-J., &amp; Rodríguez-Núñez, I. (2025).
+                  Efectos de la sincronización musical y de las preferencias
+                  musicales en la respuesta fisiológica durante una sesión de
+                  ejercicio físico: un estudio cuasi experimental.
+                  <i style="font-style: italic">Retos, 65</i>, 559–568.
+                  https://doi.org/10.47197/retos.v65.111299
+                </p>
+                <p class="stat-source" style="margin-top: 6px !important; padding-left: 2.4em; font-size: 10pt !important">
+                  Respalda: hasta 10 % menos de esfuerzo con música sincronizada.
+                </p>
+              </div>
+              <div class="stat-card" style="padding: 14px 20px; opacity: 1; animation: fadeUpIn 0.5s ease both 0.42s">
+                <p style="font-size: 12pt !important; line-height: 1.45; padding-left: 2em; text-indent: -2em">
+                  Li, F., &amp; Zhang, D. (2025). Transformer-driven affective state
+                  recognition from wearable physiological data in everyday
+                  contexts. <i style="font-style: italic">Sensors, 25</i>(3), 761.
+                  https://doi.org/10.3390/s25030761
+                </p>
+                <p class="stat-source" style="margin-top: 6px !important; padding-left: 2.4em; font-size: 10pt !important">
+                  Respalda: 71,5 % al separar ánimo positivo de negativo fuera del laboratorio.
+                </p>
+              </div>
+              <div class="stat-card" style="padding: 14px 20px; opacity: 1; animation: fadeUpIn 0.5s ease both 0.54s">
+                <p style="font-size: 12pt !important; line-height: 1.45; padding-left: 2em; text-indent: -2em">
+                  Schmidt, P., Reiss, A., Duerichen, R., Marberger, C., &amp; Van
+                  Laerhoven, K. (2018). Introducing WESAD, a multimodal dataset
+                  for wearable stress and affect detection. En
+                  <i style="font-style: italic">Proceedings of the 20th ACM International Conference on
+                  Multimodal Interaction</i> (pp. 400–408). ACM.
+                  https://doi.org/10.1145/3242969.3242985
+                </p>
+                <p class="stat-source" style="margin-top: 6px !important; padding-left: 2.4em; font-size: 10pt !important">
+                  Respalda: 88 % al distinguir estrés de no-estrés con señales de muñeca.
+                </p>
+              </div>
+              <div class="stat-card" style="padding: 14px 20px; opacity: 1; animation: fadeUpIn 0.5s ease both 0.66s">
+                <p style="font-size: 12pt !important; line-height: 1.45; padding-left: 2em; text-indent: -2em">
+                  Yanguas Leyes, J. (2006). Influencia de la música en el
+                  rendimiento deportivo.
+                  <i style="font-style: italic">Apunts. Medicina de l’Esport, 41</i>(152), 155–165.
+                  https://www.apunts.org/es-influencia-musica-el-rendimiento-deportivo-articulo-X0213371706989009
+                </p>
+                <p class="stat-source" style="margin-top: 6px !important; padding-left: 2.4em; font-size: 10pt !important">
+                  Respalda: 91 % reporta mejor rendimiento entrenando con su música favorita.
+                </p>
+              </div>
+          </div>
+        </section>
+
+        <!-- ============ 18. REFRÁN — cierre ============ -->
+        <section
+          id="refrain-2"
+          data-transition="fade"
+          class="section-divider"
+          data-state="is-section-divider"
+        >
+          <div class="pulse-wave" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span
+            ><span></span><span></span><span></span><span></span>
+          </div>
+          <h1 class="refrain">
+            <span class="line">Haz que la música nunca vuelva a sacarte</span>
+            <span class="line"><em>del momento que estás viviendo.</em></span>
+          </h1>
+          <div class="ghost-pill" style="margin-top: 30px">
+            <i class="fa-solid fa-comments"></i>
+            <p>Gracias · Preguntas</p>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="../pitch.js"></script>
+  </body>
+</html>
