@@ -1586,11 +1586,574 @@
 }
 
 /* ===========================================
+   2a · POR QUÉ IMPORTA — narrada por clics. A la izquierda la narración
+   (los momentos ya contados se atenúan); a la derecha un solo escenario
+   que cambia según section[data-scene] (lo fija pitch.js).
+   =========================================== */
+
+.reveal .focus-lead {
+  margin: 0 !important;
+  font-size: 16pt !important;
+  line-height: 1.4;
+}
+
+.reveal sub {
+  font-size: 0.7em;
+  vertical-align: -0.25em;
+}
+
+.reveal .apa em { font-style: italic; }
+
+.reveal sup {
+  font-size: 0.62em;
+  color: var(--pulse-calm);
+  vertical-align: 0.5em;
+}
+
+.nar {
+  display: grid;
+  grid-template-columns: 1fr 560px;
+  gap: 34px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.nar-story {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.nar-beat {
+  padding-left: 16px;
+  border-left: 2px solid var(--hairline);
+  transition: border-color 0.4s ease;
+}
+
+/* El momento que se está contando lleva el acento; los anteriores se apagan. */
+.nar-beat:not(:has(~ .visible)) { border-left-color: var(--pulse-calm); }
+.nar-beat > * { transition: opacity 0.4s ease; }
+.nar-beat:has(~ .visible) > * { opacity: 0.38; }
+
+.reveal .nar-beat p { margin: 0 !important; }
+
+.reveal .nar-step {
+  font-size: 9.5pt !important;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--pulse-calm) !important;
+}
+
+.reveal .nar-line {
+  margin-top: 3px !important;
+  font-family: var(--heading-font);
+  font-weight: 500;
+  font-size: 16pt !important;
+  line-height: 1.3 !important;
+}
+
+.reveal .nar-sub {
+  margin-top: 4px !important;
+  font-size: 11.5pt !important;
+  line-height: 1.4 !important;
+  color: var(--muted-color) !important;
+}
+
+.reveal .nar-end {
+  margin: 4px 0 0 0 !important;
+  font-family: var(--heading-font);
+  font-weight: 700;
+  font-size: 17pt !important;
+  line-height: 1.3;
+}
+
+/* El escenario: las tres escenas en la misma celda, solo una visible. */
+.nar-stage {
+  display: grid;
+  min-height: 300px;
+  padding: 20px 24px;
+}
+
+.scene {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s var(--ease-out), visibility 0.5s;
+}
+
+#focus:not([data-scene]) .scene--work,
+#focus[data-scene="read"] .scene--read,
+#focus[data-scene="why"] .scene--why {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.reveal .scene-note {
+  margin: auto 0 0 0 !important;
+  padding-top: 12px;
+  font-size: 10pt !important;
+  line-height: 1.4;
+  color: var(--ink-faint) !important;
+}
+
+/* 1 · Semanas: la cuarta se apaga y de ella sale la caída. */
+.weeks {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.week {
+  display: grid;
+  place-items: center;
+  gap: 6px;
+  padding: 16px 0 12px;
+  border-radius: 12px;
+  background: var(--surface-alt);
+  color: var(--pulse-calm);
+  font-size: 18pt;
+}
+
+.reveal .week p {
+  margin: 0 !important;
+  font-size: 10pt !important;
+  color: var(--muted-color) !important;
+}
+
+.week--off {
+  background: var(--pulse-hot-dim);
+  color: var(--pulse-hot);
+}
+
+.reveal .slides section.present:not([data-scene]) .week--off {
+  animation: weekOff 0.6s var(--ease-out) both 1.2s;
+}
+
+@keyframes weekOff {
+  from { background: var(--surface-alt); color: var(--pulse-calm); transform: scale(1); }
+  50%  { transform: scale(1.08); }
+  to   { background: var(--pulse-hot-dim); color: var(--pulse-hot); transform: scale(1); }
+}
+
+.week-drop {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.reveal .week-drop p {
+  margin: 0 !important;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--pulse-hot);
+  font-size: 11.5pt !important;
+  color: var(--pulse-hot) !important;
+  opacity: 0;
+}
+
+.reveal .week-drop i { margin-right: 7px; }
+
+.reveal .slides section.present:not([data-scene]) .week-drop p {
+  animation: fadeUpIn 0.5s var(--ease-out) forwards;
+}
+
+.reveal .slides section.present .week-drop p:nth-child(1) { animation-delay: 1.7s; }
+.reveal .slides section.present .week-drop p:nth-child(2) { animation-delay: 1.9s; }
+.reveal .slides section.present .week-drop p:nth-child(3) { animation-delay: 2.1s; }
+
+/* 2 · Dos barras desde cero (escala 0–3); la rápida y fuerte se queda corta. */
+.duo {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 56px;
+  height: 190px;
+  margin-top: 14px;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.duo-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  width: 130px;
+  height: 100%;
+  position: relative;
+}
+
+.duo-bar {
+  width: 100%;
+  height: calc(var(--v) / 3 * 78%);
+  border-radius: 4px 4px 0 0;
+  background: color-mix(in srgb, var(--pulse-calm) 55%, var(--surface));
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.8s var(--ease-out);
+}
+
+.duo-col--hot .duo-bar {
+  background: var(--pulse-hot);
+  transition-delay: 0.45s;
+}
+
+#focus[data-scene="read"] .duo-bar { transform: scaleY(1); }
+
+.reveal .duo-val {
+  margin: 0 0 6px 0 !important;
+  font-family: var(--mono);
+  font-size: 13pt !important;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.reveal .duo-val em {
+  display: block;
+  font-style: normal;
+  font-family: var(--heading-font);
+  font-weight: 700;
+  font-size: 18pt;
+  color: var(--pulse-hot);
+}
+
+.reveal .duo-name {
+  position: absolute;
+  top: 100%;
+  margin: 8px 0 0 0 !important;
+  font-size: 11pt !important;
+  line-height: 1.25;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--muted-color) !important;
+}
+
+.duo-col--hot .duo-name { color: var(--pulse-hot) !important; font-weight: 600; }
+
+.duo-name span { font-weight: 400; font-size: 9.5pt; color: var(--ink-faint); }
+
+.scene--read .scene-note { padding-top: 46px; }
+
+/* 3 · La U invertida: el punto sube a la cima, se pasa y regresa. */
+.arc {
+  width: 100%;
+  height: auto;
+  margin-top: 8px;
+  overflow: visible;
+}
+
+.arc-axis { stroke: var(--hairline); stroke-width: 1; }
+
+.arc-curve {
+  fill: none;
+  stroke: var(--pulse-calm);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.arc-dot {
+  fill: var(--pulse-hot);
+  offset-path: path("M20 165 C 110 165, 140 30, 200 30 S 290 165, 380 165");
+  offset-distance: 6%;
+  offset-rotate: 0deg;
+}
+
+#focus[data-scene="why"] .arc-dot {
+  animation: arcRide 6s ease-in-out infinite 0.4s;
+}
+
+@keyframes arcRide {
+  0%        { offset-distance: 6%;  fill: var(--pulse-calm); }
+  35%, 55%  { offset-distance: 50%; fill: var(--pulse-hot); }
+  75%       { offset-distance: 70%; fill: var(--pulse-calm); }
+  90%, 100% { offset-distance: 50%; fill: var(--pulse-hot); }
+}
+
+.arc-lbl {
+  font-family: var(--body-font);
+  font-size: 13px;
+  fill: var(--muted-color);
+}
+
+.arc-lbl--top {
+  font-family: var(--heading-font);
+  font-weight: 700;
+  font-size: 15px;
+  fill: var(--pulse-hot);
+}
+
+.arc-x {
+  font-family: var(--mono);
+  font-size: 11px;
+  fill: var(--ink-faint);
+}
+
+/* Referencias APA, numeradas como las citas [n] del cuerpo. */
+.apa {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 26px;
+  margin: 0 !important;
+  padding: 10px 0 0 0;
+  border-top: 1px solid var(--hairline);
+  list-style: none;
+  counter-reset: apa;
+  position: relative;
+  z-index: 1;
+}
+
+.apa--3 { grid-template-columns: repeat(3, 1fr); }
+
+.reveal .apa li {
+  position: relative;
+  margin: 0;
+  padding-left: 22px;
+  font-size: 8pt;
+  line-height: 1.35;
+  color: var(--muted-color);
+  counter-increment: apa;
+  overflow-wrap: anywhere;
+}
+
+.reveal .apa li::before {
+  content: "[" counter(apa) "]";
+  position: absolute;
+  left: 0;
+  color: var(--pulse-calm);
+}
+
+/* ===========================================
+   2b · ACTIVACIÓN — tres indicadores, cada uno contra tu propia línea
+   base, viajan por su cable al ejemplo resuelto.
+   =========================================== */
+
+.act {
+  display: grid;
+  grid-template-columns: 1fr 56px 300px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.act-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.act-row {
+  display: grid;
+  grid-template-columns: 38px 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 9px 16px;
+  border-radius: var(--box-radius);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+}
+
+.act-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--surface-alt);
+  color: var(--pulse-calm);
+  font-size: 14pt;
+}
+
+.reveal .act-row p { margin: 0 !important; line-height: 1.35; }
+
+.reveal .act-name {
+  font-family: var(--heading-font);
+  font-weight: 500;
+  font-size: 13pt !important;
+}
+
+.reveal .act-desc {
+  margin-top: 2px !important;
+  font-size: 11.5pt !important;
+}
+
+.reveal .act-note {
+  margin-top: 2px !important;
+  font-size: 9.5pt !important;
+  color: var(--muted-color) !important;
+}
+
+/* Intervalos entre latidos: irregulares (variabilidad alta) y luego casi
+   parejos (variabilidad baja = más activación), y de vuelta. */
+.rr {
+  position: relative;
+  width: 92px;
+  height: 30px;
+}
+
+.rr span {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--pulse-calm);
+  left: var(--a);
+}
+
+.rr span:nth-child(1) { --a: 0px;  --b: 0px; }
+.rr span:nth-child(2) { --a: 10px; --b: 14px; }
+.rr span:nth-child(3) { --a: 31px; --b: 29px; }
+.rr span:nth-child(4) { --a: 40px; --b: 44px; }
+.rr span:nth-child(5) { --a: 63px; --b: 59px; }
+.rr span:nth-child(6) { --a: 72px; --b: 74px; }
+.rr span:nth-child(7) { --a: 90px; --b: 89px; }
+
+.reveal .slides section.present .rr span {
+  animation: rrSettle 6s ease-in-out infinite 1.4s;
+}
+
+@keyframes rrSettle {
+  0%, 25%  { left: var(--a); background: var(--pulse-calm); }
+  45%, 75% { left: var(--b); background: var(--pulse-hot); }
+  95%, 100% { left: var(--a); background: var(--pulse-calm); }
+}
+
+.act-wires {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-self: stretch;
+  padding: 0 8px;
+}
+
+.act-out { padding: 16px 20px; }
+
+.reveal .act-out p { margin: 0 !important; }
+
+.reveal .act-given {
+  margin-top: 6px !important;
+  font-size: 11pt !important;
+  color: var(--muted-color) !important;
+}
+
+.act-calc { margin-top: 8px; }
+
+.reveal .act-calc p {
+  font-size: 11pt !important;
+  line-height: 1.6;
+  opacity: 0;
+}
+
+.reveal .act-calc b { color: var(--pulse-calm); }
+
+.reveal .slides section.present .act-calc p {
+  animation: fadeUpIn 0.5s var(--ease-out) forwards;
+  animation-delay: calc(1.7s + var(--k) * 0.5s);
+}
+
+.act-meter {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.act-meter-bar {
+  flex: 1;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--surface-alt);
+  overflow: hidden;
+}
+
+.act-meter-bar span {
+  display: block;
+  width: 51%;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--pulse-calm), var(--pulse-hot));
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.reveal .slides section.present .act-meter-bar span {
+  animation: meterFill 1s var(--ease-out) forwards 2.8s;
+}
+
+@keyframes meterFill {
+  to { transform: scaleX(1); }
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+.reveal .act-meter-num {
+  font-family: var(--heading-font);
+  font-weight: 700;
+  font-size: 30pt !important;
+  line-height: 1 !important;
+  opacity: 0;
+}
+
+.reveal .act-meter-num small { font-size: 0.5em; color: var(--muted-color); }
+
+.reveal .slides section.present .act-meter-num {
+  animation: fadeIn 0.4s ease forwards 3.4s;
+}
+
+.reveal .act-meter-label {
+  font-size: 10pt !important;
+  text-align: right;
+  color: var(--muted-color) !important;
+}
+
+.reveal .act-then {
+  margin-top: 10px !important;
+  padding-top: 10px;
+  border-top: 1px solid var(--hairline);
+  font-size: 10.5pt !important;
+  line-height: 1.4;
+}
+
+.reveal .act-status {
+  margin: 0 !important;
+  font-size: 10.5pt !important;
+  text-align: center;
+  color: var(--muted-color) !important;
+}
+
+.act-status-now,
+.act-status-next {
+  display: inline-block;
+  margin: 0 4px 0 0;
+  padding: 1px 9px;
+  border-radius: 999px;
+  font-size: 9pt;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.act-status-now { background: var(--pulse-calm-dim); color: var(--pulse-calm); }
+
+.act-status-next {
+  margin-left: 10px;
+  border: 1px dashed var(--ink-faint);
+  color: var(--ink-muted);
+}
+
+/* ===========================================
    MOVIMIENTO REDUCIDO — todo visible en su estado final, sin bucles.
    =========================================== */
 
 @media (prefers-reduced-motion: reduce) {
-  #context *, #arch *, #health *, #privacy *,
+  #context *, #focus *, #activation *, #arch *, #health *, #privacy *,
   #spotify *, #algo *, #mood *, #sources * {
     animation: none !important;
   }
@@ -1604,9 +2167,16 @@
   .reveal .seq-label,
   .evidence,
   .signal,
-  .mood-caveat {
+  .mood-caveat,
+  .reveal .week-drop p,
+  .reveal .act-calc p,
+  .reveal .act-meter-num {
     opacity: 1;
   }
+
+  .act-meter-bar span { transform: none; }
+  #focus[data-scene="read"] .duo-bar { transform: none; }
+  .arc-dot { offset-distance: 50%; }
 
   .seq-arrow { transform: scaleX(1); }
   .match-song.is-a { background: var(--pulse-calm); }

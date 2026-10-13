@@ -500,6 +500,313 @@
           </div>
         </section>
 
+        <!-- ============ 2a. Por qué importa: música y concentración ============ -->
+        <!-- Narrada por clics, como las historias de ventas/: cada fragmento
+           con data-scene cambia el escenario de la derecha (pitch.js). Al
+           entrar ya está el momento 1; clic 1 → momento 2; clic 2 → momento
+           3; clic 3 → la conclusión. Al avanzar, los momentos anteriores se
+           atenúan.
+
+           Todo verificado contra el texto completo de cada artículo (ver
+           Investigacion_y_pitch_proyecto.md, "Frase 6"). Cuidados:
+           - Lesiuk: no inventar cifras semanales; la calidad es autoevaluada.
+           - Thompson 2012: lenta o suave NO mejora la lectura, queda igual
+             que el silencio. −30 % = 1,95 / 2,77 (solo rápida + fuerte,
+             p < .05).
+           - La U invertida es la frase de Thompson 2001 ("very high or low
+             levels of arousal inhibit performance… moderate levels
+             facilitate"); no es una gráfica de datos, y por eso no tiene
+             números.
+           - Kämpfe: el efecto global es nulo. Por eso el cierre dice "la
+             adecuada" y no "la música ayuda". -->
+        <section id="focus">
+          <h2>¿Pero qué importa en realidad?</h2>
+          <div class="content" style="gap: 16px; padding-top: 22px">
+            <div class="nar">
+              <div class="nar-story">
+                <div class="nar-beat t-in" style="--d: 0.35s">
+                  <p class="nar-step">1 · Sin música</p>
+                  <p class="nar-line">
+                    A 56 programadores les quitaron su música durante una
+                    semana.
+                  </p>
+                  <p class="nar-sub">
+                    Esa semana su ánimo y la calidad de su trabajo cayeron al
+                    punto más bajo, y tardaron más de lo previsto en sus
+                    tareas. <sup>[3]</sup>
+                  </p>
+                </div>
+                <div class="nar-beat fragment" data-scene="read">
+                  <p class="nar-step">2 · Con la música equivocada</p>
+                  <p class="nar-line">
+                    Pero no sirve cualquiera: 25 universitarios leyeron con
+                    Mozart de fondo.
+                  </p>
+                  <p class="nar-sub">
+                    Lenta o suave, leyeron igual que en silencio. Rápida y
+                    fuerte, acertaron un <strong>30 % menos</strong>.
+                    <sup>[1]</sup>
+                  </p>
+                </div>
+                <div class="nar-beat fragment" data-scene="why">
+                  <p class="nar-step">3 · Por qué pasa</p>
+                  <p class="nar-line">
+                    La música mueve tu activación, y rindes mejor en un punto
+                    medio.
+                  </p>
+                  <p class="nar-sub">
+                    Muy poca o demasiada estorba <sup>[2]</sup>, y el tempo de
+                    la música arrastra el ritmo de lo que haces
+                    <sup>[4]</sup>.
+                  </p>
+                </div>
+                <p class="nar-end fragment" data-scene="why">
+                  No basta con poner música: hay que poner
+                  <strong>la que te lleva a tu punto</strong>.
+                </p>
+              </div>
+
+              <div class="t-card nar-stage t-in" style="--d: 0.5s" aria-hidden="true">
+                <!-- 1 · Las cinco semanas del estudio; la cuarta, sin música. -->
+                <div class="scene scene--work">
+                  <p class="t-kicker">5 semanas en su lugar de trabajo</p>
+                  <div class="weeks">
+                    <div class="week"><i class="fa-solid fa-music"></i><p>Sem. 1</p></div>
+                    <div class="week"><i class="fa-solid fa-music"></i><p>Sem. 2</p></div>
+                    <div class="week"><i class="fa-solid fa-music"></i><p>Sem. 3</p></div>
+                    <div class="week week--off">
+                      <i class="fa-solid fa-volume-xmark"></i><p>Sem. 4</p>
+                    </div>
+                    <div class="week"><i class="fa-solid fa-music"></i><p>Sem. 5</p></div>
+                  </div>
+                  <div class="week-drop">
+                    <p><i class="fa-solid fa-arrow-down"></i>Ánimo</p>
+                    <p><i class="fa-solid fa-arrow-down"></i>Calidad del trabajo</p>
+                    <p><i class="fa-solid fa-arrow-up"></i>Tiempo por tarea</p>
+                  </div>
+                  <p class="scene-note">
+                    4 empresas de software en Canadá · la calidad la evaluó
+                    cada programador
+                  </p>
+                </div>
+
+                <!-- 2 · El silencio contra la única combinación que hace daño. -->
+                <div class="scene scene--read">
+                  <p class="t-kicker">Respuestas correctas, de 6</p>
+                  <div class="duo">
+                    <div class="duo-col">
+                      <p class="duo-val">2.77</p>
+                      <div class="duo-bar" style="--v: 2.77"></div>
+                      <p class="duo-name">En silencio</p>
+                    </div>
+                    <div class="duo-col duo-col--hot">
+                      <p class="duo-val">1.95 <em>−30 %</em></p>
+                      <div class="duo-bar" style="--v: 1.95"></div>
+                      <p class="duo-name">Rápida y fuerte<br /><span>150 BPM</span></p>
+                    </div>
+                  </div>
+                  <p class="scene-note">
+                    Lenta o suave (110 BPM o volumen bajo): sin diferencia con
+                    el silencio.
+                  </p>
+                </div>
+
+                <!-- 3 · La U invertida: el punto sube a la cima, se pasa y
+                     regresa. Es la frase de Thompson 2001, no datos. -->
+                <div class="scene scene--why">
+                  <p class="t-kicker">Rendimiento según tu activación</p>
+                  <svg class="arc" viewBox="0 0 400 190">
+                    <line class="arc-axis" x1="10" y1="170" x2="390" y2="170" />
+                    <path class="arc-curve" d="M20 165 C 110 165, 140 30, 200 30 S 290 165, 380 165" />
+                    <circle class="arc-dot" r="8" />
+                    <text class="arc-lbl" x="14" y="190">Muy poca</text>
+                    <text class="arc-lbl arc-lbl--top" x="200" y="18" text-anchor="middle">Tu punto</text>
+                    <text class="arc-lbl" x="386" y="190" text-anchor="end">Demasiada</text>
+                    <text class="arc-x" x="200" y="190" text-anchor="middle">activación →</text>
+                  </svg>
+                  <p class="scene-note">
+                    La música te mueve sobre esta curva: Physical elige la que
+                    te deja arriba.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <ol class="apa t-in" style="--d: 0.9s">
+              <li>
+                Thompson, W. F., Schellenberg, E. G., &amp; Letnic, A. K. (2012).
+                Fast and loud background music disrupts reading comprehension.
+                <em>Psychology of Music, 40</em>(6), 700–708.
+                https://doi.org/10.1177/0305735611400173
+              </li>
+              <li>
+                Thompson, W. F., Schellenberg, E. G., &amp; Husain, G. (2001).
+                Arousal, mood, and the Mozart effect.
+                <em>Psychological Science, 12</em>(3), 248–251.
+                https://doi.org/10.1111/1467-9280.00345
+              </li>
+              <li>
+                Lesiuk, T. (2005). The effect of music listening on work
+                performance. <em>Psychology of Music, 33</em>(2), 173–191.
+                https://doi.org/10.1177/0305735605050650
+              </li>
+              <li>
+                Kämpfe, J., Sedlmeier, P., &amp; Renkewitz, F. (2011). The impact
+                of background music on adult listeners: A meta-analysis.
+                <em>Psychology of Music, 39</em>(4), 424–448.
+                https://doi.org/10.1177/0305735610376261
+              </li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- ============ 2b. Cómo se mide la activación ============ -->
+        <!-- La activación (arousal) es el eje vertical del modelo de Russell;
+           aquí se arma con tres indicadores, cada uno contra la línea base de
+           la propia persona. Fuentes en Investigacion_y_pitch_proyecto.md,
+           "Frase 7".
+
+           En pantalla van en texto, sin fórmulas (decisión del 2026-10-13);
+           las fórmulas están en la Frase 7. Ejemplo de la tarjeta: 20 años → FCmáx = 208 − 0,7·20 = 194;
+           reposo 60, ahora 128 → (128 − 60) / (194 − 60) = 68/134 = 51 %.
+
+           Lo que es nuestro y lo que no: cada fórmula sale de su fuente;
+           COMBINARLAS en un índice de activación es diseño nuestro. Hoy la
+           cola usa el pulso crudo: normalizarlo, la variabilidad y el
+           movimiento no están implementados. La franja de abajo lo dice. -->
+        <section id="activation">
+          <h2>¿Y cómo sabemos cuál es la adecuada?</h2>
+          <div class="content" style="gap: 14px; padding-top: 18px">
+            <p class="focus-lead t-in" style="--d: 0.3s">
+              Con estos indicadores se puede calcular tu nivel de
+              <strong>activación</strong> <sup>[6]</sup> y aproximarlo a una
+              cantidad: qué tan acelerado va tu cuerpo comparado contigo mismo.
+            </p>
+
+            <div class="act">
+              <div class="act-inputs">
+                <div class="act-row t-in" style="--d: 0.5s">
+                  <span class="act-icon"><i class="fa-solid fa-heart-pulse"></i></span>
+                  <div>
+                    <p class="act-name">Pulso → tu reserva cardíaca</p>
+                    <p class="act-desc">
+                      Qué parte del rango entre tu pulso en reposo y tu pulso
+                      máximo estás usando.
+                    </p>
+                    <p class="act-note">
+                      El máximo se estima a partir de tu edad <sup>[1]</sup>;
+                      esa fracción equivale a la de tu capacidad aeróbica en
+                      uso <sup>[2]</sup>
+                    </p>
+                  </div>
+                </div>
+                <div class="act-row t-in" style="--d: 0.7s">
+                  <span class="act-icon"><i class="fa-solid fa-wave-square"></i></span>
+                  <div>
+                    <p class="act-name">Variabilidad → el freno del cuerpo</p>
+                    <p class="act-desc">
+                      Qué tanto varía el tiempo entre un latido y el siguiente,
+                      comparado con tu línea base.
+                    </p>
+                    <p class="act-note">
+                      Refleja el control vagal <sup>[3]</sup>. Si cae, sube la
+                      activación: así responde el cuerpo al estrés
+                      <sup>[4]</sup>
+                    </p>
+                  </div>
+                  <div class="rr" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span
+                    ><span></span><span></span><span></span>
+                  </div>
+                </div>
+                <div class="act-row t-in" style="--d: 0.9s">
+                  <span class="act-icon"><i class="fa-solid fa-person-running"></i></span>
+                  <div>
+                    <p class="act-name">Movimiento → separa lo físico de lo mental</p>
+                    <p class="act-desc">
+                      El pulso que tu movimiento no alcanza a explicar se le
+                      atribuye a lo mental.
+                    </p>
+                    <p class="act-note">
+                      Con acelerómetro: 110 BPM corriendo no es lo mismo que
+                      110 BPM sentado <sup>[5]</sup>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="act-wires" aria-hidden="true">
+                <div class="wire" style="--every: 2.2s; --d: 1.2s"><span class="wire-dot"></span></div>
+                <div class="wire" style="--every: 2.2s; --d: 1.5s"><span class="wire-dot"></span></div>
+                <div class="wire" style="--every: 2.2s; --d: 1.8s"><span class="wire-dot"></span></div>
+              </div>
+
+              <div class="t-card act-out t-in" style="--d: 1.1s">
+                <p class="t-kicker">Ejemplo · solo el pulso</p>
+                <p class="act-given">20 años · reposo 60 · ahora 128 BPM</p>
+                <div class="act-calc">
+                  <p style="--k: 0">Pulso máximo estimado: <b>194 BPM</b></p>
+                  <p style="--k: 1">Usa la mitad de su reserva cardíaca</p>
+                </div>
+                <div class="act-meter">
+                  <div class="act-meter-bar"><span></span></div>
+                  <p class="act-meter-num">51<small>%</small></p>
+                </div>
+                <p class="act-meter-label">de activación</p>
+                <p class="act-then">
+                  El modo decide hacia dónde moverla: zen la baja, ejercicio la
+                  sostiene. De ahí sale el tempo de tu cola.
+                </p>
+              </div>
+            </div>
+
+            <p class="act-status t-in" style="--d: 1.4s">
+              <span class="act-status-now">Hoy</span> la cola usa el pulso.
+              <span class="act-status-next">Siguiente</span> normalizarlo y
+              sumar la variabilidad y el movimiento: combinar los tres es
+              diseño nuestro.
+            </p>
+
+            <ol class="apa apa--3 t-in" style="--d: 1.6s">
+              <li>
+                Tanaka, H., Monahan, K. D., &amp; Seals, D. R. (2001).
+                Age-predicted maximal heart rate revisited.
+                <em>Journal of the American College of Cardiology, 37</em>(1),
+                153–156. https://doi.org/10.1016/S0735-1097(00)01054-8
+              </li>
+              <li>
+                Swain, D. P., &amp; Leutholtz, B. C. (1997). Heart rate reserve
+                is equivalent to %VO<sub>2</sub> reserve, not to
+                %VO<sub>2</sub>max. <em>Medicine &amp; Science in Sports &amp;
+                Exercise, 29</em>(3), 410–414.
+                https://doi.org/10.1097/00005768-199703000-00018
+              </li>
+              <li>
+                Shaffer, F., &amp; Ginsberg, J. P. (2017). An overview of heart
+                rate variability metrics and norms. <em>Frontiers in Public
+                Health, 5</em>, 258. https://doi.org/10.3389/fpubh.2017.00258
+              </li>
+              <li>
+                Kim, H.-G., Cheon, E.-J., Bai, D.-S., Lee, Y. H., &amp; Koo,
+                B.-H. (2018). Stress and heart rate variability: A meta-analysis
+                and review of the literature. <em>Psychiatry Investigation,
+                15</em>(3), 235–245. https://doi.org/10.30773/pi.2017.08.17
+              </li>
+              <li>
+                van de Ven, S. R. B., Gevonden, M. J., Noordzij, M. L., &amp; de
+                Geus, E. J. C. (2025). Accelerometer-based heart rate adjustment
+                for ambulatory stress research. <em>Psychophysiology, 62</em>(1),
+                e14721. https://doi.org/10.1111/psyp.14721
+              </li>
+              <li>
+                Russell, J. A. (1980). A circumplex model of affect.
+                <em>Journal of Personality and Social Psychology, 39</em>(6),
+                1161–1178. https://doi.org/10.1037/h0077714
+              </li>
+            </ol>
+          </div>
+        </section>
+
         <!-- ============ 3. Arquitectura ============ -->
         <!-- La frontera punteada ES el argumento: todo lo que está dentro del
            teléfono no nos cuesta hosting, y de lo que queda afuera solo un
