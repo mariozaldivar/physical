@@ -361,3 +361,32 @@ Verificado el 2026-10-13. Cada fórmula sale de su fuente; **combinarlas en un
 - **Activación como eje del afecto.** Russell (1980), *J Pers Soc Psychol*
   39(6), 1161–1178, https://doi.org/10.1037/h0077714 (modelo circumplejo:
   agrado-desagrado × activación).
+
+### Fórmula combinada (diapositiva `#formula`) — propuesta nuestra
+
+`A = 0.5·P + 0.3·V + 0.2·E`, con cada término acotado a [0, 1]:
+P = (hr − hr_rest)/(hr_max − hr_rest), con hr_max = 208 − 0.7·age ·
+V = 1 − rmssd(rr[])/rmssd_base · E = (hr − hr_mov(accel))/(hr_max − hr_rest).
+⚠️ **La suma y los pesos no salen de ninguna fuente**: son un punto de partida
+a calibrar. Los RMSSD y hr_mov del ejemplo de la diapositiva son ilustrativos.
+
+## Frase 8: Hardware compatible y sus límites (pitch técnico, diapositiva `#hardware`)
+
+Verificado el 2026-10-13.
+
+- **Bluetooth SIG (2011), *Heart Rate Service* v1.0** —
+  https://www.bluetooth.com/specifications/specs/heart-rate-service-1-0/.
+  Abstract: "This service exposes heart rate and other data from a Heart Rate
+  Sensor intended for fitness applications." Y: "The RR-Interval field may be
+  included in the Heart Rate Measurement characteristic" (opcional). Unidad
+  1/1024 s según la API de Nordic (nRF Connect SDK, `bt_hrs_client_measurement`),
+  no según la página del SIG. El perfil no define datos de movimiento.
+- Las limitaciones de Apple Health (pulso no en tiempo real sin sesión de
+  entrenamiento; variabilidad como SDNN en muestras automáticas) están en la
+  Frase 5 B y C.
+- Repartir el peso de un término que falta entre los demás es **diseño
+  nuestro**.
+- Apple Music como servicio futuro (diapositiva `#spotify`): MusicKit expone la
+  cola del reproductor de la app (`ApplicationMusicPlayer.queue`; ver el hilo
+  https://developer.apple.com/forums/thread/701326). No está implementado ni
+  probado. No nombrar servicios sin una API pública de reproducción verificada (p. ej. YouTube Music).

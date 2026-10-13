@@ -1387,162 +1387,6 @@
 }
 
 /* ===========================================
-   8 · MEDIDOR DE ÁNIMO — el plano activación × valencia. El punto es el
-   ánimo estimado; el anillo que lo persigue es la música: llega medio
-   segundo después, porque la música sigue al cuerpo y no al revés.
-   =========================================== */
-
-.mood-meter {
-  display: grid;
-  grid-template-columns: 280px 300px 1fr;
-  gap: 34px;
-  align-items: center;
-  position: relative;
-  z-index: 1;
-}
-
-.reveal .meter-label { margin: 0 0 8px 0 !important; }
-
-.reveal .signal-icon img { width: 16px; height: 16px; margin: 0; border-radius: 4px; }
-
-.mood-plane {
-  position: relative;
-  width: 300px;
-  height: 260px;
-  border-radius: var(--box-radius);
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-}
-
-.mood-plane::before,
-.mood-plane::after {
-  content: '';
-  position: absolute;
-  background: var(--hairline);
-}
-
-.mood-plane::before { left: 50%; top: 26px; bottom: 14px; width: 1px; }
-.mood-plane::after  { top: 50%; left: 14px; right: 14px; height: 1px; }
-
-.reveal .mood-plane p {
-  position: absolute;
-  margin: 0 !important;
-}
-
-.reveal .mood-plane .mood-q {
-  font-family: var(--heading-font);
-  font-size: 12pt !important;
-  color: var(--muted-color) !important;
-}
-
-.mood-q--tl { top: 34px; left: 20px; }
-.mood-q--tr { top: 34px; right: 20px; }
-.mood-q--bl { bottom: 18px; left: 20px; }
-.mood-q--br { bottom: 18px; right: 20px; }
-
-.reveal .mood-plane .mood-axis {
-  z-index: 1;
-  padding: 0 6px;
-  background: var(--surface);
-  font-size: 8.5pt !important;
-  color: var(--ink-faint) !important;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  white-space: nowrap;
-}
-
-.mood-axis--y { top: 6px; left: 50%; transform: translateX(-50%); }
-.mood-axis--x { top: 50%; right: 6px; transform: translateY(-50%); }
-
-.mood-point,
-.mood-song {
-  position: absolute;
-  left: 72%;
-  top: 70%;
-  border-radius: 50%;
-}
-
-.mood-point {
-  z-index: 2;
-  width: 16px;
-  height: 16px;
-  margin: -8px 0 0 -8px;
-  background: var(--pulse-calm);
-}
-
-.mood-song {
-  z-index: 1;
-  width: 34px;
-  height: 34px;
-  margin: -17px 0 0 -17px;
-  border: 2px solid var(--spotify-green);
-  box-sizing: border-box;
-}
-
-.reveal .slides section.present .mood-point { animation: moodDrift 9s cubic-bezier(0.5, 0, 0.3, 1) infinite 1.2s, moodTone 9s ease infinite 1.2s; }
-.reveal .slides section.present .mood-song  { animation: moodDrift 9s cubic-bezier(0.5, 0, 0.3, 1) infinite 1.75s; }
-
-@keyframes moodDrift {
-  0%, 18%  { left: 72%; top: 70%; }
-  33%, 51% { left: 27%; top: 30%; }
-  66%, 84% { left: 73%; top: 32%; }
-  100%     { left: 72%; top: 70%; }
-}
-
-@keyframes moodTone {
-  0%, 18%   { background: var(--pulse-calm); }
-  33%, 51%  { background: var(--pulse-hot); }
-  66%, 100% { background: var(--pulse-calm); }
-}
-
-.mood-key {
-  display: flex;
-  gap: 18px;
-  width: 300px;
-  margin-top: 10px;
-}
-
-.reveal .mood-key p {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 0 !important;
-  font-size: 10.5pt !important;
-  color: var(--muted-color) !important;
-}
-
-.mood-key span {
-  flex-shrink: 0;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--pulse-calm);
-}
-
-.mood-key span.is-song {
-  background: none;
-  border: 2px solid var(--spotify-green);
-  box-sizing: border-box;
-}
-
-.evidence-grid--stack {
-  grid-template-columns: 1fr;
-  gap: 10px;
-}
-
-/* En base.css `.evidence p` le gana en especificidad a `.evidence-figure`,
-   y solo se animan las dos primeras tarjetas. */
-.reveal .evidence p.evidence-figure {
-  min-width: 70px;
-  font-size: 24pt !important;
-  text-align: center;
-}
-
-.reveal .slides section.present .evidence:nth-child(3) {
-  animation: fadeUpIn 0.6s ease forwards 1.1s;
-}
-
-/* ===========================================
    9 · FUENTES — la referencia textual, la frase citada y dónde encontrarla.
    =========================================== */
 
@@ -2149,12 +1993,409 @@
 }
 
 /* ===========================================
+   2c · FÓRMULA — la ecuación arma sus tres términos en orden; abajo, el
+   mismo pulso da dos activaciones distintas. Cada término tiene su color y
+   lo repite en su tarjeta, para leer la ecuación sin leyenda.
+   =========================================== */
+
+#formula {
+  --fx-p: var(--pulse-calm);
+  --fx-v: #c3a6ff;
+  --fx-e: var(--pulse-hot);
+}
+
+.fx-main {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.reveal .fx-eq {
+  margin: 0 !important;
+  font-family: var(--heading-font);
+  font-weight: 500;
+  font-size: 36pt !important;
+  line-height: 1.2 !important;
+  color: var(--muted-color) !important;
+}
+
+.fx-eq b { font-weight: 700; }
+.fx-a { color: var(--ink); font-weight: 700; }
+.reveal .fx-eq .fx-p { color: var(--fx-p); }
+.reveal .fx-eq .fx-v { color: var(--fx-v); }
+.reveal .fx-eq .fx-e { color: var(--fx-e); }
+
+.fx-t {
+  display: inline-block;
+  color: var(--ink);
+  opacity: 0;
+}
+
+.reveal .slides section.present .fx-t {
+  animation: fadeUpIn 0.5s var(--ease-out) forwards;
+  animation-delay: calc(0.6s + var(--k) * 0.25s);
+}
+
+.reveal .fx-tag {
+  margin: 4px 0 0 0 !important;
+  font-size: 10pt !important;
+  color: var(--ink-faint) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.fx-terms {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.fx-term {
+  padding: 16px 18px;
+  border-radius: var(--box-radius);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-top: 3px solid var(--tone);
+}
+
+.fx-term--p { --tone: var(--fx-p); }
+.fx-term--v { --tone: var(--fx-v); }
+.fx-term--e { --tone: var(--fx-e); }
+
+.reveal .fx-term p { margin: 0 !important; }
+
+.reveal .fx-name {
+  font-family: var(--heading-font);
+  font-weight: 500;
+  font-size: 12.5pt !important;
+  line-height: 1.3 !important;
+}
+
+.reveal .fx-name b { color: var(--tone); }
+
+.reveal .fx-code {
+  margin-top: 6px !important;
+  font-family: var(--mono);
+  font-size: 9.5pt !important;
+  line-height: 1.5 !important;
+  color: var(--tone) !important;
+}
+
+.reveal .fx-why {
+  margin-top: 6px !important;
+  font-size: 10pt !important;
+  line-height: 1.35 !important;
+  color: var(--muted-color) !important;
+}
+
+.fx-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 24px;
+  align-items: start;
+  position: relative;
+  z-index: 1;
+}
+
+.reveal .fx-inputs p { margin: 0 !important; }
+
+.reveal .fx-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 6px;
+  margin-top: 4px !important;
+  font-size: 10pt !important;
+  line-height: 1.6 !important;
+}
+
+.fx-chip {
+  margin-right: 10px;
+  white-space: nowrap;
+  color: var(--muted-color);
+}
+
+.fx-chips code {
+  padding: 1px 7px;
+  border-radius: 6px;
+  background: var(--surface-alt);
+  font-family: var(--mono);
+  font-size: 10pt;
+  color: var(--ink);
+}
+
+.fx-chips code { margin-right: 6px; }
+
+.fx-cases {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.reveal .fx-cases-title { margin: 0 !important; }
+
+.fx-case {
+  display: grid;
+  grid-template-columns: 26px 170px 1fr 70px;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  color: var(--pulse-calm);
+  font-size: 14pt;
+}
+
+.fx-case--hot { color: var(--pulse-hot); }
+
+.reveal .fx-case p { margin: 0 !important; line-height: 1.3 !important; }
+
+.reveal .fx-case-name {
+  font-size: 12pt !important;
+  font-weight: 600;
+}
+
+.reveal .fx-case-terms {
+  font-family: var(--mono);
+  font-size: 9pt !important;
+  color: var(--muted-color) !important;
+}
+
+.fx-bar {
+  height: 10px;
+  border-radius: 999px;
+  background: var(--surface-alt);
+  overflow: hidden;
+}
+
+.fx-bar span {
+  display: block;
+  width: calc(var(--a) * 100%);
+  height: 100%;
+  border-radius: 999px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.reveal .slides section.present .fx-bar span {
+  animation: meterFill 0.9s var(--ease-out) forwards 2.3s;
+}
+
+.fx-case:nth-of-type(3) .fx-bar span { animation-delay: 2.6s !important; }
+
+.reveal .fx-case-num {
+  text-align: right;
+  font-family: var(--heading-font);
+  font-weight: 700;
+  font-size: 20pt !important;
+  color: var(--ink) !important;
+}
+
+.reveal .fx-case-num small { font-size: 0.55em; color: var(--muted-color); }
+
+.reveal .fx-refs {
+  margin: 0 !important;
+  padding-top: 8px;
+  border-top: 1px solid var(--hairline);
+  font-size: 8.5pt !important;
+  line-height: 1.4;
+  color: var(--ink-faint) !important;
+}
+
+/* ===========================================
+   2d · HARDWARE — matriz dispositivo × término de la fórmula. Los colores
+   de columna son los de la diapositiva de la fórmula.
+   =========================================== */
+
+#hardware {
+  --fx-p: var(--pulse-calm);
+  --fx-v: #c3a6ff;
+  --fx-e: var(--pulse-hot);
+}
+
+.hw {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+  align-items: start;
+  position: relative;
+  z-index: 1;
+}
+
+.hw-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hw-head,
+.hw-row {
+  display: grid;
+  grid-template-columns: 1fr 86px 86px 86px;
+  align-items: center;
+  gap: 8px;
+}
+
+.hw-row {
+  padding: 9px 12px;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+}
+
+.reveal .hw-head p,
+.reveal .hw-row p { margin: 0 !important; }
+
+.reveal .hw-col {
+  text-align: center;
+  font-family: var(--heading-font);
+  font-weight: 700;
+  font-size: 16pt !important;
+  line-height: 1.1 !important;
+}
+
+.hw-col span {
+  display: block;
+  font-family: var(--body-font);
+  font-weight: 400;
+  font-size: 9pt;
+  color: var(--muted-color);
+}
+
+.reveal .hw-col--p { color: var(--fx-p) !important; }
+.reveal .hw-col--v { color: var(--fx-v) !important; }
+.reveal .hw-col--e { color: var(--fx-e) !important; }
+
+.hw-dev {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hw-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--surface-alt);
+  color: var(--pulse-calm);
+  font-size: 13pt;
+}
+
+.reveal .hw-name {
+  font-size: 12pt !important;
+  font-weight: 600;
+  line-height: 1.3 !important;
+}
+
+.reveal .hw-note {
+  font-size: 9.5pt !important;
+  line-height: 1.3 !important;
+  color: var(--muted-color) !important;
+}
+
+.reveal .hw-cell {
+  text-align: center;
+  font-size: 14pt !important;
+  line-height: 1.2 !important;
+}
+
+.hw-cell span {
+  display: block;
+  font-size: 8.5pt;
+  color: var(--muted-color);
+}
+
+.reveal .hw-cell.is-yes { color: var(--pulse-calm) !important; }
+.reveal .hw-cell.is-part { color: #c3a6ff !important; }
+.reveal .hw-cell.is-no { color: var(--ink-faint) !important; }
+
+.reveal .hw-rule {
+  margin: 4px 0 0 0 !important;
+  font-size: 11pt !important;
+  color: var(--muted-color) !important;
+}
+
+.reveal .hw-rule b { color: var(--pulse-calm); }
+
+.hw-limits { padding: 14px 18px; }
+
+.reveal .hw-limits ul {
+  margin: 8px 0 0 0;
+  padding-left: 18px;
+}
+
+.reveal .hw-limits li {
+  margin: 0 0 7px 0;
+  font-size: 10.5pt;
+  line-height: 1.4;
+  color: var(--muted-color);
+}
+
+.reveal .hw-limits li b { color: var(--ink); font-weight: 600; }
+
+/* ===========================================
+   2e · SPOTIFY — la franja de servicios: hoy uno, mañana los que abran API.
+   =========================================== */
+
+.svc-road {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.reveal .svc-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 !important;
+  padding: 5px 13px;
+  border-radius: 999px;
+  border: 1px dashed var(--ink-faint);
+  font-size: 11pt !important;
+  line-height: 1.3 !important;
+  color: var(--ink-muted) !important;
+}
+
+.svc-chip span {
+  font-size: 9pt;
+  color: var(--ink-faint);
+}
+
+.reveal .svc-chip--now {
+  border: 1px solid var(--spotify-green);
+  color: var(--ink) !important;
+}
+
+.svc-chip--now i { color: var(--spotify-green); }
+.svc-chip--now span { color: var(--spotify-green); text-transform: uppercase; letter-spacing: 0.08em; }
+
+.svc-arrow { color: var(--ink-faint); font-size: 11pt; }
+
+.reveal .svc-text {
+  flex: 1 1 260px;
+  margin: 0 0 0 6px !important;
+  font-size: 10.5pt !important;
+  line-height: 1.4;
+  color: var(--muted-color) !important;
+}
+
+/* ===========================================
    MOVIMIENTO REDUCIDO — todo visible en su estado final, sin bucles.
    =========================================== */
 
 @media (prefers-reduced-motion: reduce) {
-  #context *, #focus *, #activation *, #arch *, #health *, #privacy *,
-  #spotify *, #algo *, #mood *, #sources * {
+  #context *, #focus *, #activation *, #formula *, #hardware *, #arch *, #health *, #privacy *,
+  #spotify *, #algo *, #sources * {
     animation: none !important;
   }
 
@@ -2165,16 +2406,15 @@
   .pm-row > *,
   .pm-ours,
   .reveal .seq-label,
-  .evidence,
-  .signal,
-  .mood-caveat,
   .reveal .week-drop p,
+  .fx-t,
   .reveal .act-calc p,
   .reveal .act-meter-num {
     opacity: 1;
   }
 
-  .act-meter-bar span { transform: none; }
+  .act-meter-bar span,
+  .fx-bar span { transform: none; }
   #focus[data-scene="read"] .duo-bar { transform: none; }
   .arc-dot { offset-distance: 50%; }
 
