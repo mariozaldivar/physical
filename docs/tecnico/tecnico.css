@@ -617,231 +617,6 @@
 }
 
 /* ===========================================
-   4 · HEALTHKIT — el permiso dibujado como lo que es: un filtro. Cuatro
-   tipos de dato salen de Salud; solo el que el usuario autorizó cruza la
-   compuerta. Los demás se detienen ahí, y la app nunca los ve.
-   =========================================== */
-
-.hk {
-  display: grid;
-  grid-template-columns: 150px 1fr 150px;
-  gap: 22px;
-  align-items: stretch;
-  position: relative;
-  z-index: 1;
-  padding-top: 22px;
-}
-
-.hk-end {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 16px 10px;
-  border-radius: var(--box-radius);
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-  text-align: center;
-}
-
-.hk-end--app { border-color: color-mix(in srgb, var(--pulse-calm) 55%, transparent); }
-
-.hk-end > i { font-size: 26pt; color: var(--pulse-calm); }
-
-.reveal .hk-end p { margin: 0 !important; text-align: center; }
-
-.reveal .hk-end-name {
-  font-family: var(--heading-font);
-  font-weight: 500;
-  font-size: 14pt !important;
-  line-height: 1.2;
-}
-
-.reveal .hk-end-note {
-  font-size: 10pt !important;
-  line-height: 1.35;
-  color: var(--muted-color) !important;
-}
-
-.hk-lanes {
-  position: relative;
-  display: grid;
-  gap: 8px;
-}
-
-/* La compuerta: una sola línea vertical que cruza los cuatro carriles. */
-.hk-lanes::before {
-  content: '';
-  position: absolute;
-  top: -6px;
-  bottom: -6px;
-  left: 60%;
-  width: 2px;
-  border-radius: 2px;
-  background: var(--ink-faint);
-}
-
-.reveal .hk-gate-label {
-  position: absolute;
-  left: 60%;
-  top: -26px;
-  translate: -50% 0;
-  white-space: nowrap;
-}
-
-.hk-lane {
-  position: relative;
-  display: flex;
-  align-items: center;
-  height: 44px;
-  padding: 0 16px;
-  border-radius: 999px;
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-  overflow: hidden;
-}
-
-.reveal .hk-lane p { margin: 0 !important; }
-
-.reveal .hk-type {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 12pt !important;
-  color: var(--muted-color) !important;
-}
-
-.hk-type i { width: 18px; text-align: center; color: var(--ink-faint); }
-
-.reveal .hk-verdict {
-  position: absolute;
-  z-index: 2;
-  right: 16px;
-  font-size: 9pt !important;
-  color: var(--ink-faint) !important;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.hk-lock {
-  position: absolute;
-  z-index: 2;
-  left: 60%;
-  width: 24px;
-  height: 24px;
-  margin-left: -12px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--bg);
-  border: 1.5px solid var(--ink-faint);
-  font-size: 8.5pt;
-  color: var(--ink-faint);
-}
-
-.hk-dot {
-  position: absolute;
-  z-index: 1;
-  top: 50%;
-  left: 38%;
-  width: 10px;
-  height: 10px;
-  margin: -5px 0 0 -5px;
-  border-radius: 50%;
-  background: var(--ink-faint);
-  opacity: 0;
-}
-
-.reveal .slides section.present .hk-dot {
-  animation: hkStop 2.8s ease-in infinite;
-  animation-delay: var(--d, 1.2s);
-}
-
-/* Llega a la compuerta, rebota apenas y se apaga. */
-@keyframes hkStop {
-  0%   { left: 38%; opacity: 0; }
-  10%  { opacity: 1; }
-  52%  { left: 57.6%; opacity: 1; transform: scale(1); }
-  60%  { left: 56.6%; opacity: 0.8; transform: scale(1.25); }
-  74%, 100% { left: 56.6%; opacity: 0; transform: scale(0.4); }
-}
-
-.hk-lane--pass {
-  background: var(--pulse-calm-dim);
-  border-color: color-mix(in srgb, var(--pulse-calm) 50%, transparent);
-}
-
-.reveal .hk-lane--pass .hk-type { color: var(--ink) !important; }
-.hk-lane--pass .hk-type i { color: var(--pulse-calm); }
-.reveal .hk-lane--pass .hk-verdict { color: var(--pulse-calm) !important; }
-
-.hk-lane--pass .hk-lock {
-  border-color: var(--pulse-calm);
-  background: var(--pulse-calm);
-  color: var(--bg);
-}
-
-.hk-lane--pass .hk-dot {
-  background: var(--pulse-calm);
-  box-shadow: 0 0 10px var(--pulse-calm);
-}
-
-.reveal .slides section.present .hk-lane--pass .hk-dot {
-  animation: hkPass 1.6s linear infinite;
-  animation-delay: var(--d, 1.2s);
-}
-
-@keyframes hkPass {
-  0%   { left: 38%; opacity: 0; }
-  10%  { opacity: 1; }
-  88%  { left: 80%; opacity: 1; }
-  100% { left: 84%; opacity: 0; }
-}
-
-.hk-lane { opacity: 0; }
-
-.reveal .slides section.present .hk-lane {
-  animation: fadeUpIn 0.5s var(--ease-out) both;
-  animation-delay: var(--in, 0.4s);
-}
-
-.fact-trio {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  position: relative;
-  z-index: 1;
-}
-
-.fact {
-  padding: 14px 18px;
-  border-radius: var(--box-radius);
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-  border-top: 2px solid var(--pulse-calm);
-}
-
-.reveal .fact p { margin: 0 !important; }
-
-.reveal .fact-title {
-  font-family: var(--heading-font);
-  font-weight: 500;
-  font-size: 13.5pt !important;
-  line-height: 1.25;
-}
-
-.reveal .fact-note {
-  margin-top: 5px !important;
-  font-size: 11pt !important;
-  line-height: 1.4;
-  color: var(--muted-color) !important;
-}
-
-/* ===========================================
    5 · PRIVACIDAD — una matriz: cada dato contra cada lugar al que podría
    llegar. La columna de Physical es la que hay que mirar, y casi no tiene
    nada: por eso al final se queda resaltada.
@@ -2390,11 +2165,412 @@
 }
 
 /* ===========================================
+   REPRODUCCIÓN — reglas a la izquierda; a la derecha la cola de Spotify
+   tal como la deja Physical: el lote viejo se tacha, el nuevo entra y lo
+   del usuario se queda gris e intacto.
+   =========================================== */
+
+.pb {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 30px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.pb-rules {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pb-rule {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.pb-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  color: var(--pulse-calm);
+  font-size: 12pt;
+}
+
+.pb-icon--hot { color: var(--pulse-hot); }
+.pb-icon--muted { color: var(--ink-muted); }
+
+.reveal .pb-rule p {
+  margin: 0 !important;
+  font-size: 12.5pt !important;
+  line-height: 1.4 !important;
+  color: var(--muted-color) !important;
+}
+
+.reveal .pb-rule b { color: var(--ink); font-weight: 600; }
+
+.pb-queue { padding: 16px 20px; }
+
+.pb-queue .t-kicker i { color: var(--spotify-green); margin-right: 4px; }
+
+.reveal .pb-queue p { margin: 0 !important; }
+
+.pb-now {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: var(--surface-alt);
+}
+
+/* Ecualizador de "suena ahora". */
+.pb-eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  width: 18px;
+  height: 16px;
+}
+
+.pb-eq span {
+  flex: 1;
+  height: 40%;
+  border-radius: 1px;
+  background: var(--spotify-green);
+}
+
+.reveal .slides section.present .pb-eq span {
+  animation: pbEq 0.9s ease-in-out infinite;
+}
+
+.pb-eq span:nth-child(2) { animation-delay: -0.3s !important; }
+.pb-eq span:nth-child(3) { animation-delay: -0.6s !important; }
+
+@keyframes pbEq {
+  0%, 100% { height: 30%; }
+  50%      { height: 100%; }
+}
+
+.reveal .pb-track {
+  font-size: 11.5pt !important;
+  line-height: 1.3 !important;
+}
+
+.reveal .pb-meta {
+  font-size: 9.5pt !important;
+  color: var(--muted-color) !important;
+}
+
+.reveal .pb-group {
+  margin-top: 12px !important;
+  margin-bottom: 4px !important;
+  font-size: 9pt !important;
+  color: var(--ink-faint) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.pb-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 5px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border-left: 3px solid var(--hairline);
+  background: var(--surface-alt);
+}
+
+.reveal .pb-tag {
+  font-size: 8.5pt !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint) !important;
+}
+
+.pb-item--new { border-left-color: var(--pulse-calm); }
+.reveal .pb-item--new .pb-tag { color: var(--pulse-calm) !important; }
+
+.pb-item--stale { border-left-color: var(--pulse-hot); }
+.reveal .pb-item--stale .pb-tag { color: var(--pulse-hot) !important; }
+
+.reveal .pb-item--yours .pb-track { color: var(--muted-color) !important; }
+
+/* Entrada: el lote nuevo llega uno por uno; después el viejo se tacha. */
+.pb-item--new { opacity: 0; }
+
+.reveal .slides section.present .pb-item--new {
+  animation: fadeUpIn 0.5s var(--ease-out) forwards;
+  animation-delay: calc(1.2s + var(--k) * 0.25s);
+}
+
+.reveal .pb-item--stale .pb-track {
+  background: linear-gradient(var(--pulse-hot), var(--pulse-hot)) no-repeat 0 55% / 0% 1.5px;
+}
+
+.reveal .slides section.present .pb-item--stale .pb-track {
+  animation: pbStrike 0.6s ease forwards 2.4s;
+}
+
+.reveal .slides section.present .pb-item--stale {
+  animation: pbFade 0.6s ease forwards 2.6s;
+}
+
+@keyframes pbStrike {
+  to { background-size: 100% 1.5px; color: var(--muted-color); }
+}
+
+@keyframes pbFade {
+  to { opacity: 0.55; }
+}
+
+/* ===========================================
+   STACK — dos argumentos. A la izquierda el código se bifurca en dos
+   sistemas; a la derecha todo vive dentro del teléfono y solo salen
+   cables directos a los servicios.
+   =========================================== */
+
+.stk {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  position: relative;
+  z-index: 1;
+}
+
+.stk-half {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px 22px;
+  border-radius: var(--box-radius);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+}
+
+.reveal .stk-kicker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11pt !important;
+  color: var(--ink) !important;
+}
+
+.stk-kicker span {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--pulse-calm);
+  color: var(--bg);
+  font-family: var(--heading-font);
+  font-weight: 700;
+  font-size: 11pt;
+  letter-spacing: 0;
+}
+
+.reveal .stk-claim {
+  margin: auto 0 0 0 !important;
+  font-size: 11.5pt !important;
+  line-height: 1.45 !important;
+  color: var(--muted-color) !important;
+}
+
+.reveal .stk-claim b { color: var(--ink); font-weight: 600; }
+
+/* 1 · Multiplataforma */
+.stk-split {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 44px 96px;
+  align-items: center;
+}
+
+.stk-code {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #05080f;
+  border: 1px solid var(--hairline);
+}
+
+.stk-code-bar { display: flex; gap: 5px; margin-bottom: 10px; }
+
+.stk-code-bar i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--hairline);
+}
+
+.reveal .stk-code-line {
+  margin: 0 !important;
+  font-family: var(--mono);
+  font-size: 9.5pt !important;
+  line-height: 1.7 !important;
+  color: var(--ink) !important;
+  white-space: nowrap;
+}
+
+.stk-code-line b { color: var(--pulse-calm); font-weight: 400; }
+
+.stk-code-logos { margin-top: 12px; }
+
+.stk-code-logos .logo-chip { font-size: 9pt !important; padding: 3px 9px 3px 6px; }
+
+.stk-fork svg {
+  display: block;
+  width: 100%;
+  height: 140px;
+  overflow: visible;
+}
+
+.stk-fork-path {
+  fill: none;
+  stroke: var(--pulse-calm);
+  stroke-width: 2;
+  stroke-dasharray: 80;
+  stroke-dashoffset: 80;
+}
+
+.reveal .slides section.present .stk-fork-path {
+  animation: stkDraw 0.6s ease forwards 0.75s;
+}
+
+@keyframes stkDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+.stk-targets {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.stk-os {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 0;
+  border-radius: 14px;
+  background: var(--surface-alt);
+  border: 1px solid var(--hairline);
+  font-size: 22pt;
+  color: var(--ink);
+}
+
+.reveal .stk-os p {
+  margin: 0 !important;
+  font-size: 10pt !important;
+  color: var(--muted-color) !important;
+}
+
+/* 2 · Client-side */
+.stk-client {
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  align-items: center;
+  gap: 0;
+}
+
+.stk-phone {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px;
+  border-radius: 22px;
+  border: 2px solid var(--pulse-calm);
+  background: #05080f;
+  box-shadow: 0 0 24px color-mix(in srgb, var(--pulse-calm) 18%, transparent);
+}
+
+.reveal .stk-phone-title {
+  margin: 0 0 2px 0 !important;
+  font-size: 9pt !important;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--pulse-calm) !important;
+}
+
+.stk-layer {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 6px 10px;
+  border-radius: 9px;
+  background: var(--surface-alt);
+  color: var(--pulse-calm);
+  font-size: 11pt;
+  opacity: 0;
+}
+
+.stk-layer > i { width: 16px; text-align: center; }
+
+.reveal .stk-layer p {
+  margin: 0 !important;
+  font-size: 9pt !important;
+  line-height: 1.25 !important;
+  color: var(--muted-color) !important;
+}
+
+.stk-layer p b {
+  display: block;
+  font-size: 10.5pt;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.reveal .slides section.present .stk-layer {
+  animation: fadeUpIn 0.45s var(--ease-out) forwards;
+  animation-delay: calc(0.95s + var(--k) * 0.15s);
+}
+
+.stk-links {
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+}
+
+.stk-link {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.reveal .stk-api {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 !important;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--surface-alt);
+  border: 1px solid var(--hairline);
+  font-size: 10.5pt !important;
+}
+
+.stk-api i { color: var(--spotify-green); }
+.reveal .stk-api img { width: 16px; height: 16px; margin: 0; }
+
+/* ===========================================
    MOVIMIENTO REDUCIDO — todo visible en su estado final, sin bucles.
    =========================================== */
 
 @media (prefers-reduced-motion: reduce) {
-  #context *, #focus *, #activation *, #formula *, #hardware *, #arch *, #health *, #privacy *,
+  #context *, #focus *, #activation *, #formula *, #hardware *, #playback *, #stack *, #arch *, #privacy *,
   #spotify *, #algo *, #sources * {
     animation: none !important;
   }
@@ -2402,11 +2578,12 @@
   .reveal .t-in,
   .arch-phone,
   .arch-link,
-  .hk-lane,
   .pm-row > *,
   .pm-ours,
   .reveal .seq-label,
   .reveal .week-drop p,
+  .stk-layer,
+  .pb-item--new,
   .fx-t,
   .reveal .act-calc p,
   .reveal .act-meter-num {
@@ -2415,6 +2592,7 @@
 
   .act-meter-bar span,
   .fx-bar span { transform: none; }
+  .stk-fork-path { stroke-dashoffset: 0; }
   #focus[data-scene="read"] .duo-bar { transform: none; }
   .arc-dot { offset-distance: 50%; }
 

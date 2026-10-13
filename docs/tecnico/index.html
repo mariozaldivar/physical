@@ -500,6 +500,110 @@
           </div>
         </section>
 
+        <!-- ============ Se adapta a la situación (copia de ventas/index.html, #adapts) ============ -->
+        <!-- Copia literal de la diapositiva de ventas; su animación vive en
+           pitch.js y sus estilos en base.css. Si cambia allá, cambiarla aquí. -->
+        <!-- La maqueta del teléfono es esquemática a propósito: comunica QUÉ
+           se puede configurar sin fingir una captura de una app que aún no
+           existe. Los rangos exactos siguen abiertos y así se marca. -->
+        <section id="adapts" data-mode="estudio">
+          <h2>Se adapta a la situación</h2>
+          <div class="content" style="justify-content: center">
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 268px 1fr;
+                gap: 46px;
+                align-items: center;
+              "
+            >
+              <div class="phone-mock">
+                <div class="phone-screen">
+                  <p class="phone-screen-title">Modo de sesión</p>
+
+                  <div class="mode-toggle">
+                    <span class="mode-toggle-thumb" aria-hidden="true"></span>
+                    <p class="mode-toggle-opt" data-for="estudio">Zen</p>
+                    <p class="mode-toggle-opt" data-for="ejercicio">
+                      Ejercicio
+                    </p>
+                  </div>
+
+                  <div class="phone-rule">
+                    <span class="phone-rule-icon" aria-hidden="true">
+                      <i
+                        class="fa-solid fa-arrow-trend-down phone-when phone-when--estudio"
+                      ></i>
+                      <i
+                        class="fa-solid fa-arrow-trend-up phone-when phone-when--ejercicio"
+                      ></i>
+                    </span>
+                    <span class="phone-rule-text">
+                      <p class="phone-when phone-when--estudio">
+                        Si mi pulso sube, <strong>baja</strong> el tempo
+                      </p>
+                      <p class="phone-when phone-when--ejercicio">
+                        Si mi pulso sube, <strong>sube</strong> el tempo
+                      </p>
+                    </span>
+                  </div>
+
+                  <div class="phone-range">
+                    <div class="phone-range-head">
+                      <p>Rango objetivo</p>
+                      <span class="phone-range-value">
+                        <p class="phone-when phone-when--estudio">
+                          60 – 90 BPM
+                        </p>
+                        <p class="phone-when phone-when--ejercicio">
+                          120 – 150 BPM
+                        </p>
+                      </span>
+                    </div>
+                    <div class="phone-range-rail">
+                      <span class="phone-range-span"></span>
+                    </div>
+                  </div>
+
+                  <div class="phone-session">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                    <p>Sesión activa · <span class="phone-bpm">78</span> BPM</p>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <p style="font-size: 17pt !important; margin: 0 0 22px 0">
+                  Puedes configurarlo para que más pulsaciones signifiquen lo
+                  que tú necesites que signifiquen.
+                </p>
+                <div class="mode-grid">
+                  <div class="mode-card mode-study">
+                    <div class="mode-icon">
+                      <i class="fa-solid fa-book"></i>
+                    </div>
+                    <h3>Modo zen</h3>
+                    <p>
+                      Más pulsaciones → música más calmada, para sostener la
+                      concentración.
+                    </p>
+                  </div>
+                  <div class="mode-card mode-exercise">
+                    <div class="mode-icon">
+                      <i class="fa-solid fa-dumbbell"></i>
+                    </div>
+                    <h3>Modo ejercicio</h3>
+                    <p>
+                      Más pulsaciones → música más acelerada, para sostener el
+                      esfuerzo.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <!-- ============ 2a. Por qué importa: música y concentración ============ -->
         <!-- Narrada por clics, como las historias de ventas/: cada fragmento
            con data-scene cambia el escenario de la derecha (pitch.js). Al
@@ -1041,6 +1145,234 @@
           </div>
         </section>
 
+        <!-- ============ DIVISOR — Software y funcionamiento ============ -->
+        <section
+          id="divider-software"
+          class="section-divider"
+          data-state="is-section-divider"
+        >
+          <div
+            class="pulse-wave"
+            aria-hidden="true"
+            style="margin-bottom: 26px"
+          >
+            <span></span><span></span><span></span><span></span><span></span
+            ><span></span><span></span><span></span><span></span>
+          </div>
+          <h1>Software y funcionamiento</h1>
+        </section>
+
+        <!-- ============ Reproducción: cómo usamos Spotify ============ -->
+        <!-- Lo que hace el código hoy (app/src/store/spotifyStore.ts y
+           HomeScreen.tsx), con sus constantes reales:
+           - NOW_PLAYING_POLL_MS = 5000 → GET /me/player/currently-playing.
+           - BPM_RECOMPUTE_THRESHOLD = 12 y BPM_CHANGE_SUSTAIN_MS = 20 000:
+             solo un cambio sostenido rearma la cola.
+           - DEFAULT_QUEUE_BATCH_SIZE = 3, enviado con POST /me/player/queue al
+             dispositivo activo; sin dispositivo activo, error visible.
+           - skipQueueIds: SOLO lo que Physical encoló en un lote anterior; al
+             llegar a eso se manda POST /me/player/next (skipPastStaleTracks).
+             Se detiene en cuanto suena algo ajeno.
+           - topUpBatch: al sonar una del lote, repone otra al final.
+           - QUEUE_MODEL_SYNC_MS = 30 000 → GET /me/player/queue para podar el
+             modelo local; nunca agrega ni quita nada de la cola real.
+           - Historial: DEFAULT_PLAY_HISTORY_SIZE = 15.
+           Controlar la cola requiere Premium (spotifyPlaybackControl.ts). -->
+        <section id="playback">
+          <h2>
+            <i class="fa-brands fa-spotify h2-logo"></i>Physical le dice a Spotify
+            qué sigue
+          </h2>
+          <div class="content" style="gap: 16px; padding-top: 18px; justify-content: center">
+            <p class="focus-lead t-in" style="--d: 0.3s">
+              Physical no reproduce música: sigue sonando en tu Spotify, en tu
+              teléfono o tu bocina. Solo <strong>escribe en tu cola</strong>.
+            </p>
+
+            <div class="pb">
+              <div class="pb-rules">
+                <div class="pb-rule t-in" style="--d: 0.5s">
+                  <span class="pb-icon"><i class="fa-solid fa-eye"></i></span>
+                  <p>
+                    <b>Cada 5 s pregunta qué está sonando.</b> Así sabe cuándo
+                    cambió la canción.
+                  </p>
+                </div>
+                <div class="pb-rule t-in" style="--d: 0.7s">
+                  <span class="pb-icon"><i class="fa-solid fa-heart-pulse"></i></span>
+                  <p>
+                    <b>Si tu pulso cambia 12 BPM y se sostiene 20 s,</b> arma un
+                    lote de 3 canciones nuevas y lo manda a tu cola.
+                  </p>
+                </div>
+                <div class="pb-rule t-in" style="--d: 0.9s">
+                  <span class="pb-icon pb-icon--hot"><i class="fa-solid fa-forward"></i></span>
+                  <p>
+                    <b>Lo que encoló antes y ya no embona, lo salta</b> cuando
+                    llega. Solo lo suyo.
+                  </p>
+                </div>
+                <div class="pb-rule t-in" style="--d: 1.1s">
+                  <span class="pb-icon"><i class="fa-solid fa-plus"></i></span>
+                  <p>
+                    <b>Cuando suena una del lote, repone otra</b> al final:
+                    siempre hay algo que sigue.
+                  </p>
+                </div>
+                <div class="pb-rule t-in" style="--d: 1.3s">
+                  <span class="pb-icon pb-icon--muted"><i class="fa-solid fa-lock"></i></span>
+                  <p>
+                    <b>Tu playlist, el autoplay y lo que agregaste a mano no se
+                    tocan.</b>
+                  </p>
+                </div>
+              </div>
+
+              <div class="t-card pb-queue t-in" style="--d: 0.6s" aria-hidden="true">
+                <p class="t-kicker"><i class="fa-brands fa-spotify"></i> Tu cola en Spotify</p>
+                <div class="pb-now">
+                  <span class="pb-eq"><span></span><span></span><span></span></span>
+                  <div>
+                    <p class="pb-track">Suena ahora</p>
+                    <p class="pb-meta">Una canción a 128 BPM</p>
+                  </div>
+                </div>
+
+                <p class="pb-group">Siguiente en la cola</p>
+                <div class="pb-item pb-item--stale" style="--k: 0">
+                  <p class="pb-track">Lote anterior · 96 BPM</p>
+                  <p class="pb-tag">se salta</p>
+                </div>
+                <div class="pb-item pb-item--new" style="--k: 1">
+                  <p class="pb-track">Lote nuevo · 131 BPM</p>
+                  <p class="pb-tag">Physical</p>
+                </div>
+                <div class="pb-item pb-item--new" style="--k: 2">
+                  <p class="pb-track">Lote nuevo · 126 BPM</p>
+                  <p class="pb-tag">Physical</p>
+                </div>
+                <div class="pb-item pb-item--new" style="--k: 3">
+                  <p class="pb-track">Lote nuevo · 134 BPM</p>
+                  <p class="pb-tag">Physical</p>
+                </div>
+
+                <p class="pb-group">Siguiente de: tu playlist</p>
+                <div class="pb-item pb-item--yours">
+                  <p class="pb-track">Lo que ya traías</p>
+                  <p class="pb-tag">no se toca</p>
+                </div>
+              </div>
+            </div>
+
+            <p class="t-foot t-in" style="--d: 1.6s">
+              Requiere Spotify Premium y la app de Spotify abierta en algún
+              dispositivo.
+            </p>
+          </div>
+        </section>
+
+        <!-- ============ Stack ============ -->
+        <!-- Dos argumentos, uno por mitad:
+           - Multiplataforma: una base de código TypeScript (React Native +
+             Expo) se compila a iOS y a Android. Es capacidad del stack; el
+             APK de Android ya se generó, iOS todavía no se ha compilado
+             (Checklist_demo_proyecto.md §2).
+           - Client-side: estado, biblioteca, BPM, tokens y Bluetooth viven en
+             el teléfono; la app llama directo a Spotify y ReccoBeats
+             (Stack_tecnico_proyecto.md §4). "Ningún servidor nuestro en el
+             camino de tu música" es compatible con la arquitectura: el único
+             servidor previsto solo valida el plan.
+           Librerías según app/package.json (2026-10-13). Sin HealthKit:
+           no hay librería instalada. -->
+        <section id="stack">
+          <h2>Una base de código, y todo corre en tu teléfono</h2>
+          <div class="content" style="gap: 16px; justify-content: center">
+            <div class="stk">
+              <!-- Multiplataforma -->
+              <div class="stk-half">
+                <p class="t-kicker stk-kicker t-in" style="--d: 0.25s">
+                  <span>1</span>Multiplataforma
+                </p>
+                <div class="stk-split">
+                  <div class="stk-code t-in" style="--d: 0.4s">
+                    <div class="stk-code-bar"><i></i><i></i><i></i></div>
+                    <p class="stk-code-line"><b>const</b> { bpm } = useSessionStore()</p>
+                    <p class="stk-code-line"><b>await</b> addToQueue(accessToken, trackUri)</p>
+                    <div class="logo-row stk-code-logos">
+                      <p class="logo-chip"><img class="logo" src="../img/logos/tech/typescript.svg" alt="" />TypeScript</p>
+                      <p class="logo-chip"><img class="logo" src="../img/logos/tech/react.svg" alt="" />React Native</p>
+                      <p class="logo-chip"><img class="logo" src="../img/logos/tech/expo.svg" alt="" />Expo</p>
+                    </div>
+                  </div>
+                  <div class="stk-fork" aria-hidden="true">
+                    <svg viewBox="0 0 60 140" preserveAspectRatio="none">
+                      <path class="stk-fork-path" d="M0 70 C 30 70, 30 22, 60 22" />
+                      <path class="stk-fork-path" d="M0 70 C 30 70, 30 118, 60 118" />
+                    </svg>
+                  </div>
+                  <div class="stk-targets">
+                    <div class="stk-os t-in" style="--d: 1s">
+                      <i class="fa-brands fa-apple"></i>
+                      <p>iOS</p>
+                    </div>
+                    <div class="stk-os t-in" style="--d: 1.15s">
+                      <i class="fa-brands fa-android"></i>
+                      <p>Android</p>
+                    </div>
+                  </div>
+                </div>
+                <p class="stk-claim t-in" style="--d: 1.3s">
+                  <b>Un solo código, dos apps.</b> Cada función se escribe una
+                  vez, y el Bluetooth se compila nativo en cada sistema.
+                </p>
+              </div>
+
+              <!-- Client-side -->
+              <div class="stk-half">
+                <p class="t-kicker stk-kicker t-in" style="--d: 0.55s">
+                  <span>2</span>Client-side
+                </p>
+                <div class="stk-client">
+                  <div class="stk-phone t-in" style="--d: 0.7s">
+                    <p class="stk-phone-title"><i class="fa-solid fa-mobile-screen"></i> Tu teléfono</p>
+                    <div class="stk-layer" style="--k: 0">
+                      <i class="fa-brands fa-bluetooth-b"></i>
+                      <p><b>Pulso</b> react-native-ble-plx</p>
+                    </div>
+                    <div class="stk-layer" style="--k: 1">
+                      <i class="fa-solid fa-layer-group"></i>
+                      <p><b>Estado</b> Zustand</p>
+                    </div>
+                    <div class="stk-layer" style="--k: 2">
+                      <img class="logo" src="../img/logos/tech/sqlite.svg" alt="" />
+                      <p><b>Biblioteca y BPM</b> SQLite</p>
+                    </div>
+                    <div class="stk-layer" style="--k: 3">
+                      <i class="fa-solid fa-key"></i>
+                      <p><b>Tokens</b> Secure Store</p>
+                    </div>
+                  </div>
+                  <div class="stk-links">
+                    <div class="stk-link">
+                      <div class="wire" style="--every: 2.6s; --d: 1.8s"><span class="wire-dot"></span></div>
+                      <p class="stk-api"><i class="fa-brands fa-spotify"></i>Spotify</p>
+                    </div>
+                    <div class="stk-link">
+                      <div class="wire" style="--every: 3.4s; --d: 2.3s"><span class="wire-dot"></span></div>
+                      <p class="stk-api"><img src="../img/logos/tech/reccobeats.png" alt="" />ReccoBeats</p>
+                    </div>
+                  </div>
+                </div>
+                <p class="stk-claim t-in" style="--d: 1.6s">
+                  <b>Ningún servidor nuestro en el camino de tu música.</b> La
+                  app habla directo con cada servicio: menos latencia, menos
+                  costo y tus datos se quedan contigo.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <!-- ============ 2e. Spotify (antes de la arquitectura) ============ -->
         <!-- Diagrama de secuencia: las llamadas reales del código
            (services/spotifyAuth, spotifyLibrary, spotifyPlayback,
@@ -1153,418 +1485,6 @@
                 API”, 27 de noviembre de 2024.
               </p>
             </div>
-          </div>
-        </section>
-
-        <!-- ============ DIVISOR — Arquitectura y privacidad ============ -->
-        <section
-          id="divider-arch"
-          class="section-divider"
-          data-state="is-section-divider"
-        >
-          <div
-            class="pulse-wave"
-            aria-hidden="true"
-            style="margin-bottom: 26px"
-          >
-            <span></span><span></span><span></span><span></span><span></span
-            ><span></span><span></span><span></span><span></span>
-          </div>
-          <h1>Arquitectura y privacidad</h1>
-        </section>
-
-        <!-- ============ 3. Arquitectura ============ -->
-        <!-- La frontera punteada ES el argumento: todo lo que está dentro del
-           teléfono no nos cuesta hosting, y de lo que queda afuera solo un
-           servicio es nuestro (el coral): validar la compra y la
-           suscripción.
-
-           Cada cable late a su propio ritmo (--every): el pulso entra cada
-           segundo, las APIs de terceros cada pocos segundos, y nuestro
-           servidor una vez cada mucho. Esa diferencia de ritmo dice "casi no
-           lo usamos" sin escribirlo. Ese servidor todavía no existe: es
-           diseño. -->
-        <section id="arch">
-          <h2>Solo software, y un único servidor</h2>
-          <div class="content" style="justify-content: center; gap: 24px">
-            <div class="arch">
-              <div class="arch-phone">
-                <div class="arch-zone">
-                  <p class="t-kicker">
-                    <i class="fa-solid fa-mobile-screen"></i>Dentro de tu
-                    teléfono
-                  </p>
-                  <p class="arch-zero">$0 de hosting</p>
-                </div>
-
-                <div class="arch-core">
-                  <div class="arch-node">
-                    <img
-                      class="logo logo--lg"
-                      src="../img/logos/tech/apple-health.svg"
-                      alt=""
-                    />
-                    <p class="arch-node-name">Apple Health</p>
-                    <p class="arch-node-note">
-                      <i class="fa-brands fa-apple"></i> El pulso que ya mide tu
-                      Apple Watch
-                    </p>
-                  </div>
-                  <div
-                    class="wire"
-                    data-label="HealthKit"
-                    style="--every: 1.6s; --d: 1s"
-                  >
-                    <span class="wire-dot"></span>
-                  </div>
-                  <div class="arch-node">
-                    <div class="arch-app">
-                      <i class="fa-solid fa-heart-pulse"></i>
-                    </div>
-                    <p class="arch-node-name">App Physical</p>
-                    <p class="arch-node-note">
-                      El algoritmo, tu biblioteca y tus tokens
-                    </p>
-                  </div>
-                </div>
-
-                <div class="logo-row">
-                  <p class="logo-chip">
-                    <img class="logo" src="../img/logos/tech/react.svg" alt="" />React
-                    Native
-                  </p>
-                  <p class="logo-chip">
-                    <img
-                      class="logo"
-                      src="../img/logos/tech/typescript.svg"
-                      alt=""
-                    />TypeScript
-                  </p>
-                  <p class="logo-chip">
-                    <img class="logo" src="../img/logos/tech/expo.svg" alt="" />Expo
-                  </p>
-                  <p class="logo-chip">
-                    <img class="logo" src="../img/logos/tech/sqlite.svg" alt="" />SQLite
-                  </p>
-                </div>
-              </div>
-
-              <div class="arch-out">
-                <div class="arch-link" style="--in: 0.9s">
-                  <div
-                    class="wire"
-                    data-label="HTTPS · tu token"
-                    style="--every: 3.4s; --d: 1.8s"
-                  >
-                    <span class="wire-dot"></span>
-                  </div>
-                  <div class="arch-svc">
-                    <i class="fa-brands fa-spotify"></i>
-                    <div>
-                      <p class="arch-svc-name">Spotify Web API</p>
-                      <p class="arch-svc-note">Tu biblioteca y tu cola</p>
-                      <p class="arch-svc-tag">De terceros · $0</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="arch-link" style="--in: 1.1s">
-                  <div
-                    class="wire"
-                    data-label="HTTPS · IDs de canciones"
-                    style="--every: 4.6s; --d: 2.6s"
-                  >
-                    <span class="wire-dot"></span>
-                  </div>
-                  <div class="arch-svc">
-                    <img src="../img/logos/tech/reccobeats.png" alt="" />
-                    <div>
-                      <p class="arch-svc-name">ReccoBeats</p>
-                      <p class="arch-svc-note">El BPM de cada canción</p>
-                      <p class="arch-svc-tag">De terceros · $0</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="arch-link" style="--in: 1.3s">
-                  <div
-                    class="wire wire--hot"
-                    data-label="HTTPS · comprobante"
-                    style="--every: 9s; --d: 2s"
-                  >
-                    <span class="wire-dot"></span>
-                  </div>
-                  <div class="arch-svc arch-svc--ours">
-                    <i class="fa-solid fa-server"></i>
-                    <div>
-                      <p class="arch-svc-name">Servidor Physical</p>
-                      <p class="arch-svc-note">
-                        Valida tu compra y tu suscripción
-                      </p>
-                      <p class="arch-svc-tag">Lo único que hospedamos</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <p class="t-foot t-in" style="--d: 1.7s">
-              Lo que corre en tu teléfono no nos cuesta. Solo pagamos por saber
-              si tu plan está activo.
-            </p>
-          </div>
-        </section>
-
-        <!-- ============ 4. HealthKit ============ -->
-        <!-- El permiso dibujado como un filtro: cuatro tipos de dato salen de
-           Salud y solo el autorizado cruza la compuerta. Lo que afirma sale
-           de la documentación de Apple ("Protecting user privacy"): permisos
-           por tipo de dato, todo guardado y cifrado en el dispositivo, y la
-           app no se entera de un permiso de lectura negado.
-
-           "Pulso en vivo" está escrito con cuidado a propósito: la
-           sincronización reloj → iPhone de Salud NO es en tiempo real; el
-           pulso continuo exige una sesión de entrenamiento en el reloj
-           (HKWorkoutSession) reflejada al iPhone. Es la pregunta difícil que
-           puede hacer el jurado y la diapositiva ya la contesta. -->
-        <section id="health">
-          <h2>
-            <img
-              class="h2-logo"
-              src="../img/logos/tech/apple-health.svg"
-              alt=""
-            />HealthKit: solo pasa lo que tú autorizas
-          </h2>
-          <div class="content" style="justify-content: center; gap: 22px">
-            <div class="hk">
-              <div class="hk-end t-in" style="--d: 0.3s">
-                <img
-                  class="logo logo--lg"
-                  src="../img/logos/tech/apple-health.svg"
-                  alt=""
-                />
-                <p class="hk-end-name">Salud</p>
-                <p class="hk-end-note">Cifrado, en tu dispositivo</p>
-              </div>
-
-              <div class="hk-lanes">
-                <p class="hk-gate-label t-kicker t-in" style="--d: 0.9s">
-                  Tu permiso
-                </p>
-                <div class="hk-lane hk-lane--pass" style="--in: 0.4s">
-                  <p class="hk-type">
-                    <i class="fa-solid fa-heart-pulse"></i>Frecuencia cardíaca
-                  </p>
-                  <span class="hk-dot" style="--d: 1.2s"></span>
-                  <span class="hk-dot" style="--d: 2s"></span>
-                  <span class="hk-lock"><i class="fa-solid fa-check"></i></span>
-                  <p class="hk-verdict">Solo lectura</p>
-                </div>
-                <div class="hk-lane" style="--in: 0.5s">
-                  <p class="hk-type">
-                    <i class="fa-solid fa-wave-square"></i>Variabilidad del
-                    pulso
-                  </p>
-                  <span class="hk-dot" style="--d: 1.5s"></span>
-                  <span class="hk-lock"><i class="fa-solid fa-lock"></i></span>
-                  <p class="hk-verdict">Todavía no lo pedimos</p>
-                </div>
-                <div class="hk-lane" style="--in: 0.6s">
-                  <p class="hk-type">
-                    <i class="fa-solid fa-face-smile"></i>Estado de ánimo
-                  </p>
-                  <span class="hk-dot" style="--d: 2.3s"></span>
-                  <span class="hk-lock"><i class="fa-solid fa-lock"></i></span>
-                  <p class="hk-verdict">Todavía no lo pedimos</p>
-                </div>
-                <div class="hk-lane" style="--in: 0.7s">
-                  <p class="hk-type">
-                    <i class="fa-solid fa-bed"></i>Sueño, peso, pasos…
-                  </p>
-                  <span class="hk-dot" style="--d: 1.9s"></span>
-                  <span class="hk-lock"><i class="fa-solid fa-lock"></i></span>
-                  <p class="hk-verdict">Nunca lo pedimos</p>
-                </div>
-              </div>
-
-              <div class="hk-end hk-end--app t-in" style="--d: 0.5s">
-                <i class="fa-solid fa-mobile-screen"></i>
-                <p class="hk-end-name">Physical</p>
-                <p class="hk-end-note">Ve un solo tipo de dato</p>
-              </div>
-            </div>
-
-            <div class="fact-trio">
-              <div class="fact t-in" style="--d: 1.1s">
-                <p class="fact-title">Solo lo nuevo</p>
-                <p class="fact-note">
-                  Una consulta anclada entrega solo las muestras posteriores a
-                  la última lectura.
-                </p>
-                <p class="t-mono" style="margin-top: 6px !important">
-                  HKAnchoredObjectQuery
-                </p>
-              </div>
-              <div class="fact t-in" style="--d: 1.25s">
-                <p class="fact-title">Pulso en vivo</p>
-                <p class="fact-note">
-                  Con una sesión de entrenamiento en el reloj, reflejada al
-                  iPhone.
-                </p>
-                <p class="t-mono" style="margin-top: 6px !important">
-                  HKWorkoutSession
-                </p>
-              </div>
-              <div class="fact t-in" style="--d: 1.4s">
-                <p class="fact-title">La negativa es invisible</p>
-                <p class="fact-note">
-                  Si niegas un permiso, la app <strong>ni se entera</strong>:
-                  para ella ese dato no existe.
-                </p>
-              </div>
-            </div>
-
-            <p class="t-cite t-in" style="--d: 1.6s">
-              <i class="fa-brands fa-apple"></i> Apple, “Protecting user
-              privacy”, documentación de HealthKit: “an app isn’t aware when
-              the user denies permission to read data. From the app’s point of
-              view, no data of that type exists.”
-            </p>
-          </div>
-        </section>
-
-        <!-- ============ 5. Privacidad: todo client-side ============ -->
-        <!-- Una matriz en vez de dos listas: cada dato contra cada lugar al
-           que podría llegar. Está verificada contra el código: las llamadas
-           a Spotify (services/spotify*.ts) y los IDs de canciones a
-           ReccoBeats (services/reccobeats.ts). El pulso no aparece en
-           ninguna de las dos.
-
-           La columna de Physical es la del servidor de suscripciones (ver
-           arquitectura): todavía no está construido, y cuando lo esté solo
-           debe recibir el comprobante de compra. Si algún día se agrega
-           analítica, esta diapositiva deja de ser cierta. -->
-        <section id="privacy">
-          <h2>Tus datos no pasan por nosotros</h2>
-          <div class="content" style="justify-content: center; gap: 22px">
-            <div class="pm">
-              <span class="pm-ours" aria-hidden="true"></span>
-
-              <div class="pm-row pm-row--head" style="--in: 0.3s">
-                <div></div>
-                <div class="pm-head">
-                  <i class="fa-solid fa-mobile-screen"></i>
-                  <p>Tu teléfono</p>
-                </div>
-                <div class="pm-head">
-                  <i class="fa-brands fa-spotify"></i>
-                  <p>Spotify</p>
-                </div>
-                <div class="pm-head">
-                  <img class="logo" src="../img/logos/tech/reccobeats.png" alt="" />
-                  <p>ReccoBeats</p>
-                </div>
-                <div class="pm-head pm-head--ours">
-                  <i class="fa-solid fa-server"></i>
-                  <p>Physical</p>
-                </div>
-              </div>
-
-              <div class="pm-row" style="--in: 0.55s">
-                <div class="pm-data">
-                  <img src="../img/logos/tech/apple-health.svg" alt="" />
-                  <div>
-                    <p class="pm-data-name">Tu pulso</p>
-                    <p class="pm-data-note">
-                      Se lee de Salud, se usa en el momento y no se guarda
-                    </p>
-                  </div>
-                </div>
-                <div class="pm-cell pm-cell--yes">
-                  <i class="fa-solid fa-circle-check"></i>
-                </div>
-                <div class="pm-cell pm-cell--no">
-                  <i class="fa-solid fa-minus"></i>
-                </div>
-                <div class="pm-cell pm-cell--no">
-                  <i class="fa-solid fa-minus"></i>
-                </div>
-                <div class="pm-cell pm-cell--no">
-                  <i class="fa-solid fa-minus"></i>
-                </div>
-              </div>
-
-              <div class="pm-row" style="--in: 0.8s">
-                <div class="pm-data">
-                  <img src="../img/logos/tech/sqlite.svg" alt="" />
-                  <div>
-                    <p class="pm-data-name">Tu biblioteca y sus BPM</p>
-                    <p class="pm-data-note">
-                      Copiada de tu Spotify a un SQLite local
-                    </p>
-                  </div>
-                </div>
-                <div class="pm-cell pm-cell--yes">
-                  <i class="fa-solid fa-circle-check"></i>
-                </div>
-                <div class="pm-cell"><p>ya es suya</p></div>
-                <div class="pm-cell"><p>solo IDs de canciones</p></div>
-                <div class="pm-cell pm-cell--no">
-                  <i class="fa-solid fa-minus"></i>
-                </div>
-              </div>
-
-              <div class="pm-row" style="--in: 1.05s">
-                <div class="pm-data">
-                  <i class="fa-solid fa-key"></i>
-                  <div>
-                    <p class="pm-data-name">Tus tokens de Spotify</p>
-                    <p class="pm-data-note">
-                      Cifrados por el sistema; sin client secret en la app
-                    </p>
-                  </div>
-                </div>
-                <div class="pm-cell pm-cell--yes">
-                  <i class="fa-solid fa-circle-check"></i>
-                </div>
-                <div class="pm-cell pm-cell--yes">
-                  <i class="fa-solid fa-circle-check"></i>
-                </div>
-                <div class="pm-cell pm-cell--no">
-                  <i class="fa-solid fa-minus"></i>
-                </div>
-                <div class="pm-cell pm-cell--no">
-                  <i class="fa-solid fa-minus"></i>
-                </div>
-              </div>
-
-              <div class="pm-row" style="--in: 1.3s">
-                <div class="pm-data">
-                  <i class="fa-solid fa-receipt"></i>
-                  <div>
-                    <p class="pm-data-name">El estado de tu plan</p>
-                    <p class="pm-data-note">
-                      El comprobante de tu suscripción
-                    </p>
-                  </div>
-                </div>
-                <div class="pm-cell pm-cell--yes">
-                  <i class="fa-solid fa-circle-check"></i>
-                </div>
-                <div class="pm-cell pm-cell--no">
-                  <i class="fa-solid fa-minus"></i>
-                </div>
-                <div class="pm-cell pm-cell--no">
-                  <i class="fa-solid fa-minus"></i>
-                </div>
-                <div class="pm-cell pm-cell--yes pm-cell--ours">
-                  <i class="fa-solid fa-circle-check"></i>
-                </div>
-              </div>
-            </div>
-
-            <p class="t-foot t-in" style="--d: 2.7s">
-              De todo lo que la app sabe de ti, a nuestro servidor solo le
-              llega una cosa: si tu plan está activo.
-            </p>
           </div>
         </section>
 
@@ -1713,6 +1633,385 @@
           </div>
         </section>
 
+        <!-- ============ DIVISOR — Costos y privacidad ============ -->
+        <section
+          id="divider-costs"
+          class="section-divider"
+          data-state="is-section-divider"
+        >
+          <div
+            class="pulse-wave"
+            aria-hidden="true"
+            style="margin-bottom: 26px"
+          >
+            <span></span><span></span><span></span><span></span><span></span
+            ><span></span><span></span><span></span><span></span>
+          </div>
+          <h1>Costos y privacidad</h1>
+        </section>
+
+        <!-- ============ Planes (copia de ventas/index.html, #plans) ============ -->
+        <!-- Copia literal de la diapositiva de ventas; si cambia allá, cambiarla
+           aquí también. -->
+        <!-- Sustituye a "Cuánto cuesta, y cuánto costará" (costo de la banda)
+           y a "No necesitas nuestra banda" (licencia de $150 de un solo
+           pago): sin hardware, el modelo es freemium. Los $30 son un precio
+           de ejemplo, no una cifra cerrada, y así van etiquetados. -->
+        <section id="plans">
+          <h2>Gratis para empezar</h2>
+          <div class="content" style="justify-content: center; gap: 22px">
+            <div class="tag-pill">
+              <span class="dot"></span>
+              <p>El modelo de negocio · solo la app, dos planes</p>
+            </div>
+
+            <div class="plan-grid">
+              <div class="plan">
+                <div class="plan-head">
+                  <span class="plan-icon"
+                    ><i class="fa-solid fa-clock"></i
+                  ></span>
+                  <div>
+                    <p class="plan-kicker">Para probarlo todos los días</p>
+                    <h3>Gratis</h3>
+                  </div>
+                </div>
+                <ul>
+                  <li>
+                    <strong>Una hora de escucha al día</strong>, todos los
+                    días.
+                  </li>
+                  <li>
+                    La app completa: la misma cola adaptativa y los mismos
+                    modos.
+                  </li>
+                </ul>
+                <div class="plan-price">
+                  <p class="plan-price-value plan-price-value--free">$0</p>
+                  <p class="plan-price-note">
+                    Sin comprar<br />ningún dispositivo
+                  </p>
+                </div>
+              </div>
+
+              <div class="plan plan--ours">
+                <div class="plan-head">
+                  <span class="plan-icon"
+                    ><i class="fa-solid fa-infinity"></i
+                  ></span>
+                  <div>
+                    <p class="plan-kicker">Cuando ya es parte de tu rutina</p>
+                    <h3>Ilimitado</h3>
+                  </div>
+                </div>
+                <ul>
+                  <li>
+                    <strong>Horas ilimitadas</strong>: entrenes, estudies o
+                    manejes.
+                  </li>
+                  <li>El mismo producto, sin el límite diario.</li>
+                </ul>
+                <div class="plan-price">
+                  <p
+                    class="plan-price-value"
+                    data-count-to="30"
+                    data-count-prefix="$"
+                  >
+                    $30
+                  </p>
+                  <p class="plan-price-note">
+                    MXN al mes<br />Precio de ejemplo
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="plan-foot">
+              <p class="plan-foot-note">
+                Lo pruebas sin pagar; pagas cuando ya no quieres que se acabe
+                la hora.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 3. Arquitectura ============ -->
+        <!-- La frontera punteada ES el argumento: todo lo que está dentro del
+           teléfono no nos cuesta hosting, y de lo que queda afuera solo un
+           servicio es nuestro (el coral): validar la compra y la
+           suscripción.
+
+           Cada cable late a su propio ritmo (--every): el pulso entra cada
+           segundo, las APIs de terceros cada pocos segundos, y nuestro
+           servidor una vez cada mucho. Esa diferencia de ritmo dice "casi no
+           lo usamos" sin escribirlo. Ese servidor todavía no existe: es
+           diseño. -->
+        <section id="arch">
+          <h2>Solo software, y un único servidor</h2>
+          <div class="content" style="justify-content: center; gap: 24px">
+            <div class="arch">
+              <div class="arch-phone">
+                <div class="arch-zone">
+                  <p class="t-kicker">
+                    <i class="fa-solid fa-mobile-screen"></i>Dentro de tu
+                    teléfono
+                  </p>
+                  <p class="arch-zero">$0 de hosting</p>
+                </div>
+
+                <div class="arch-core">
+                  <div class="arch-node">
+                    <img
+                      class="logo logo--lg"
+                      src="../img/logos/tech/apple-health.svg"
+                      alt=""
+                    />
+                    <p class="arch-node-name">Apple Health</p>
+                    <p class="arch-node-note">
+                      <i class="fa-brands fa-apple"></i> El pulso que ya mide tu
+                      Apple Watch
+                    </p>
+                  </div>
+                  <div
+                    class="wire"
+                    data-label="HealthKit"
+                    style="--every: 1.6s; --d: 1s"
+                  >
+                    <span class="wire-dot"></span>
+                  </div>
+                  <div class="arch-node">
+                    <div class="arch-app">
+                      <i class="fa-solid fa-heart-pulse"></i>
+                    </div>
+                    <p class="arch-node-name">App Physical</p>
+                    <p class="arch-node-note">
+                      El algoritmo, tu biblioteca y tus tokens
+                    </p>
+                  </div>
+                </div>
+
+                <div class="logo-row">
+                  <p class="logo-chip">
+                    <img class="logo" src="../img/logos/tech/react.svg" alt="" />React
+                    Native
+                  </p>
+                  <p class="logo-chip">
+                    <img
+                      class="logo"
+                      src="../img/logos/tech/typescript.svg"
+                      alt=""
+                    />TypeScript
+                  </p>
+                  <p class="logo-chip">
+                    <img class="logo" src="../img/logos/tech/expo.svg" alt="" />Expo
+                  </p>
+                  <p class="logo-chip">
+                    <img class="logo" src="../img/logos/tech/sqlite.svg" alt="" />SQLite
+                  </p>
+                </div>
+              </div>
+
+              <div class="arch-out">
+                <div class="arch-link" style="--in: 0.9s">
+                  <div
+                    class="wire"
+                    data-label="HTTPS · tu token"
+                    style="--every: 3.4s; --d: 1.8s"
+                  >
+                    <span class="wire-dot"></span>
+                  </div>
+                  <div class="arch-svc">
+                    <i class="fa-brands fa-spotify"></i>
+                    <div>
+                      <p class="arch-svc-name">Spotify Web API</p>
+                      <p class="arch-svc-note">Tu biblioteca y tu cola</p>
+                      <p class="arch-svc-tag">De terceros · $0</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="arch-link" style="--in: 1.1s">
+                  <div
+                    class="wire"
+                    data-label="HTTPS · IDs de canciones"
+                    style="--every: 4.6s; --d: 2.6s"
+                  >
+                    <span class="wire-dot"></span>
+                  </div>
+                  <div class="arch-svc">
+                    <img src="../img/logos/tech/reccobeats.png" alt="" />
+                    <div>
+                      <p class="arch-svc-name">ReccoBeats</p>
+                      <p class="arch-svc-note">El BPM de cada canción</p>
+                      <p class="arch-svc-tag">De terceros · $0</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="arch-link" style="--in: 1.3s">
+                  <div
+                    class="wire wire--hot"
+                    data-label="HTTPS · comprobante"
+                    style="--every: 9s; --d: 2s"
+                  >
+                    <span class="wire-dot"></span>
+                  </div>
+                  <div class="arch-svc arch-svc--ours">
+                    <i class="fa-solid fa-server"></i>
+                    <div>
+                      <p class="arch-svc-name">Servidor Physical</p>
+                      <p class="arch-svc-note">
+                        Valida tu compra y tu suscripción
+                      </p>
+                      <p class="arch-svc-tag">Lo único que hospedamos</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p class="t-foot t-in" style="--d: 1.7s">
+              Lo que corre en tu teléfono no nos cuesta. Solo pagamos por saber
+              si tu plan está activo.
+            </p>
+          </div>
+        </section>
+
+        <!-- ============ 5. Privacidad: todo client-side ============ -->
+        <!-- Una matriz en vez de dos listas: cada dato contra cada lugar al
+           que podría llegar. Está verificada contra el código: las llamadas
+           a Spotify (services/spotify*.ts) y los IDs de canciones a
+           ReccoBeats (services/reccobeats.ts). El pulso no aparece en
+           ninguna de las dos.
+
+           La columna de Physical es la del servidor de suscripciones (ver
+           arquitectura): todavía no está construido, y cuando lo esté solo
+           debe recibir el comprobante de compra. Si algún día se agrega
+           analítica, esta diapositiva deja de ser cierta. -->
+        <section id="privacy">
+          <h2>Tus datos no pasan por nosotros</h2>
+          <div class="content" style="justify-content: center; gap: 22px">
+            <div class="pm">
+              <span class="pm-ours" aria-hidden="true"></span>
+
+              <div class="pm-row pm-row--head" style="--in: 0.3s">
+                <div></div>
+                <div class="pm-head">
+                  <i class="fa-solid fa-mobile-screen"></i>
+                  <p>Tu teléfono</p>
+                </div>
+                <div class="pm-head">
+                  <i class="fa-brands fa-spotify"></i>
+                  <p>Spotify</p>
+                </div>
+                <div class="pm-head">
+                  <img class="logo" src="../img/logos/tech/reccobeats.png" alt="" />
+                  <p>ReccoBeats</p>
+                </div>
+                <div class="pm-head pm-head--ours">
+                  <i class="fa-solid fa-server"></i>
+                  <p>Physical</p>
+                </div>
+              </div>
+
+              <div class="pm-row" style="--in: 0.55s">
+                <div class="pm-data">
+                  <img src="../img/logos/tech/apple-health.svg" alt="" />
+                  <div>
+                    <p class="pm-data-name">Tu pulso</p>
+                    <p class="pm-data-note">
+                      Se lee de Salud, se usa en el momento y no se guarda
+                    </p>
+                  </div>
+                </div>
+                <div class="pm-cell pm-cell--yes">
+                  <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div class="pm-cell pm-cell--no">
+                  <i class="fa-solid fa-minus"></i>
+                </div>
+                <div class="pm-cell pm-cell--no">
+                  <i class="fa-solid fa-minus"></i>
+                </div>
+                <div class="pm-cell pm-cell--no">
+                  <i class="fa-solid fa-minus"></i>
+                </div>
+              </div>
+
+              <div class="pm-row" style="--in: 0.8s">
+                <div class="pm-data">
+                  <img src="../img/logos/tech/sqlite.svg" alt="" />
+                  <div>
+                    <p class="pm-data-name">Tu biblioteca y sus BPM</p>
+                    <p class="pm-data-note">
+                      Copiada de tu Spotify a un SQLite local
+                    </p>
+                  </div>
+                </div>
+                <div class="pm-cell pm-cell--yes">
+                  <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div class="pm-cell"><p>ya es suya</p></div>
+                <div class="pm-cell"><p>solo IDs de canciones</p></div>
+                <div class="pm-cell pm-cell--no">
+                  <i class="fa-solid fa-minus"></i>
+                </div>
+              </div>
+
+              <div class="pm-row" style="--in: 1.05s">
+                <div class="pm-data">
+                  <i class="fa-solid fa-key"></i>
+                  <div>
+                    <p class="pm-data-name">Tus tokens de Spotify</p>
+                    <p class="pm-data-note">
+                      Cifrados por el sistema; sin client secret en la app
+                    </p>
+                  </div>
+                </div>
+                <div class="pm-cell pm-cell--yes">
+                  <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div class="pm-cell pm-cell--yes">
+                  <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div class="pm-cell pm-cell--no">
+                  <i class="fa-solid fa-minus"></i>
+                </div>
+                <div class="pm-cell pm-cell--no">
+                  <i class="fa-solid fa-minus"></i>
+                </div>
+              </div>
+
+              <div class="pm-row" style="--in: 1.3s">
+                <div class="pm-data">
+                  <i class="fa-solid fa-receipt"></i>
+                  <div>
+                    <p class="pm-data-name">El estado de tu plan</p>
+                    <p class="pm-data-note">
+                      El comprobante de tu suscripción
+                    </p>
+                  </div>
+                </div>
+                <div class="pm-cell pm-cell--yes">
+                  <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div class="pm-cell pm-cell--no">
+                  <i class="fa-solid fa-minus"></i>
+                </div>
+                <div class="pm-cell pm-cell--no">
+                  <i class="fa-solid fa-minus"></i>
+                </div>
+                <div class="pm-cell pm-cell--yes pm-cell--ours">
+                  <i class="fa-solid fa-circle-check"></i>
+                </div>
+              </div>
+            </div>
+
+            <p class="t-foot t-in" style="--d: 2.7s">
+              De todo lo que la app sabe de ti, a nuestro servidor solo le
+              llega una cosa: si tu plan está activo.
+            </p>
+          </div>
+        </section>
+
         <!-- ============ 9. Fuentes ============ -->
         <!-- Cada afirmación externa del pitch, con su fuente escrita
            textualmente: título tal cual, dónde se publicó y la frase citada
@@ -1734,20 +2033,6 @@
                 </p>
                 <p class="source-url">
                   developer.apple.com/documentation/healthkit/protecting-user-privacy
-                </p>
-              </div>
-              <div class="source t-in" style="--d: 0.44s">
-                <p class="source-ref">
-                  Apple Inc. “Build a multi-device workout app”. WWDC23, sesión
-                  10023.
-                </p>
-                <p class="source-quote">
-                  “The workout session on my Apple Watch is called the primary
-                  session. And the workout session on my iPhone is called the
-                  mirrored session.”
-                </p>
-                <p class="source-url">
-                  developer.apple.com/videos/play/wwdc2023/10023
                 </p>
               </div>
               <div class="source t-in" style="--d: 0.68s">
