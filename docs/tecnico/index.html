@@ -1162,6 +1162,58 @@
           <h1>Software y funcionamiento</h1>
         </section>
 
+        <!-- ============ ¿Cómo lo hace? (copia de ventas/index.html, #how) ============ -->
+        <!-- Copia literal de la diapositiva de ventas; la animación del flujo
+           vive en base.css. Si cambia allá, cambiarla aquí. -->
+        <section id="how">
+          <h2>¿Cómo lo hace?</h2>
+          <div class="content" style="justify-content: center">
+            <div class="tag-pill">
+              <span class="dot"></span>
+              <p>De tu pulso a tu cola, sin que toques nada</p>
+            </div>
+
+            <div class="flow-track" style="margin-top: 14px">
+              <div class="flow-node">
+                <div class="flow-icon">
+                  <i class="fa-solid fa-heart-pulse"></i>
+                </div>
+                <p>Tu banda o tu reloj lee tu corazón</p>
+                <p class="flow-label-muted">
+                  El que ya traes puesto, en vivo
+                </p>
+              </div>
+              <div class="flow-connector"><span class="flow-dot"></span></div>
+              <div class="flow-node">
+                <div class="flow-icon">
+                  <i class="fa-solid fa-code-branch"></i>
+                </div>
+                <p>Nuestro algoritmo cruza tu biblioteca</p>
+                <p class="flow-label-muted">
+                  Tus canciones guardadas × el BPM de cada una
+                </p>
+              </div>
+              <div class="flow-connector"><span class="flow-dot"></span></div>
+              <div class="flow-node flow-node--spotify">
+                <div class="flow-icon">
+                  <i class="fa-brands fa-spotify"></i>
+                </div>
+                <p>Y reacomoda tu cola solo</p>
+                <p class="flow-label-muted">
+                  Encola la que embona, o salta si el salto es brusco
+                </p>
+              </div>
+            </div>
+
+            <p
+              class="turn-line"
+              style="margin-top: 26px !important; font-size: 17pt !important"
+            >
+              Tú solo entrenas, estudias o manejas. La música se acomoda sola.
+            </p>
+          </div>
+        </section>
+
         <!-- ============ Reproducción: cómo usamos Spotify ============ -->
         <!-- Lo que hace el código hoy (app/src/store/spotifyStore.ts y
            HomeScreen.tsx), con sus constantes reales:
