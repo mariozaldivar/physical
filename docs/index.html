@@ -3,9 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Physical — U-Challenge</title>
+    <title>Physical — Pitch final</title>
 
-    <!-- Reveal.js core -->
+    <!-- Pitch final de Innovación (U-Challenge XVII), v2: historia primero.
+         Une ventas/ (el hilo y la historia) y tecnico/ (cómo funciona por
+         dentro): historia → beneficios → portada → activación y fórmula →
+         flujo de la app y demo → negocio y costos → cierre. Cubre los criterios de la
+         «Guía para tu pitch Final de Innovación» sin seguir 1 lámina = 1
+         punto. Las láminas se copian tal cual de su deck de origen (rutas
+         ajustadas a esta carpeta). Después del divisor «Respaldo», solo
+         material para preguntas. Notas del presentador con tiempos: tecla S.
+         La v1 (guion de 11 láminas) quedó en index.v1.html. -->
+
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css"
@@ -14,23 +23,23 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css"
     />
-
-    <!-- Font Awesome for icons -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
 
-    <!-- Paleta de color (ver también las variantes en paletas/) + estilos compartidos -->
     <link rel="stylesheet" href="palette-b-azul-profundo.css" />
     <link rel="stylesheet" href="base.css" />
-
-    <!-- Chart.js for data visualization (no charts en esta plantilla todavía, se deja disponible) -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="tecnico/tecnico.css" />
+    <link rel="stylesheet" href="final.css" />
   </head>
   <body>
     <div class="reveal">
       <div class="slides">
+
+        <!-- ==================== ACTO 1 · El problema · 0:00–0:57 (criterio 1) ==================== -->
+
+
         <!-- ============ 1. HOOK — El gimnasio (abre el pitch) ============ -->
         <!-- Diapositiva para narrar encima: cada .fragment es un golpe del
            guion, así que el ritmo lo marca el presentador y no un timer.
@@ -197,6 +206,10 @@
               </figure>
             </div>
           </div>
+          <aside class="notes">
+            0:00–0:30 · Una sola voz abre. Problema primero, nunca la tecnología. El flujo original, clic por clic:
+            récord personal → la canción te tiene (suena Till I Collapse) → aleatorio → entra la de dormir (Té Para 3) → sueltas la barra.
+          </aside>
         </section>
 
         <!-- ============ 2. HOOK — La mañana ============ -->
@@ -224,7 +237,7 @@
                 <div class="scene-cards">
                   <div
                     class="sync-card fragment card-in"
-                    data-fragment-index="5"
+                    data-fragment-index="3"
                     data-stress="92"
                     data-audio="audio/chop-suey.mp3"
                   >
@@ -253,42 +266,23 @@
                   <div
                     class="morning-step fragment step-in"
                     data-fragment-index="0"
-                    data-stress="18"
+                    data-stress="25"
                   >
                     <i class="fa-solid fa-paw"></i>
-                    <p>
-                      Te levantaste con el pie izquierdo, y al salir de tu
-                      cuarto pisas el pipí del perro.
-                    </p>
+                    <p>Pisas el pipí del perro y no alcanzas a desayunar.</p>
                   </div>
                   <div
                     class="morning-step fragment step-in"
                     data-fragment-index="1"
-                    data-stress="34"
+                    data-stress="50"
                   >
-                    <i class="fa-solid fa-mug-hot"></i>
-                    <p>Te quedas sin tiempo de desayunar.</p>
+                    <i class="fa-solid fa-clock"></i>
+                    <p>Olvidaste tu entrega, regresas por ella y ya vas tarde.</p>
                   </div>
                   <div
                     class="morning-step fragment step-in"
                     data-fragment-index="2"
-                    data-stress="52"
-                  >
-                    <i class="fa-solid fa-folder-open"></i>
-                    <p>Olvidaste tu entrega. Regresas por ella.</p>
-                  </div>
-                  <div
-                    class="morning-step fragment step-in"
-                    data-fragment-index="3"
-                    data-stress="68"
-                  >
-                    <i class="fa-solid fa-clock"></i>
-                    <p>Ya vas tarde.</p>
-                  </div>
-                  <div
-                    class="morning-step fragment step-in"
-                    data-fragment-index="4"
-                    data-stress="80"
+                    data-stress="72"
                   >
                     <i class="fa-solid fa-car-side"></i>
                     <p>El tráfico está peor que nunca.</p>
@@ -304,7 +298,7 @@
 
                 <div
                   class="beat beat--break fragment beat-in"
-                  data-fragment-index="6"
+                  data-fragment-index="4"
                   data-stress="100"
                   style="max-width: 100%"
                 >
@@ -316,48 +310,138 @@
               </div>
             </div>
           </div>
+          <aside class="notes">
+            0:20–0:35 · Otro escenario, rápido: el estrés sube y la música lo empuja más. Aquí nace el modo zen.
+          </aside>
         </section>
 
-        <!-- ============ 3. La música sí funciona (datos respaldados) ============ -->
-        <section id="slide-benefits">
-          <h2>Pero la música tiene muchos efectos positivos</h2>
-          <div class="content" style="justify-content: center; gap: 34px">
-            <div class="stat-grid">
-              <div class="stat-card">
-                <p class="stat-figure" data-count-to="91" data-count-suffix="%">
-                  91%
-                </p>
-                <p>
-                  La ciencia ya lo comprobó: la música correcta no solo te
-                  acompaña, te hace rendir más. Hasta 9 de cada 10 atletas
-                  entrenan mejor cuando su música los sigue a ellos, y no al
-                  revés.
-                </p>
-                <p class="stat-source">
-                  Reporta mejor rendimiento físico entrenando con su música
-                  favorita · Apunts. Medicina de l'Esport
-                </p>
+        <!-- Por qué importa la música: las tres escenas de tecnico/#focus,
+           pero una a la vez. Los textos de la izquierda y las escenas de la
+           derecha se apilan en la misma celda; los <span class="fragment">
+           vacíos solo fijan data-scene (pitch.js) y final.css (#windsor)
+           muestra el texto y la escena de ese momento con un fade hacia
+           arriba. Al entrar: momento 1; clic → 2; clic → 3.
+           Cuidados (Investigacion_y_pitch_proyecto.md, "Frase 6"):
+           - Lesiuk: calidad AUTOEVALUADA, cambios pequeños; sin cifras
+             semanales.
+           - Thompson 2012: lenta o suave queda IGUAL que el silencio;
+             −30 % = 1,95 / 2,77, solo rápida + fuerte.
+           - La U invertida es la frase de Thompson 2001, no datos. -->
+        <section id="windsor">
+          <h2>Pero la música sí importa</h2>
+          <div class="content" style="gap: 16px; padding-top: 22px">
+            <div class="nar">
+              <div class="nar-story t-in" style="--d: 0.35s">
+                <div class="nar-beat beat--work">
+                  <p class="nar-step">1 · Sin música · Universidad de Windsor</p>
+                  <p class="nar-line">
+                    A 56 programadores les quitaron su música durante una
+                    semana.
+                  </p>
+                  <p class="nar-sub">
+                    Esa semana su ánimo y la calidad de su trabajo cayeron al
+                    punto más bajo, y tardaron más en sus tareas.
+                  </p>
+                  <p class="windsor-src">Lesiuk (2005) · Psychology of Music</p>
+                </div>
+                <div class="nar-beat beat--read">
+                  <p class="nar-step">2 · Con la música equivocada</p>
+                  <p class="nar-line">
+                    Pero no sirve cualquiera: 25 universitarios leyeron con
+                    Mozart de fondo.
+                  </p>
+                  <p class="nar-sub">
+                    Lenta o suave, leyeron igual que en silencio. Rápida y
+                    fuerte, acertaron un <strong>30 % menos</strong>.
+                  </p>
+                  <p class="windsor-src">Thompson et al. (2012) · Psychology of Music</p>
+                </div>
+                <div class="nar-beat beat--why">
+                  <p class="nar-step">3 · Por qué pasa</p>
+                  <p class="nar-line">
+                    La música mueve tu activación, y rindes mejor en un punto
+                    medio.
+                  </p>
+                  <p class="nar-sub">
+                    No basta con poner música: hay que poner
+                    <strong>la que te lleva a tu punto</strong>.
+                  </p>
+                  <p class="windsor-src">Thompson et al. (2001) · Kämpfe et al. (2011)</p>
+                </div>
               </div>
-              <div class="stat-card">
-                <p
-                  class="stat-figure"
-                  data-count-to="10"
-                  data-count-prefix="−"
-                  data-count-suffix="%"
-                >
-                  −10%
-                </p>
-                <p>
-                  Estudios demuestran que cuando la música se sincroniza con tu
-                  corazón, tu cuerpo siente hasta un 10% menos de esfuerzo.
-                </p>
-                <p class="stat-source">
-                  Percepción de esfuerzo y carga interna con ejercicio
-                  musicalmente sincronizado · Retos
-                </p>
+
+              <div class="t-card nar-stage t-in" style="--d: 0.5s" aria-hidden="true">
+                <!-- 1 · Las cinco semanas del estudio; la cuarta, sin música. -->
+                <div class="scene scene--work">
+                  <p class="t-kicker">5 semanas en su lugar de trabajo</p>
+                  <div class="weeks">
+                    <div class="week"><i class="fa-solid fa-music"></i><p>Sem. 1</p></div>
+                    <div class="week"><i class="fa-solid fa-music"></i><p>Sem. 2</p></div>
+                    <div class="week"><i class="fa-solid fa-music"></i><p>Sem. 3</p></div>
+                    <div class="week week--off">
+                      <i class="fa-solid fa-volume-xmark"></i><p>Sem. 4</p>
+                    </div>
+                    <div class="week"><i class="fa-solid fa-music"></i><p>Sem. 5</p></div>
+                  </div>
+                  <div class="week-drop">
+                    <p><i class="fa-solid fa-arrow-down"></i>Ánimo</p>
+                    <p><i class="fa-solid fa-arrow-down"></i>Calidad del trabajo</p>
+                    <p><i class="fa-solid fa-arrow-up"></i>Tiempo por tarea</p>
+                  </div>
+                </div>
+
+                <!-- 2 · El silencio contra la única combinación que hace daño. -->
+                <div class="scene scene--read">
+                  <p class="t-kicker">Respuestas correctas, de 6</p>
+                  <div class="duo">
+                    <div class="duo-col">
+                      <p class="duo-val">2.77</p>
+                      <div class="duo-bar" style="--v: 2.77"></div>
+                      <p class="duo-name">En silencio</p>
+                    </div>
+                    <div class="duo-col duo-col--hot">
+                      <p class="duo-val">1.95 <em>−30 %</em></p>
+                      <div class="duo-bar" style="--v: 1.95"></div>
+                      <p class="duo-name">Rápida y fuerte<br /><span>150 BPM</span></p>
+                    </div>
+                  </div>
+                  <p class="scene-note">
+                    Lenta o suave (110 BPM o volumen bajo): sin diferencia con
+                    el silencio.
+                  </p>
+                </div>
+
+                <!-- 3 · La U invertida: el punto sube a la cima, se pasa y
+                     regresa. Es la frase de Thompson 2001, no datos. -->
+                <div class="scene scene--why">
+                  <p class="t-kicker">Rendimiento según tu activación</p>
+                  <svg class="arc" viewBox="0 0 400 190">
+                    <line class="arc-axis" x1="10" y1="170" x2="390" y2="170" />
+                    <path class="arc-curve" d="M20 165 C 110 165, 140 30, 200 30 S 290 165, 380 165" />
+                    <circle class="arc-dot" r="8" />
+                    <text class="arc-lbl" x="14" y="190">Muy poca</text>
+                    <text class="arc-lbl arc-lbl--top" x="200" y="18" text-anchor="middle">Tu punto</text>
+                    <text class="arc-lbl" x="386" y="190" text-anchor="end">Demasiada</text>
+                    <text class="arc-x" x="200" y="190" text-anchor="middle">activación →</text>
+                  </svg>
+                  <p class="scene-note">
+                    La música te mueve sobre esta curva: Physical elige la que
+                    te deja arriba.
+                  </p>
+                </div>
               </div>
             </div>
+
+            <!-- Disparadores: no se ven, solo cambian data-scene. -->
+            <span class="fragment" data-scene="read"></span>
+            <span class="fragment" data-scene="why"></span>
           </div>
+          <aside class="notes">
+            0:35–1:05 · Tres clics, un momento a la vez.
+            1) Sin música: 56 programadores, 4 empresas de software en Canadá, 5 semanas; la 4.ª sin música → ánimo y calidad más bajos, más tiempo por tarea. Si preguntan: la calidad la evaluó cada programador y los cambios son pequeños.
+            2) Clic: no sirve cualquiera. Lenta o suave = igual que en silencio; rápida y fuerte = 30 % menos (1.95 vs 2.77 de 6).
+            3) Clic: la música mueve tu activación; rindes mejor en un punto medio. Remate: "hay que poner la que te lleva a tu punto" → pasar al giro.
+          </aside>
         </section>
 
         <!-- ============ 4. El giro y la frase del problema ============ -->
@@ -393,21 +477,45 @@
               <span class="line"><em>Tu música, no.</em></span>
             </h1>
           </div>
+          <aside class="notes">
+            0:50–0:57 · No avanzar durante los puntos suspensivos. Frase completa, despacio:
+            "Tu cuerpo cambia de ritmo todo el tiempo. Tu música, no."
+          </aside>
         </section>
 
-        <!-- ============ 5. PORTADA — la marca responde a la frase ============ -->
+
+        <!-- ==================== ACTO 2 · Physical · 1:05–1:25 (criterio 2) ==================== -->
+
+
+        <!-- ============ 6. La respuesta ============ -->
+        <!-- Par tipográfico con la frase del problema (la 4): mismo tratamiento,
+           acento invertido. Aquella nombra el problema en coral; esta
+           responde en cian. -->
+        <section
+          id="answer"
+          data-transition="fade"
+          data-state="is-section-divider"
+          style="justify-content: center"
+        >
+          <h1 class="statement statement--answer statement--long">
+            <span class="line">¿Y si hubiera una aplicación que se encargue de leerte,</span>
+            <span class="line">para que tu música <em>siempre esté en sincronía contigo?</em></span>
+          </h1>
+          <aside class="notes">
+            1:05–1:12 · Es una pregunta: decirla despacio y dejarla en el aire. La respuesta es la siguiente lámina.
+            Por qué este enfoque (si preguntan): no cambiamos tu música por la nuestra (RockMyRun, Endel); usamos la que ya elegiste.
+          </aside>
+        </section>
+
+        <!-- ============ 1 / 11 · Portada con tu marca (criterio 2 · 8 %) ============ -->
+        <!-- Portada y demo animada de ventas/. Lo nuevo: categoría (pill) y la
+           frase «Desarrollamos ___ que ___ para ___» que pide la guía. -->
         <section
           id="title"
           class="section-divider"
           data-state="is-section-divider"
         >
-          <!-- Pill "U-Challenge · Universidad Anáhuac Mayab" retirado a
-             propósito; se vuelve a añadir más adelante:
-        <div class="tag-pill" style="position: absolute; top: 40px; left: 60px;">
-          <span class="dot"></span>
-          <p>U-Challenge · Universidad Anáhuac Mayab</p>
-        </div>
-        -->
+
 
           <div class="cover-stage" id="cover-stage">
             <!-- Fase 1: SOLO logo + título, resaltados y centrados. Fase 2
@@ -496,6 +604,10 @@
                   ><span class="cover-tagline-line">Tu música lo sigue.</span>
                 </p>
               </div>
+              <p class="cover-desc">
+                Desarrollamos <strong>una app que lee tu pulso</strong> y acomoda tu
+                cola de Spotify, para que tu música siga tu ritmo.
+              </p>
               <div class="cover-team" style="margin-top: 22px">
                 <span class="cover-team-name">Mario Zaldívar</span>
                 <span class="cover-team-dot"></span>
@@ -736,25 +848,10 @@
               </div>
             </div>
           </div>
-        </section>
-
-        <!-- ============ 6. La respuesta ============ -->
-        <!-- Par tipográfico con la frase del problema (la 4): mismo tratamiento,
-           acento invertido. Aquella nombra el problema en coral; esta
-           responde en cian. -->
-        <section
-          id="answer"
-          data-transition="fade"
-          data-state="is-section-divider"
-          style="justify-content: center"
-        >
-          <h1 class="statement statement--answer statement--long">
-            <span class="line"
-              >Una aplicación que se encarga de leerte a ti,</span
-            >
-            <span class="line">para que tu música <em>siempre esté</em></span>
-            <span class="line"><em>en sincronía contigo.</em></span>
-          </h1>
+          <aside class="notes">
+            1:12–1:25 · La respuesta a la pregunta: "Somos Physical: desarrollamos una app que lee tu pulso y acomoda tu cola de Spotify, para que tu música siga tu ritmo."
+            Si preguntan por el nombre: se califica el concepto, tenerlo ensayado.
+          </aside>
         </section>
 
         <!-- ============ 7. ¿Cómo lo hace? ============ -->
@@ -771,9 +868,9 @@
                 <div class="flow-icon">
                   <i class="fa-solid fa-heart-pulse"></i>
                 </div>
-                <p>La banda BePhysical lee tu corazón</p>
+                <p>Tu banda o tu reloj lee tu corazón</p>
                 <p class="flow-label-muted">
-                  Sensor de pulso en la muñeca, en vivo
+                  El que ya traes puesto, en vivo
                 </p>
               </div>
               <div class="flow-connector"><span class="flow-dot"></span></div>
@@ -805,6 +902,10 @@
               Tú solo entrenas, estudias o manejas. La música se acomoda sola.
             </p>
           </div>
+          <aside class="notes">
+            1:25–1:40 · Justo después de la portada: el resumen de cómo funciona. Entra el pulso → pasa nuestro algoritmo → sale tu cola.
+            Propio: la app y el algoritmo. Terceros: el reloj o la banda (Bluetooth estándar), Spotify y ReccoBeats.
+          </aside>
         </section>
 
         <!-- ============ 8. Se adapta a la situación ============ -->
@@ -907,376 +1008,660 @@
               </div>
             </div>
           </div>
+          <aside class="notes">
+            1:40–1:50 · Justo después de cómo funciona. Dos modos, mismo algoritmo: zen baja el tempo cuando sube tu pulso; ejercicio lo sube.
+          </aside>
         </section>
 
-        <!-- ============ 9. Uso preventivo ============ -->
-        <!-- La salvaguarda vivía apretada dentro de la diapositiva de modos y
-           competía con ella. Sola tiene el tamaño que el argumento merece:
-           el corazón, el medidor y los cuatro pasos son UNA sola animación
-           de 9s gobernada por --guard-heat (ver .guard-* en base.css), y el
-           ciclo cuenta la historia entera — el pulso se dispara, cruza el
-           umbral, entra la música relajada y el pulso VUELVE. Eso último es
-           el argumento; la alarma sola no vende nada.
 
-           El reloj vive en .guard-clock (el .content), no en la <section>:
-           así reveal maneja la transición de diapositiva sin pelearse con
-           una animación puesta sobre el mismo elemento. -->
-        <section id="safeguard">
-          <h2>Uso preventivo</h2>
-          <div
-            class="content guard-clock"
-            style="justify-content: center; gap: 30px"
-          >
-            <div class="tag-pill">
-              <span class="dot"></span>
-              <p>Por encima del umbral, el modo que elegiste se anula</p>
+        <!-- ==================== ACTO 3 · La activación y nuestra fórmula · 1:17–2:05 (criterios 3 y 4) ==================== -->
+
+
+        <!-- ============ 2b. Cómo se mide la activación ============ -->
+        <!-- La activación (arousal) es el eje vertical del modelo de Russell;
+           aquí se arma con tres indicadores, cada uno contra la línea base de
+           la propia persona. Fuentes en Investigacion_y_pitch_proyecto.md,
+           "Frase 7".
+
+           En pantalla van en texto, sin fórmulas (decisión del 2026-10-13);
+           las fórmulas están en la Frase 7. Ejemplo de la tarjeta: 20 años → FCmáx = 208 − 0,7·20 = 194;
+           reposo 60, ahora 128 → (128 − 60) / (194 − 60) = 68/134 = 51 %.
+
+           Lo que es nuestro y lo que no: cada fórmula sale de su fuente;
+           COMBINARLAS en un índice de activación es diseño nuestro. Hoy la
+           cola usa el pulso crudo: normalizarlo, la variabilidad y el
+           movimiento no están implementados. La franja de abajo lo dice. -->
+        <section id="activation">
+          <h2>¿Y cómo sabemos cuál es la adecuada?</h2>
+          <div class="content" style="gap: 14px; padding-top: 18px">
+            <p class="focus-lead t-in" style="--d: 0.3s">
+              Con estos indicadores se puede calcular tu nivel de
+              <strong>activación</strong> <sup>[6]</sup> y aproximarlo a una
+              cantidad: qué tan acelerado va tu cuerpo comparado contigo mismo.
+            </p>
+
+            <div class="act">
+              <div class="act-inputs">
+                <div class="act-row t-in" style="--d: 0.5s">
+                  <span class="act-icon"><i class="fa-solid fa-heart-pulse"></i></span>
+                  <div>
+                    <p class="act-name">Pulso → tu reserva cardíaca</p>
+                    <p class="act-desc">
+                      Qué parte del rango entre tu pulso en reposo y tu pulso
+                      máximo estás usando.
+                    </p>
+                    <p class="act-note">
+                      El máximo se estima a partir de tu edad <sup>[1]</sup>;
+                      esa fracción equivale a la de tu capacidad aeróbica en
+                      uso <sup>[2]</sup>
+                    </p>
+                  </div>
+                </div>
+                <div class="act-row t-in" style="--d: 0.7s">
+                  <span class="act-icon"><i class="fa-solid fa-wave-square"></i></span>
+                  <div>
+                    <p class="act-name">Variabilidad → el freno del cuerpo</p>
+                    <p class="act-desc">
+                      Qué tanto varía el tiempo entre un latido y el siguiente,
+                      comparado con tu línea base.
+                    </p>
+                    <p class="act-note">
+                      Refleja el control vagal <sup>[3]</sup>. Si cae, sube la
+                      activación: así responde el cuerpo al estrés
+                      <sup>[4]</sup>
+                    </p>
+                  </div>
+                  <div class="rr" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span
+                    ><span></span><span></span><span></span>
+                  </div>
+                </div>
+                <div class="act-row t-in" style="--d: 0.9s">
+                  <span class="act-icon"><i class="fa-solid fa-person-running"></i></span>
+                  <div>
+                    <p class="act-name">Movimiento → separa lo físico de lo mental</p>
+                    <p class="act-desc">
+                      El pulso que tu movimiento no alcanza a explicar se le
+                      atribuye a lo mental.
+                    </p>
+                    <p class="act-note">
+                      Con acelerómetro: 110 BPM corriendo no es lo mismo que
+                      110 BPM sentado <sup>[5]</sup>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="act-wires" aria-hidden="true">
+                <div class="wire" style="--every: 2.2s; --d: 1.2s"><span class="wire-dot"></span></div>
+                <div class="wire" style="--every: 2.2s; --d: 1.5s"><span class="wire-dot"></span></div>
+                <div class="wire" style="--every: 2.2s; --d: 1.8s"><span class="wire-dot"></span></div>
+              </div>
+
+              <div class="t-card act-out t-in" style="--d: 1.1s">
+                <p class="t-kicker">Ejemplo · solo el pulso</p>
+                <p class="act-given">20 años · reposo 60 · ahora 128 BPM</p>
+                <div class="act-calc">
+                  <p style="--k: 0">Pulso máximo estimado: <b>194 BPM</b></p>
+                  <p style="--k: 1">Usa la mitad de su reserva cardíaca</p>
+                </div>
+                <div class="act-meter">
+                  <div class="act-meter-bar"><span></span></div>
+                  <p class="act-meter-num">51<small>%</small></p>
+                </div>
+                <p class="act-meter-label">de activación</p>
+                <p class="act-then">
+                  El modo decide hacia dónde moverla: zen la baja, ejercicio la
+                  sostiene. De ahí sale el tempo de tu cola.
+                </p>
+              </div>
             </div>
 
-            <div class="guard-stage">
-              <div class="guard-heart" aria-hidden="true">
-                <span class="guard-heart-ring"></span>
-                <span class="guard-heart-ring guard-heart-ring--late"></span>
-                <svg viewBox="0 0 32 29" role="presentation">
-                  <path
-                    d="M16 28.2 3.6 15.6A7.6 7.6 0 0 1 16 6.9 7.6 7.6 0 0 1 28.4 15.6Z"
-                  />
-                </svg>
+            <p class="act-status t-in" style="--d: 1.4s">
+              <span class="act-status-now">Hoy</span> la cola usa el pulso.
+              <span class="act-status-next">Siguiente</span> normalizarlo y
+              sumar la variabilidad y el movimiento: combinar los tres es
+              diseño nuestro.
+            </p>
+
+            <ol class="apa apa--3 t-in" style="--d: 1.6s">
+              <li>
+                Tanaka, H., Monahan, K. D., &amp; Seals, D. R. (2001).
+                Age-predicted maximal heart rate revisited.
+                <em>Journal of the American College of Cardiology, 37</em>(1),
+                153–156. https://doi.org/10.1016/S0735-1097(00)01054-8
+              </li>
+              <li>
+                Swain, D. P., &amp; Leutholtz, B. C. (1997). Heart rate reserve
+                is equivalent to %VO<sub>2</sub> reserve, not to
+                %VO<sub>2</sub>max. <em>Medicine &amp; Science in Sports &amp;
+                Exercise, 29</em>(3), 410–414.
+                https://doi.org/10.1097/00005768-199703000-00018
+              </li>
+              <li>
+                Shaffer, F., &amp; Ginsberg, J. P. (2017). An overview of heart
+                rate variability metrics and norms. <em>Frontiers in Public
+                Health, 5</em>, 258. https://doi.org/10.3389/fpubh.2017.00258
+              </li>
+              <li>
+                Kim, H.-G., Cheon, E.-J., Bai, D.-S., Lee, Y. H., &amp; Koo,
+                B.-H. (2018). Stress and heart rate variability: A meta-analysis
+                and review of the literature. <em>Psychiatry Investigation,
+                15</em>(3), 235–245. https://doi.org/10.30773/pi.2017.08.17
+              </li>
+              <li>
+                van de Ven, S. R. B., Gevonden, M. J., Noordzij, M. L., &amp; de
+                Geus, E. J. C. (2025). Accelerometer-based heart rate adjustment
+                for ambulatory stress research. <em>Psychophysiology, 62</em>(1),
+                e14721. https://doi.org/10.1111/psyp.14721
+              </li>
+              <li>
+                Russell, J. A. (1980). A circumplex model of affect.
+                <em>Journal of Personality and Social Psychology, 39</em>(6),
+                1161–1178. https://doi.org/10.1037/h0077714
+              </li>
+            </ol>
+          </div>
+          <aside class="notes">
+            1:17–1:40 · Qué es la activación: qué tan acelerado va tu cuerpo comparado contigo mismo.
+            Tres indicadores: pulso (reserva cardíaca), variabilidad (el freno del cuerpo) y movimiento (separa lo físico de lo mental).
+            Ejemplo de la tarjeta: 20 años, reposo 60, ahora 128 → 51 % de activación.
+          </aside>
+        </section>
+
+        <!-- ============ 2c. La fórmula de activación ============ -->
+        <!-- PROPUESTA NUESTRA, no implementada. Cada término sale de su
+           fuente (las mismas [1]–[5] de la diapositiva anterior); la SUMA
+           PONDERADA y sus pesos 0.5 / 0.3 / 0.2 no salen de ningún estudio:
+           son un punto de partida a calibrar con datos reales.
+
+           Lecturas del sensor: hr (BPM), rr[] (ms entre latidos), accel
+           (magnitud del acelerómetro). Perfil, calculado del historial de la
+           persona: age, hr_rest, rmssd_base. hr_mov(accel) es el pulso que
+           predice el movimiento (van de Ven et al. lo estiman con regresión
+           sobre intensidad, postura y tipo de actividad).
+
+           Los dos casos (20 años, hr_rest 60 → hr_max 194, rango 134; mismo
+           pulso de 110):
+             corriendo: P = 50/134 = .37 · V = 1 − 30/45 = .33 ·
+                        E = (110 − 108)/134 = .01 → A = .29
+             sentado:   P = .37 · V = 1 − 20/45 = .56 ·
+                        E = (110 − 65)/134 = .34  → A = .42
+           Los valores de RMSSD y hr_mov son de ejemplo. -->
+        <section id="formula">
+          <h2>La fórmula: tu activación en un número</h2>
+          <div class="content" style="gap: 20px; padding-top: 16px; justify-content: center">
+            <div class="fx-main t-in" style="--d: 0.3s">
+              <p class="fx-eq">
+                <span class="fx-a">A</span> =
+                <span class="fx-t" style="--k: 0">0.5 · <b class="fx-p">P</b></span> +
+                <span class="fx-t" style="--k: 1">0.3 · <b class="fx-v">V</b></span> +
+                <span class="fx-t" style="--k: 2">0.2 · <b class="fx-e">E</b></span>
+              </p>
+              <p class="fx-tag">
+                Propuesta de diseño · cada término acotado de 0 a 1 · los pesos
+                se calibran con datos
+              </p>
+            </div>
+
+            <div class="fx-terms">
+              <div class="fx-term fx-term--p t-in" style="--d: 0.7s">
+                <p class="fx-name"><b>P</b> · Pulso relativo</p>
+                <p class="fx-code">
+                  (hr − hr_rest) ÷ (hr_max − hr_rest)<br />
+                  hr_max = 208 − 0.7 × age
+                </p>
+                <p class="fx-why">Qué parte de tu reserva cardíaca usas <sup>[1][2]</sup></p>
+              </div>
+              <div class="fx-term fx-term--v t-in" style="--d: 0.9s">
+                <p class="fx-name"><b>V</b> · Caída de variabilidad</p>
+                <p class="fx-code">
+                  1 − rmssd(rr[]) ÷ rmssd_base
+                </p>
+                <p class="fx-why">Cuánto se soltó el freno vagal frente a tu normal <sup>[3][4]</sup></p>
+              </div>
+              <div class="fx-term fx-term--e t-in" style="--d: 1.1s">
+                <p class="fx-name"><b>E</b> · Pulso que no explica el movimiento</p>
+                <p class="fx-code">
+                  (hr − hr_mov(accel)) ÷ (hr_max − hr_rest)
+                </p>
+                <p class="fx-why">La parte mental de la activación <sup>[5]</sup></p>
+              </div>
+            </div>
+
+            <div class="fx-bottom">
+              <div class="fx-inputs t-in" style="--d: 1.3s">
+                <p class="t-kicker">Lecturas del sensor</p>
+                <p class="fx-chips">
+                  <span class="fx-chip"><code>hr</code>pulso, BPM</span>
+                  <span class="fx-chip"><code>rr[]</code>ms entre latidos</span>
+                  <span class="fx-chip"><code>accel</code>acelerómetro</span>
+                </p>
+                <p class="t-kicker" style="margin-top: 8px !important">Tu perfil · de tu historial</p>
+                <p class="fx-chips">
+                  <span class="fx-chip"><code>age</code>edad</span>
+                  <span class="fx-chip"><code>hr_rest</code>pulso en reposo</span>
+                  <span class="fx-chip"><code>rmssd_base</code>tu variabilidad habitual</span>
+                </p>
               </div>
 
-              <div class="guard-gauge">
-                <div class="guard-rail">
-                  <span class="guard-danger"></span>
-                  <span class="guard-fill"></span>
-                  <span class="guard-limit"></span>
-                  <p class="guard-read" aria-hidden="true">
-                    <span class="guard-bpm"></span
-                    ><span class="guard-unit">BPM</span>
-                  </p>
+              <div class="fx-cases">
+                <p class="t-kicker fx-cases-title t-in" style="--d: 1.5s">
+                  El mismo pulso de 110 BPM · 20 años, reposo 60
+                </p>
+                <div class="fx-case t-in" style="--d: 1.7s; --a: 0.29">
+                  <i class="fa-solid fa-person-running"></i>
+                  <div>
+                    <p class="fx-case-name">Corriendo</p>
+                    <p class="fx-case-terms">P .37 · V .33 · E .01</p>
+                  </div>
+                  <div class="fx-bar"><span></span></div>
+                  <p class="fx-case-num">29<small>%</small></p>
                 </div>
-                <div class="guard-scale">
-                  <p>60</p>
-                  <p class="guard-scale-limit">Umbral · +200 BPM</p>
-                  <p>240</p>
+                <div class="fx-case fx-case--hot t-in" style="--d: 1.9s; --a: 0.42">
+                  <i class="fa-solid fa-chair"></i>
+                  <div>
+                    <p class="fx-case-name">Sentado, estresado</p>
+                    <p class="fx-case-terms">P .37 · V .56 · E .34</p>
+                  </div>
+                  <div class="fx-bar"><span></span></div>
+                  <p class="fx-case-num">42<small>%</small></p>
                 </div>
               </div>
             </div>
 
-            <div class="guard-steps">
-              <div class="guard-step guard-step--1">
-                <span class="guard-step-num">1</span>
-                <div>
-                  <p class="guard-step-title">La banda lo ve</p>
-                  <p class="guard-step-note">Pulso fuera de todo rango</p>
-                </div>
-              </div>
-              <div class="guard-step guard-step--2">
-                <span class="guard-step-num">2</span>
-                <div>
-                  <p class="guard-step-title">Se anula el modo</p>
-                  <p class="guard-step-note">Da igual zen o ejercicio</p>
-                </div>
-              </div>
-              <div class="guard-step guard-step--3">
-                <span class="guard-step-num">3</span>
-                <div>
-                  <p class="guard-step-title">Música relajada</p>
-                  <p class="guard-step-note">Por debajo de tu pulso</p>
-                </div>
-                <div class="pulse-wave pulse-wave--guard" aria-hidden="true">
-                  <span></span><span></span><span></span><span></span
-                  ><span></span>
-                </div>
-              </div>
-              <div class="guard-step guard-step--4">
-                <span class="guard-step-num">4</span>
-                <div>
-                  <p class="guard-step-title">El pulso vuelve</p>
-                  <p class="guard-step-note">Y la sesión sigue donde estaba</p>
-                </div>
-              </div>
-            </div>
-
-            <p class="guard-note">
-              No sustituye a un médico ni a una alerta de emergencia: es tu
-              música dejando de empujarte cuando tu cuerpo ya no lo necesita.
+            <p class="fx-refs t-in" style="--d: 2.1s">
+              Componentes: [1] Tanaka et al., 2001 · [2] Swain y Leutholtz,
+              1997 · [3] Shaffer y Ginsberg, 2017 · [4] Kim et al., 2018 ·
+              [5] van de Ven et al., 2025 — referencias completas en la
+              diapositiva anterior. RMSSD y hr_mov del ejemplo son valores
+              ilustrativos.
             </p>
           </div>
+          <aside class="notes">
+            1:40–2:05 · Nuestra fórmula: A = 0.5·P + 0.3·V + 0.2·E. Cada componente sale de una fuente; combinarlos es diseño nuestro.
+            El ejemplo: el mismo 110 BPM da 29 % corriendo y 42 % sentado y estresado.
+            Honestidad: es una propuesta; los pesos se calibran con datos, y hoy la cola usa el pulso.
+            Lo que protegemos como secreto es la calibración (ver lámina de protección), no esta propuesta.
+          </aside>
         </section>
 
-        <!-- ============ 10. REFRÁN — cierra el bloque de producto ============ -->
-        <section
-          id="refrain-1"
-          data-transition="fade"
-          class="section-divider"
-          data-state="is-section-divider"
-        >
-          <div class="pulse-wave" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span
-            ><span></span><span></span><span></span><span></span>
-          </div>
-          <h1 class="refrain">
-            <span class="line">Haz que la música nunca vuelva a sacarte</span>
-            <span class="line"><em>del momento que estás viviendo.</em></span>
-          </h1>
-        </section>
 
-        <!-- ============ 11. DIVISOR — El prototipo ============ -->
-        <section
-          id="divider-proto"
-          class="section-divider"
-          data-state="is-section-divider"
-        >
-          <div
-            class="pulse-wave"
-            aria-hidden="true"
-            style="margin-bottom: 26px"
-          >
-            <span></span><span></span><span></span><span></span><span></span
-            ><span></span><span></span><span></span><span></span>
-          </div>
-          <h1>Pero, ¿cuánto cuesta?</h1>
-        </section>
+        <!-- ==================== ACTO 4 · Flujo de la aplicación y demo · 2:05–3:25 (criterios 3 y 6) ==================== -->
 
-        <!-- ============ 12. El prototipo ============ -->
-        <section id="proto">
-          <h2>Qué lleva dentro</h2>
-          <div class="content" style="justify-content: center">
-            <div
-              style="
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 44px;
-                align-items: center;
-              "
-            >
-              <div>
-                <div class="spec-row">
-                  <i class="fa-solid fa-microchip"></i>
-                  <div style="flex: 1; min-width: 0">
-                    <p class="spec-name">ESP-32</p>
-                    <p class="spec-note">
-                      Microcontrolador con Bluetooth integrado
-                    </p>
-                  </div>
-                  <p class="spec-cost">$120</p>
-                </div>
-                <div class="spec-row">
-                  <i class="fa-solid fa-heart-pulse"></i>
-                  <div style="flex: 1; min-width: 0">
-                    <p class="spec-name">Sensor MAX30102</p>
-                    <p class="spec-note">
-                      Lectura óptica de pulso en la muñeca
-                    </p>
-                  </div>
-                  <p class="spec-cost">$100</p>
-                </div>
-                <div class="spec-row">
-                  <i class="fa-solid fa-battery-three-quarters"></i>
-                  <div style="flex: 1; min-width: 0">
-                    <p class="spec-name">Batería</p>
-                    <p class="spec-note">
-                      Para que la banda no dependa de un cable
-                    </p>
-                  </div>
-                  <p class="spec-cost">$50</p>
-                </div>
-                <div class="spec-row">
-                  <i class="fa-solid fa-screwdriver-wrench"></i>
-                  <div style="flex: 1; min-width: 0">
-                    <p class="spec-name">Banda y armado</p>
-                    <p class="spec-note">
-                      Correa, cables y carcasa del prototipo
-                    </p>
-                  </div>
-                  <p class="spec-cost">$50</p>
-                </div>
-              </div>
 
-              <div>
-                <div class="ble-badge" style="margin-bottom: 20px">
-                  <span class="ble-emitter" aria-hidden="true">
-                    <span></span><span></span><span></span>
-                    <i class="fa-brands fa-bluetooth-b"></i>
+        <!-- ============ 7. La cola ============ -->
+        <!-- El algoritmo en movimiento, en un ciclo de 12s: el pulso pasa de
+           128 a 152, el cambio se sostiene (la barra coral se llena) y solo
+           entonces la cola se rearma. Luego regresa.
+
+           Las cifras son las constantes reales del código: MAX_CANDIDATES y
+           DEFAULT_QUEUE_BATCH_SIZE (services/bpmQueue.ts),
+           BPM_RECOMPUTE_THRESHOLD y BPM_CHANGE_SUSTAIN_MS
+           (store/spotifyStore.ts), DEFAULT_PLAY_HISTORY_SIZE
+           (store/playHistoryStore.ts). Los textos "mantiene / sube / baja el
+           ritmo" son los de utils/bpmMatch.ts (±3 BPM = mantiene). Si
+           cambian allá, cambian aquí.
+
+           Eje de 60 a 180 BPM: --at = (bpm − 60) / 120. Con el pulso en 128
+           (56.7%), la de 126 es la más cercana pero ya sonó: entran 131, 122
+           y 136 (.is-a). Con el pulso en 152 (76.7%) entran 150, 146 y 158
+           (.is-b). -->
+        <section id="algo">
+          <h2>La cola: lo más cercano a tu pulso</h2>
+          <div class="content" style="justify-content: center; gap: 24px">
+            <div class="match t-in" style="--d: 0.3s">
+              <div class="match-rail">
+                <span class="match-song" style="--at: 5.8%"></span>
+                <span class="match-song" style="--at: 11.7%"></span>
+                <span class="match-song" style="--at: 25%"></span>
+                <span class="match-song" style="--at: 31.7%"></span>
+                <span class="match-song" style="--at: 43.3%"></span>
+                <span class="match-song is-a" style="--at: 51.7%"></span>
+                <span class="match-song is-recent" style="--at: 55%"></span>
+                <span class="match-song is-a" style="--at: 59.2%"></span>
+                <span class="match-song is-a" style="--at: 63.3%"></span>
+                <span class="match-song is-b" style="--at: 71.7%"></span>
+                <span class="match-song is-b" style="--at: 75%"></span>
+                <span class="match-song is-b" style="--at: 81.7%"></span>
+                <span class="match-song" style="--at: 92.5%"></span>
+                <span class="match-target">
+                  <span class="match-target-label">
+                    <p class="q-a">Tu pulso · 128 BPM</p>
+                    <p class="q-b">Tu pulso · 152 BPM</p>
                   </span>
-                  <p>
-                    Emitiendo · <span class="ble-uuid">Heart Rate 0x180D</span>
+                </span>
+              </div>
+              <div class="match-scale">
+                <p>60</p>
+                <p>90</p>
+                <p>120</p>
+                <p>150</p>
+                <p>180 BPM</p>
+              </div>
+              <div class="match-legend">
+                <p><span class="match-song"></span>Tus canciones guardadas</p>
+                <p>
+                  <span class="match-song is-pick"></span>Las 3 más cercanas
+                  van a tu cola
+                </p>
+                <p>
+                  <span class="match-song is-recent"></span>Una de las últimas
+                  15: se salta
+                </p>
+              </div>
+            </div>
+
+            <div class="queue-row">
+              <div class="t-card t-in" style="--d: 0.5s">
+                <div class="queue-head">
+                  <i class="fa-brands fa-spotify"></i>
+                  <p class="t-kicker">Tu cola</p>
+                  <div class="sustain">
+                    <p class="t-kicker">Cambio sostenido · 20 s</p>
+                    <span class="sustain-rail"
+                      ><span class="sustain-fill"></span
+                    ></span>
+                  </div>
+                </div>
+                <div class="queue-stack">
+                  <div class="queue-set queue-set--a">
+                    <div class="queue-item">
+                      <i class="fa-solid fa-music"></i>
+                      <p class="queue-bpm">131 BPM</p>
+                      <p class="queue-why">mantiene el ritmo</p>
+                    </div>
+                    <div class="queue-item">
+                      <i class="fa-solid fa-music"></i>
+                      <p class="queue-bpm">122 BPM</p>
+                      <p class="queue-why">baja el ritmo</p>
+                    </div>
+                    <div class="queue-item">
+                      <i class="fa-solid fa-music"></i>
+                      <p class="queue-bpm">136 BPM</p>
+                      <p class="queue-why">sube el ritmo</p>
+                    </div>
+                  </div>
+                  <div class="queue-set queue-set--b">
+                    <div class="queue-item">
+                      <i class="fa-solid fa-music"></i>
+                      <p class="queue-bpm">150 BPM</p>
+                      <p class="queue-why">mantiene el ritmo</p>
+                    </div>
+                    <div class="queue-item">
+                      <i class="fa-solid fa-music"></i>
+                      <p class="queue-bpm">146 BPM</p>
+                      <p class="queue-why">baja el ritmo</p>
+                    </div>
+                    <div class="queue-item">
+                      <i class="fa-solid fa-music"></i>
+                      <p class="queue-bpm">158 BPM</p>
+                      <p class="queue-why">sube el ritmo</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="const-grid">
+                <div class="const t-in" style="--d: 0.65s">
+                  <p class="const-value">150</p>
+                  <p class="const-label">
+                    canciones candidatas, leídas del SQLite local
                   </p>
                 </div>
-                <p style="font-size: 15pt !important; margin: 0 0 22px 0">
-                  La banda publica el pulso por el
-                  <strong>Heart Rate Service de Bluetooth</strong>, el mismo
-                  perfil que usan las pulseras comerciales. Cualquier app del
-                  ecosistema fitness puede leerla — y la nuestra la lee sin
-                  adaptadores.
-                </p>
-                <!-- Fotos de referencia, no del prototipo propio: el pie de
-                   cada una lo dice con todas sus letras para que nadie del
-                   jurado suponga que ya está armado así. Cuando existan las
-                   fotos reales, se sustituyen los dos archivos y ya.
-                   Descargadas localmente (créditos en img/CREDITOS.md). -->
-                <div class="collage-row">
-                  <div class="collage-item tilt-1">
-                    <img
-                      src="img/esp32-devkit.jpg"
-                      alt="Placa ESP-32 DevKit vista desde arriba, con el módulo metálico y el puerto micro-USB"
-                    />
-                    <p>El ESP-32 que va dentro</p>
-                  </div>
-                  <div class="collage-item tilt-2 drop-1">
-                    <img
-                      src="img/banda-muneca.jpg"
-                      alt="Banda de actividad puesta en una muñeca, mostrando la hora en su pantalla"
-                    />
-                    <p>El formato al que apunta la banda</p>
-                  </div>
+                <div class="const t-in" style="--d: 0.75s">
+                  <p class="const-value">3</p>
+                  <p class="const-label">siempre listas en tu cola</p>
                 </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ============ 13. Precio ============ -->
-        <!-- Tres tarjetas iguales aplanaban esto en una tabla de precios, y la
-           línea de tendencia que las cruzaba por encima chocaba con sus
-           bordes. Ahora la diapositiva dice UNA cosa y la dice con
-           geometría: el precio de venta es un UMBRAL, y los costos se miden
-           contra él.
-
-           Las barras están a escala real (máximo = $320), así que el hecho
-           incómodo se ve antes de leerse: lo que hoy cuesta armar una unidad
-           se PASA del precio al que queremos venderla. La segunda fila no
-           finge un número que nadie ha cotizado — es un rango punteado que
-           termina en el umbral.
-
-           El umbral es el mismo lenguaje visual que la salvaguarda de +200
-           BPM: línea punteada, etiqueta con la cifra, destello al cruzarla.
-           Coral = se pasa, cian = objetivo; las dos marcas van etiquetadas
-           con texto, así que la identidad nunca depende sólo del color.
-           Sin hover ni tooltips a propósito: esto se proyecta en una pared. -->
-        <section id="price">
-          <h2>Cuánto cuesta, y cuánto costará</h2>
-          <div class="content" style="justify-content: center; gap: 32px">
-            <div class="tag-pill">
-              <span class="dot"></span>
-              <p>El precio de venta no sale del costo: le pone techo</p>
-            </div>
-
-            <div class="cost-chart">
-              <!-- El umbral se dibuja sobre la columna del plot (no sobre las
-                 etiquetas) y cubre las dos filas: es el eje contra el que se
-                 miden las dos. -->
-              <div class="cost-ceiling" aria-hidden="true">
-                <div class="cost-ceiling-tag">
-                  <p class="cost-ceiling-label">Precio de venta · objetivo</p>
-                  <p
-                    class="cost-ceiling-value"
-                    data-count-to="250"
-                    data-count-prefix="$"
-                  >
-                    $250
+                <div class="const t-in" style="--d: 0.85s">
+                  <p class="const-value">±12 BPM</p>
+                  <p class="const-label">
+                    es lo que cuenta como cambio de ritmo
                   </p>
                 </div>
-                <span class="cost-ceiling-line"></span>
-              </div>
-
-              <div class="cost-side">
-                <p class="cost-name">Hoy · una unidad</p>
-                <p class="cost-note">
-                  Prototipo armado con componentes sueltos, al menudeo
-                </p>
-              </div>
-              <div class="cost-plot">
-                <span class="cost-bar cost-bar--over"></span>
-                <p
-                  class="cost-value cost-value--over"
-                  data-count-to="320"
-                  data-count-prefix="$"
-                >
-                  $320
-                </p>
-              </div>
-
-              <div class="cost-side">
-                <p class="cost-name">En producción</p>
-                <p class="cost-note">En volumen y sin piezas de maqueteo</p>
-              </div>
-              <div class="cost-plot">
-                <span class="cost-range"><p>tiene que caber aquí</p></span>
-                <p class="cost-value cost-value--todo">por cotizar</p>
+                <div class="const t-in" style="--d: 0.95s">
+                  <p class="const-value">20 s</p>
+                  <p class="const-label">
+                    debe sostenerse antes de rearmar la cola
+                  </p>
+                </div>
               </div>
             </div>
 
-            <p class="cost-foot">
-              Y dentro de esos $250 va la
-              <strong>licencia que por separado cuesta $150</strong>: quien
-              compra la banda no vuelve a pagar nada.
+            <p class="t-foot t-in" style="--d: 1.2s">
+              Un pico de un segundo no cambia tu música. Y solo movemos lo que
+              nosotros encolamos.
             </p>
           </div>
+          <aside class="notes">
+            2:30–2:45 · Cómo elige: las 3 canciones de tu biblioteca más cercanas a tu pulso.
+            ±12 BPM sostenidos 20 s cuentan como cambio: un pico de un segundo no cambia tu música. Solo movemos lo que nosotros encolamos.
+          </aside>
         </section>
 
-        <!-- ============ 14. El modelo de negocio ============ -->
-        <!-- La compatibilidad abierta no es un detalle técnico: ES el modelo.
-           Por eso la diapositiva concede de entrada lo que el jurado ya
-           está pensando ("entonces no necesito su banda") y deja que las
-           dos rutas se comparen solas. La banda no se defiende cerrando la
-           puerta — se defiende siendo la ruta sin fricción.
+        <!-- ============ 5 / 11 · El prototipo funcionando (criterio 6 · 21 %) ============ -->
+        <!-- La lámina NO sustituye a la demo: es el marco para hacerla en vivo.
+           "Ya funciona" sale del código actual de app/ y del pitch técnico;
+           "Falta" también. Etapa 3 (funcional) según la p. 8 de la guía:
+           confirmar con el equipo que el flujo ya corrió de punta a punta en
+           un teléfono real antes de decirlo. -->
+        <section id="proto">
+          <h2>Ya funciona: lo van a ver ahora</h2>
+          <div class="content" style="justify-content: center; gap: 22px">
+            <div class="stage-row f-in" style="--d: 0.2s">
+              <div class="stage"><p>1 · Idea</p></div>
+              <div class="stage"><p>2 · Prototipo inicial</p></div>
+              <div class="stage stage--now"><p>3 · Prototipo funcional</p><span>Estamos aquí</span></div>
+              <div class="stage"><p>4 · Probado con usuarios</p><span>Siguiente hito</span></div>
+            </div>
 
-           El dato de compatibilidad es el mismo perfil BLE estándar 0x180D
-           que ya emite el firmware (ver la diapositiva del prototipo): no
-           es una promesa nueva, es una consecuencia de una decisión
-           técnica que ya está tomada. -->
-        <section id="business">
-          <h2>No necesitas nuestra banda</h2>
+            <div class="proto">
+              <div class="f-card demo-slot f-in" style="--d: 0.4s">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+                <p class="demo-big">Demo en vivo</p>
+                <p>Pulso real → la cola de Spotify cambia</p>
+              </div>
+              <div class="f-card f-in" style="--d: 0.6s">
+                <p class="f-kicker">Ya funciona</p>
+                <ul class="chk">
+                  <li>Login con Spotify y tu biblioteca en el teléfono</li>
+                  <li>El ritmo de cada canción, vía ReccoBeats</li>
+                  <li>Tu pulso por Bluetooth estándar</li>
+                  <li>Arma y envía a tu cola un lote de 3 canciones</li>
+                  <li>App Android instalable (APK)</li>
+                </ul>
+              </div>
+              <div class="f-card f-in" style="--d: 0.8s">
+                <p class="f-kicker" style="color: var(--pulse-hot) !important">Falta</p>
+                <ul class="chk chk--missing">
+                  <li>Pruebas con usuarios reales</li>
+                  <li>Apple Health y la app de iOS</li>
+                  <li>Variabilidad y movimiento en el cálculo</li>
+                  <li>Servidor de suscripciones</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <aside class="notes">
+            2:45–3:25 · EL BLOQUE QUE MÁS PESA (21 %).
+            Abrir la app → iniciar sesión de escucha → subir el pulso (o "Usar banda simulada" si falla el Bluetooth) → mostrar el lote nuevo en la cola de Spotify.
+            El cambio debe sostenerse 20 s: tener preparado qué decir mientras tanto.
+            Decir con honestidad qué falta: suma en el criterio 9.
+            Requisitos: Spotify Premium, app de Spotify abierta en algún dispositivo, internet.
+          </aside>
+        </section>
+
+
+        <!-- ==================== ACTO 5 · Negocio y costos · 3:25–4:35 (criterios 4, 5, 7 y 8) ==================== -->
+
+
+        <!-- ============ 7 / 11 · Competencia y ventaja (criterios 4 y 5) ============ -->
+        <!-- Alternativas reales, con fuente (consultadas 2026-10-13):
+           - Spotify Running: retirado el 26-feb-2018 (Spotify Community,
+             "Retirement of our Running Feature").
+           - RockMyRun: "myBeat" ajusta el tempo de sus mezclas a pasos o
+             pulso; App Store: Rockstar Monthly 7.99 USD.
+           - Endel: paisajes sonoros generados; su app de Apple Watch usa el
+             pulso (endel.io); App Store: 1 mes 19.99 USD.
+           - Spotify Premium MX: $139/mes desde sep-2025 (Expansión,
+             2025-08-05).
+           Precios de App Store EE. UU.: verificar en la tienda de México. -->
+        <section id="competition">
+          <h2>La única que sigue tu pulso con tu propia música</h2>
+          <div class="content" style="justify-content: center; gap: 18px">
+            <table class="ftable">
+              <thead>
+                <tr><th>Alternativa</th><th>Tu música</th><th>Sigue tu pulso</th><th>Precio</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Tu playlist en aleatorio</td>
+                  <td class="yes"><i class="fa-solid fa-check"></i></td>
+                  <td class="no"><i class="fa-solid fa-minus"></i></td>
+                  <td>Incluido en Premium<small>$139 MXN/mes</small></td>
+                </tr>
+                <tr>
+                  <td>Spotify Running<small>Retirado en 2018</small></td>
+                  <td class="no">Sus playlists</td>
+                  <td class="no">Tu paso</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>RockMyRun</td>
+                  <td class="no">Su catálogo</td>
+                  <td class="yes"><i class="fa-solid fa-check"></i></td>
+                  <td>7.99 USD/mes</td>
+                </tr>
+                <tr>
+                  <td>Endel</td>
+                  <td class="no">Sonidos propios</td>
+                  <td class="yes">Apple Watch</td>
+                  <td>19.99 USD/mes</td>
+                </tr>
+                <tr class="ours">
+                  <td>Physical</td>
+                  <td class="yes"><i class="fa-solid fa-check"></i></td>
+                  <td class="yes"><i class="fa-solid fa-check"></i></td>
+                  <td>$30 MXN/mes<small>precio de ejemplo</small></td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="f-src">
+              Fuentes: Spotify Community (2018) · App Store: RockMyRun, Endel · endel.io · Expansión (5-ago-2025).
+              Precios de la App Store de EE. UU.
+            </p>
+          </div>
+          <aside class="notes">
+            3:25–3:42 · Qué es nuevo: la forma de uso — TU biblioteca + TU pulso + dos modos.
+            "¿Qué impide que Spotify lo haga mañana?": nada técnico; ya lo intentó (Running) y lo retiró en 2018.
+            Nuestra apuesta: el cálculo de activación y no depender de un solo servicio (Apple Music vía MusicKit, a evaluar).
+          </aside>
+        </section>
+
+        <!-- ============ 8 / 11 · Protección y factibilidad (criterios 5 y 7) ============ -->
+        <!-- Protección: en México el software se protege como obra ante
+           INDAUTOR; la marca, ante IMPI; el algoritmo y sus pesos, como
+           secreto industrial (no se divulgan). Disponibilidad de la marca
+           "Physical": NO verificada (buscar en MARCia/IMPI).
+           Terceros: Spotify Web API, quota modes (consultado 2026-10-13):
+           desarrollo = hasta 5 usuarios autenticados; extended quota solo para
+           organizaciones (desde 15-may-2025) con ≥ 250k MAU. Es el mayor
+           riesgo del proyecto y se dice de frente.
+           Regulatorio: el pulso es un dato de salud → dato personal sensible
+           (LFPDPPP), requiere consentimiento expreso; no sale del teléfono.
+           Cuotas: Apple Developer 99 USD/año, Google Play 25 USD una vez. -->
+        <section id="protect">
+          <h2>Se puede proteger, y sabemos de quién dependemos</h2>
+          <div class="content" style="justify-content: center; gap: 18px">
+            <div class="pf">
+              <div class="f-card f-in" style="--d: 0.3s">
+                <p class="f-kicker">Qué protegeríamos</p>
+                <div class="pf-item">
+                  <i class="fa-solid fa-code"></i>
+                  <p class="pf-what">Código de la app</p>
+                  <p class="pf-how">Registro de obra (programa de cómputo) · INDAUTOR</p>
+                </div>
+                <div class="pf-item">
+                  <i class="fa-solid fa-copyright"></i>
+                  <p class="pf-what">Marca Physical</p>
+                  <p class="pf-how">Registro de marca · IMPI</p>
+                </div>
+                <div class="pf-item">
+                  <i class="fa-solid fa-lock"></i>
+                  <p class="pf-what">Calibración del algoritmo</p>
+                  <p class="pf-how">Secreto industrial: los pesos ajustados con datos</p>
+                </div>
+              </div>
+
+              <div class="f-card f-in" style="--d: 0.5s">
+                <p class="f-kicker">De qué dependemos · y si falla</p>
+                <div class="pf-item pf-item--risk">
+                  <i class="fa-brands fa-spotify"></i>
+                  <p class="pf-what">Spotify: hoy máx. 5 usuarios</p>
+                  <p class="pf-how">Abrirlo exige empresa constituida y 250 mil usuarios activos → constituir la empresa y sumar Apple Music</p>
+                </div>
+                <div class="pf-item">
+                  <i class="fa-solid fa-music"></i>
+                  <p class="pf-what">ReccoBeats: el ritmo de cada canción</p>
+                  <p class="pf-how">Si falla → GetSongBPM o un dataset fijo</p>
+                </div>
+                <div class="pf-item">
+                  <i class="fa-solid fa-user-shield"></i>
+                  <p class="pf-what">Tu pulso es un dato sensible</p>
+                  <p class="pf-how">Consentimiento expreso (LFPDPPP) · nunca sale de tu teléfono</p>
+                </div>
+              </div>
+            </div>
+            <p class="f-foot f-in" style="--d: 0.9s">
+              Recursos: 4 personas, $0 de hosting por usuario, cuentas de desarrollador de Apple y Google.
+            </p>
+          </div>
+          <aside class="notes">
+            3:42–3:58 · Decir el riesgo de Spotify antes de que lo pregunten: en modo desarrollo, máximo 5 usuarios;
+            abrirlo exige organización con ≥ 250 mil usuarios activos (desde 15-may-2025).
+            El pulso es dato de salud → sensible (LFPDPPP): consentimiento expreso. Physical no diagnostica: no es dispositivo médico.
+            Disponibilidad de la marca en IMPI: no verificada todavía — no afirmarla.
+          </aside>
+        </section>
+
+        <!-- ============ 14. Planes ============ -->
+        <!-- Sustituye a "Cuánto cuesta, y cuánto costará" (costo de la banda)
+           y a "No necesitas nuestra banda" (licencia de $150 de un solo
+           pago): sin hardware, el modelo es freemium. Los $30 son un precio
+           de ejemplo, no una cifra cerrada, y así van etiquetados. -->
+        <section id="plans">
+          <h2>Gratis para empezar</h2>
           <div class="content" style="justify-content: center; gap: 22px">
             <div class="tag-pill">
               <span class="dot"></span>
-              <p>El modelo de negocio · dos caminos, la misma app</p>
+              <p>El modelo de negocio · solo la app, dos planes</p>
             </div>
 
             <div class="plan-grid">
               <div class="plan">
                 <div class="plan-head">
                   <span class="plan-icon"
-                    ><i class="fa-solid fa-stopwatch"></i
+                    ><i class="fa-solid fa-clock"></i
                   ></span>
                   <div>
-                    <p class="plan-kicker">Si ya traes uno puesto</p>
-                    <h3>Tu banda o tu reloj</h3>
+                    <p class="plan-kicker">Para probarlo todos los días</p>
+                    <h3>Gratis</h3>
                   </div>
-                </div>
-                <!-- Marcas que hoy sí emiten el perfil estándar de Heart Rate
-                   (función "broadcast HR" de sus relojes deportivos). El
-                   Apple Watch NO entra aquí a propósito: no lo emite a apps
-                   de terceros, entra por la vía de iOS + Apple Health, que
-                   es justo lo que dice la pastilla de abajo. -->
-                <div class="device-row">
-                  <div class="device-chip"><p>Garmin</p></div>
-                  <div class="device-chip"><p>Polar</p></div>
-                  <div class="device-chip"><p>Wahoo</p></div>
-                  <div class="device-chip"><p>Suunto</p></div>
-                  <div class="device-chip"><p>Coros</p></div>
                 </div>
                 <ul>
                   <li>
-                    Sirve cualquier dispositivo que emita el perfil
-                    <strong>Heart Rate de Bluetooth</strong>, el estándar de la
-                    industria fitness.
+                    <strong>Una hora de escucha al día</strong>, todos los
+                    días.
                   </li>
                   <li>
-                    El mismo algoritmo de detección de BPM y la misma cola
-                    adaptativa. No es una versión recortada.
+                    La app completa: la misma cola adaptativa y los mismos
+                    modos.
                   </li>
                 </ul>
                 <div class="plan-price">
-                  <p
-                    class="plan-price-value"
-                    data-count-to="150"
-                    data-count-prefix="$"
-                  >
-                    $150
-                  </p>
+                  <p class="plan-price-value plan-price-value--free">$0</p>
                   <p class="plan-price-note">
-                    MXN · un solo pago<br />Licencia de por vida
+                    Sin comprar<br />ningún dispositivo
                   </p>
                 </div>
               </div>
@@ -1284,58 +1669,253 @@
               <div class="plan plan--ours">
                 <div class="plan-head">
                   <span class="plan-icon"
-                    ><i class="fa-solid fa-heart-pulse"></i
+                    ><i class="fa-solid fa-infinity"></i
                   ></span>
                   <div>
-                    <p class="plan-kicker">Si empiezas con la nuestra</p>
-                    <h3>Banda BePhysical</h3>
+                    <p class="plan-kicker">Cuando ya es parte de tu rutina</p>
+                    <h3>Ilimitado</h3>
                   </div>
                 </div>
                 <ul>
                   <li>
-                    Trae la <strong>licencia dentro</strong> y la app sin costo:
-                    no hay nada más que pagar.
+                    <strong>Horas ilimitadas</strong>: entrenes, estudies o
+                    manejes.
                   </li>
-                  <li>
-                    <strong>Soporte nativo garantizado</strong>: las funciones
-                    de hoy, y también las que vengan después.
-                  </li>
-                  <li>
-                    Es la que crece con Physical: cada señal nueva llega primero
-                    aquí.
-                  </li>
+                  <li>El mismo producto, sin el límite diario.</li>
                 </ul>
                 <div class="plan-price">
-                  <p class="plan-price-value plan-price-value--free">
-                    Incluida
+                  <p
+                    class="plan-price-value"
+                    data-count-to="30"
+                    data-count-prefix="$"
+                  >
+                    $30
                   </p>
                   <p class="plan-price-note">
-                    App y licencia,<br />dentro de la caja
+                    MXN al mes<br />Precio de ejemplo
                   </p>
                 </div>
               </div>
             </div>
 
             <div class="plan-foot">
-              <div class="ghost-pill">
-                <i class="fa-brands fa-apple"></i>
-                <p>
-                  En el radar · <strong>Apple Watch</strong> vía Apple Health
-                </p>
-              </div>
               <p class="plan-foot-note">
-                Cada reloj allá afuera es una puerta de entrada a Physical.
+                Lo pruebas sin pagar; pagas cuando ya no quieres que se acabe
+                la hora.
               </p>
             </div>
           </div>
+          <aside class="notes">
+            3:58–4:08 · Freemium: una hora al día gratis, $30 MXN al mes ilimitado (precio de ejemplo). Sin comprar hardware.
+          </aside>
         </section>
+
+        <!-- ============ 3. Arquitectura ============ -->
+        <!-- La frontera punteada ES el argumento: todo lo que está dentro del
+           teléfono no nos cuesta hosting, y de lo que queda afuera solo un
+           servicio es nuestro (el coral): validar la compra y la
+           suscripción.
+
+           Cada cable late a su propio ritmo (--every): el pulso entra cada
+           segundo, las APIs de terceros cada pocos segundos, y nuestro
+           servidor una vez cada mucho. Esa diferencia de ritmo dice "casi no
+           lo usamos" sin escribirlo. Ese servidor todavía no existe: es
+           diseño. -->
+        <section id="arch">
+          <h2>Solo software, y un único servidor</h2>
+          <div class="content" style="justify-content: center; gap: 24px">
+            <div class="arch">
+              <div class="arch-phone">
+                <div class="arch-zone">
+                  <p class="t-kicker">
+                    <i class="fa-solid fa-mobile-screen"></i>Dentro de tu
+                    teléfono
+                  </p>
+                  <p class="arch-zero">$0 de hosting</p>
+                </div>
+
+                <div class="arch-core">
+                  <div class="arch-node">
+                    <img
+                      class="logo logo--lg"
+                      src="img/logos/tech/apple-health.svg"
+                      alt=""
+                    />
+                    <p class="arch-node-name">Apple Health</p>
+                    <p class="arch-node-note">
+                      <i class="fa-brands fa-apple"></i> El pulso que ya mide tu
+                      Apple Watch
+                    </p>
+                  </div>
+                  <div
+                    class="wire"
+                    data-label="HealthKit"
+                    style="--every: 1.6s; --d: 1s"
+                  >
+                    <span class="wire-dot"></span>
+                  </div>
+                  <div class="arch-node">
+                    <div class="arch-app">
+                      <i class="fa-solid fa-heart-pulse"></i>
+                    </div>
+                    <p class="arch-node-name">App Physical</p>
+                    <p class="arch-node-note">
+                      El algoritmo, tu biblioteca y tus tokens
+                    </p>
+                  </div>
+                </div>
+
+                <div class="logo-row">
+                  <p class="logo-chip">
+                    <img class="logo" src="img/logos/tech/react.svg" alt="" />React
+                    Native
+                  </p>
+                  <p class="logo-chip">
+                    <img
+                      class="logo"
+                      src="img/logos/tech/typescript.svg"
+                      alt=""
+                    />TypeScript
+                  </p>
+                  <p class="logo-chip">
+                    <img class="logo" src="img/logos/tech/expo.svg" alt="" />Expo
+                  </p>
+                  <p class="logo-chip">
+                    <img class="logo" src="img/logos/tech/sqlite.svg" alt="" />SQLite
+                  </p>
+                </div>
+              </div>
+
+              <div class="arch-out">
+                <div class="arch-link" style="--in: 0.9s">
+                  <div
+                    class="wire"
+                    data-label="HTTPS · tu token"
+                    style="--every: 3.4s; --d: 1.8s"
+                  >
+                    <span class="wire-dot"></span>
+                  </div>
+                  <div class="arch-svc">
+                    <i class="fa-brands fa-spotify"></i>
+                    <div>
+                      <p class="arch-svc-name">Spotify Web API</p>
+                      <p class="arch-svc-note">Tu biblioteca y tu cola</p>
+                      <p class="arch-svc-tag">De terceros · $0</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="arch-link" style="--in: 1.1s">
+                  <div
+                    class="wire"
+                    data-label="HTTPS · IDs de canciones"
+                    style="--every: 4.6s; --d: 2.6s"
+                  >
+                    <span class="wire-dot"></span>
+                  </div>
+                  <div class="arch-svc">
+                    <img src="img/logos/tech/reccobeats.png" alt="" />
+                    <div>
+                      <p class="arch-svc-name">ReccoBeats</p>
+                      <p class="arch-svc-note">El BPM de cada canción</p>
+                      <p class="arch-svc-tag">De terceros · $0</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="arch-link" style="--in: 1.3s">
+                  <div
+                    class="wire wire--hot"
+                    data-label="HTTPS · comprobante"
+                    style="--every: 9s; --d: 2s"
+                  >
+                    <span class="wire-dot"></span>
+                  </div>
+                  <div class="arch-svc arch-svc--ours">
+                    <i class="fa-solid fa-server"></i>
+                    <div>
+                      <p class="arch-svc-name">Servidor Physical</p>
+                      <p class="arch-svc-note">
+                        Valida tu compra y tu suscripción
+                      </p>
+                      <p class="arch-svc-tag">Lo único que hospedamos</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p class="t-foot t-in" style="--d: 1.7s">
+              Lo que corre en tu teléfono no nos cuesta. Solo pagamos por saber
+              si tu plan está activo.
+            </p>
+          </div>
+          <aside class="notes">
+            4:08–4:18 · Costos: todo corre en el teléfono, $0 de hosting por usuario. Solo pagamos el servidor que valida la suscripción.
+          </aside>
+        </section>
+
+        <!-- ============ 9 / 11 · Los números (criterio 8 · 10 %) ============ -->
+        <!-- Precio $30 MXN/mes: el de ejemplo de ventas/ y tecnico/.
+           Comisión: 15 % en suscripciones (Google Play desde el día uno;
+           Apple con el Small Business Program, < 1 M USD/año).
+           Costo variable ≈ $0: todo corre en el teléfono y Spotify/ReccoBeats
+           no cobran (tecnico #arch).
+           Fijos del año 1 (SUPUESTOS a confirmar): Apple Developer 99 USD +
+           Google Play 25 USD + servidor 5 USD/mes × 12 = 184 USD;
+           TC supuesto $18.5 → $3,404/año ≈ $284/mes.
+           Equilibrio: 284 / 25.50 = 11.1 → 12 suscriptores. Sin sueldos. -->
+        <section id="numbers">
+          <h2>Con 12 suscriptores dejamos de perder</h2>
+          <div class="content" style="justify-content: center; gap: 22px">
+            <div class="nums">
+              <div class="f-card num f-in" style="--d: 0.25s">
+                <p class="num-value">$30<small> /mes</small></p>
+                <p class="num-label">Precio de venta<br />(ejemplo, MXN)</p>
+              </div>
+              <div class="f-card num f-in" style="--d: 0.4s">
+                <p class="num-value"><span class="num-op">−</span>$4.50</p>
+                <p class="num-label">Comisión de la tienda<br />(15 % en suscripciones)</p>
+              </div>
+              <div class="f-card num f-in" style="--d: 0.55s">
+                <p class="num-value">≈ $0</p>
+                <p class="num-label">Costo por usuario<br />(todo corre en su teléfono)</p>
+              </div>
+              <div class="f-card num num--key f-in" style="--d: 0.7s">
+                <p class="num-value">$25.50</p>
+                <p class="num-label">Margen por suscriptor<br />(85 %)</p>
+              </div>
+            </div>
+
+            <div class="compare">
+              <div class="f-card f-in" style="--d: 0.9s">
+                <p class="f-kicker">Punto de equilibrio</p>
+                <p><b>12 suscriptores</b><br />cubren ≈ $284/mes de costos fijos</p>
+              </div>
+              <div class="f-card f-in" style="--d: 1.05s">
+                <p class="f-kicker">Lo que ya paga</p>
+                <p><b>$139/mes</b> por Spotify Premium:<br />Physical le suma 22 %</p>
+              </div>
+            </div>
+            <p class="f-src">
+              Fijos año 1 (supuestos): Apple Developer 99 USD/año + Google Play 25 USD + servidor 5 USD/mes; tipo de cambio $18.50. Sin sueldos.
+            </p>
+          </div>
+          <aside class="notes">
+            4:18–4:35 · Los números en grande. Por qué $30: valor + competencia; ya paga $139 por Premium.
+            Cálculo: fijos 184 USD/año × 18.5 = $3,404 ≈ $284/mes ÷ $25.50 = 11.1 → 12 suscriptores. Sin sueldos ni marketing: decirlo si preguntan.
+            Ojo: 12 > 5, el tope de Spotify en modo desarrollo.
+          </aside>
+        </section>
+
+
+        <!-- ==================== CIERRE · 4:35–5:00 ==================== -->
+
 
         <!-- ============ 15. El futuro: leer el ánimo ============ -->
         <!-- Antes esta diapositiva prometía "un ecosistema" sin decir de qué,
            y era la parte más floja del pitch. Ahora dice una sola cosa
-           concreta y defendible: la banda propia toca la piel, así que
-           puede dar más señales que un simple número de pulso — y con esas
-           señales la literatura ya infiere estado emocional.
+           concreta y defendible: el dispositivo que el usuario ya trae en
+           la muñeca puede dar más señales que un simple número de pulso — y
+           con esas señales la literatura ya infiere estado emocional.
 
            Las dos cifras están VERIFICADAS contra los artículos (no contra
            sus abstracts) y son las de MUÑECA, no las de banda de pecho, que
@@ -1348,12 +1928,12 @@
           <div class="content" style="justify-content: center; gap: 20px">
             <div class="tag-pill">
               <span class="dot"></span>
-              <p>Misma banda, más señales — lo que crece es el algoritmo</p>
+              <p>Mismo dispositivo, más señales — lo que crece es el algoritmo</p>
             </div>
 
             <p class="mood-lead">
-              Un reloj ajeno te da <strong>un número</strong>. Nuestra banda
-              toca tu piel: puede llegar a darnos
+              Hoy usamos <strong>un número</strong>: tu pulso. Los relojes y
+              bandas de hoy ya pueden medir hasta
               <strong>cinco señales</strong>.
             </p>
 
@@ -1446,54 +2026,12 @@
               Physical, no una promesa de hoy.
             </p>
           </div>
+          <aside class="notes">
+            4:35–4:48 · Lo que sigue: mismo dispositivo, más señales. Estrés y activación, no "emociones": no prometer de más.
+          </aside>
         </section>
 
-        <!-- ============ 16. Equipo ============ -->
-        <!-- Fuera del deck de forma temporal (pedido del equipo): la
-             diapositiva completa queda comentada, no borrada. Para
-             volver a activarla, quitar este comentario de apertura y su
-             cierre justo después de </section>. Los nombres del equipo
-             siguen apareciendo en la portada (.cover-team). -->
-        <!--
-        <section id="team">
-          <h2>Quiénes lo estamos haciendo</h2>
-          <div class="content" style="justify-content: center">
-            <div
-              class="team-grid"
-              style="grid-template-columns: repeat(4, 1fr)"
-            >
-              <div class="team-card">
-                <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
-                <h3>Mario Zaldívar</h3>
-                <p>Rol pendiente</p>
-              </div>
-              <div class="team-card">
-                <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
-                <h3>Julio Olguín</h3>
-                <p>Rol pendiente</p>
-              </div>
-              <div class="team-card">
-                <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
-                <h3>Aranza Aguilar</h3>
-                <p>Rol pendiente</p>
-              </div>
-              <div class="team-card">
-                <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
-                <h3>Rodolfo Concha</h3>
-                <p>Rol pendiente</p>
-              </div>
-            </div>
-            <div class="pending" style="margin-top: 24px">
-              <p>
-                asignar el rol de cada integrante y cambiar el avatar genérico
-                por foto real
-              </p>
-            </div>
-          </div>
-        </section>
-        -->
-
-        <!-- ============ 17. REFRÁN — cierre ============ -->
+        <!-- ============ 18. REFRÁN — cierre ============ -->
         <section
           id="refrain-2"
           data-transition="fade"
@@ -1512,541 +2050,1057 @@
             <i class="fa-solid fa-comments"></i>
             <p>Gracias · Preguntas</p>
           </div>
+          <aside class="notes">
+            4:48–5:00 · Cierra la persona, no la lámina. Volver a la escena del gym y decir la frase mirando a los jueces.
+          </aside>
+        </section>
+
+
+        <!-- ==================== RESPALDO · solo para la ronda de preguntas ==================== -->
+
+
+        <!-- ============ RESPALDO — solo para la ronda de preguntas ============ -->
+        <section
+          id="appendix"
+          class="section-divider"
+          data-state="is-section-divider"
+        >
+          <div class="pulse-wave" aria-hidden="true" style="margin-bottom: 26px">
+            <span></span><span></span><span></span><span></span><span></span
+            ><span></span><span></span><span></span><span></span>
+          </div>
+          <h1>Respaldo</h1>
+          <p class="appendix-note">Para la ronda de preguntas · no se presenta</p>
+          <aside class="notes">
+            No se presenta. Usar solo si un juez pregunta: compatibilidad, uso preventivo, la cola con Spotify, stack, privacidad y fuentes.
+          </aside>
+        </section>
+
+        <!-- ============ 6b. Ya lo traes puesto ============ -->
+        <!-- Introducción al "cómo": el dato del pulso ya existe en la muñeca
+           de mucha gente. Sin cifras de adopción a propósito (no hay una
+           verificada en Investigacion_y_pitch_proyecto.md); la frase dice
+           "muchos", no un porcentaje. Los dos dispositivos laten al mismo
+           ritmo: es el mismo dato, venga del aparato que venga. -->
+        <section id="wearables" data-transition="fade">
+          <div class="content wear" style="justify-content: center">
+            <h1 class="wear-title">
+              Hoy, muchos de nosotros ya traemos en la muñeca
+              <em>un reloj o una banda</em> que lee nuestro ritmo cardíaco y
+              nuestros signos vitales.
+            </h1>
+
+            <div class="wear-devices" aria-hidden="true">
+              <div class="wear-dev wear-dev--watch">
+                <div class="wear-strap"></div>
+                <div class="wear-screen">
+                  <svg class="wear-heart" viewBox="0 0 32 29">
+                    <path d="M16 28.2 3.6 15.6A7.6 7.6 0 0 1 16 6.9 7.6 7.6 0 0 1 28.4 15.6Z" />
+                  </svg>
+                  <p>72<small>BPM</small></p>
+                </div>
+                <div class="wear-strap"></div>
+                <p class="wear-label">Reloj inteligente</p>
+              </div>
+
+              <div class="wear-chips">
+                <p style="--k: 0"><i class="fa-solid fa-heart-pulse"></i>Ritmo cardíaco</p>
+                <p style="--k: 1"><i class="fa-solid fa-wave-square"></i>Variabilidad</p>
+                <p style="--k: 2"><i class="fa-solid fa-droplet"></i>Oxígeno en sangre</p>
+                <p style="--k: 3"><i class="fa-solid fa-moon"></i>Sueño</p>
+                <p style="--k: 4"><i class="fa-solid fa-shoe-prints"></i>Pasos</p>
+              </div>
+
+              <div class="wear-dev wear-dev--band">
+                <div class="wear-band">
+                  <div class="wear-screen">
+                    <svg class="wear-heart" viewBox="0 0 32 29">
+                      <path d="M16 28.2 3.6 15.6A7.6 7.6 0 0 1 16 6.9 7.6 7.6 0 0 1 28.4 15.6Z" />
+                    </svg>
+                    <p>72</p>
+                  </div>
+                </div>
+                <p class="wear-label">Banda de actividad</p>
+              </div>
+            </div>
+
+            <p class="wear-end">
+              Ese dato ya está ahí, todos los días.
+              <strong>Physical lo pone a trabajar para tu música.</strong>
+            </p>
+          </div>
+        </section>
+
+        <!-- ============ 12. Compatibilidad ============ -->
+        <!-- Dos caminos de entrada, ninguno con hardware nuestro.
+
+           Izquierda: cualquier pulsera o banda que emita el perfil estándar
+           Heart Rate de Bluetooth (0x180D). Es lo que la app ya lee hoy con
+           react-native-ble-plx (Stack_tecnico_proyecto.md §8). Las marcas
+           listadas son las que ofrecen transmitir la frecuencia cardíaca por
+           ese perfil.
+
+           Derecha: relojes inteligentes. Los deportivos transmiten el pulso
+           por el mismo perfil; el Apple Watch NO lo emite a apps de
+           terceros, entra por Apple Health (HealthKit), que es la vía que
+           explica el pitch técnico. -->
+        <section id="compat">
+          <h2>Sirve con lo que ya traes puesto</h2>
+          <div class="content" style="justify-content: center; gap: 22px">
+            <div class="tag-pill">
+              <span class="dot"></span>
+              <p>Sin comprar ningún dispositivo nuestro</p>
+            </div>
+
+            <div class="plan-grid">
+              <div class="plan">
+                <div class="plan-head">
+                  <span class="plan-icon"
+                    ><i class="fa-brands fa-bluetooth-b"></i
+                  ></span>
+                  <div>
+                    <p class="plan-kicker">Bluetooth de bajo consumo (BLE)</p>
+                    <h3>Pulseras y bandas de pulso</h3>
+                  </div>
+                </div>
+                <div class="device-row">
+                  <div class="device-chip"><p>Polar</p></div>
+                  <div class="device-chip"><p>Garmin</p></div>
+                  <div class="device-chip"><p>Wahoo</p></div>
+                  <div class="device-chip"><p>Suunto</p></div>
+                  <div class="device-chip"><p>Coros</p></div>
+                </div>
+                <ul>
+                  <li>
+                    Sirve cualquiera que emita el perfil
+                    <strong>Heart Rate de Bluetooth</strong>, el estándar de la
+                    industria fitness.
+                  </li>
+                  <li>
+                    Se conecta directo a la app, sin adaptadores ni cuentas
+                    extra.
+                  </li>
+                  <li>De muñeca, de brazo o de pecho: da igual la forma.</li>
+                </ul>
+              </div>
+
+              <div class="plan plan--ours">
+                <div class="plan-head">
+                  <span class="plan-icon"
+                    ><i class="fa-solid fa-stopwatch"></i
+                  ></span>
+                  <div>
+                    <p class="plan-kicker">El que ya llevas todos los días</p>
+                    <h3>Relojes inteligentes</h3>
+                  </div>
+                </div>
+                <div class="device-row">
+                  <div class="device-chip">
+                    <p><i class="fa-brands fa-apple"></i> Apple Watch</p>
+                  </div>
+                  <div class="device-chip"><p>Relojes deportivos</p></div>
+                </div>
+                <ul>
+                  <li>
+                    <strong>Apple Watch</strong>: a través de Apple Health, con
+                    tu permiso.
+                  </li>
+                  <li>
+                    Relojes deportivos: activas “transmitir frecuencia
+                    cardíaca” y la app los ve como una banda más.
+                  </li>
+                  <li>
+                    El mismo algoritmo y la misma cola adaptativa. No es una
+                    versión recortada.
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="plan-foot">
+              <div class="ble-badge">
+                <span class="ble-emitter" aria-hidden="true">
+                  <span></span><span></span><span></span>
+                  <i class="fa-brands fa-bluetooth-b"></i>
+                </span>
+                <p>
+                  El estándar · <span class="ble-uuid">Heart Rate 0x180D</span>
+                </p>
+              </div>
+              <p class="plan-foot-note">
+                Cada reloj allá afuera es una puerta de entrada a Physical.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 9. Uso preventivo ============ -->
+        <!-- La salvaguarda vivía apretada dentro de la diapositiva de modos y
+           competía con ella. Sola tiene el tamaño que el argumento merece:
+           el corazón, el medidor y los cuatro pasos son UNA sola animación
+           de 9s gobernada por --guard-heat (ver .guard-* en base.css), y el
+           ciclo cuenta la historia entera — el pulso se dispara, cruza el
+           umbral, entra la música relajada y el pulso VUELVE. Eso último es
+           el argumento; la alarma sola no vende nada.
+
+           El reloj vive en .guard-clock (el .content), no en la <section>:
+           así reveal maneja la transición de diapositiva sin pelearse con
+           una animación puesta sobre el mismo elemento. -->
+        <section id="safeguard">
+          <h2>Uso preventivo</h2>
+          <div
+            class="content guard-clock"
+            style="justify-content: center; gap: 30px"
+          >
+            <div class="tag-pill">
+              <span class="dot"></span>
+              <p>Por encima del umbral, el modo que elegiste se anula</p>
+            </div>
+
+            <div class="guard-stage">
+              <div class="guard-heart" aria-hidden="true">
+                <span class="guard-heart-ring"></span>
+                <span class="guard-heart-ring guard-heart-ring--late"></span>
+                <svg viewBox="0 0 32 29" role="presentation">
+                  <path
+                    d="M16 28.2 3.6 15.6A7.6 7.6 0 0 1 16 6.9 7.6 7.6 0 0 1 28.4 15.6Z"
+                  />
+                </svg>
+              </div>
+
+              <div class="guard-gauge">
+                <div class="guard-rail">
+                  <span class="guard-danger"></span>
+                  <span class="guard-fill"></span>
+                  <span class="guard-limit"></span>
+                  <p class="guard-read" aria-hidden="true">
+                    <span class="guard-bpm"></span
+                    ><span class="guard-unit">BPM</span>
+                  </p>
+                </div>
+                <div class="guard-scale">
+                  <p>60</p>
+                  <p class="guard-scale-limit">Umbral · +200 BPM</p>
+                  <p>240</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="guard-steps">
+              <div class="guard-step guard-step--1">
+                <span class="guard-step-num">1</span>
+                <div>
+                  <p class="guard-step-title">Tu dispositivo lo ve</p>
+                  <p class="guard-step-note">Pulso fuera de todo rango</p>
+                </div>
+              </div>
+              <div class="guard-step guard-step--2">
+                <span class="guard-step-num">2</span>
+                <div>
+                  <p class="guard-step-title">Se anula el modo</p>
+                  <p class="guard-step-note">Da igual zen o ejercicio</p>
+                </div>
+              </div>
+              <div class="guard-step guard-step--3">
+                <span class="guard-step-num">3</span>
+                <div>
+                  <p class="guard-step-title">Música relajada</p>
+                  <p class="guard-step-note">Por debajo de tu pulso</p>
+                </div>
+                <div class="pulse-wave pulse-wave--guard" aria-hidden="true">
+                  <span></span><span></span><span></span><span></span
+                  ><span></span>
+                </div>
+              </div>
+              <div class="guard-step guard-step--4">
+                <span class="guard-step-num">4</span>
+                <div>
+                  <p class="guard-step-title">El pulso vuelve</p>
+                  <p class="guard-step-note">Y la sesión sigue donde estaba</p>
+                </div>
+              </div>
+            </div>
+
+            <p class="guard-note">
+              No sustituye a un médico ni a una alerta de emergencia: es tu
+              música dejando de empujarte cuando tu cuerpo ya no lo necesita.
+            </p>
+          </div>
+        </section>
+
+        <!-- ============ 2a. Por qué importa: música y concentración ============ -->
+        <!-- Narrada por clics, como las historias de ventas/: cada fragmento
+           con data-scene cambia el escenario de la derecha (pitch.js). Al
+           entrar ya está el momento 1; clic 1 → momento 2; clic 2 → momento
+           3; clic 3 → la conclusión. Al avanzar, los momentos anteriores se
+           atenúan.
+
+           Todo verificado contra el texto completo de cada artículo (ver
+           Investigacion_y_pitch_proyecto.md, "Frase 6"). Cuidados:
+           - Lesiuk: no inventar cifras semanales; la calidad es autoevaluada.
+           - Thompson 2012: lenta o suave NO mejora la lectura, queda igual
+             que el silencio. −30 % = 1,95 / 2,77 (solo rápida + fuerte,
+             p < .05).
+           - La U invertida es la frase de Thompson 2001 ("very high or low
+             levels of arousal inhibit performance… moderate levels
+             facilitate"); no es una gráfica de datos, y por eso no tiene
+             números.
+           - Kämpfe: el efecto global es nulo. Por eso el cierre dice "la
+             adecuada" y no "la música ayuda". -->
+        <section id="focus">
+          <h2>¿Pero qué importa en realidad?</h2>
+          <div class="content" style="gap: 16px; padding-top: 22px">
+            <div class="nar">
+              <div class="nar-story">
+                <div class="nar-beat t-in" style="--d: 0.35s">
+                  <p class="nar-step">1 · Sin música</p>
+                  <p class="nar-line">
+                    A 56 programadores les quitaron su música durante una
+                    semana.
+                  </p>
+                  <p class="nar-sub">
+                    Esa semana su ánimo y la calidad de su trabajo cayeron al
+                    punto más bajo, y tardaron más de lo previsto en sus
+                    tareas. <sup>[3]</sup>
+                  </p>
+                </div>
+                <div class="nar-beat fragment" data-scene="read">
+                  <p class="nar-step">2 · Con la música equivocada</p>
+                  <p class="nar-line">
+                    Pero no sirve cualquiera: 25 universitarios leyeron con
+                    Mozart de fondo.
+                  </p>
+                  <p class="nar-sub">
+                    Lenta o suave, leyeron igual que en silencio. Rápida y
+                    fuerte, acertaron un <strong>30 % menos</strong>.
+                    <sup>[1]</sup>
+                  </p>
+                </div>
+                <div class="nar-beat fragment" data-scene="why">
+                  <p class="nar-step">3 · Por qué pasa</p>
+                  <p class="nar-line">
+                    La música mueve tu activación, y rindes mejor en un punto
+                    medio.
+                  </p>
+                  <p class="nar-sub">
+                    Muy poca o demasiada estorba <sup>[2]</sup>, y el tempo de
+                    la música arrastra el ritmo de lo que haces
+                    <sup>[4]</sup>.
+                  </p>
+                </div>
+                <p class="nar-end fragment" data-scene="why">
+                  No basta con poner música: hay que poner
+                  <strong>la que te lleva a tu punto</strong>.
+                </p>
+              </div>
+
+              <div class="t-card nar-stage t-in" style="--d: 0.5s" aria-hidden="true">
+                <!-- 1 · Las cinco semanas del estudio; la cuarta, sin música. -->
+                <div class="scene scene--work">
+                  <p class="t-kicker">5 semanas en su lugar de trabajo</p>
+                  <div class="weeks">
+                    <div class="week"><i class="fa-solid fa-music"></i><p>Sem. 1</p></div>
+                    <div class="week"><i class="fa-solid fa-music"></i><p>Sem. 2</p></div>
+                    <div class="week"><i class="fa-solid fa-music"></i><p>Sem. 3</p></div>
+                    <div class="week week--off">
+                      <i class="fa-solid fa-volume-xmark"></i><p>Sem. 4</p>
+                    </div>
+                    <div class="week"><i class="fa-solid fa-music"></i><p>Sem. 5</p></div>
+                  </div>
+                  <div class="week-drop">
+                    <p><i class="fa-solid fa-arrow-down"></i>Ánimo</p>
+                    <p><i class="fa-solid fa-arrow-down"></i>Calidad del trabajo</p>
+                    <p><i class="fa-solid fa-arrow-up"></i>Tiempo por tarea</p>
+                  </div>
+                  <p class="scene-note">
+                    4 empresas de software en Canadá · la calidad la evaluó
+                    cada programador
+                  </p>
+                </div>
+
+                <!-- 2 · El silencio contra la única combinación que hace daño. -->
+                <div class="scene scene--read">
+                  <p class="t-kicker">Respuestas correctas, de 6</p>
+                  <div class="duo">
+                    <div class="duo-col">
+                      <p class="duo-val">2.77</p>
+                      <div class="duo-bar" style="--v: 2.77"></div>
+                      <p class="duo-name">En silencio</p>
+                    </div>
+                    <div class="duo-col duo-col--hot">
+                      <p class="duo-val">1.95 <em>−30 %</em></p>
+                      <div class="duo-bar" style="--v: 1.95"></div>
+                      <p class="duo-name">Rápida y fuerte<br /><span>150 BPM</span></p>
+                    </div>
+                  </div>
+                  <p class="scene-note">
+                    Lenta o suave (110 BPM o volumen bajo): sin diferencia con
+                    el silencio.
+                  </p>
+                </div>
+
+                <!-- 3 · La U invertida: el punto sube a la cima, se pasa y
+                     regresa. Es la frase de Thompson 2001, no datos. -->
+                <div class="scene scene--why">
+                  <p class="t-kicker">Rendimiento según tu activación</p>
+                  <svg class="arc" viewBox="0 0 400 190">
+                    <line class="arc-axis" x1="10" y1="170" x2="390" y2="170" />
+                    <path class="arc-curve" d="M20 165 C 110 165, 140 30, 200 30 S 290 165, 380 165" />
+                    <circle class="arc-dot" r="8" />
+                    <text class="arc-lbl" x="14" y="190">Muy poca</text>
+                    <text class="arc-lbl arc-lbl--top" x="200" y="18" text-anchor="middle">Tu punto</text>
+                    <text class="arc-lbl" x="386" y="190" text-anchor="end">Demasiada</text>
+                    <text class="arc-x" x="200" y="190" text-anchor="middle">activación →</text>
+                  </svg>
+                  <p class="scene-note">
+                    La música te mueve sobre esta curva: Physical elige la que
+                    te deja arriba.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <ol class="apa t-in" style="--d: 0.9s">
+              <li>
+                Thompson, W. F., Schellenberg, E. G., &amp; Letnic, A. K. (2012).
+                Fast and loud background music disrupts reading comprehension.
+                <em>Psychology of Music, 40</em>(6), 700–708.
+                https://doi.org/10.1177/0305735611400173
+              </li>
+              <li>
+                Thompson, W. F., Schellenberg, E. G., &amp; Husain, G. (2001).
+                Arousal, mood, and the Mozart effect.
+                <em>Psychological Science, 12</em>(3), 248–251.
+                https://doi.org/10.1111/1467-9280.00345
+              </li>
+              <li>
+                Lesiuk, T. (2005). The effect of music listening on work
+                performance. <em>Psychology of Music, 33</em>(2), 173–191.
+                https://doi.org/10.1177/0305735605050650
+              </li>
+              <li>
+                Kämpfe, J., Sedlmeier, P., &amp; Renkewitz, F. (2011). The impact
+                of background music on adult listeners: A meta-analysis.
+                <em>Psychology of Music, 39</em>(4), 424–448.
+                https://doi.org/10.1177/0305735610376261
+              </li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- ============ 2d. Hardware: qué lee cada dispositivo ============ -->
+        <!-- Cualquier dispositivo con el perfil Heart Rate estándar es
+           compatible; lo que cambia es cuántos términos de la fórmula puede
+           alimentar. Respaldo:
+           - RR opcional en el mismo perfil: Bluetooth SIG, Heart Rate Service
+             1.0 (2011): "The RR-Interval field may be included in the Heart
+             Rate Measurement characteristic". El perfil no transmite
+             movimiento.
+           - Apple Health: pulso no en tiempo real sin sesión de entrenamiento
+             en el reloj (foro de Apple, hilo 774953); variabilidad guardada
+             como SDNN en muestras automáticas (doc. heartRateVariabilitySDNN).
+             Ver Investigacion_y_pitch_proyecto.md, Frase 5 B y C.
+           - Movimiento del Apple Watch: requiere una app propia en el reloj;
+             no existe todavía.
+           Repartir el peso de un término que falta entre los demás es diseño
+           nuestro. -->
+        <section id="hardware">
+          <h2>Funciona con cualquier pulsera; lo fino depende de cuál</h2>
+          <div class="content" style="gap: 14px; padding-top: 16px; justify-content: center">
+            <p class="focus-lead t-in" style="--d: 0.3s">
+              Si lee tu pulso, es compatible. Pero cuántos términos de la
+              fórmula podemos calcular depende de <strong>lo que tu dispositivo
+              sabe medir</strong>.
+            </p>
+
+            <div class="hw">
+              <div class="hw-grid">
+                <div class="hw-head t-in" style="--d: 0.5s">
+                  <p></p>
+                  <p class="hw-col hw-col--p">P<span>pulso</span></p>
+                  <p class="hw-col hw-col--v">V<span>variabilidad</span></p>
+                  <p class="hw-col hw-col--e">E<span>movimiento</span></p>
+                </div>
+
+                <div class="hw-row t-in" style="--d: 0.7s">
+                  <div class="hw-dev">
+                    <span class="hw-icon"><i class="fa-brands fa-bluetooth-b"></i></span>
+                    <div>
+                      <p class="hw-name">Cualquier pulsera o banda Bluetooth</p>
+                      <p class="hw-note">Perfil Heart Rate estándar: siempre trae el pulso</p>
+                    </div>
+                  </div>
+                  <p class="hw-cell is-yes"><i class="fa-solid fa-check"></i></p>
+                  <p class="hw-cell is-no"><i class="fa-solid fa-minus"></i></p>
+                  <p class="hw-cell is-no"><i class="fa-solid fa-minus"></i></p>
+                </div>
+
+                <div class="hw-row t-in" style="--d: 0.9s">
+                  <div class="hw-dev">
+                    <span class="hw-icon"><i class="fa-solid fa-wave-square"></i></span>
+                    <div>
+                      <p class="hw-name">Las que además envían intervalos RR</p>
+                      <p class="hw-note">Campo opcional del mismo perfil estándar <sup>[1]</sup></p>
+                    </div>
+                  </div>
+                  <p class="hw-cell is-yes"><i class="fa-solid fa-check"></i></p>
+                  <p class="hw-cell is-yes"><i class="fa-solid fa-check"></i></p>
+                  <p class="hw-cell is-no"><i class="fa-solid fa-minus"></i></p>
+                </div>
+
+                <div class="hw-row t-in" style="--d: 1.1s">
+                  <div class="hw-dev">
+                    <span class="hw-icon"><i class="fa-brands fa-apple"></i></span>
+                    <div>
+                      <p class="hw-name">Apple Watch, vía Apple Health</p>
+                      <p class="hw-note">Pulso, variabilidad y acelerómetro en el mismo reloj</p>
+                    </div>
+                  </div>
+                  <p class="hw-cell is-yes"><i class="fa-solid fa-check"></i></p>
+                  <p class="hw-cell is-part"><i class="fa-solid fa-circle-half-stroke"></i><span>SDNN</span></p>
+                  <p class="hw-cell is-part"><i class="fa-solid fa-circle-half-stroke"></i><span>app en el reloj</span></p>
+                </div>
+
+                <p class="hw-rule t-in" style="--d: 1.3s">
+                  Si falta un término, su peso se reparte entre los que sí hay:
+                  con solo el pulso, <b>A = P</b>.
+                </p>
+              </div>
+
+              <div class="t-card hw-limits t-in" style="--d: 1.2s">
+                <p class="t-kicker">Las limitaciones, dichas de frente</p>
+                <ul>
+                  <li>
+                    <b>Apple Health no es en vivo.</b> El pulso continuo exige
+                    una sesión de entrenamiento en el reloj <sup>[2]</sup>.
+                  </li>
+                  <li>
+                    <b>Apple guarda SDNN, no RMSSD,</b> y en muestras que el
+                    reloj toma por su cuenta, no latido a latido <sup>[3]</sup>.
+                  </li>
+                  <li>
+                    <b>El perfil Bluetooth no transmite movimiento:</b> con una
+                    pulsera básica, E queda fuera.
+                  </li>
+                  <li>
+                    <b>Hoy la app usa solo el pulso.</b> Es la fila de arriba, y
+                    funciona con todas.
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <ol class="apa apa--3 t-in" style="--d: 1.5s">
+              <li>
+                Bluetooth SIG. (2011). <em>Heart Rate Service</em> (Versión
+                1.0).
+                https://www.bluetooth.com/specifications/specs/heart-rate-service-1-0/
+              </li>
+              <li>
+                Apple Developer Forums. (s.f.). <em>HealthKit: Seeking guidance
+                on continuous, near real-time heart rate data</em> [Respuesta de
+                Z. Chen, DTS Engineer].
+                https://developer.apple.com/forums/thread/774953
+              </li>
+              <li>
+                Apple Inc. (s.f.). <em>heartRateVariabilitySDNN</em>. Apple
+                Developer Documentation.
+                https://developer.apple.com/documentation/healthkit/hkquantitytypeidentifier/heartratevariabilitysdnn
+              </li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- ============ Reproducción: cómo usamos Spotify ============ -->
+        <!-- Lo que hace el código hoy (app/src/store/spotifyStore.ts y
+           HomeScreen.tsx), con sus constantes reales:
+           - NOW_PLAYING_POLL_MS = 5000 → GET /me/player/currently-playing.
+           - BPM_RECOMPUTE_THRESHOLD = 12 y BPM_CHANGE_SUSTAIN_MS = 20 000:
+             solo un cambio sostenido rearma la cola.
+           - DEFAULT_QUEUE_BATCH_SIZE = 3, enviado con POST /me/player/queue al
+             dispositivo activo; sin dispositivo activo, error visible.
+           - skipQueueIds: SOLO lo que Physical encoló en un lote anterior; al
+             llegar a eso se manda POST /me/player/next (skipPastStaleTracks).
+             Se detiene en cuanto suena algo ajeno.
+           - topUpBatch: al sonar una del lote, repone otra al final.
+           - QUEUE_MODEL_SYNC_MS = 30 000 → GET /me/player/queue para podar el
+             modelo local; nunca agrega ni quita nada de la cola real.
+           - Historial: DEFAULT_PLAY_HISTORY_SIZE = 15.
+           Controlar la cola requiere Premium (spotifyPlaybackControl.ts). -->
+        <section id="playback">
+          <h2>
+            <i class="fa-brands fa-spotify h2-logo"></i>Physical le dice a Spotify
+            qué sigue
+          </h2>
+          <div class="content" style="gap: 16px; padding-top: 18px; justify-content: center">
+            <p class="focus-lead t-in" style="--d: 0.3s">
+              Physical no reproduce música: sigue sonando en tu Spotify, en tu
+              teléfono o tu bocina. Solo <strong>escribe en tu cola</strong>.
+            </p>
+
+            <div class="pb">
+              <div class="pb-rules">
+                <div class="pb-rule t-in" style="--d: 0.5s">
+                  <span class="pb-icon"><i class="fa-solid fa-eye"></i></span>
+                  <p>
+                    <b>Cada 5 s pregunta qué está sonando.</b> Así sabe cuándo
+                    cambió la canción.
+                  </p>
+                </div>
+                <div class="pb-rule t-in" style="--d: 0.7s">
+                  <span class="pb-icon"><i class="fa-solid fa-heart-pulse"></i></span>
+                  <p>
+                    <b>Si tu pulso cambia 12 BPM y se sostiene 20 s,</b> arma un
+                    lote de 3 canciones nuevas y lo manda a tu cola.
+                  </p>
+                </div>
+                <div class="pb-rule t-in" style="--d: 0.9s">
+                  <span class="pb-icon pb-icon--hot"><i class="fa-solid fa-forward"></i></span>
+                  <p>
+                    <b>Lo que encoló antes y ya no embona, lo salta</b> cuando
+                    llega. Solo lo suyo.
+                  </p>
+                </div>
+                <div class="pb-rule t-in" style="--d: 1.1s">
+                  <span class="pb-icon"><i class="fa-solid fa-plus"></i></span>
+                  <p>
+                    <b>Cuando suena una del lote, repone otra</b> al final:
+                    siempre hay algo que sigue.
+                  </p>
+                </div>
+                <div class="pb-rule t-in" style="--d: 1.3s">
+                  <span class="pb-icon pb-icon--muted"><i class="fa-solid fa-lock"></i></span>
+                  <p>
+                    <b>Tu playlist, el autoplay y lo que agregaste a mano no se
+                    tocan.</b>
+                  </p>
+                </div>
+              </div>
+
+              <div class="t-card pb-queue t-in" style="--d: 0.6s" aria-hidden="true">
+                <p class="t-kicker"><i class="fa-brands fa-spotify"></i> Tu cola en Spotify</p>
+                <div class="pb-now">
+                  <span class="pb-eq"><span></span><span></span><span></span></span>
+                  <div>
+                    <p class="pb-track">Suena ahora</p>
+                    <p class="pb-meta">Una canción a 128 BPM</p>
+                  </div>
+                </div>
+
+                <p class="pb-group">Siguiente en la cola</p>
+                <div class="pb-item pb-item--stale" style="--k: 0">
+                  <p class="pb-track">Lote anterior · 96 BPM</p>
+                  <p class="pb-tag">se salta</p>
+                </div>
+                <div class="pb-item pb-item--new" style="--k: 1">
+                  <p class="pb-track">Lote nuevo · 131 BPM</p>
+                  <p class="pb-tag">Physical</p>
+                </div>
+                <div class="pb-item pb-item--new" style="--k: 2">
+                  <p class="pb-track">Lote nuevo · 126 BPM</p>
+                  <p class="pb-tag">Physical</p>
+                </div>
+                <div class="pb-item pb-item--new" style="--k: 3">
+                  <p class="pb-track">Lote nuevo · 134 BPM</p>
+                  <p class="pb-tag">Physical</p>
+                </div>
+
+                <p class="pb-group">Siguiente de: tu playlist</p>
+                <div class="pb-item pb-item--yours">
+                  <p class="pb-track">Lo que ya traías</p>
+                  <p class="pb-tag">no se toca</p>
+                </div>
+              </div>
+            </div>
+
+            <p class="t-foot t-in" style="--d: 1.6s">
+              Requiere Spotify Premium y la app de Spotify abierta en algún
+              dispositivo.
+            </p>
+          </div>
+        </section>
+
+        <!-- ============ Stack ============ -->
+        <!-- Dos argumentos, uno por mitad:
+           - Multiplataforma: una base de código TypeScript (React Native +
+             Expo) se compila a iOS y a Android. Es capacidad del stack; el
+             APK de Android ya se generó, iOS todavía no se ha compilado
+             (Checklist_demo_proyecto.md §2).
+           - Client-side: estado, biblioteca, BPM, tokens y Bluetooth viven en
+             el teléfono; la app llama directo a Spotify y ReccoBeats
+             (Stack_tecnico_proyecto.md §4). "Ningún servidor nuestro en el
+             camino de tu música" es compatible con la arquitectura: el único
+             servidor previsto solo valida el plan.
+           Librerías según app/package.json (2026-10-13). Sin HealthKit:
+           no hay librería instalada. -->
+        <section id="stack">
+          <h2>Una base de código, y todo corre en tu teléfono</h2>
+          <div class="content" style="gap: 16px; justify-content: center">
+            <div class="stk">
+              <!-- Multiplataforma -->
+              <div class="stk-half">
+                <p class="t-kicker stk-kicker t-in" style="--d: 0.25s">
+                  <span>1</span>Multiplataforma
+                </p>
+                <div class="stk-split">
+                  <div class="stk-code t-in" style="--d: 0.4s">
+                    <div class="stk-code-bar"><i></i><i></i><i></i></div>
+                    <p class="stk-code-line"><b>const</b> { bpm } = useSessionStore()</p>
+                    <p class="stk-code-line"><b>await</b> addToQueue(accessToken, trackUri)</p>
+                    <div class="logo-row stk-code-logos">
+                      <p class="logo-chip"><img class="logo" src="img/logos/tech/typescript.svg" alt="" />TypeScript</p>
+                      <p class="logo-chip"><img class="logo" src="img/logos/tech/react.svg" alt="" />React Native</p>
+                      <p class="logo-chip"><img class="logo" src="img/logos/tech/expo.svg" alt="" />Expo</p>
+                    </div>
+                  </div>
+                  <div class="stk-fork" aria-hidden="true">
+                    <svg viewBox="0 0 60 140" preserveAspectRatio="none">
+                      <path class="stk-fork-path" d="M0 70 C 30 70, 30 22, 60 22" />
+                      <path class="stk-fork-path" d="M0 70 C 30 70, 30 118, 60 118" />
+                    </svg>
+                  </div>
+                  <div class="stk-targets">
+                    <div class="stk-os t-in" style="--d: 1s">
+                      <i class="fa-brands fa-apple"></i>
+                      <p>iOS</p>
+                    </div>
+                    <div class="stk-os t-in" style="--d: 1.15s">
+                      <i class="fa-brands fa-android"></i>
+                      <p>Android</p>
+                    </div>
+                  </div>
+                </div>
+                <p class="stk-claim t-in" style="--d: 1.3s">
+                  <b>Un solo código, dos apps.</b> Cada función se escribe una
+                  vez, y el Bluetooth se compila nativo en cada sistema.
+                </p>
+              </div>
+
+              <!-- Client-side -->
+              <div class="stk-half">
+                <p class="t-kicker stk-kicker t-in" style="--d: 0.55s">
+                  <span>2</span>Client-side
+                </p>
+                <div class="stk-client">
+                  <div class="stk-phone t-in" style="--d: 0.7s">
+                    <p class="stk-phone-title"><i class="fa-solid fa-mobile-screen"></i> Tu teléfono</p>
+                    <div class="stk-layer" style="--k: 0">
+                      <i class="fa-brands fa-bluetooth-b"></i>
+                      <p><b>Pulso</b> react-native-ble-plx</p>
+                    </div>
+                    <div class="stk-layer" style="--k: 1">
+                      <i class="fa-solid fa-layer-group"></i>
+                      <p><b>Estado</b> Zustand</p>
+                    </div>
+                    <div class="stk-layer" style="--k: 2">
+                      <img class="logo" src="img/logos/tech/sqlite.svg" alt="" />
+                      <p><b>Biblioteca y BPM</b> SQLite</p>
+                    </div>
+                    <div class="stk-layer" style="--k: 3">
+                      <i class="fa-solid fa-key"></i>
+                      <p><b>Tokens</b> Secure Store</p>
+                    </div>
+                  </div>
+                  <div class="stk-links">
+                    <div class="stk-link">
+                      <div class="wire" style="--every: 2.6s; --d: 1.8s"><span class="wire-dot"></span></div>
+                      <p class="stk-api"><i class="fa-brands fa-spotify"></i>Spotify</p>
+                    </div>
+                    <div class="stk-link">
+                      <div class="wire" style="--every: 3.4s; --d: 2.3s"><span class="wire-dot"></span></div>
+                      <p class="stk-api"><img src="img/logos/tech/reccobeats.png" alt="" />ReccoBeats</p>
+                    </div>
+                  </div>
+                </div>
+                <p class="stk-claim t-in" style="--d: 1.6s">
+                  <b>Ningún servidor nuestro en el camino de tu música.</b> La
+                  app habla directo con cada servicio: menos latencia, menos
+                  costo y tus datos se quedan contigo.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 2e. Spotify (antes de la arquitectura) ============ -->
+        <!-- Diagrama de secuencia: las llamadas reales del código
+           (services/spotifyAuth, spotifyLibrary, spotifyPlayback,
+           spotifyPlaybackControl y reccobeats), en el orden en que ocurren
+           en una sesión. La tercera es el riesgo técnico crítico del
+           proyecto (Stack_tecnico_proyecto.md §5 y §7): Spotify cerró el
+           tempo y hoy lo da ReccoBeats; por eso esa flecha no llega y la
+           siguiente cruza hasta la tercera línea de vida.
+
+           La franja de servicios: hoy solo Spotify. Apple Music es candidata
+           porque MusicKit expone la cola del reproductor (ApplicationMusicPlayer
+           .queue); NO está implementado ni probado. No nombrar servicios sin
+           API pública de reproducción (p. ej. YouTube Music). -->
+        <section id="spotify">
+          <h2>
+            <i class="fa-brands fa-spotify h2-logo"></i>Spotify: una sesión,
+            llamada por llamada
+          </h2>
+          <div class="content" style="justify-content: center; gap: 16px">
+            <div class="seq">
+              <div class="seq-actors">
+                <div class="seq-actor t-in" style="left: var(--a); --d: 0.2s">
+                  <i class="fa-solid fa-mobile-screen"></i>
+                  <p>App Physical</p>
+                </div>
+                <div class="seq-actor t-in" style="left: var(--s); --d: 0.3s">
+                  <i class="fa-brands fa-spotify"></i>
+                  <p>Spotify Web API</p>
+                </div>
+                <div class="seq-actor t-in" style="left: var(--r); --d: 0.4s">
+                  <img class="logo" src="img/logos/tech/reccobeats.png" alt="" />
+                  <p>ReccoBeats</p>
+                </div>
+              </div>
+
+              <div class="seq-body">
+                <span class="seq-life" style="left: var(--a)"></span>
+                <span class="seq-life" style="left: var(--s)"></span>
+                <span class="seq-life" style="left: var(--r)"></span>
+
+                <div class="seq-msg" style="--in: 0.7s">
+                  <p class="seq-label">
+                    <b>OAuth 2.0 + PKCE</b>Login sin client secret, con scopes
+                    mínimos
+                  </p>
+                  <span class="seq-arrow"></span>
+                </div>
+                <div class="seq-msg" style="--in: 1.2s">
+                  <p class="seq-label">
+                    <b>GET /me/tracks</b>Tu biblioteca, copiada al SQLite local
+                  </p>
+                  <span class="seq-arrow"></span>
+                </div>
+                <div class="seq-msg seq-msg--dead" style="--in: 1.7s">
+                  <p class="seq-label">
+                    <b>GET /audio-features</b>El tempo: cerrado a apps nuevas
+                    desde nov. 2024
+                  </p>
+                  <span class="seq-arrow"></span>
+                </div>
+                <div class="seq-msg seq-msg--far" style="--in: 2.3s">
+                  <p class="seq-label">
+                    <b>GET /v1/audio-features?ids=…</b>El BPM, en lotes de 40 y
+                    una sola vez por canción
+                  </p>
+                  <span class="seq-arrow"></span>
+                </div>
+                <div class="seq-msg" style="--in: 2.9s">
+                  <p class="seq-label">
+                    <b>GET /me/player/currently-playing</b>Qué suena ahora
+                  </p>
+                  <span class="seq-arrow"></span>
+                </div>
+                <div class="seq-msg" style="--in: 3.4s">
+                  <p class="seq-label">
+                    <b>POST /me/player/queue</b>La siguiente canción, a tu cola
+                    real
+                  </p>
+                  <span class="seq-arrow"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="svc-road t-in" style="--d: 3.7s">
+              <p class="svc-chip svc-chip--now">
+                <i class="fa-brands fa-spotify"></i>Spotify<span>hoy</span>
+              </p>
+              <i class="fa-solid fa-arrow-right svc-arrow"></i>
+              <p class="svc-chip">
+                <i class="fa-brands fa-apple"></i>Apple Music
+                <span>a evaluar · MusicKit</span>
+              </p>
+              <p class="svc-chip">
+                <i class="fa-solid fa-plus"></i>Otros servicios
+                <span>los que abran una API</span>
+              </p>
+              <p class="svc-text">
+                Por ahora solo Spotify. El algoritmo no depende del servicio:
+                cada plataforma nueva entra por su propia API.
+              </p>
+            </div>
+
+            <div class="seq-notes">
+              <p class="t-cite t-in" style="--d: 3.9s">
+                Si una API pide esperar (HTTP 429), se respeta su Retry-After.
+                Controlar la cola requiere Spotify Premium.
+              </p>
+              <p class="t-cite t-in" style="--d: 4s">
+                Spotify for Developers, “Introducing some changes to our Web
+                API”, 27 de noviembre de 2024.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 5. Privacidad: todo client-side ============ -->
+        <!-- Una matriz en vez de dos listas: cada dato contra cada lugar al
+           que podría llegar. Está verificada contra el código: las llamadas
+           a Spotify (services/spotify*.ts) y los IDs de canciones a
+           ReccoBeats (services/reccobeats.ts). El pulso no aparece en
+           ninguna de las dos.
+
+           La columna de Physical es la del servidor de suscripciones (ver
+           arquitectura): todavía no está construido, y cuando lo esté solo
+           debe recibir el comprobante de compra. Si algún día se agrega
+           analítica, esta diapositiva deja de ser cierta. -->
+        <section id="privacy">
+          <h2>Tus datos no pasan por nosotros</h2>
+          <div class="content" style="justify-content: center; gap: 22px">
+            <div class="pm">
+              <span class="pm-ours" aria-hidden="true"></span>
+
+              <div class="pm-row pm-row--head" style="--in: 0.3s">
+                <div></div>
+                <div class="pm-head">
+                  <i class="fa-solid fa-mobile-screen"></i>
+                  <p>Tu teléfono</p>
+                </div>
+                <div class="pm-head">
+                  <i class="fa-brands fa-spotify"></i>
+                  <p>Spotify</p>
+                </div>
+                <div class="pm-head">
+                  <img class="logo" src="img/logos/tech/reccobeats.png" alt="" />
+                  <p>ReccoBeats</p>
+                </div>
+                <div class="pm-head pm-head--ours">
+                  <i class="fa-solid fa-server"></i>
+                  <p>Physical</p>
+                </div>
+              </div>
+
+              <div class="pm-row" style="--in: 0.55s">
+                <div class="pm-data">
+                  <img src="img/logos/tech/apple-health.svg" alt="" />
+                  <div>
+                    <p class="pm-data-name">Tu pulso</p>
+                    <p class="pm-data-note">
+                      Se lee de Salud, se usa en el momento y no se guarda
+                    </p>
+                  </div>
+                </div>
+                <div class="pm-cell pm-cell--yes">
+                  <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div class="pm-cell pm-cell--no">
+                  <i class="fa-solid fa-minus"></i>
+                </div>
+                <div class="pm-cell pm-cell--no">
+                  <i class="fa-solid fa-minus"></i>
+                </div>
+                <div class="pm-cell pm-cell--no">
+                  <i class="fa-solid fa-minus"></i>
+                </div>
+              </div>
+
+              <div class="pm-row" style="--in: 0.8s">
+                <div class="pm-data">
+                  <img src="img/logos/tech/sqlite.svg" alt="" />
+                  <div>
+                    <p class="pm-data-name">Tu biblioteca y sus BPM</p>
+                    <p class="pm-data-note">
+                      Copiada de tu Spotify a un SQLite local
+                    </p>
+                  </div>
+                </div>
+                <div class="pm-cell pm-cell--yes">
+                  <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div class="pm-cell"><p>ya es suya</p></div>
+                <div class="pm-cell"><p>solo IDs de canciones</p></div>
+                <div class="pm-cell pm-cell--no">
+                  <i class="fa-solid fa-minus"></i>
+                </div>
+              </div>
+
+              <div class="pm-row" style="--in: 1.05s">
+                <div class="pm-data">
+                  <i class="fa-solid fa-key"></i>
+                  <div>
+                    <p class="pm-data-name">Tus tokens de Spotify</p>
+                    <p class="pm-data-note">
+                      Cifrados por el sistema; sin client secret en la app
+                    </p>
+                  </div>
+                </div>
+                <div class="pm-cell pm-cell--yes">
+                  <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div class="pm-cell pm-cell--yes">
+                  <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div class="pm-cell pm-cell--no">
+                  <i class="fa-solid fa-minus"></i>
+                </div>
+                <div class="pm-cell pm-cell--no">
+                  <i class="fa-solid fa-minus"></i>
+                </div>
+              </div>
+
+              <div class="pm-row" style="--in: 1.3s">
+                <div class="pm-data">
+                  <i class="fa-solid fa-receipt"></i>
+                  <div>
+                    <p class="pm-data-name">El estado de tu plan</p>
+                    <p class="pm-data-note">
+                      El comprobante de tu suscripción
+                    </p>
+                  </div>
+                </div>
+                <div class="pm-cell pm-cell--yes">
+                  <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div class="pm-cell pm-cell--no">
+                  <i class="fa-solid fa-minus"></i>
+                </div>
+                <div class="pm-cell pm-cell--no">
+                  <i class="fa-solid fa-minus"></i>
+                </div>
+                <div class="pm-cell pm-cell--yes pm-cell--ours">
+                  <i class="fa-solid fa-circle-check"></i>
+                </div>
+              </div>
+            </div>
+
+            <p class="t-foot t-in" style="--d: 2.7s">
+              De todo lo que la app sabe de ti, a nuestro servidor solo le
+              llega una cosa: si tu plan está activo.
+            </p>
+          </div>
+        </section>
+
+        <!-- ============ Referencias (todas las del pitch) ============ -->
+        <section id="references">
+          <h2>Referencias</h2>
+          <div class="content" style="justify-content: center">
+            <ol class="refs">
+              <li>Delfa-de-la-Morena, J. M., et al. (2025). Efectos de la sincronización musical y de las preferencias musicales en la respuesta fisiológica durante una sesión de ejercicio físico. <i>Retos, 65</i>, 559–568. https://doi.org/10.47197/retos.v65.111299</li>
+              <li>Yanguas Leyes, J. (2006). Influencia de la música en el rendimiento deportivo. <i>Apunts. Medicina de l’Esport, 41</i>(152), 155–165.</li>
+              <li>Thompson, W. F., Schellenberg, E. G., &amp; Letnic, A. K. (2012). Fast and loud background music disrupts reading comprehension. <i>Psychology of Music, 40</i>(6), 700–708. https://doi.org/10.1177/0305735611400173</li>
+              <li>Spotify for Developers. (2024, 27 de noviembre). <i>Introducing some changes to our Web API</i>. developer.spotify.com/blog/2024-11-27-changes-to-the-web-api</li>
+              <li>Spotify for Developers. (s.f.). <i>Quota modes</i>. Consultado el 13-oct-2026. developer.spotify.com/documentation/web-api/concepts/quota-modes</li>
+              <li>Spotify Community. (2018). <i>Retirement of our Running Feature</i>. community.spotify.com</li>
+              <li>Rock My World Inc. (s.f.). <i>RockMyRun – Workout Music</i> [App]. App Store. apps.apple.com/app/id546417608</li>
+              <li>Endel Sound GmbH. (s.f.). <i>Endel: Focus &amp; Sleep Sounds</i> [App]. App Store. apps.apple.com/app/id1346247457</li>
+              <li>Expansión. (2025, 5 de agosto). Spotify aumenta precios en México. expansion.mx/tecnologia/2025/08/05/spotify-aumenta-precios-en-mexico</li>
+              <li>Schmidt, P., Reiss, A., Duerichen, R., Marberger, C., &amp; Van Laerhoven, K. (2018). Introducing WESAD, a multimodal dataset for wearable stress and affect detection. En <i>Proceedings of the 20th ACM ICMI</i> (pp. 400–408). https://doi.org/10.1145/3242969.3242985</li>
+              <li>Li, F., &amp; Zhang, D. (2025). Transformer-driven affective state recognition from wearable physiological data in everyday contexts. <i>Sensors, 25</i>(3), 761. https://doi.org/10.3390/s25030761</li>
+            </ol>
+            <p class="f-src" style="margin-top: 10px !important">
+              Las fuentes de la fórmula de activación están en sus láminas de respaldo.
+            </p>
+          </div>
         </section>
       </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/chart/plugin.js"></script>
-    <script>
-      Reveal.initialize({
-        width: 1280,
-        height: 720,
-        margin: 0,
-        controls: true,
-        progress: true,
-        slideNumber: false,
-        hash: true,
-        transition: "slide",
-        center: false,
-        plugins: [RevealChart],
-        chart: {
-          defaults: Object.assign(
-            {
-              color: "rgba(0, 0, 0, 0.8)",
-              borderColor: "rgba(0, 0, 0, 0.8)",
-              devicePixelRatio: 2,
-            },
-            window.location.search.includes("export")
-              ? { animation: false }
-              : {},
-          ),
-        },
-      });
-
-      // Coreografía de la portada.
-      //
-      // Fases de entrada: 1) logo + título resaltados en el centro, 2) se
-      // reacomodan a la izquierda, 3) entra la demo a la derecha. Se reproduce
-      // al entrar a la diapositiva y se reinicia al salir.
-      //
-      // A partir de la fase 3 arranca el RELOJ DE ZONAS: un único temporizador
-      // gobierna el latido del corazón, la traza ECG, el número de BPM, el
-      // pulso del riel y el reordenamiento de la cola. Están encadenados a
-      // propósito — primero sube el pulso, después viaja la señal, y solo
-      // entonces cambia la cola — porque esa secuencia ES el argumento del
-      // pitch: el BPM manda, la playlist obedece.
-      (function () {
-        var stage = document.getElementById("cover-stage");
-        if (!stage) return;
-
-        var monitor = stage.querySelector(".bpm-monitor");
-        var number = stage.querySelector(".bpm-monitor-number");
-        var zoneLabel = stage.querySelector(".bpm-monitor-zone");
-        var link = stage.querySelector(".bpm-link");
-        var frames = stage.querySelectorAll(".demo-queue-frame");
-        var beating = monitor
-          ? monitor.querySelectorAll(
-              ".bpm-monitor-heart svg, .bpm-monitor-ring, .bpm-monitor-ecg-rail",
-            )
-          : [];
-
-        // BPM de cada zona = el de la canción que suena en su frame de la cola.
-        var ZONES = [
-          { bpm: 67, tone: "calm", label: "Pulso en calma" },
-          { bpm: 96, tone: "rising", label: "El pulso sube" },
-          { bpm: 146, tone: "hot", label: "En esfuerzo" },
-        ];
-
-        var PHASE_MS = 3800; // cuánto dura cada zona en pantalla
-        var LINK_MS = 380; // la señal sale del monitor…
-        var QUEUE_MS = 900; // …y la cola responde medio segundo después
-
-        var timers = [];
-        var cycle = null;
-        var countFrame = null;
-        var zoneIndex = 0;
-        var shownBpm = ZONES[0].bpm;
-        var reduced = window.matchMedia(
-          "(prefers-reduced-motion: reduce)",
-        ).matches;
-
-        function later(fn, ms) {
-          timers.push(setTimeout(fn, ms));
-        }
-
-        function clearTimers() {
-          timers.forEach(clearTimeout);
-          timers = [];
-          if (cycle) {
-            clearInterval(cycle);
-            cycle = null;
-          }
-          if (countFrame) {
-            cancelAnimationFrame(countFrame);
-            countFrame = null;
-          }
-        }
-
-        // El número no salta: recorre el trayecto como lo haría una lectura real.
-        function countTo(target) {
-          if (!number) return;
-          if (countFrame) cancelAnimationFrame(countFrame);
-          var from = shownBpm;
-          var start = performance.now();
-          var span = 900;
-
-          function step(now) {
-            var t = Math.min(1, (now - start) / span);
-            var eased = 1 - Math.pow(1 - t, 3);
-            shownBpm = Math.round(from + (target - from) * eased);
-            number.textContent = shownBpm;
-            if (t < 1) countFrame = requestAnimationFrame(step);
-            else countFrame = null;
-          }
-          countFrame = requestAnimationFrame(step);
-        }
-
-        // Reinicia latido, onda y ECG en el mismo frame: como el ciclo del ECG
-        // dura exactamente 4 latidos, arrancar juntos los deja sincronizados
-        // sin tener que calcular offsets.
-        function restartBeat() {
-          beating.forEach(function (el) {
-            el.style.animation = "none";
-            void el.offsetWidth;
-            el.style.animation = "";
-          });
-        }
-
-        function showFrame(i) {
-          frames.forEach(function (frame, index) {
-            frame.classList.toggle("is-active", index === i);
-          });
-        }
-
-        function applyZone(i, animateChain) {
-          var zone = ZONES[i];
-          stage.dataset.zone = zone.tone;
-          stage.style.setProperty("--beat", (60 / zone.bpm).toFixed(3) + "s");
-          restartBeat();
-          countTo(zone.bpm);
-
-          if (zoneLabel) {
-            zoneLabel.classList.add("is-swapping");
-            later(function () {
-              zoneLabel.textContent = zone.label;
-              zoneLabel.classList.remove("is-swapping");
-            }, 260);
-          }
-
-          if (!animateChain) {
-            showFrame(i);
-            return;
-          }
-
-          later(function () {
-            if (link) {
-              link.classList.remove("is-firing");
-              void link.offsetWidth;
-              link.classList.add("is-firing");
-            }
-          }, LINK_MS);
-
-          later(function () {
-            showFrame(i);
-          }, QUEUE_MS);
-        }
-
-        function startZoneClock() {
-          zoneIndex = 0;
-          shownBpm = ZONES[0].bpm;
-          applyZone(0, false);
-          if (reduced) return;
-          cycle = setInterval(function () {
-            zoneIndex = (zoneIndex + 1) % ZONES.length;
-            applyZone(zoneIndex, true);
-          }, PHASE_MS);
-        }
-
-        function reset() {
-          clearTimers();
-          stage.classList.remove("rearranged", "show-demo");
-          if (link) link.classList.remove("is-firing");
-          showFrame(-1);
-        }
-
-        function playCoverIntro() {
-          reset();
-          void stage.offsetWidth; // forzar reflow para reiniciar las transiciones
-          if (reduced) {
-            stage.classList.add("rearranged", "show-demo");
-            startZoneClock();
-            return;
-          }
-          // Los glifos aterrizan cerca de 1.6s y la descripción entra a 2s;
-          // el bloque se queda así, centrado, hasta 3.2s.
-          later(function () {
-            stage.classList.add("rearranged");
-          }, 3200);
-          // El reacomodo tarda 1.1s: el equipo entra al asentarse y la demo
-          // después de él, nunca encima.
-          later(function () {
-            stage.classList.add("show-demo");
-            startZoneClock();
-          }, 4700);
-        }
-
-        function onSlideChange(event) {
-          var slide = event.currentSlide;
-          if (slide && slide.id === "title") playCoverIntro();
-          else reset();
-        }
-
-        Reveal.on("ready", onSlideChange);
-        Reveal.on("slidechanged", onSlideChange);
-      })();
-
-      // Diapositivas narradas: los fragmentos no solo aparecen, también
-      // cambian el ESTADO de la diapositiva.
-      //
-      //  - data-scene: el fragmento fija una escena en su <section> (el
-      //    aleatorio que rompe la sincronía en el gimnasio).
-      //  - data-stress: el fragmento mueve el medidor de estrés de la mañana.
-      //
-      // Ambas se recalculan desde CERO en cada evento, recorriendo los
-      // fragmentos ya visibles, en vez de aplicar solo el que se acaba de
-      // revelar: así retroceder con la flecha izquierda deshace el estado
-      // correctamente en lugar de dejarlo pegado en el último valor.
-      (function () {
-        function currentSlide() {
-          return Reveal.getCurrentSlide();
-        }
-
-        // El que manda es el orden de la NARRACIÓN (data-fragment-index), no el
-        // del documento: en la mañana la escena va primero en el DOM pero su
-        // tarjeta se revela hasta el final, así que recorrer el DOM y quedarse
-        // con el último visible dejaba el medidor corto.
-        function lastVisible(slide, attr) {
-          var seen = null;
-          var seenAt = -Infinity;
-          slide
-            .querySelectorAll(".fragment[data-" + attr + "]")
-            .forEach(function (el, i) {
-              if (!el.classList.contains("visible")) return;
-              var at =
-                el.dataset.fragmentIndex === undefined
-                  ? i
-                  : Number(el.dataset.fragmentIndex);
-              if (at >= seenAt) {
-                seenAt = at;
-                seen = el.dataset[attr];
-              }
-            });
-          return seen;
-        }
-
-        function sync() {
-          var slide = currentSlide();
-          if (!slide) return;
-
-          var scene = lastVisible(slide, "scene");
-          if (scene) slide.dataset.scene = scene;
-          else delete slide.dataset.scene;
-
-          var fill = slide.querySelector(".stress-fill");
-          if (fill)
-            fill.style.width = (lastVisible(slide, "stress") || 0) + "%";
-        }
-
-        Reveal.on("ready", sync);
-        Reveal.on("slidechanged", sync);
-        Reveal.on("fragmentshown", sync);
-        Reveal.on("fragmenthidden", sync);
-      })();
-
-      // Fragmentos de las canciones narradas.
-      //
-      // Cada tarjeta de canción declara su archivo en data-audio y suena
-      // mientras esa tarjeta esté ACTIVA en pantalla. "Activa" son dos cosas
-      // distintas a la vez:
-      //
-      //  - su fragmento ya se reveló (data-fragment-index manda sobre el orden
-      //    del documento, igual que en el medidor de estrés), y
-      //  - si declara data-audio-scene, la escena de la diapositiva coincide.
-      //    En el gimnasio las dos canciones viven en el MISMO fragmento y quien
-      //    decide cuál se ve —y cuál suena— es el aleatorio: "broken" para la
-      //    canción en calma, "!broken" para la que iba a tope.
-      //
-      // Al cambiar de diapositiva o de canción, la anterior se desvanece y
-      // arranca la nueva; se recalcula desde cero en cada evento, así que
-      // retroceder con la flecha izquierda también deshace el audio.
-      //
-      // Va DESPUÉS del script de escenas a propósito: los oyentes corren en
-      // orden de registro y este necesita leer el data-scene ya actualizado.
-      (function () {
-        var FADE_MS = 260;
-        var TICK_MS = 40;
-
-        var players = {}; // ruta -> <audio>, uno por canción, reutilizado
-        var playingSrc = null; // la que debería estar sonando ahora
-        var blockedSrc = null; // la que el navegador no dejó arrancar todavía
-
-        function player(src) {
-          if (!players[src]) {
-            var a = new Audio(src);
-            // El fragmento dura ~20s y el presentador puede tardar más en esa
-            // tarjeta: en loop se sostiene sola, sin silencio a media narración.
-            a.loop = true;
-            a.preload = "auto";
-            players[src] = a;
-          }
-          return players[src];
-        }
-
-        function fade(audio, to, done) {
-          clearInterval(audio.fadeTimer);
-          var step = (to - audio.volume) / Math.max(1, FADE_MS / TICK_MS);
-          audio.fadeTimer = setInterval(function () {
-            var v = Math.min(1, Math.max(0, audio.volume + step));
-            audio.volume = v;
-            if (v === to) {
-              clearInterval(audio.fadeTimer);
-              if (done) done();
-            }
-          }, TICK_MS);
-        }
-
-        function stop(src) {
-          var a = players[src];
-          if (!a) return;
-          fade(a, 0, function () {
-            a.pause();
-            a.currentTime = 0;
-          });
-        }
-
-        function start(src) {
-          var a = player(src);
-          a.volume = 0;
-          var attempt = a.play();
-          // Ningún navegador deja sonar audio antes del primer gesto del
-          // usuario. Si lo bloquea, se anota y se reintenta con el gesto
-          // siguiente — que en una presentación es la flecha de avanzar.
-          if (attempt && attempt.catch) {
-            attempt.catch(function () {
-              blockedSrc = src;
-            });
-          }
-          fade(a, 1);
-        }
-
-        function activeSrc() {
-          var slide = Reveal.getCurrentSlide();
-          if (!slide) return null;
-
-          var scene = slide.dataset.scene || "";
-          var found = null;
-          var foundAt = -Infinity;
-
-          slide.querySelectorAll("[data-audio]").forEach(function (el, i) {
-            var frag = el.closest(".fragment");
-            if (frag && !frag.classList.contains("visible")) return;
-
-            var want = el.dataset.audioScene;
-            if (want) {
-              var negated = want.charAt(0) === "!";
-              var name = negated ? want.slice(1) : want;
-              if (negated ? scene === name : scene !== name) return;
-            }
-
-            var at =
-              frag && frag.dataset.fragmentIndex !== undefined
-                ? Number(frag.dataset.fragmentIndex)
-                : i;
-            if (at >= foundAt) {
-              foundAt = at;
-              found = el.dataset.audio;
-            }
-          });
-
-          return found;
-        }
-
-        function sync() {
-          var src = activeSrc();
-          if (src === playingSrc) return;
-          if (playingSrc) stop(playingSrc);
-          playingSrc = src;
-          blockedSrc = null;
-          if (src) start(src);
-        }
-
-        ["pointerdown", "keydown"].forEach(function (evt) {
-          document.addEventListener(evt, function () {
-            if (blockedSrc && blockedSrc === playingSrc) {
-              var src = blockedSrc;
-              blockedSrc = null;
-              start(src);
-            }
-          });
-        });
-
-        Reveal.on("ready", sync);
-        Reveal.on("slidechanged", sync);
-        Reveal.on("fragmentshown", sync);
-        Reveal.on("fragmenthidden", sync);
-      })();
-
-      // Maqueta de configuración: alterna sola entre modo zen y modo
-      // ejercicio mientras la diapositiva está en pantalla. (El modo zen se
-      // llama "estudio" en el data-mode y en los selectores de base.css: es
-      // el nombre interno, anterior al cambio de nombre visible.) Enseñar la
-      // configuración CAMBIANDO comunica "es configurable" mucho mejor que
-      // una viñeta que lo prometa; el CSS deriva de data-mode el selector, la
-      // regla, el rango, el color y qué tarjeta se enciende.
-      (function () {
-        var slide = document.getElementById("adapts");
-        if (!slide) return;
-
-        var bpmOut = slide.querySelector(".phone-bpm");
-        var MODES = [
-          { name: "estudio", bpm: 78 },
-          { name: "ejercicio", bpm: 146 },
-        ];
-        var SWITCH_MS = 3600;
-
-        var at = 0;
-        var timer = null;
-        var raf = null;
-        var shown = MODES[0].bpm;
-
-        // El pulso de la sesión recorre el trayecto en vez de saltar: es el
-        // mismo gesto que el número del monitor de la portada.
-        function countTo(target) {
-          if (!bpmOut) return;
-          if (raf) cancelAnimationFrame(raf);
-          var from = shown,
-            t0 = performance.now();
-          (function step(now) {
-            var t = Math.min(1, (now - t0) / 900);
-            shown = Math.round(
-              from + (target - from) * (1 - Math.pow(1 - t, 3)),
-            );
-            bpmOut.textContent = shown;
-            raf = t < 1 ? requestAnimationFrame(step) : null;
-          })(performance.now());
-        }
-
-        function apply(i) {
-          slide.dataset.mode = MODES[i].name;
-          countTo(MODES[i].bpm);
-        }
-
-        function stop() {
-          if (timer) {
-            clearInterval(timer);
-            timer = null;
-          }
-          if (raf) {
-            cancelAnimationFrame(raf);
-            raf = null;
-          }
-        }
-
-        function start() {
-          stop();
-          at = 0;
-          shown = MODES[0].bpm;
-          apply(0);
-          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches)
-            return;
-          timer = setInterval(function () {
-            at = (at + 1) % MODES.length;
-            apply(at);
-          }, SWITCH_MS);
-        }
-
-        Reveal.on("slidechanged", function (e) {
-          if (e.currentSlide === slide) start();
-          else stop();
-        });
-        Reveal.on("ready", function (e) {
-          if (e.currentSlide === slide) start();
-        });
-      })();
-
-      // Cifras que se cuentan al entrar a su diapositiva, en vez de aparecer ya
-      // escritas: el número recorriendo su rango es lo que hace que el dato se
-      // registre. Se reinicia cada vez que se entra, para que también funcione
-      // al regresar sobre la baraja.
-      (function () {
-        var running = [];
-
-        function stop() {
-          running.forEach(cancelAnimationFrame);
-          running = [];
-        }
-
-        function play(slide) {
-          stop();
-          if (!slide) return;
-          var reduce = window.matchMedia(
-            "(prefers-reduced-motion: reduce)",
-          ).matches;
-
-          slide.querySelectorAll("[data-count-to]").forEach(function (el, i) {
-            var to = parseFloat(el.dataset.countTo);
-            var from = parseFloat(el.dataset.countFrom || 0);
-            var pre = el.dataset.countPrefix || "";
-            var suf = el.dataset.countSuffix || "";
-
-            if (reduce) {
-              el.textContent = pre + to + suf;
-              return;
-            }
-
-            el.textContent = pre + from + suf;
-            var delay = 350 + i * 200;
-            var span = 1100;
-            var t0 = performance.now() + delay;
-
-            (function step(now) {
-              var t = Math.max(0, Math.min(1, (now - t0) / span));
-              var eased = 1 - Math.pow(1 - t, 3);
-              el.textContent =
-                pre + Math.round(from + (to - from) * eased) + suf;
-              if (t < 1) running.push(requestAnimationFrame(step));
-            })(performance.now());
-          });
-        }
-
-        Reveal.on("ready", function (e) {
-          play(e.currentSlide);
-        });
-        Reveal.on("slidechanged", function (e) {
-          play(e.currentSlide);
-        });
-      })();
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+    <script src="pitch.js"></script>
   </body>
 </html>

@@ -11,6 +11,9 @@ Reveal.initialize({
   hash: true,
   transition: "slide",
   center: false,
+  // Notas del presentador (tecla S): solo en las barajas que cargan el
+  // plugin (index.html, el pitch final).
+  plugins: window.RevealNotes ? [RevealNotes] : [],
 });
 
 // Coreografía de la portada.

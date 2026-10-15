@@ -1,0 +1,461 @@
+/* Componentes del pitch final (U-Challenge XVII, categoría Innovación).
+ * Paleta, portada, historias y flujo vienen de base.css; los diagramas del
+ * respaldo técnico, de tecnico/tecnico.css. Aquí solo vive lo que el pitch
+ * final necesita y ninguno de los dos decks tenía.
+ *
+ * Tamaños más grandes que en ventas/ y tecnico/ a propósito: la guía pide
+ * que se lea desde la última fila (≈24 pt en un lienzo de 1280 px).
+ */
+
+/* tecnico.css esconde todo .scene (sus escenas narradas de #focus); las de
+   las historias son otra .scene, la de base.css, y deben verse siempre. */
+.story .scene {
+  grid-area: auto;
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: none;
+}
+
+.reveal .f-in {
+  opacity: 0;
+}
+
+.reveal .slides section.present .f-in {
+  animation: fadeUpIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: var(--d, 0.2s);
+}
+
+.reveal .f-lead {
+  margin: 0 !important;
+  font-size: 21pt !important;
+  line-height: 1.35;
+  color: var(--ink) !important;
+}
+
+.reveal .f-foot {
+  margin: 0 !important;
+  text-align: center;
+  font-family: var(--heading-font);
+  font-weight: 500;
+  font-size: 17pt !important;
+  color: var(--muted-color) !important;
+}
+
+.reveal .f-src {
+  margin: 0 !important;
+  font-size: 10.5pt !important;
+  line-height: 1.4;
+  color: var(--ink-faint) !important;
+}
+
+.reveal .f-card {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--box-radius);
+  padding: 18px 22px;
+}
+
+.reveal .slides p.f-kicker,
+.reveal .slides .f-card p.f-kicker {
+  margin: 0 0 8px 0 !important;
+  font-family: var(--heading-font);
+  font-size: 11pt !important;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pulse-calm) !important;
+}
+
+/* ============ 1. Portada ============ */
+/* Misma entrada que .cover-team: solo existe desde la fase 2. */
+.reveal .cover-desc {
+  max-width: 470px;
+  margin: 16px 0 0 0 !important;
+  font-size: 14pt !important;
+  line-height: 1.45;
+  color: var(--muted-color) !important;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.6s ease 0.8s, transform 0.6s ease 0.8s;
+}
+
+.reveal .cover-desc strong {
+  color: var(--ink);
+}
+
+.cover-stage.rearranged .cover-desc {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============ 5. Prototipo ============ */
+.reveal .stage-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+.reveal .stage {
+  padding: 10px 14px;
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  opacity: 0.45;
+}
+
+.reveal .stage p {
+  margin: 0 !important;
+  font-family: var(--heading-font);
+  font-size: 15pt !important;
+  font-weight: 600;
+}
+
+.reveal .stage span {
+  font-size: 11pt;
+  color: var(--muted-color);
+}
+
+.reveal .stage--now {
+  opacity: 1;
+  border: 2px solid var(--pulse-calm);
+  background: var(--pulse-calm-dim);
+}
+
+.reveal .proto {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr 1fr;
+  gap: 18px;
+  width: 100%;
+  align-items: stretch;
+}
+
+.reveal .demo-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  border: 2px solid var(--pulse-hot);
+  background: var(--pulse-hot-dim);
+}
+
+.reveal .demo-slot i {
+  font-size: 34pt;
+  color: var(--pulse-hot);
+}
+
+.reveal .demo-slot .demo-big {
+  margin: 0 !important;
+  font-family: var(--heading-font);
+  font-size: 24pt !important;
+  font-weight: 700;
+}
+
+.reveal .demo-slot p {
+  margin: 0 !important;
+  font-size: 13pt !important;
+}
+
+.reveal .chk {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.reveal ul.chk li {
+  position: relative;
+  padding-left: 28px;
+  margin: 0 0 9px 0;
+  font-size: 14pt;
+  line-height: 1.3;
+}
+
+.reveal ul.chk li::before {
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: none;
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  content: "\f00c";
+  color: var(--pulse-calm);
+}
+
+.reveal ul.chk--missing li::before {
+  content: "\f017";
+  color: var(--pulse-hot);
+}
+
+/* ============ Tablas (validación y competencia) ============ */
+.reveal table.ftable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 14pt;
+  line-height: 1.3;
+}
+
+.reveal table.ftable th {
+  padding: 8px 12px;
+  text-align: left;
+  font-family: var(--heading-font);
+  font-size: 11pt;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-color);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.reveal table.ftable td {
+  padding: 10px 12px;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.reveal table.ftable td small {
+  display: block;
+  font-size: 11pt;
+  color: var(--muted-color);
+}
+
+.reveal table.ftable .yes {
+  color: var(--pulse-calm);
+}
+
+.reveal table.ftable .no {
+  color: var(--ink-faint);
+}
+
+.reveal table.ftable tr.ours td {
+  background: var(--pulse-calm-dim);
+  font-weight: 600;
+}
+
+.reveal table.ftable tr.ours td:first-child {
+  border-radius: 10px 0 0 10px;
+}
+
+.reveal table.ftable tr.ours td:last-child {
+  border-radius: 0 10px 10px 0;
+}
+
+.reveal .slides section.present table.ftable tbody tr {
+  animation: fadeUpIn 0.5s ease both;
+}
+
+.reveal .slides section.present table.ftable tbody tr:nth-child(1) { animation-delay: 0.3s; }
+.reveal .slides section.present table.ftable tbody tr:nth-child(2) { animation-delay: 0.42s; }
+.reveal .slides section.present table.ftable tbody tr:nth-child(3) { animation-delay: 0.54s; }
+.reveal .slides section.present table.ftable tbody tr:nth-child(4) { animation-delay: 0.66s; }
+.reveal .slides section.present table.ftable tbody tr:nth-child(5) { animation-delay: 0.78s; }
+
+/* ============ 8. Protección y factibilidad ============ */
+.reveal .pf {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  gap: 18px;
+  width: 100%;
+}
+
+.reveal .pf-item {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 2px 10px;
+  margin-bottom: 12px;
+}
+
+.reveal .pf-item:last-child {
+  margin-bottom: 0;
+}
+
+.reveal .pf-item > i {
+  grid-row: span 2;
+  font-size: 15pt;
+  margin-top: 3px;
+  color: var(--pulse-calm);
+}
+
+.reveal .pf-item--risk > i {
+  color: var(--pulse-hot);
+}
+
+.reveal .pf-what {
+  margin: 0 !important;
+  font-family: var(--heading-font);
+  font-size: 15pt !important;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.reveal .pf-how {
+  margin: 0 !important;
+  font-size: 12.5pt !important;
+  line-height: 1.35;
+  color: var(--muted-color) !important;
+}
+
+/* ============ 9. Números ============ */
+.reveal .nums {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  width: 100%;
+}
+
+.reveal .num {
+  text-align: center;
+}
+
+.reveal .num-value {
+  margin: 0 !important;
+  font-family: var(--heading-font);
+  font-size: 44pt !important;
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--ink) !important;
+}
+
+.reveal .num-value small {
+  font-size: 0.42em;
+  font-weight: 500;
+  color: var(--muted-color);
+}
+
+.reveal .num--key {
+  border: 2px solid var(--pulse-calm);
+}
+
+.reveal .num--key .num-value {
+  color: var(--pulse-calm) !important;
+}
+
+.reveal .num-label {
+  margin: 6px 0 0 0 !important;
+  font-size: 13pt !important;
+  line-height: 1.3;
+  color: var(--muted-color) !important;
+}
+
+.reveal .num-op {
+  font-family: var(--heading-font);
+  color: var(--ink-faint);
+}
+
+.reveal .compare {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  width: 100%;
+}
+
+.reveal .compare p {
+  margin: 0 !important;
+  font-size: 14pt !important;
+  line-height: 1.35;
+}
+
+.reveal .compare b {
+  font-family: var(--heading-font);
+  font-size: 19pt;
+}
+
+/* ============ Respaldo ============ */
+.reveal .appendix-note {
+  margin-top: 18px !important;
+  font-size: 15pt !important;
+  color: var(--muted-color) !important;
+}
+
+.reveal .refs {
+  margin: 0;
+  padding: 0 0 0 1.4em;
+  font-size: 11.5pt;
+  line-height: 1.4;
+  color: var(--muted-color);
+}
+
+.reveal .refs li {
+  margin-bottom: 7px;
+}
+
+.reveal .refs i {
+  font-style: italic;
+}
+
+/* ============ Estudio de Windsor ============ */
+/* Las tres escenas de tecnico/#focus, pero UNA a la vez: a la izquierda,
+   los textos se apilan en la misma celda igual que las escenas de la
+   derecha, y data-scene (pitch.js, desde fragmentos vacíos) decide cuál
+   se ve. Entra con el mismo fade hacia arriba de .scene. */
+#windsor .content {
+  justify-content: center;
+}
+
+#windsor .nar-story {
+  display: grid;
+}
+
+#windsor .nar-beat {
+  grid-area: 1 / 1;
+  align-self: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s var(--ease-out), visibility 0.5s;
+}
+
+#windsor:not([data-scene]) .beat--work,
+#windsor[data-scene="read"] .beat--read,
+#windsor[data-scene="why"] .beat--why,
+#windsor:not([data-scene]) .scene--work,
+#windsor[data-scene="read"] .scene--read,
+#windsor[data-scene="why"] .scene--why {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+/* Las animaciones de cada escena, como en #focus. */
+#windsor[data-scene="read"] .duo-bar { transform: scaleY(1); }
+#windsor[data-scene="why"] .arc-dot {
+  animation: arcRide 6s ease-in-out infinite 0.4s;
+}
+
+#windsor .nar-stage {
+  padding: 28px 26px;
+}
+
+/* La celda mide lo de la escena más alta; la de las semanas, centrada. */
+#windsor .scene--work {
+  justify-content: center;
+}
+
+.reveal #windsor .nar-step { font-size: 11pt !important; }
+.reveal #windsor .nar-line { margin-top: 8px !important; font-size: 24pt !important; }
+.reveal #windsor .nar-sub { margin-top: 10px !important; font-size: 15pt !important; }
+
+.reveal #windsor .windsor-src {
+  margin-top: 14px !important;
+  font-size: 9pt !important;
+  color: var(--ink-faint) !important;
+  opacity: 0.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #windsor .nar-beat { transition: none; }
+  #windsor[data-scene="read"] .duo-bar { transform: none; }
+  #windsor .arc-dot { animation: none; offset-distance: 50%; }
+}
+
+/* ============ La pregunta (#answer) ============ */
+/* Dos líneas en lugar de cuatro: más chica que .statement--long. */
+.reveal #answer .statement {
+  font-size: 29pt !important;
+}
